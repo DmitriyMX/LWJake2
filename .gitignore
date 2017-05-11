@@ -1,0 +1,29 @@
+## IDEA ##
+.idea/
+out/
+*.iml
+*.ipr
+*.iws
+*.ids
+
+## ECLIPSE ##
+.settings/
+bin/
+.classpath
+.project
+
+## GRADLE ##
+.gradle/
+build/
+gradle/
+gradlew
+gradlew.bat
+
+## MAVEN ##
+target/
+
+## OTHER ##
+lib/
+baseq2/
+baseq2.rar
+TODO.txt
