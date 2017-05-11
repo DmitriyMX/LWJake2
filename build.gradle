@@ -22,7 +22,6 @@ if (OperatingSystem.current().isWindows()) {
 dependencies {
     compile (['org.lwjgl.lwjgl:lwjgl:'      + lwjgl_ver],
              ['org.lwjgl.lwjgl:lwjgl_util:' + lwjgl_ver])
-    compile fileTree (dir: 'lib', include: 'flibitEFX.jar')
 }
 
 sourceSets {
