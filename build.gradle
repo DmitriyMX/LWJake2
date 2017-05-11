@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+import org.gradle.internal.os.OperatingSystem;
+
+def lwjgl_ver = '2.9.3'
+def platform = ''
+if (OperatingSystem.current().isWindows()) {
+    platform = 'windows'
+} else if (OperatingSystem.current().isMacOsX()) {
+    platform = 'osx'
+} else if (OperatingSystem.current().isLinux()) {
+    platform = 'linux'
+}
+
+dependencies {
+    compile (['org.lwjgl.lwjgl:lwjgl:'      + lwjgl_ver],
+             ['org.lwjgl.lwjgl:lwjgl_util:' + lwjgl_ver])
+    compile fileTree (dir: 'lib', include: 'flibitEFX.jar')
+}
+
+sourceSets {
+    main {
+        java.srcDirs      = ['src']
+        resources.srcDirs = ['resources']
+    }
+}
+
+mainClassName = 'lwjake2.LWJake2'
+applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"]
+
+task t1(type: Copy) {
+    configurations.compile.filter {
+        (it.getName().indexOf("lwjgl-platform-") >= 0) &&
+        (it.getName().indexOf("$platform") >= 0)
+    }.each {
+        includeEmptyDirs = false
+        from (zipTree(it)) {
+            exclude "META-INF/*"
+        }
+        into "$buildDir/natives/$platform"
+    }
+
+}
