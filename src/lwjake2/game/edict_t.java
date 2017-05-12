@@ -22,10 +22,13 @@ import lwjake2.Defines;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.QuakeFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class edict_t {
+    private final Logger logger = LoggerFactory.getLogger(edict_t.class);
 
     /** Constructor. */
     public edict_t(int i) {
@@ -768,6 +771,6 @@ public class edict_t {
 
         // rst's checker :-)
         if (f.readInt() != 9876)
-            System.err.println("ent load check failed for num " + index);
+            logger.error("ent load check failed for num {}", index);
     }
 }

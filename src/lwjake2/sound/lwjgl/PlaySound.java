@@ -20,6 +20,8 @@ package lwjake2.sound.lwjgl;
 
 import lwjake2.Globals;
 import lwjake2.util.Math3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * PlaySound
@@ -27,6 +29,7 @@ import lwjake2.util.Math3D;
  * @author cwei
  */
 public class PlaySound {
+    private static final Logger logger = LoggerFactory.getLogger(PlaySound.class);
     
 	final static int MAX_PLAYSOUNDS = 128;
 	
@@ -155,7 +158,7 @@ public class PlaySound {
             ps.beginTime = Globals.cl.time + (long)(timeoffset * 1000);
             PlaySound.add(ps);
         } else {
-            System.err.println("PlaySounds out of Limit");
+            logger.error("PlaySounds out of Limit");
         }
     }
 }

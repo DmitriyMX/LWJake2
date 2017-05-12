@@ -19,12 +19,14 @@
 package lwjake2.game;
 
 import lwjake2.util.QuakeFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class gclient_t
 {
-
+	private final Logger logger = LoggerFactory.getLogger(gclient_t.class);
 	public gclient_t(int index)
 	{
 		this.index = index;
@@ -303,7 +305,7 @@ public class gclient_t
 		update_chase = f.readInt() != 0;
 		
 		if (f.readInt() != 8765)
-			System.err.println("game client load failed for num=" + index);
+			logger.error("game client load failed for num={}", index);
 	}
 	
 	/** Writes a game_client_t (a player) to a file. */ 

@@ -46,6 +46,8 @@ import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 import lwjake2.util.Vargs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -56,6 +58,7 @@ import java.nio.ByteOrder;
  * CL
  */
 public final class CL {
+    private static final Logger logger = LoggerFactory.getLogger(CL.class);
     
     static int precache_check; // for autodownload of precache items
 
@@ -1573,7 +1576,7 @@ public final class CL {
     public static void Shutdown() {
 
         if (isdown) {
-            System.out.print("recursive shutdown\n");
+            logger.info("recursive shutdown");
             return;
         }
         isdown = true;
