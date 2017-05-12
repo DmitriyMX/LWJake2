@@ -176,25 +176,26 @@ public class player_state_t {
 	}
 
 	/** Prints the player state. */
-	public void dump() {
-		pmove.dump();
-
-		Lib.printv("viewangles", viewangles);
-		Lib.printv("viewoffset", viewoffset);
-		Lib.printv("kick_angles", kick_angles);
-		Lib.printv("gunangles", gunangles);
-		Lib.printv("gunoffset", gunoffset);
-
-		Com.Println("gunindex: " + gunindex);
-		Com.Println("gunframe: " + gunframe);
-
-		Lib.printv("blend", blend);
-
-		Com.Println("fov: " + fov);
-
-		Com.Println("rdflags: " + rdflags);
-
-		for (int n= 0; n < Defines.MAX_STATS; n++)
-			System.out.println("stats[" + n + "]: " + stats[n]);
-	}
+// метод не используется =(
+//	public void dump() {
+//		pmove.dump();
+//
+//		Lib.printv("viewangles", viewangles);
+//		Lib.printv("viewoffset", viewoffset);
+//		Lib.printv("kick_angles", kick_angles);
+//		Lib.printv("gunangles", gunangles);
+//		Lib.printv("gunoffset", gunoffset);
+//
+//		Com.Println("gunindex: " + gunindex);
+//		Com.Println("gunframe: " + gunframe);
+//
+//		Lib.printv("blend", blend);
+//
+//		Com.Println("fov: " + fov);
+//
+//		Com.Println("rdflags: " + rdflags);
+//
+//		for (int n= 0; n < Defines.MAX_STATS; n++)
+//			System.out.println("stats[" + n + "]: " + stats[n]);
+//	}
 }

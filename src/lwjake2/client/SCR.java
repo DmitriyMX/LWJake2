@@ -33,6 +33,8 @@ import lwjake2.sound.S;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Dimension;
 import java.nio.ByteBuffer;
@@ -43,6 +45,7 @@ import java.util.Arrays;
  * SCR
  */
 public final class SCR extends Globals {
+    private static final Logger logger = LoggerFactory.getLogger(SCR.class);
 
     //	cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
 
@@ -637,8 +640,7 @@ public final class SCR extends Globals {
 
         stop = Timer.Milliseconds();
         time = (stop - start) / 1000.0f;
-        Com.Printf("%f seconds (%f fps)\n", new Vargs(2).add(time).add(
-                128.0f / time));
+        logger.info(String.format("%f seconds (%f fps)", time, (128.0f / time)));
     }
 
     static void DirtyScreen() {
@@ -1758,8 +1760,7 @@ public final class SCR extends Globals {
             return;
 
         if (frame > cl.cinematicframe + 1) {
-            Com.Println("Dropped frame: " + frame + " > "
-                    + (cl.cinematicframe + 1));
+            logger.info("Dropped frame: {} > {}", frame, (cl.cinematicframe + 1));
             cl.cinematictime = cls.realtime - cl.cinematicframe * 1000 / 14;
         }
         
@@ -1826,7 +1827,7 @@ public final class SCR extends Globals {
             EndLoadingPlaque();
             cls.state = ca_active;
             if (size == 0 || cin.pic == null) {
-                Com.Println(name + " not found.");
+                logger.info("{} not found.", name);
                 cl.cinematictime = 0;
             }
             return;

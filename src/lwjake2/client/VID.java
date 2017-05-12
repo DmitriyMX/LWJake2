@@ -29,6 +29,8 @@ import lwjake2.render.Renderer;
 import lwjake2.sound.S;
 import lwjake2.sys.IN;
 import lwjake2.util.Vargs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Dimension;
 import java.awt.DisplayMode;
@@ -41,6 +43,7 @@ import java.awt.DisplayMode;
  * @author cwei
  */
 public class VID extends Globals {
+	private static final Logger logger = LoggerFactory.getLogger(VID.class);
 	//	   Main windowed and fullscreen graphics interface module. This module
 	//	   is used for both the software and OpenGL rendering versions of the
 	//	   Quake refresh engine.
@@ -75,7 +78,11 @@ public class VID extends Globals {
 	*/
 
 	public static void Printf(int print_level, String fmt) {
-		Printf(print_level, fmt, null);	
+		while (fmt.startsWith("\n")) { fmt = fmt.substring(1); }
+		while (fmt.endsWith("\n")) { fmt = fmt.substring(0, fmt.lastIndexOf("\n")); }
+		while (fmt.endsWith("\r")) { fmt = fmt.substring(0, fmt.lastIndexOf("\r")); }
+		fmt = fmt.trim();
+		logger.warn("{}", fmt);
 	}
 
 	public static void Printf(int print_level, String fmt, Vargs vargs) {
@@ -174,7 +181,8 @@ public class VID extends Globals {
 			FreeReflib();
 		}
 
-		Com.Printf( "------- Loading " + name + " -------\n");
+		logger.info("------- Loading {} -------", name);
+
 		
 		boolean found = false;
 		
@@ -187,11 +195,11 @@ public class VID extends Globals {
 		}
 
 		if (!found) {
-			Com.Printf( "LoadLibrary(\"" + name +"\") failed\n");
+			logger.warn("LoadLibrary(\"{}\") failed", name);
 			return false;
 		}
 
-		Com.Printf( "LoadLibrary(\"" + name +"\")\n" );
+		logger.info("LoadLibrary(\"{}\")", name);
 		Globals.re = Renderer.getDriver(name);
 		
 		if (Globals.re == null)
@@ -217,7 +225,7 @@ public class VID extends Globals {
 		/* Init KBD */
 		Globals.re.getKeyboardHandler().Init();
 
-		Com.Printf( "------------------------------------\n");
+		logger.info("------------------------------------");
 		reflib_active = true;
 		return true;
 	}
@@ -263,10 +271,10 @@ public class VID extends Globals {
 				}
 				if ( vid_ref.string.equals(Renderer.getDefaultName())) {
 				    renderer = vid_ref.string;
-					Com.Printf("Refresh failed\n");
+					logger.info("Refresh failed");
 					gl_mode = Cvar.Get( "gl_mode", "0", 0 );
 					if (gl_mode.value != 0.0f) {
-						Com.Printf("Trying mode 0\n");
+						logger.info("Trying mode 0");
 						Cvar.SetValue("gl_mode", 0);
 						if ( !LoadRefresh( vid_ref.string ) )
 							Com.Error(Defines.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");

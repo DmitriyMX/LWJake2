@@ -27,10 +27,13 @@ import lwjake2.server.SV;
 import lwjake2.server.SV_WORLD;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.StringTokenizer;
 
 public class GameBase {
+    private static final Logger logger = LoggerFactory.getLogger(GameBase.class);
     public static cplane_t dummyplane = new cplane_t();
 
     public static game_locals_t game = new game_locals_t();
@@ -239,7 +242,7 @@ public class GameBase {
         edict_t choice[] = new edict_t[MAXCHOICES];
 
         if (targetname == null) {
-            gi.dprintf("G_PickTarget called with null targetname\n");
+            logger.info("G_PickTarget called with null targetname");
             return null;
         }
 
@@ -252,7 +255,7 @@ public class GameBase {
         }
 
         if (num_choices == 0) {
-            gi.dprintf("G_PickTarget: target " + targetname + " not found\n");
+            logger.info("G_PickTarget: target {} not found", targetname);
             return null;
         }
 
@@ -396,7 +399,7 @@ public class GameBase {
     };
 
     public static void ShutdownGame() {
-        gi.dprintf("==== ShutdownGame ====\n");
+        logger.info("==== ShutdownGame ====");
     }
 
     /**

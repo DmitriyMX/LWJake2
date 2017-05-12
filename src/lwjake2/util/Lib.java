@@ -21,6 +21,8 @@ package lwjake2.util;
 import lwjake2.Globals;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +34,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class Lib {
-
+	private static final Logger logger = LoggerFactory.getLogger(Lib.class);
 
 	/** Converts a vector to a string. */
 	public static String vtos(float[] v) {
@@ -197,7 +199,7 @@ public class Lib {
 	/** Prints a vector to the quake console. */
 	public static void printv(String in, float arr[]) {
 		for (int n = 0; n < arr.length; n++) {
-			Com.Println(in + "[" + n + "]: " + arr[n]);
+			logger.info("{}[{}]: {}", in, n, arr[n]);
 		}
 	}
 	

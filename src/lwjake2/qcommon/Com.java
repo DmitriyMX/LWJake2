@@ -342,18 +342,6 @@ public final class Com
 	public static void Printf(String fmt, Vargs vargs)
 	{
 		String msg= sprintf(_debugContext + fmt, vargs);
-		if (rd_target != 0)
-		{
-			if ((msg.length() + rd_buffer.length()) > (rd_buffersize - 1))
-			{
-				rd_flusher.rd_flush(rd_target, rd_buffer);
-				rd_buffer.setLength(0);
-			}
-			rd_buffer.append(msg);
-			return;
-		}
-
-		Console.Print(msg);
 
 		// also echo to debugging console
 		while (msg.startsWith("\n")) { msg = msg.substring(1); }
@@ -361,13 +349,8 @@ public final class Com
 		while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
 		msg = msg.trim();
 		if (!msg.isEmpty()) {
-			logger.info(msg);
+			logger.warn(msg);
 		}
-	}
-
-	public static void Println(String fmt)
-	{
-		Printf(_debugContext + fmt + "\n");
 	}
 
 	public static String sprintf(String fmt, Vargs vargs)

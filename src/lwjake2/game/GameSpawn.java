@@ -42,9 +42,11 @@ import lwjake2.game.monsters.M_Supertank;
 import lwjake2.game.monsters.M_Tank;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameSpawn {
-
+    private static final Logger logger = LoggerFactory.getLogger(GameSpawn.class);
     static EntThinkAdapter SP_item_health = new EntThinkAdapter() {
         public String getID(){ return "SP_item_health"; }
         public boolean think(edict_t ent) {
@@ -352,7 +354,7 @@ public class GameSpawn {
     static void ED_ParseField(String key, String value, edict_t ent) {
 
         if (key.equals("nextmap"))
-            Com.Println("nextmap: " + value);
+            logger.info("nextmap: {}", value);
         if (!GameBase.st.set(key, value))
             if (!ent.setField(key, value))
                 GameBase.gi.dprintf("??? The key [" + key

@@ -34,6 +34,8 @@ import lwjake2.render.model_t;
 import lwjake2.sound.S;
 import lwjake2.sys.Sys;
 import lwjake2.util.Lib;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -42,6 +44,7 @@ import java.io.RandomAccessFile;
  * CL_parse
  */
 public class CL_parse {
+    private static final Logger logger = LoggerFactory.getLogger(CL_parse.class);
 
     //// cl_parse.c -- parse a message received from the server
 
@@ -715,7 +718,15 @@ public class CL_parse {
                     S.StartLocalSound("misc/talk.wav");
                     Globals.con.ormask = 128;
                 }
-                Com.Printf(MSG.ReadString(Globals.net_message));
+                //TODO потом уброать
+                String msg = MSG.ReadString(Globals.net_message);
+                while (msg.startsWith("\n")) { msg = msg.substring(1); }
+                while (msg.endsWith("\n")) { msg = msg.substring(0, msg.lastIndexOf("\n")); }
+                while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
+                msg = msg.trim();
+                if (!msg.isEmpty()) {
+                    logger.info(msg);
+                }
                 Globals.con.ormask = 0;
                 break;
 

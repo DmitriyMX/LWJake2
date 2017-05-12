@@ -23,8 +23,11 @@ import lwjake2.Globals;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.QuakeFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameSave {
+    private static final Logger logger = LoggerFactory.getLogger(GameSave.class);
 
     public static void CreateEdicts() {
         GameBase.g_edicts = new edict_t[GameBase.game.maxentities];
@@ -114,7 +117,7 @@ public class GameSave {
      * a new game is started or a save game is loaded. 
      */
     public static void InitGame() {
-        GameBase.gi.dprintf("==== InitGame ====\n");
+        logger.info("==== InitGame ====");
 
         // preload all classes to register the adapters
         for ( int n=0; n < preloadclasslist.length; n++)

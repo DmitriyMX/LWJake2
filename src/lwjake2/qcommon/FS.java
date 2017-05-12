@@ -23,6 +23,8 @@ import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.sys.Sys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,7 +45,7 @@ import java.util.List;
  * @author cwei
  */
 public final class FS extends Globals {
-
+    private static final Logger logger = LoggerFactory.getLogger(FS.class);
     /*
      * ==================================================
      * 
@@ -143,7 +145,7 @@ public final class FS extends Globals {
         if (index > 0) {
             File f = new File(path.substring(0, index));
             if (!f.mkdirs() && !f.isDirectory()) {
-                Com.Printf("can't create path \"" + path + '"' + "\n");
+                logger.warn("can't create path \"{}\"", path);
             }
         }
     }
@@ -581,8 +583,7 @@ public final class FS extends Globals {
         pack.numfiles = numpackfiles;
         pack.files = newfiles;
 
-        Com.Printf("Added packfile " + packfile + " (" + numpackfiles
-                + " files)\n");
+        logger.info("Added packfile {} ({} files)", packfile, numpackfiles);
 
         return pack;
     }
@@ -684,7 +685,7 @@ public final class FS extends Globals {
 
         if (dir.indexOf("..") != -1 || dir.indexOf("/") != -1
                 || dir.indexOf("\\") != -1 || dir.indexOf(":") != -1) {
-            Com.Printf("Gamedir should be a single filename, not a path\n");
+            logger.warn("Gamedir should be a single filename, not a path");
             return;
         }
 
@@ -737,7 +738,7 @@ public final class FS extends Globals {
         filelink_t entry = null;
 
         if (Cmd.Argc() != 3) {
-            Com.Printf("USAGE: link <from> <to>\n");
+            logger.info("USAGE: link <from> <to>");
             return;
         }
 
@@ -805,8 +806,8 @@ public final class FS extends Globals {
             if (tmp != null)
                 tmp.replaceAll("\\\\", "/");
 
-            Com.Printf("Directory of " + findname + '\n');
-            Com.Printf("----\n");
+            logger.info("Directory of {}", findname);
+            logger.info("----");
 
             dirnames = ListFiles(findname, 0, 0);
 
@@ -814,15 +815,13 @@ public final class FS extends Globals {
                 int index = 0;
                 for (int i = 0; i < dirnames.length; i++) {
                     if ((index = dirnames[i].lastIndexOf('/')) > 0) {
-                        Com.Printf(dirnames[i].substring(index + 1, dirnames[i]
-                                .length()) + '\n');
+                        logger.info(dirnames[i].substring(index + 1, dirnames[i].length()));
                     } else {
-                        Com.Printf(dirnames[i] + '\n');
+                        logger.info(dirnames[i]);
                     }
                 }
             }
 
-            Com.Printf("\n");
         }
     }
 
@@ -834,21 +833,20 @@ public final class FS extends Globals {
         searchpath_t s;
         filelink_t link;
 
-        Com.Printf("Current search path:\n");
+        logger.info("Current search path:");
         for (s = fs_searchpaths; s != null; s = s.next) {
             if (s == fs_base_searchpaths)
-                Com.Printf("----------\n");
+                logger.info("----------");
             if (s.pack != null)
-                Com.Printf(s.pack.filename + " (" + s.pack.numfiles
-                        + " files)\n");
+                logger.info("{} ({} files)", s.pack.filename, s.pack.numfiles);
             else
-                Com.Printf(s.filename + '\n');
+                logger.info(s.filename);
         }
 
-        Com.Printf("\nLinks:\n");
+        logger.info("Links:");
         for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
             link = it.next();
-            Com.Printf(link.from + " : " + link.to + '\n');
+            logger.info("{} : {}", link.from, link.to);
         }
     }
 

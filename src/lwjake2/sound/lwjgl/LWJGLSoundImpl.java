@@ -49,6 +49,8 @@ import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.EFX10;
 import org.lwjgl.openal.OpenALException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * LWJGLSoundImpl
@@ -56,6 +58,7 @@ import org.lwjgl.openal.OpenALException;
  * @author dsanders/cwei
  */
 public final class LWJGLSoundImpl implements Sound {
+	private final Logger logger = LoggerFactory.getLogger(LWJGLSoundImpl.class);
 	
 	static {
 		S.register(new LWJGLSoundImpl());
@@ -85,7 +88,7 @@ public final class LWJGLSoundImpl implements Sound {
 			checkError();
 			initOpenALExtensions();
 		} catch (OpenALException e) {
-			Com.Printf(e.getMessage() + '\n');
+			logger.error(e.getMessage());
 			return false;
 		} catch (Exception e) {
 			Com.DPrintf(e.getMessage() + '\n');
@@ -96,7 +99,7 @@ public final class LWJGLSoundImpl implements Sound {
 		s_volume = Cvar.Get("s_volume", "0.7", Defines.CVAR_ARCHIVE);
 		AL10.alGenBuffers(buffers);
 		int count = Channel.init(buffers);
-		Com.Printf("... using " + count + " channels\n");
+		logger.info("... using {} channels", count);
 		AL10.alDistanceModel(AL10.AL_INVERSE_DISTANCE_CLAMPED);
 		Cmd.AddCommand("play", new xcommand_t() {
 			public void execute() {
@@ -121,10 +124,10 @@ public final class LWJGLSoundImpl implements Sound {
 
 		num_sfx = 0;
 
-		Com.Printf("sound sampling rate: 44100Hz\n");
+		logger.info("sound sampling rate: 44100Hz");
 
 		StopAllSounds();
-		Com.Printf("------------------------------------\n");
+		logger.info("------------------------------------");
 		return true;
 	}
 	
@@ -141,7 +144,7 @@ public final class LWJGLSoundImpl implements Sound {
 		
 		String defaultSpecifier = ALC10.alcGetString(AL.getDevice(), ALC10.ALC_DEFAULT_DEVICE_SPECIFIER);
 
-		Com.Printf(os + " using " + ((deviceName == null) ? defaultSpecifier : deviceName) + '\n');
+		logger.info("{} using {}", os, ((deviceName == null) ? defaultSpecifier : deviceName));
 
 		// Check for an error.
 		if (ALC10.alcGetError(AL.getDevice()) != ALC10.ALC_NO_ERROR) 
@@ -153,7 +156,7 @@ public final class LWJGLSoundImpl implements Sound {
 	/** Initializes OpenAL EFX effects. */
 	private void initOpenALExtensions() 
 	{
-		Com.Printf("... using EFX effects:\n");
+		logger.info("... using EFX effects:");
 		underwaterFilter = new EFXFilterLowPass();
 		underwaterFilter.setGain(1.0f);
 		underwaterFilter.setGainHF(0.0f);
@@ -586,27 +589,26 @@ public final class LWJGLSoundImpl implements Sound {
 			if (sc != null) {
 				size = sc.length * sc.width * (sc.stereo + 1);
 				total += size;
-				if (sc.loopstart >= 0)
-					Com.Printf("L");
-				else
-					Com.Printf(" ");
-				Com.Printf("(%2db) %6i : %s\n", new Vargs(3).add(sc.width * 8).add(size).add(sfx.name));
+				logger.info(String.format("%s(%2db) %6d : %s",
+						(sc.loopstart >= 0 ? 'L' : ' '),
+						(sc.width * 8), size, sfx.name)
+				);
 			} else {
 				if (sfx.name.charAt(0) == '*')
-					Com.Printf("  placeholder : " + sfx.name + "\n");
+					logger.info("  placeholder : {}", sfx.name);
 				else
-					Com.Printf("  not loaded  : " + sfx.name + "\n");
+					logger.info("  not loaded : {}", sfx.name);
 			}
 		}
-		Com.Printf("Total resident: " + total + "\n");
+		logger.info("Total resident: {}", total);
 	}
 	
 	void SoundInfo_f() {
-
-		Com.Printf("%5d stereo\n", new Vargs(1).add(1));
-		Com.Printf("%5d samples\n", new Vargs(1).add(22050));
-		Com.Printf("%5d samplebits\n", new Vargs(1).add(16));
-		Com.Printf("%5d speed\n", new Vargs(1).add(44100));
+		//TODO параметры тут не нужны, сплошная статика
+		logger.info(String.format("%5d stereo", 1));
+		logger.info(String.format("%5d samples", 22050));
+		logger.info(String.format("%5d samplebits", 16));
+		logger.info(String.format("%5d speed", 44100));
 	}
 
 }

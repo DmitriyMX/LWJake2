@@ -22,12 +22,14 @@ import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.util.Lib;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Cbuf
  */
 public final class Cbuf {
-
+    private static final Logger logger = LoggerFactory.getLogger(Cbuf.class);
     private static final byte[] line = new byte[1024];
     private static final byte[] tmp = new byte[8192];
 
@@ -135,7 +137,7 @@ public final class Cbuf {
         int l = text.length();
 
         if (Globals.cmd_text.cursize + l >= Globals.cmd_text.maxsize) {
-            Com.Printf("Cbuf_AddText: overflow\n");
+            logger.warn("Cbuf_AddText: overflow");
             return;
         }
         SZ.Write(Globals.cmd_text, Lib.stringToBytes(text), l);

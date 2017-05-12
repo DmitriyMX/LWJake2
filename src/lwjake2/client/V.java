@@ -27,6 +27,8 @@ import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.Timer;
 import lwjake2.util.Math3D;
 import lwjake2.util.Vargs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -35,6 +37,7 @@ import java.nio.FloatBuffer;
  * V
  */
 public final class V extends Globals {
+    private static final Logger logger = LoggerFactory.getLogger(V.class);
 
     static cvar_t cl_testblend;
 
@@ -360,8 +363,7 @@ public final class V extends Globals {
 
         re.RenderFrame(cl.refdef);
         if (cl_stats.value != 0.0f)
-            Com.Printf("ent:%i  lt:%i  part:%i\n", new Vargs(3).add(
-                    r_numentities).add(r_numdlights).add(r_numparticles));
+            logger.info("ent:{}  lt:{}  part:{}", r_numentities, r_numdlights, r_numparticles);
         if (log_stats.value != 0.0f && (log_stats_file != null))
             try {
                 log_stats_file.write(r_numentities + "," + r_numdlights + ","
@@ -381,10 +383,12 @@ public final class V extends Globals {
      */
     static xcommand_t Viewpos_f = new xcommand_t() {
         public void execute() {
-            Com.Printf("(%i %i %i) : %i\n", new Vargs(4).add(
-                    (int) cl.refdef.vieworg[0]).add((int) cl.refdef.vieworg[1])
-                    .add((int) cl.refdef.vieworg[2]).add(
-                            (int) cl.refdef.viewangles[YAW]));
+            logger.info("({} {} {}) : {}",
+                    (int) cl.refdef.vieworg[0],
+                    (int) cl.refdef.vieworg[1],
+                    (int) cl.refdef.vieworg[2],
+                    (int) cl.refdef.viewangles[YAW]
+            );
         }
     };
 

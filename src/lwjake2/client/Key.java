@@ -26,6 +26,8 @@ import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.xcommand_t;
 import lwjake2.util.Lib;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -35,6 +37,7 @@ import java.util.Vector;
  * Key
  */
 public class Key extends Globals {
+	private static final Logger logger = LoggerFactory.getLogger(Key.class);
 	//
 	// these are the key numbers that should be passed to Key_Event
 	//
@@ -576,7 +579,7 @@ public class Key extends Globals {
 			
 			Cbuf.AddText("\n");
 		
-			Com.Printf(new String(Globals.key_lines[Globals.edit_line], 0, Lib.strlen(Globals.key_lines[Globals.edit_line])) + "\n");
+			logger.info(new String(Globals.key_lines[Globals.edit_line], 0, Lib.strlen(Globals.key_lines[Globals.edit_line])));
 			Globals.edit_line = (Globals.edit_line + 1) & 31;
 			history_line = Globals.edit_line;
 		
@@ -665,11 +668,16 @@ public class Key extends Globals {
 	}
 
 	private static void printCompletions(String type, Vector<String> compl) {
-		Com.Printf(type);
+		StringBuilder sb = new StringBuilder(compl.size());
 		for (int i = 0; i < compl.size(); i++) {
-			Com.Printf((String)compl.get(i) + " ");
+			sb.append(compl.get(i)).append(' ');
 		}
-		Com.Printf("\n");
+		//TODO потом убрать
+		while (type.startsWith("\n")) { type = type.substring(1); }
+		while (type.endsWith("\n")) { type = type.substring(0, type.lastIndexOf("\n")); }
+		while (type.endsWith("\r")) { type = type.substring(0, type.lastIndexOf("\r")); }
+		type = type.trim();
+		logger.info("{} {}", type, sb.toString());
 	}
 	
 	static void CompleteCommand() {

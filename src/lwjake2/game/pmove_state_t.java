@@ -20,11 +20,14 @@ package lwjake2.game;
 
 import lwjake2.qcommon.Com;
 import lwjake2.util.Math3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class pmove_state_t {
+	private final Logger logger = LoggerFactory.getLogger(pmove_state_t.class);
 	//	this structure needs to be communicated bit-accurate
 	//	from the server to the client to guarantee that
 	//	prediction stays in sync, so no floats are used.
@@ -129,22 +132,22 @@ public class pmove_state_t {
 	}
 
 	public void dump() {
-		Com.Println("pm_type: " + pm_type);
+		logger.info("pm_type: {}", pm_type);
 
-		Com.Println("origin[0]: " + origin[0]);
-		Com.Println("origin[1]: " + origin[0]);
-		Com.Println("origin[2]: " + origin[0]);
+		logger.info("origin[0]: {}", origin[0]);
+		logger.info("origin[1]: {}", origin[1]);
+		logger.info("origin[2]: {}", origin[2]);
 
-		Com.Println("velocity[0]: " + velocity[0]);
-		Com.Println("velocity[1]: " + velocity[1]);
-		Com.Println("velocity[2]: " + velocity[2]);
+		logger.info("velocity[0]: {}", velocity[0]);
+		logger.info("velocity[1]: {}", velocity[1]);
+		logger.info("velocity[2]: {}", velocity[2]);
 
-		Com.Println("pmflags: " + pm_flags);
-		Com.Println("pmtime: " + pm_time);
-		Com.Println("gravity: " + gravity);
+		logger.info("pmflags: {}", pm_flags);
+		logger.info("pmtime: {}", pm_time);
+		logger.info("gravity: {}", gravity);
 
-		Com.Println("delta-angle[0]: " + delta_angles[0]);
-		Com.Println("delta-angle[1]: " + delta_angles[0]);
-		Com.Println("delta-angle[2]: " + delta_angles[0]);
+		logger.info("delta-angle[0]: {}", delta_angles[0]);
+		logger.info("delta-angle[1]: {}", delta_angles[1]);
+		logger.info("delta-angle[2]: {}", delta_angles[2]);
 	}
 }

@@ -26,6 +26,8 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.netadr_t;
 import lwjake2.qcommon.sizebuf_t;
 import lwjake2.util.Lib;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -36,7 +38,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
 public final class NET {
-
+    private static final Logger logger = LoggerFactory.getLogger(NET.class);
     private final static int MAX_LOOPBACK = 4;
 
     /** Local loopback adress. */
@@ -136,7 +138,7 @@ public final class NET {
                 a.port = Lib.atoi(address[1]);
             return true;
         } catch (Exception e) {
-            Com.Println(e.getMessage());
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -227,7 +229,7 @@ public final class NET {
             int packetLength = receiveBuffer.position();
 
             if (packetLength > net_message.maxsize) {
-                Com.Println("Oversize packet from " + AdrToString(net_from));
+                logger.info("Oversize packet from {}", AdrToString(net_from));
                 return false;
             }
 
@@ -265,7 +267,7 @@ public final class NET {
             SocketAddress dstSocket = new InetSocketAddress(to.getInetAddress(), to.port);
             ip_channels[sock].send(ByteBuffer.wrap(data, 0, length), dstSocket);
         } catch (Exception e) {
-            Com.Println("NET_SendPacket ERROR: " + e + " to " + AdrToString(to));
+            logger.error(String.format("NET_SendPacket: %s to %s", e.getMessage(), AdrToString(to)), e);
         }
     }
 
@@ -345,7 +347,7 @@ public final class NET {
             // the socket have to be broadcastable
             newsocket.setBroadcast(true);
         } catch (Exception e) {
-            Com.Println("Error: " + e.toString());
+            logger.error(String.format("Error: %s", e.getMessage()), e);
             newsocket = null;
         }
         return newsocket;

@@ -32,6 +32,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * LWJGLBase
@@ -39,6 +41,7 @@ import org.lwjgl.opengl.GL11;
  * @author dsanders/cwei
  */
 public abstract class LWJGLBase {
+	private final Logger logger = LoggerFactory.getLogger(LWJGLBase.class);
 	// IMPORTED FUNCTIONS
 	protected DisplayMode oldDisplayMode; 
 
@@ -207,10 +210,8 @@ public abstract class LWJGLBase {
 
 		Dimension newDim = new Dimension();
 
-		VID.Printf(Defines.PRINT_ALL, "Initializing OpenGL display\n");
+		logger.info("Initializing OpenGL display");
 
-		VID.Printf(Defines.PRINT_ALL, "...setting mode " + mode + ":");
-		
 		/*
 		 * fullscreen handling
 		 */
@@ -219,11 +220,11 @@ public abstract class LWJGLBase {
 		}
 
 		if (!VID.GetModeInfo(newDim, mode)) {
-			VID.Printf(Defines.PRINT_ALL, " invalid mode\n");
+			logger.warn("...setting mode {}: invalid mode", mode);
 			return rserr_invalid_mode;
 		}
 
-		VID.Printf(Defines.PRINT_ALL, " " + newDim.width + " " + newDim.height + '\n');
+		logger.info("...setting mode {}: {} {}", mode, newDim.width, newDim.height);
 
 		// destroy the existing window
 		GLimp_Shutdown();
@@ -254,7 +255,7 @@ public abstract class LWJGLBase {
 				return rserr_invalid_fullscreen; 
 			}	
 
-			VID.Printf(Defines.PRINT_ALL, "...setting fullscreen " + getModeString(displayMode) + '\n');
+			logger.info("...setting fullscreen {}", getModeString(displayMode));
 
 		} 
 		else 
