@@ -229,18 +229,4 @@ public final class Sys extends Defines {
         return null;
     }
 
-    public static void ConsoleOutput(String msg) {
-        if (Globals.nostdout != null && Globals.nostdout.value != 0)
-            return;
-
-        while (msg.startsWith("\n")) {
-            msg = msg.substring(1);
-        }
-        while (msg.endsWith("\n")) {
-            msg = msg.substring(0, msg.lastIndexOf("\n"));
-        }
-
-        logger.info(msg);
-    }
-
 }

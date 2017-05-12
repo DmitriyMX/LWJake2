@@ -27,10 +27,10 @@ import lwjake2.server.SV_MAIN;
 import lwjake2.sys.Sys;
 import lwjake2.util.PrintfFormat;
 import lwjake2.util.Vargs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 /**
  * Com
@@ -38,7 +38,7 @@ import java.io.RandomAccessFile;
  */
 public final class Com
 {
-
+	private static final Logger logger = LoggerFactory.getLogger(Com.class);
     static String debugContext = "";
     static String _debugContext = "";
     
@@ -356,50 +356,12 @@ public final class Com
 		Console.Print(msg);
 
 		// also echo to debugging console
-		Sys.ConsoleOutput(msg);
-
-		// logfile
-		if (Globals.logfile_active != null && Globals.logfile_active.value != 0)
-		{
-			String name;
-
-			if (Globals.logfile == null)
-			{
-				name= FS.Gamedir() + "/qconsole.log";
-				if (Globals.logfile_active.value > 2)
-					try
-					{
-						Globals.logfile = new RandomAccessFile(name, "rw");
-						Globals.logfile.seek(Globals.logfile.length());
-					}
-					catch (Exception e)
-					{
-						// TODO: do quake2 error handling!
-						e.printStackTrace();
-					}
-				else
-					try
-					{
-						Globals.logfile= new RandomAccessFile(name, "rw");
-					}
-					catch (FileNotFoundException e1)
-					{
-						// TODO: do quake2 error handling!
-						e1.printStackTrace();
-					}
-			}
-			if (Globals.logfile != null)
-				try
-				{
-					Globals.logfile.writeChars(msg);
-				}
-				catch (IOException e)
-				{
-					// TODO: do quake2 error handling!
-					e.printStackTrace();
-				}
-			if (Globals.logfile_active.value > 1); // do nothing
-			// fflush (logfile);		// force it to save every time
+		while (msg.startsWith("\n")) { msg = msg.substring(1); }
+		while (msg.endsWith("\n")) { msg = msg.substring(0, msg.lastIndexOf("\n")); }
+		while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
+		msg = msg.trim();
+		if (!msg.isEmpty()) {
+			logger.info(msg);
 		}
 	}
 
