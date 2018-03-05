@@ -40,6 +40,7 @@ import java.io.IOException;
  */
 public final class Qcommon extends Globals {
 	private static final Logger logger = LoggerFactory.getLogger(Qcommon.class);
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 	public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
 	public static final String CPUSTRING = System.getProperty("os.arch");
 
@@ -70,7 +71,7 @@ public final class Qcommon extends Globals {
 			Cbuf.AddEarlyCommands(false);
 			Cbuf.Execute();
 			
-			FS.InitFilesystem();
+			fileSystem.init();
 			
 			reconfigure(false);
 

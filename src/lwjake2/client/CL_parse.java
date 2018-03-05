@@ -26,7 +26,8 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.xcommand_t;
@@ -45,6 +46,7 @@ import java.io.RandomAccessFile;
  */
 public class CL_parse {
     private static final Logger logger = LoggerFactory.getLogger(CL_parse.class);
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     //// cl_parse.c -- parse a message received from the server
 
@@ -59,7 +61,7 @@ public class CL_parse {
     //	  =============================================================================
 
     public static String DownloadFileName(String fn) {
-        return FS.Gamedir() + "/" + fn;
+        return fileSystem.getGamedir() + "/" + fn;
     }
 
     /*
@@ -77,7 +79,7 @@ public class CL_parse {
             return true;
         }
 
-        if (FS.FileLength(filename) > 0) { // it exists, no need to download
+        if (fileSystem.fileLength(filename) > 0) { // it exists, no need to download
             return true;
         }
 
@@ -150,7 +152,7 @@ public class CL_parse {
                 return;
             }
 
-            if (FS.LoadFile(filename) != null) { // it exists, no need to
+            if (fileSystem.loadFile(filename) != null) { // it exists, no need to
                 // download
                 Com.Printf("File already exists.\n");
                 return;
@@ -224,7 +226,7 @@ public class CL_parse {
         if (Globals.cls.download == null) {
             String name = DownloadFileName(Globals.cls.downloadtempname).toLowerCase();
 
-            FS.CreatePath(name);
+            fileSystem.createPath(name);
 
             Globals.cls.download = Lib.fopen(name, "rw");
             if (Globals.cls.download == null) {
@@ -323,10 +325,10 @@ public class CL_parse {
 
         // set gamedir
         if (str.length() > 0
-                && (FS.fs_gamedirvar.string == null
-                        || FS.fs_gamedirvar.string.length() == 0 || FS.fs_gamedirvar.string
+                && (fileSystem.getGamedirVar().string == null
+                        || fileSystem.getGamedirVar().string.length() == 0 || fileSystem.getGamedirVar().string
                         .equals(str))
-                || (str.length() == 0 && (FS.fs_gamedirvar.string != null || FS.fs_gamedirvar.string
+                || (str.length() == 0 && (fileSystem.getGamedirVar().string != null || fileSystem.getGamedirVar().string
                         .length() == 0)))
             Cvar.Set("game", str);
 

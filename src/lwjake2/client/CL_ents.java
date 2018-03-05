@@ -24,7 +24,8 @@ import lwjake2.game.entity_state_t;
 import lwjake2.game.player_state_t;
 import lwjake2.game.pmove_t;
 import lwjake2.qcommon.Com;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.MSG;
 import lwjake2.util.Math3D;
 
@@ -40,6 +41,7 @@ import lwjake2.util.Math3D;
  * =========================================================================
  */
 public class CL_ents {
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
 	static int bitcounts[] = new int[32]; /// just for protocol profiling
 
@@ -815,7 +817,7 @@ public class CL_ents {
 				 *  
 				 */
 				if ((renderfx & Defines.RF_SHELL_HALF_DAM) != 0) {
-					if (FS.Developer_searchpath(2) == 2) {
+					if (fileSystem.developer_searchpath(2) == 2) {
 						// ditch the half damage shell if any of red, blue, or
 						// double are on
 						if ((renderfx & (Defines.RF_SHELL_RED | Defines.RF_SHELL_BLUE | Defines.RF_SHELL_DOUBLE)) != 0)
@@ -824,7 +826,7 @@ public class CL_ents {
 				}
 
 				if ((renderfx & Defines.RF_SHELL_DOUBLE) != 0) {
-					if (FS.Developer_searchpath(2) == 2) {
+					if (fileSystem.developer_searchpath(2) == 2) {
 						// lose the yellow shell if we have a red, blue, or
 						// green shell
 						if ((renderfx & (Defines.RF_SHELL_RED | Defines.RF_SHELL_BLUE | Defines.RF_SHELL_GREEN)) != 0)

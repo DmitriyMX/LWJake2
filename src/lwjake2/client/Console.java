@@ -24,7 +24,8 @@ import lwjake2.game.Cmd;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.xcommand_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
@@ -40,6 +41,7 @@ import java.util.Arrays;
  */
 public final class Console extends Globals {
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     public static xcommand_t ToggleConsole_f = new xcommand_t() {
         public void execute() {
             SCR.EndLoadingPlaque(); // get rid of loading plaque
@@ -95,10 +97,10 @@ public final class Console extends Globals {
 
             //Com_sprintf (name, sizeof(name), "%s/%s.txt", FS_Gamedir(),
             // Cmd_Argv(1));
-            name = FS.Gamedir() + "/" + Cmd.Argv(1) + ".txt";
+            name = fileSystem.getGamedir() + "/" + Cmd.Argv(1) + ".txt";
 
             logger.info("Dumped console text to {}", name);
-            FS.CreatePath(name);
+            fileSystem.createPath(name);
             f = Lib.fopen(name, "rw");
             if (f == null) {
                 logger.error("ERROR: couldn't open.");
