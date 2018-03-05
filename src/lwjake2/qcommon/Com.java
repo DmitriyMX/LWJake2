@@ -241,9 +241,9 @@ public final class Com
 		return new String(com_token, 0, len);
 	}
 
-	public static xcommand_t Error_f= new xcommand_t()
+	public static Runnable Error_f= new Runnable()
 	{
-		public void execute() throws longjmpException
+		public void run() throws longjmpException
 		{
 			Error(Defines.ERR_FATAL, Cmd.Argv(1));
 		}

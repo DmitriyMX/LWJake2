@@ -228,8 +228,8 @@ public class Cvar extends Globals {
      * Set command, sets variables.
      */
     
-    static xcommand_t Set_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Set_f = new Runnable() {
+        public void run() {
             int c;
             int flags;
 
@@ -259,8 +259,8 @@ public class Cvar extends Globals {
     /**
      * List command, lists all available commands.
      */
-    static xcommand_t List_f = new xcommand_t() {
-        public void execute() {
+    static Runnable List_f = new Runnable() {
+        public void run() {
             cvar_t var;
             int i;
 

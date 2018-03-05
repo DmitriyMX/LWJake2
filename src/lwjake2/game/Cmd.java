@@ -28,7 +28,6 @@ import lwjake2.qcommon.FS;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.cmd_function_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.server.SV_GAME;
 import lwjake2.util.Lib;
 
@@ -40,8 +39,8 @@ import java.util.Vector;
  * Cmd
  */
 public final class Cmd {
-    static xcommand_t List_f = new xcommand_t() {
-        public void execute() {
+    static Runnable List_f = new Runnable() {
+        public void run() {
             cmd_function_t cmd = Cmd.cmd_functions;
             int i = 0;
 
@@ -54,10 +53,10 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Exec_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Exec_f = new Runnable() {
+        public void run() {
             if (Cmd.Argc() != 2) {
-                Com.Printf("exec <filename> : execute a script file\n");
+                Com.Printf("exec <filename> : run a script file\n");
                 return;
             }
 
@@ -75,8 +74,8 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Echo_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Echo_f = new Runnable() {
+        public void run() {
             for (int i = 1; i < Cmd.Argc(); i++) {
                 Com.Printf(Cmd.Argv(i) + " ");
             }
@@ -84,8 +83,8 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Alias_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Alias_f = new Runnable() {
+        public void run() {
             cmdalias_t a = null;
             if (Cmd.Argc() == 1) {
                 Com.Printf("Current alias commands:\n");
@@ -130,8 +129,8 @@ public final class Cmd {
         }
     };
 
-    public static xcommand_t Wait_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable Wait_f = new Runnable() {
+        public void run() {
             Globals.cmd_wait = true;
         }
     };
@@ -304,7 +303,7 @@ public final class Cmd {
         }
     }
 
-    public static void AddCommand(String cmd_name, xcommand_t function) {
+    public static void AddCommand(String cmd_name, Runnable function) {
         cmd_function_t cmd;
         //Com.DPrintf("Cmd_AddCommand: " + cmd_name + "\n");
         // fail if the command is a variable name
@@ -389,7 +388,7 @@ public final class Cmd {
     /**
      * Cmd_ExecuteString
      * 
-     * A complete command line has been parsed, so try to execute it 
+     * A complete command line has been parsed, so try to run it
      * FIXME: lookupnoadd the token to speed search? 
      */
     public static void ExecuteString(String text) {
@@ -399,7 +398,7 @@ public final class Cmd {
 
         TokenizeString(text.toCharArray(), true);
 
-        // execute the command line
+        // run the command line
         if (Argc() == 0)
             return; // no tokens
 
@@ -409,7 +408,7 @@ public final class Cmd {
                 if (null == cmd.function) { // forward to server command
                     Cmd.ExecuteString("cmd " + text);
                 } else {
-                    cmd.function.execute();
+                    cmd.function.run();
                 }
                 return;
             }

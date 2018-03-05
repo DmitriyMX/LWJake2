@@ -18,7 +18,6 @@
 
 package lwjake2.client;
 
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.render.image_t;
 import lwjake2.render.model_t;
 import lwjake2.sys.KBD;
@@ -95,7 +94,7 @@ public interface refexport_t {
 	 * 
 	 *
 	 */
-	void updateScreen(xcommand_t callback);
+	void updateScreen(Runnable callback);
 	
 	int apiVersion();
 	

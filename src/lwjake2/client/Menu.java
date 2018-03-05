@@ -26,7 +26,6 @@ import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FS;
 import lwjake2.qcommon.netadr_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sound.S;
 import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
@@ -66,7 +65,7 @@ public final class Menu extends Key {
 
     // won't disrupt the sound
 
-    static xcommand_t m_drawfunc;
+    static Runnable m_drawfunc;
 
     static keyfunc_t m_keyfunc;
 
@@ -76,7 +75,7 @@ public final class Menu extends Key {
     public final static int MAX_MENU_DEPTH = 8;
 
     public static class menulayer_t {
-        xcommand_t draw;
+        Runnable draw;
 
         keyfunc_t key;
     }
@@ -181,7 +180,7 @@ public final class Menu extends Key {
                 viddef.height / 2 - 110, name);
     }
 
-    static void PushMenu(xcommand_t draw, keyfunc_t key) { //, String(*key)
+    static void PushMenu(Runnable draw, keyfunc_t key) { //, String(*key)
                                                            // (int k) ) {
         int i;
 
@@ -435,8 +434,8 @@ public final class Menu extends Key {
      */
     static final int MAIN_ITEMS = 5;
 
-    static xcommand_t Main_Draw = new xcommand_t() {
-        public void execute() {
+    static Runnable Main_Draw = new Runnable() {
+        public void run() {
             Main_Draw();
         }
     };
@@ -540,15 +539,15 @@ public final class Menu extends Key {
         return null;
     }
 
-    static xcommand_t Menu_Main = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Main = new Runnable() {
+        public void run() {
             Menu_Main_f();
         }
     };
 
     static void Menu_Main_f() {
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Main_Draw();
             }
         }, new keyfunc_t() {
@@ -642,16 +641,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_multiplayer_menu, key);
     }
 
-    static xcommand_t Menu_Multiplayer = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Multiplayer = new Runnable() {
+        public void run() {
             Menu_Multiplayer_f();
         }
     };
 
     static void Menu_Multiplayer_f() {
         Multiplayer_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Multiplayer_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -1154,8 +1153,8 @@ public final class Menu extends Key {
         Menu_Center(s_keys_menu);
     }
 
-    static xcommand_t Keys_MenuDraw = new xcommand_t() {
-        public void execute() {
+    static Runnable Keys_MenuDraw = new Runnable() {
+        public void run() {
             Keys_MenuDraw_f();
         }
     };
@@ -1207,16 +1206,16 @@ public final class Menu extends Key {
         }
     }
 
-    static xcommand_t Menu_Keys = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Keys = new Runnable() {
+        public void run() {
             Menu_Keys_f();
         }
     };
 
     static void Menu_Keys_f() {
         Keys_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Keys_MenuDraw_f();
             }
         }, new keyfunc_t() {
@@ -1420,7 +1419,7 @@ public final class Menu extends Key {
             // the text box won't show up unless we do a buffer swap
             re.EndFrame();
 
-            CL.Snd_Restart_f.execute();
+            CL.Snd_Restart_f.run();
         }
     }
 
@@ -1650,16 +1649,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_options_menu, key);
     }
 
-    static xcommand_t Menu_Options = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Options = new Runnable() {
+        public void run() {
             Menu_Options_f();
         }
     };
 
     static void Menu_Options_f() {
         Options_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Options_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -1677,16 +1676,16 @@ public final class Menu extends Key {
      * =======================================================================
      */
 
-    static xcommand_t Menu_Video = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Video = new Runnable() {
+        public void run() {
             Menu_Video_f();
         }
     };
 
     static void Menu_Video_f() {
         VID.MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 VID.MenuDraw();
             }
         }, new keyfunc_t() {
@@ -1897,8 +1896,8 @@ public final class Menu extends Key {
 
     }
 
-    static xcommand_t Menu_Credits = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Credits = new Runnable() {
+        public void run() {
             Menu_Credits_f();
         }
     };
@@ -1933,8 +1932,8 @@ public final class Menu extends Key {
         }
 
         credits_start_time = cls.realtime;
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Credits_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -2108,16 +2107,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_game_menu, key);
     }
 
-    static xcommand_t Menu_Game = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Game = new Runnable() {
+        public void run() {
             Menu_Game_f();
         }
     };
 
     static void Menu_Game_f() {
         Game_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Game_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -2238,16 +2237,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_loadgame_menu, key);
     }
 
-    static xcommand_t Menu_LoadGame = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_LoadGame = new Runnable() {
+        public void run() {
             Menu_LoadGame_f();
         }
     };
 
     static void Menu_LoadGame_f() {
         LoadGame_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 LoadGame_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -2324,8 +2323,8 @@ public final class Menu extends Key {
         return Default_MenuKey(s_savegame_menu, key);
     }
 
-    static xcommand_t Menu_SaveGame = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_SaveGame = new Runnable() {
+        public void run() {
             Menu_SaveGame_f();
         }
     };
@@ -2335,8 +2334,8 @@ public final class Menu extends Key {
             return; // not playing a game
 
         SaveGame_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 SaveGame_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -2443,7 +2442,7 @@ public final class Menu extends Key {
         re.EndFrame();
 
         // send out info packets
-        CL.PingServers_f.execute();
+        CL.PingServers_f.run();
     }
 
     static void SearchLocalGamesFunc(Object self) {
@@ -2520,16 +2519,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_joinserver_menu, key);
     }
 
-    static xcommand_t Menu_JoinServer = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_JoinServer = new Runnable() {
+        public void run() {
             Menu_JoinServer_f();
         }
     };
 
     static void Menu_JoinServer_f() {
         JoinServer_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 JoinServer_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -2905,14 +2904,14 @@ public final class Menu extends Key {
         return Default_MenuKey(s_startserver_menu, key);
     }
 
-    static xcommand_t Menu_StartServer = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_StartServer = new Runnable() {
+        public void run() {
             Menu_StartServer_f();
         }
     };
 
-    static xcommand_t startServer_MenuDraw = new xcommand_t() {
-        public void execute() {
+    static Runnable startServer_MenuDraw = new Runnable() {
+        public void run() {
             StartServer_MenuDraw();
         }
     };
@@ -3379,16 +3378,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_dmoptions_menu, key);
     }
 
-    static xcommand_t Menu_DMOptions = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_DMOptions = new Runnable() {
+        public void run() {
             Menu_DMOptions_f();
         }
     };
 
     static void Menu_DMOptions_f() {
         DMOptions_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 DMOptions_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -3544,16 +3543,16 @@ public final class Menu extends Key {
         return Default_MenuKey(s_downloadoptions_menu, key);
     }
 
-    static xcommand_t Menu_DownloadOptions = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_DownloadOptions = new Runnable() {
+        public void run() {
             Menu_DownloadOptions_f();
         }
     };
 
     static void Menu_DownloadOptions_f() {
         DownloadOptions_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 DownloadOptions_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -3619,8 +3618,8 @@ public final class Menu extends Key {
         return Default_MenuKey(s_addressbook_menu, key);
     }
 
-    static xcommand_t AddressBook_MenuDraw = new xcommand_t() {
-        public void execute() {
+    static Runnable AddressBook_MenuDraw = new Runnable() {
+        public void run() {
             AddressBook_MenuDraw_f();
         }
     };
@@ -3630,16 +3629,16 @@ public final class Menu extends Key {
         Menu_Draw(s_addressbook_menu);
     }
 
-    static xcommand_t Menu_AddressBook = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_AddressBook = new Runnable() {
+        public void run() {
             Menu_AddressBook_f();
         }
     };
 
     static void Menu_AddressBook_f() {
         AddressBook_MenuInit();
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 AddressBook_MenuDraw_f();
             }
         }, new keyfunc_t() {
@@ -4180,8 +4179,8 @@ public final class Menu extends Key {
         return Default_MenuKey(s_player_config_menu, key);
     }
 
-    static xcommand_t Menu_PlayerConfig = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_PlayerConfig = new Runnable() {
+        public void run() {
             Menu_PlayerConfig_f();
         }
     };
@@ -4193,8 +4192,8 @@ public final class Menu extends Key {
             return;
         }
         Menu_SetStatusBar(s_multiplayer_menu, null);
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 PlayerConfig_MenuDraw();
             }
         }, new keyfunc_t() {
@@ -4223,7 +4222,7 @@ public final class Menu extends Key {
         case 'Y':
         case 'y':
             cls.key_dest = key_console;
-            CL.Quit_f.execute();
+            CL.Quit_f.run();
             break;
 
         default:
@@ -4243,15 +4242,15 @@ public final class Menu extends Key {
         re.DrawPic((viddef.width - w) / 2, (viddef.height - h) / 2, "quit");
     }
 
-    static xcommand_t Menu_Quit = new xcommand_t() {
-        public void execute() {
+    static Runnable Menu_Quit = new Runnable() {
+        public void run() {
             Menu_Quit_f();
         }
     };
 
     static void Menu_Quit_f() {
-        PushMenu(new xcommand_t() {
-            public void execute() {
+        PushMenu(new Runnable() {
+            public void run() {
                 Quit_Draw();
             }
         }, new keyfunc_t() {
@@ -4306,7 +4305,7 @@ public final class Menu extends Key {
         else
             re.DrawFadeScreen();
 
-        m_drawfunc.execute();
+        m_drawfunc.run();
 
         // delay playing the enter sound until after the
         // menu has been drawn, to avoid delay while

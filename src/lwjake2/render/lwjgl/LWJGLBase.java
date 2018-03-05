@@ -22,7 +22,6 @@ import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.viddef_t;
 import lwjake2.game.cvar_t;
-import lwjake2.qcommon.xcommand_t;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -345,7 +344,7 @@ public abstract class LWJGLBase {
 	 * this is a hack for jogl renderers.
 	 * @param callback
 	 */
-	public final void updateScreen(xcommand_t callback) {
-		callback.execute();
+	public final void updateScreen(Runnable callback) {
+		callback.run();
 	}	
 }

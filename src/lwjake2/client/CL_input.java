@@ -29,7 +29,6 @@ import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.sizebuf_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.IN;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
@@ -487,164 +486,164 @@ public class CL_input {
 	 * ============ CL_InitInput ============
 	 */
 	static void InitInput() {
-		Cmd.AddCommand("centerview", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("centerview", new Runnable() {
+			public void run() {
 				IN.CenterView();
 			}
 		});
 
-		Cmd.AddCommand("+moveup", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+moveup", new Runnable() {
+			public void run() {
 				IN_UpDown();
 			}
 		});
-		Cmd.AddCommand("-moveup", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-moveup", new Runnable() {
+			public void run() {
 				IN_UpUp();
 			}
 		});
-		Cmd.AddCommand("+movedown", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+movedown", new Runnable() {
+			public void run() {
 				IN_DownDown();
 			}
 		});
-		Cmd.AddCommand("-movedown", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-movedown", new Runnable() {
+			public void run() {
 				IN_DownUp();
 			}
 		});
-		Cmd.AddCommand("+left", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+left", new Runnable() {
+			public void run() {
 				IN_LeftDown();
 			}
 		});
-		Cmd.AddCommand("-left", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-left", new Runnable() {
+			public void run() {
 				IN_LeftUp();
 			}
 		});
-		Cmd.AddCommand("+right", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+right", new Runnable() {
+			public void run() {
 				IN_RightDown();
 			}
 		});
-		Cmd.AddCommand("-right", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-right", new Runnable() {
+			public void run() {
 				IN_RightUp();
 			}
 		});
-		Cmd.AddCommand("+forward", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+forward", new Runnable() {
+			public void run() {
 				IN_ForwardDown();
 			}
 		});
-		Cmd.AddCommand("-forward", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-forward", new Runnable() {
+			public void run() {
 				IN_ForwardUp();
 			}
 		});
-		Cmd.AddCommand("+back", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+back", new Runnable() {
+			public void run() {
 				IN_BackDown();
 			}
 		});
-		Cmd.AddCommand("-back", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-back", new Runnable() {
+			public void run() {
 				IN_BackUp();
 			}
 		});
-		Cmd.AddCommand("+lookup", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+lookup", new Runnable() {
+			public void run() {
 				IN_LookupDown();
 			}
 		});
-		Cmd.AddCommand("-lookup", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-lookup", new Runnable() {
+			public void run() {
 				IN_LookupUp();
 			}
 		});
-		Cmd.AddCommand("+lookdown", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+lookdown", new Runnable() {
+			public void run() {
 				IN_LookdownDown();
 			}
 		});
-		Cmd.AddCommand("-lookdown", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-lookdown", new Runnable() {
+			public void run() {
 				IN_LookdownUp();
 			}
 		});
-		Cmd.AddCommand("+strafe", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+strafe", new Runnable() {
+			public void run() {
 				IN_StrafeDown();
 			}
 		});
-		Cmd.AddCommand("-strafe", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-strafe", new Runnable() {
+			public void run() {
 				IN_StrafeUp();
 			}
 		});
-		Cmd.AddCommand("+moveleft", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+moveleft", new Runnable() {
+			public void run() {
 				IN_MoveleftDown();
 			}
 		});
-		Cmd.AddCommand("-moveleft", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-moveleft", new Runnable() {
+			public void run() {
 				IN_MoveleftUp();
 			}
 		});
-		Cmd.AddCommand("+moveright", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+moveright", new Runnable() {
+			public void run() {
 				IN_MoverightDown();
 			}
 		});
-		Cmd.AddCommand("-moveright", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-moveright", new Runnable() {
+			public void run() {
 				IN_MoverightUp();
 			}
 		});
-		Cmd.AddCommand("+speed", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+speed", new Runnable() {
+			public void run() {
 				IN_SpeedDown();
 			}
 		});
-		Cmd.AddCommand("-speed", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-speed", new Runnable() {
+			public void run() {
 				IN_SpeedUp();
 			}
 		});
-		Cmd.AddCommand("+attack", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+attack", new Runnable() {
+			public void run() {
 				IN_AttackDown();
 			}
 		});
-		Cmd.AddCommand("-attack", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-attack", new Runnable() {
+			public void run() {
 				IN_AttackUp();
 			}
 		});
-		Cmd.AddCommand("+use", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+use", new Runnable() {
+			public void run() {
 				IN_UseDown();
 			}
 		});
-		Cmd.AddCommand("-use", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-use", new Runnable() {
+			public void run() {
 				IN_UseUp();
 			}
 		});
-		Cmd.AddCommand("impulse", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("impulse", new Runnable() {
+			public void run() {
 				IN_Impulse();
 			}
 		});
-		Cmd.AddCommand("+klook", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("+klook", new Runnable() {
+			public void run() {
 				IN_KLookDown();
 			}
 		});
-		Cmd.AddCommand("-klook", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("-klook", new Runnable() {
+			public void run() {
 				IN_KLookUp();
 			}
 		});

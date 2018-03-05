@@ -29,7 +29,6 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FS;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.render.model_t;
 import lwjake2.sound.S;
 import lwjake2.sys.Sys;
@@ -131,8 +130,8 @@ public class CL_parse {
      * 
      * Request a download from the server ===============
      */
-    public static xcommand_t Download_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable Download_f = new Runnable() {
+        public void run() {
             String filename;
 
             if (Cmd.Argc() != 2) {

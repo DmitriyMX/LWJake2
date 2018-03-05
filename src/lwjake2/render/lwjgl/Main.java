@@ -30,7 +30,6 @@ import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.qfiles;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.render.glconfig_t;
 import lwjake2.render.glstate_t;
 import lwjake2.render.image_t;
@@ -995,24 +994,24 @@ public abstract class Main extends Base {
 		vid_gamma = Cvar.Get("vid_gamma", "1.0", Globals.CVAR_ARCHIVE);
 		vid_ref = Cvar.Get("vid_ref", "lwjgl", Globals.CVAR_ARCHIVE);
 
-		Cmd.AddCommand("imagelist", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("imagelist", new Runnable() {
+			public void run() {
 				GL_ImageList_f();
 			}
 		});
 
-		Cmd.AddCommand("screenshot", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("screenshot", new Runnable() {
+			public void run() {
 				GL_ScreenShot_f();
 			}
 		});
-		Cmd.AddCommand("modellist", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("modellist", new Runnable() {
+			public void run() {
 				Mod_Modellist_f();
 			}
 		});
-		Cmd.AddCommand("gl_strings", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("gl_strings", new Runnable() {
+			public void run() {
 				GL_Strings_f();
 			}
 		});

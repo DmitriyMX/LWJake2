@@ -20,7 +20,6 @@ package lwjake2.render;
 
 import lwjake2.client.refdef_t;
 import lwjake2.client.refexport_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.KBD;
 
 import java.awt.Dimension;
@@ -164,10 +163,10 @@ public class DummyRenderer implements refexport_t {
 	}
 
 	/* (non-Javadoc)
-	 * @see jake2.client.refexport_t#updateScreen(jake2.qcommon.xcommand_t)
+	 * @see jake2.client.refexport_t#updateScreen(jake2.qcommon.Runnable)
 	 */
-	public void updateScreen(xcommand_t callback) {
-	    callback.execute();
+	public void updateScreen(Runnable callback) {
+	    callback.run();
 	}
 
 	/* (non-Javadoc)
