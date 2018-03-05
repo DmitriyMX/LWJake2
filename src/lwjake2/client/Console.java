@@ -26,7 +26,6 @@ import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FileSystem;
 import lwjake2.qcommon.BaseQ2FileSystem;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
 import org.slf4j.Logger;
@@ -42,8 +41,8 @@ import java.util.Arrays;
 public final class Console extends Globals {
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
-    public static xcommand_t ToggleConsole_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable ToggleConsole_f = new Runnable() {
+        public void run() {
             SCR.EndLoadingPlaque(); // get rid of loading plaque
 
             if (Globals.cl.attractloop) {
@@ -74,14 +73,14 @@ public final class Console extends Globals {
         }
     };
 
-    public static xcommand_t Clear_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable Clear_f = new Runnable() {
+        public void run() {
             Arrays.fill(Globals.con.text, (byte) ' ');
         }
     };
 
-    public static xcommand_t Dump_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable Dump_f = new Runnable() {
+        public void run() {
 
             int l, x;
             int line;
@@ -247,8 +246,8 @@ public final class Console extends Globals {
     /*
      * ================ Con_ToggleChat_f ================
      */
-    static xcommand_t ToggleChat_f = new xcommand_t() {
-        public void execute() {
+    static Runnable ToggleChat_f = new Runnable() {
+        public void run() {
             Key.ClearTyping();
 
             if (cls.key_dest == key_console) {
@@ -266,8 +265,8 @@ public final class Console extends Globals {
     /*
      * ================ Con_MessageMode_f ================
      */
-    static xcommand_t MessageMode_f = new xcommand_t() {
-        public void execute() {
+    static Runnable MessageMode_f = new Runnable() {
+        public void run() {
             chat_team = false;
             cls.key_dest = key_message;
         }
@@ -276,8 +275,8 @@ public final class Console extends Globals {
     /*
      * ================ Con_MessageMode2_f ================
      */
-    static xcommand_t MessageMode2_f = new xcommand_t() {
-        public void execute() {
+    static Runnable MessageMode2_f = new Runnable() {
+        public void run() {
             chat_team = true;
             cls.key_dest = key_message;
         }

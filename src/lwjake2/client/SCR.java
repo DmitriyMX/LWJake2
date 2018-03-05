@@ -28,7 +28,6 @@ import lwjake2.qcommon.FS;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.qfiles;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sound.S;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
@@ -439,28 +438,28 @@ public final class SCR extends Globals {
         //
         // register our commands
         //
-        Cmd.AddCommand("timerefresh", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("timerefresh", new Runnable() {
+            public void run() {
                 TimeRefresh_f();
             }
         });
-        Cmd.AddCommand("loading", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("loading", new Runnable() {
+            public void run() {
                 Loading_f();
             }
         });
-        Cmd.AddCommand("sizeup", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("sizeup", new Runnable() {
+            public void run() {
                 SizeUp_f();
             }
         });
-        Cmd.AddCommand("sizedown", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("sizedown", new Runnable() {
+            public void run() {
                 SizeDown_f();
             }
         });
-        Cmd.AddCommand("sky", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("sky", new Runnable() {
+            public void run() {
                 Sky_f();
             }
         });
@@ -1302,8 +1301,8 @@ public final class SCR extends Globals {
                 crosshair_pic);
     }
 
-    private static xcommand_t updateScreenCallback = new xcommand_t() {
-        public void execute() {
+    private static Runnable updateScreenCallback = new Runnable() {
+        public void run() {
             UpdateScreen2();
         }
     };

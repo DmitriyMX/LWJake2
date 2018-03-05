@@ -37,7 +37,6 @@ import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.netadr_t;
 import lwjake2.qcommon.qfiles;
 import lwjake2.qcommon.sizebuf_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.server.SV_MAIN;
 import lwjake2.sound.S;
 import lwjake2.sys.IN;
@@ -107,8 +106,8 @@ public final class CL {
      * 
      * Stop recording a demo.
      */
-    static xcommand_t Stop_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Stop_f = new Runnable() {
+        public void run() {
             try {
 
                 int len;
@@ -138,8 +137,8 @@ public final class CL {
      * record &lt;demoname&gt;
      * Begins recording a demo from the current position.
      */
-    static xcommand_t Record_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Record_f = new Runnable() {
+        public void run() {
             try {
                 String name;
                 byte buf_data[] = new byte[Defines.MAX_MSGLEN];
@@ -248,8 +247,8 @@ public final class CL {
     /**
      * ForwardToServer_f
      */
-    static xcommand_t ForwardToServer_f = new xcommand_t() {
-        public void execute() {
+    static Runnable ForwardToServer_f = new Runnable() {
+        public void run() {
             if (Globals.cls.state != Defines.ca_connected
                     && Globals.cls.state != Defines.ca_active) {
                 logger.warn("Can't \"{}\", not connected", Cmd.Argv(0));
@@ -268,8 +267,8 @@ public final class CL {
     /**
      * Pause_f
      */
-    static xcommand_t Pause_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Pause_f = new Runnable() {
+        public void run() {
             // never pause in multiplayer
 
             if (Cvar.VariableValue("maxclients") > 1
@@ -285,8 +284,8 @@ public final class CL {
     /**
      * Quit_f
      */
-    static xcommand_t Quit_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Quit_f = new Runnable() {
+        public void run() {
             Disconnect();
             Com.Quit();
         }
@@ -295,8 +294,8 @@ public final class CL {
     /**
      * Connect_f
      */
-    static xcommand_t Connect_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Connect_f = new Runnable() {
+        public void run() {
             String server;
 
             if (Cmd.Argc() != 2) {
@@ -330,8 +329,8 @@ public final class CL {
      * 
      * Send the rest of the command line over as an unconnected command.
      */
-    static xcommand_t Rcon_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Rcon_f = new Runnable() {
+        public void run() {
 
             if (Globals.rcon_client_password.string.length() == 0) {
                 logger.warn("You must set 'rcon_password' before\nissuing an rcon command.");
@@ -376,8 +375,8 @@ public final class CL {
         }
     };
 
-    static xcommand_t Disconnect_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Disconnect_f = new Runnable() {
+        public void run() {
             Com.Error(Defines.ERR_DROP, "Disconnected from server");
         }
     };
@@ -387,8 +386,8 @@ public final class CL {
      * 
      * Just sent as a hint to the client that they should drop to full console.
      */
-    static xcommand_t Changing_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Changing_f = new Runnable() {
+        public void run() {
             //ZOID
             //if we are downloading, we don't change!
             // This so we don't suddenly stop downloading a map
@@ -408,8 +407,8 @@ public final class CL {
      * 
      * The server is changing levels.
      */
-    static xcommand_t Reconnect_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Reconnect_f = new Runnable() {
+        public void run() {
             //ZOID
             //if we are downloading, we don't change! This so we don't suddenly
             // stop downloading a map
@@ -442,8 +441,8 @@ public final class CL {
     /**
      * PingServers_f
      */
-    static xcommand_t PingServers_f = new xcommand_t() {
-        public void execute() {
+    static Runnable PingServers_f = new Runnable() {
+        public void run() {
             int i;
             netadr_t adr = new netadr_t();
             //char name[32];
@@ -503,8 +502,8 @@ public final class CL {
      * 
      * Load or download any custom player skins and models.
      */
-    static xcommand_t Skins_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Skins_f = new Runnable() {
+        public void run() {
             int i;
 
             for (i = 0; i < Defines.MAX_CLIENTS; i++) {
@@ -521,8 +520,8 @@ public final class CL {
     /**
      * Userinfo_f
      */
-    static xcommand_t Userinfo_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Userinfo_f = new Runnable() {
+        public void run() {
             logger.info("User info settings:");
             Info.Print(Cvar.Userinfo());
         }
@@ -534,8 +533,8 @@ public final class CL {
      * Restart the sound subsystem so it can pick up new parameters and flush
      * all sounds.
      */
-    static xcommand_t Snd_Restart_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Snd_Restart_f = new Runnable() {
+        public void run() {
             S.Shutdown();
             S.Init();
             CL_parse.RegisterSounds();
@@ -554,8 +553,8 @@ public final class CL {
      * The server will send this command right before allowing the client into
      * the server.
      */
-    static xcommand_t Precache_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Precache_f = new Runnable() {
+        public void run() {
             // Yet another hack to let old demos work the old precache sequence.
             if (Cmd.Argc() < 2) {
 
@@ -733,7 +732,7 @@ public final class CL {
         SCR.StopCinematic();
 
         if (Globals.cls.demorecording)
-            Stop_f.execute();
+            Stop_f.run();
 
         // send a disconnect message to the server
         fin = (char) Defines.clc_stringcmd + "disconnect";

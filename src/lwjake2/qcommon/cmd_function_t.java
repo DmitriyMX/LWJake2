@@ -24,5 +24,5 @@ package lwjake2.qcommon;
 public final class cmd_function_t {
 	public cmd_function_t next = null;
 	public String name = null;
-	public xcommand_t function;
+	public Runnable function;
 }

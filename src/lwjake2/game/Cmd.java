@@ -28,7 +28,6 @@ import lwjake2.qcommon.FS;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.cmd_function_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.server.SV_GAME;
 import lwjake2.util.Lib;
 import org.slf4j.Logger;
@@ -43,8 +42,8 @@ import java.util.Vector;
  */
 public final class Cmd {
     private static final Logger logger = LoggerFactory.getLogger(Cmd.class);
-    static xcommand_t List_f = new xcommand_t() {
-        public void execute() {
+    static Runnable List_f = new Runnable() {
+        public void run() {
             cmd_function_t cmd = Cmd.cmd_functions;
             int i = 0;
 
@@ -57,8 +56,8 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Exec_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Exec_f = new Runnable() {
+        public void run() {
             if (Cmd.Argc() != 2) {
                 logger.info("exec <filename> : execute a script file");
                 return;
@@ -78,8 +77,8 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Echo_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Echo_f = new Runnable() {
+        public void run() {
             StringBuilder sb = new StringBuilder(Cmd.Argc());
             for (int i = 1; i < Cmd.Argc(); i++) {
                 sb.append(Cmd.Argv(i)).append(' ');
@@ -88,8 +87,8 @@ public final class Cmd {
         }
     };
 
-    static xcommand_t Alias_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Alias_f = new Runnable() {
+        public void run() {
             cmdalias_t a = null;
             if (Cmd.Argc() == 1) {
                 logger.info("Current alias commands:");
@@ -134,8 +133,8 @@ public final class Cmd {
         }
     };
 
-    public static xcommand_t Wait_f = new xcommand_t() {
-        public void execute() {
+    public static Runnable Wait_f = new Runnable() {
+        public void run() {
             Globals.cmd_wait = true;
         }
     };
@@ -306,7 +305,7 @@ public final class Cmd {
         }
     }
 
-    public static void AddCommand(String cmd_name, xcommand_t function) {
+    public static void AddCommand(String cmd_name, Runnable function) {
         cmd_function_t cmd;
         //Com.DPrintf("Cmd_AddCommand: " + cmd_name + "\n");
         // fail if the command is a variable name
@@ -408,7 +407,7 @@ public final class Cmd {
                 if (null == cmd.function) { // forward to server command
                     Cmd.ExecuteString("cmd " + text);
                 } else {
-                    cmd.function.execute();
+                    cmd.function.run();
                 }
                 return;
             }

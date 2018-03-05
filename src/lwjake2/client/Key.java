@@ -24,7 +24,6 @@ import lwjake2.game.Cmd;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.util.Lib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -320,7 +319,7 @@ public class Key extends Globals {
 			if (!down)
 				return;
 
-			Console.ToggleConsole_f.execute();
+			Console.ToggleConsole_f.run();
 			return;
 		}
 
@@ -717,8 +716,8 @@ public class Key extends Globals {
 		return;
 	}
 
-	public static xcommand_t Bind_f = new xcommand_t() {
-		public void execute() {
+	public static Runnable Bind_f = new Runnable() {
+		public void run() {
 			Key_Bind_f();
 		}
 	};
@@ -765,8 +764,8 @@ public class Key extends Globals {
 		Globals.keybindings[keynum] = binding;
 	}
 
-	static xcommand_t Unbind_f = new xcommand_t() {
-		public void execute() {
+	static Runnable Unbind_f = new Runnable() {
+		public void run() {
 			Key_Unbind_f();
 		}
 	};
@@ -787,8 +786,8 @@ public class Key extends Globals {
 		Key.SetBinding(b, null);
 	}
 
-	static xcommand_t Unbindall_f = new xcommand_t() {
-		public void execute() {
+	static Runnable Unbindall_f = new Runnable() {
+		public void run() {
 			Key_Unbindall_f();
 		}
 	};
@@ -798,8 +797,8 @@ public class Key extends Globals {
 			Key.SetBinding(i, null);
 	}
 
-	static xcommand_t Bindlist_f = new xcommand_t() {
-		public void execute() {
+	static Runnable Bindlist_f = new Runnable() {
+		public void run() {
 			Key_Bindlist_f();
 		}
 	};

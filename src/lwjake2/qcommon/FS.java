@@ -880,18 +880,18 @@ public final class FS extends Globals {
      * InitFilesystem
      */
     public static void InitFilesystem() {
-        Cmd.AddCommand("path", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("path", new Runnable() {
+            public void run() {
                 Path_f();
             }
         });
-        Cmd.AddCommand("link", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("link", new Runnable() {
+            public void run() {
                 Link_f();
             }
         });
-        Cmd.AddCommand("dir", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("dir", new Runnable() {
+            public void run() {
                 Dir_f();
             }
         });

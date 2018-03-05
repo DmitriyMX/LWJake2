@@ -24,7 +24,6 @@ import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.render.Renderer;
 import lwjake2.sound.S;
 import lwjake2.sys.IN;
@@ -290,7 +289,7 @@ public class VID extends Globals {
 				if ( Globals.cls.key_dest != Defines.key_console )
 				{
 					try {
-						Console.ToggleConsole_f.execute();
+						Console.ToggleConsole_f.run();
 					} catch (Exception e) {
 					}
 				}
@@ -319,8 +318,8 @@ public class VID extends Globals {
 		vid_modes[11].height = (int)vid_height.value;
 		
 		/* Add some console commands that we want to handle */
-		Cmd.AddCommand ("vid_restart", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand ("vid_restart", new Runnable() {
+			public void run() {
 				Restart_f();
 			}
 		});

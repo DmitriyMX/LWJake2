@@ -23,7 +23,6 @@ import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.Timer;
 import lwjake2.util.Math3D;
 import lwjake2.util.Vargs;
@@ -238,15 +237,15 @@ public final class V extends Globals {
         }
     }
 
-    static xcommand_t Gun_Next_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Gun_Next_f = new Runnable() {
+        public void run() {
             gun_frame++;
             Com.Printf("frame " + gun_frame + "\n");
         }
     };
 
-    static xcommand_t Gun_Prev_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Gun_Prev_f = new Runnable() {
+        public void run() {
             gun_frame--;
             if (gun_frame < 0)
                 gun_frame = 0;
@@ -254,8 +253,8 @@ public final class V extends Globals {
         }
     };
 
-    static xcommand_t Gun_Model_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Gun_Model_f = new Runnable() {
+        public void run() {
             if (Cmd.Argc() != 2) {
                 gun_model = null;
                 return;
@@ -381,8 +380,8 @@ public final class V extends Globals {
     /*
      * ============= V_Viewpos_f =============
      */
-    static xcommand_t Viewpos_f = new xcommand_t() {
-        public void execute() {
+    static Runnable Viewpos_f = new Runnable() {
+        public void run() {
             logger.info("({} {} {}) : {}",
                     (int) cl.refdef.vieworg[0],
                     (int) cl.refdef.vieworg[1],

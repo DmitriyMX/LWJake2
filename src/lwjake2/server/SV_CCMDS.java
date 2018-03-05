@@ -35,7 +35,6 @@ import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.netadr_t;
 import lwjake2.qcommon.sizebuf_t;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
 import lwjake2.util.Lib;
@@ -1027,90 +1026,90 @@ public class SV_CCMDS {
 	==================
 	*/
 	public static void SV_InitOperatorCommands() {
-		Cmd.AddCommand("heartbeat", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("heartbeat", new Runnable() {
+			public void run() {
 				SV_Heartbeat_f();
 			}
 		});
-		Cmd.AddCommand("kick", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("kick", new Runnable() {
+			public void run() {
 				SV_Kick_f();
 			}
 		});
-		Cmd.AddCommand("status", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("status", new Runnable() {
+			public void run() {
 				SV_Status_f();
 			}
 		});
-		Cmd.AddCommand("serverinfo", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("serverinfo", new Runnable() {
+			public void run() {
 				SV_Serverinfo_f();
 			}
 		});
-		Cmd.AddCommand("dumpuser", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("dumpuser", new Runnable() {
+			public void run() {
 				SV_DumpUser_f();
 			}
 		});
 
-		Cmd.AddCommand("map", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("map", new Runnable() {
+			public void run() {
 				SV_Map_f();
 			}
 		});
-		Cmd.AddCommand("demomap", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("demomap", new Runnable() {
+			public void run() {
 				SV_DemoMap_f();
 			}
 		});
-		Cmd.AddCommand("gamemap", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("gamemap", new Runnable() {
+			public void run() {
 				SV_GameMap_f();
 			}
 		});
-		Cmd.AddCommand("setmaster", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("setmaster", new Runnable() {
+			public void run() {
 				SV_SetMaster_f();
 			}
 		});
 
 		if (Globals.dedicated.value != 0)
-			Cmd.AddCommand("say", new xcommand_t() {
-			public void execute() {
+			Cmd.AddCommand("say", new Runnable() {
+			public void run() {
 				SV_ConSay_f();
 			}
 		});
 
-		Cmd.AddCommand("serverrecord", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("serverrecord", new Runnable() {
+			public void run() {
 				SV_ServerRecord_f();
 			}
 		});
-		Cmd.AddCommand("serverstop", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("serverstop", new Runnable() {
+			public void run() {
 				SV_ServerStop_f();
 			}
 		});
 
-		Cmd.AddCommand("save", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("save", new Runnable() {
+			public void run() {
 				SV_Savegame_f();
 			}
 		});
-		Cmd.AddCommand("load", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("load", new Runnable() {
+			public void run() {
 				SV_Loadgame_f();
 			}
 		});
 
-		Cmd.AddCommand("killserver", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("killserver", new Runnable() {
+			public void run() {
 				SV_KillServer_f();
 			}
 		});
 
-		Cmd.AddCommand("sv", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("sv", new Runnable() {
+			public void run() {
 				SV_ServerCommand_f();
 			}
 		});

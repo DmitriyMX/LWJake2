@@ -27,7 +27,6 @@ import lwjake2.game.entity_state_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FS;
-import lwjake2.qcommon.xcommand_t;
 import lwjake2.sound.S;
 import lwjake2.sound.Sound;
 import lwjake2.sound.WaveLoader;
@@ -101,23 +100,23 @@ public final class LWJGLSoundImpl implements Sound {
 		int count = Channel.init(buffers);
 		logger.info("... using {} channels", count);
 		AL10.alDistanceModel(AL10.AL_INVERSE_DISTANCE_CLAMPED);
-		Cmd.AddCommand("play", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("play", new Runnable() {
+			public void run() {
 				Play();
 			}
 		});
-		Cmd.AddCommand("stopsound", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("stopsound", new Runnable() {
+			public void run() {
 				StopAllSounds();
 			}
 		});
-		Cmd.AddCommand("soundlist", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("soundlist", new Runnable() {
+			public void run() {
 				SoundList();
 			}
 		});
-		Cmd.AddCommand("soundinfo", new xcommand_t() {
-			public void execute() {
+		Cmd.AddCommand("soundinfo", new Runnable() {
+			public void run() {
 				SoundInfo_f();
 			}
 		});
