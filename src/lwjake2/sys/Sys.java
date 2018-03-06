@@ -18,12 +18,11 @@
 
 package lwjake2.sys;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL;
 import lwjake2.qcommon.Com;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -33,9 +32,8 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Sys
  */
+@Slf4j
 public final class Sys extends Defines {
-    private static final Logger logger = LoggerFactory.getLogger(Sys.class);
-
     public static void Error(String error) {
 
         CL.Shutdown();

@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -45,9 +46,6 @@ import lwjake2.sys.Sys;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
-import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -57,8 +55,8 @@ import java.nio.ByteOrder;
 /**
  * CL
  */
+@Slf4j
 public final class CL {
-    private static final Logger logger = LoggerFactory.getLogger(CL.class);
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     static int precache_check; // for autodownload of precache items
@@ -113,7 +111,7 @@ public final class CL {
                 int len;
 
                 if (!Globals.cls.demorecording) {
-                    logger.info("Not recording a demo.");
+                    log.info("Not recording a demo.");
                     return;
                 }
 
@@ -123,7 +121,7 @@ public final class CL {
                 Globals.cls.demofile.close();
                 Globals.cls.demofile = null;
                 Globals.cls.demorecording = false;
-                logger.info("Stopped demo.");
+                log.info("Stopped demo.");
             } catch (IOException e) {
             }
         }
@@ -147,17 +145,17 @@ public final class CL {
                 entity_state_t ent;
 
                 if (Cmd.Argc() != 2) {
-                    logger.info("record <demoname>");
+                    log.info("record <demoname>");
                     return;
                 }
 
                 if (Globals.cls.demorecording) {
-                    logger.info("Already recording.");
+                    log.info("Already recording.");
                     return;
                 }
 
                 if (Globals.cls.state != Defines.ca_active) {
-                    logger.info("You must be in a level to record.");
+                    log.info("You must be in a level to record.");
                     return;
                 }
 
@@ -166,11 +164,11 @@ public final class CL {
                 //
                 name = fileSystem.getGamedir() + "/demos/" + Cmd.Argv(1) + ".dm2";
 
-                logger.info("recording to {}", name);
+                log.info("recording to {}", name);
                 fileSystem.createPath(name);
                 Globals.cls.demofile = new RandomAccessFile(name, "rw");
                 if (Globals.cls.demofile == null) {
-                    logger.error("ERROR: couldn't open.");
+                    log.error("ERROR: couldn't open.");
                     return;
                 }
                 Globals.cls.demorecording = true;
@@ -251,7 +249,7 @@ public final class CL {
         public void run() {
             if (Globals.cls.state != Defines.ca_connected
                     && Globals.cls.state != Defines.ca_active) {
-                logger.warn("Can't \"{}\", not connected", Cmd.Argv(0));
+                log.warn("Can't \"{}\", not connected", Cmd.Argv(0));
                 return;
             }
 
@@ -299,7 +297,7 @@ public final class CL {
             String server;
 
             if (Cmd.Argc() != 2) {
-                logger.info("usage: connect <server>");
+                log.info("usage: connect <server>");
                 return;
             }
 
@@ -333,7 +331,7 @@ public final class CL {
         public void run() {
 
             if (Globals.rcon_client_password.string.length() == 0) {
-                logger.warn("You must set 'rcon_password' before\nissuing an rcon command.");
+                log.warn("You must set 'rcon_password' before\nissuing an rcon command.");
                 return;
             }
 
@@ -363,7 +361,7 @@ public final class CL {
                 to = Globals.cls.netchan.remote_address;
             else {
                 if (Globals.rcon_address.string.length() == 0) {
-                    logger.warn("You must either be connected,\nor set the 'rcon_address' cvar\nto issue rcon commands");
+                    log.warn("You must either be connected,\nor set the 'rcon_address' cvar\nto issue rcon commands");
                     return;
                 }
                 NET.StringToAdr(Globals.rcon_address.string, to);
@@ -398,7 +396,7 @@ public final class CL {
             SCR.BeginLoadingPlaque();
             Globals.cls.state = Defines.ca_connected; // not active anymore, but
                                                       // not disconnected
-            logger.info("Changing map...");
+            log.info("Changing map...");
         }
     };
 
@@ -417,7 +415,7 @@ public final class CL {
 
             S.StopAllSounds();
             if (Globals.cls.state == Defines.ca_connected) {
-                logger.info("reconnecting...");
+                log.info("reconnecting...");
                 Globals.cls.state = Defines.ca_connected;
                 MSG.WriteChar(Globals.cls.netchan.message,
                         Defines.clc_stringcmd);
@@ -433,7 +431,7 @@ public final class CL {
                     Globals.cls.connect_time = -99999; // fire immediately
 
                 Globals.cls.state = Defines.ca_connecting;
-                logger.info("reconnecting...");
+                log.info("reconnecting...");
             }
         }
     };
@@ -454,7 +452,7 @@ public final class CL {
             NET.Config(true); // allow remote
 
             // send a broadcast packet
-            logger.info("pinging broadcast...");
+            log.info("pinging broadcast...");
 
             noudp = Cvar.Get("noudp", "0", Defines.CVAR_NOSET);
             if (noudp.value == 0.0f) {
@@ -483,9 +481,9 @@ public final class CL {
                 if (adrstring == null || adrstring.length() == 0)
                     continue;
 
-                logger.info("pinging {} ...", adrstring);
+                log.info("pinging {} ...", adrstring);
                 if (!NET.StringToAdr(adrstring, adr)) {
-                    logger.warn("Bad address: {}", adrstring);
+                    log.warn("Bad address: {}", adrstring);
                     continue;
                 }
                 if (adr.port == 0)
@@ -509,7 +507,7 @@ public final class CL {
             for (i = 0; i < Defines.MAX_CLIENTS; i++) {
                 if (Globals.cl.configstrings[Defines.CS_PLAYERSKINS + i] == null)
                     continue;
-                logger.info("client {}: {}", i, Globals.cl.configstrings[Defines.CS_PLAYERSKINS + i]);
+                log.info("client {}: {}", i, Globals.cl.configstrings[Defines.CS_PLAYERSKINS + i]);
                 SCR.UpdateScreen();
                 Sys.SendKeyEvents(); // pump message loop
                 CL_parse.ParseClientinfo(i);
@@ -522,7 +520,7 @@ public final class CL {
      */
     static Runnable Userinfo_f = new Runnable() {
         public void run() {
-            logger.info("User info settings:");
+            log.info("User info settings:");
             Info.Print(Cvar.Userinfo());
         }
     };
@@ -618,7 +616,7 @@ public final class CL {
         int port;
 
         if (!NET.StringToAdr(Globals.cls.servername, adr)) {
-            logger.warn("Bad server address");
+            log.warn("Bad server address");
             Globals.cls.connect_time = 0;
             return;
         }
@@ -661,7 +659,7 @@ public final class CL {
             return;
 
         if (!NET.StringToAdr(Globals.cls.servername, adr)) {
-            logger.warn("Bad server address");
+            log.warn("Bad server address");
             Globals.cls.state = Defines.ca_disconnected;
             return;
         }
@@ -671,7 +669,7 @@ public final class CL {
         // for retransmit requests
         Globals.cls.connect_time = Globals.cls.realtime;
 
-        logger.info("Connecting to {}...", Globals.cls.servername);
+        log.info("Connecting to {}...", Globals.cls.servername);
 
         Netchan.OutOfBandPrint(Defines.NS_CLIENT, adr, "getchallenge\n");
     }
@@ -714,7 +712,7 @@ public final class CL {
 
             time = (int) (Timer.Milliseconds() - Globals.cl.timedemo_start);
             if (time > 0)
-                logger.info(String.format("%d frames, %3.1f seconds: %3.1f fps",
+                log.info(String.format("%d frames, %3.1f seconds: %3.1f fps",
                         Globals.cl.timedemo_frames,
                         (time / 1000.0f),
                         (Globals.cl.timedemo_frames * 1000.0f / time)
@@ -761,7 +759,7 @@ public final class CL {
 
         s = MSG.ReadString(Globals.net_message);
 
-        logger.info(s);
+        log.info(s);
         Menu.AddToServerList(Globals.net_from, s);
     }
 
@@ -783,12 +781,12 @@ public final class CL {
 
         c = Cmd.Argv(0);
 
-        logger.info("{}: {}", Globals.net_from.toString(), c);
+        log.info("{}: {}", Globals.net_from.toString(), c);
 
         // server connection
         if (c.equals("client_connect")) {
             if (Globals.cls.state == Defines.ca_connected) {
-                logger.info("Dup connect received.  Ignored.");
+                log.info("Dup connect received.  Ignored.");
                 return;
             }
             Netchan.Setup(Defines.NS_CLIENT, Globals.cls.netchan,
@@ -808,7 +806,7 @@ public final class CL {
         // remote command from gui front end
         if (c.equals("cmd")) {
             if (!NET.IsLocalAddress(Globals.net_from)) {
-                logger.info("Command packet from remote host.  Ignored.");
+                log.info("Command packet from remote host.  Ignored.");
                 return;
             }
             s = MSG.ReadString(Globals.net_message);
@@ -820,7 +818,7 @@ public final class CL {
         if (c.equals("print")) {
             s = MSG.ReadString(Globals.net_message);
             if (s.length() > 0)
-                logger.info(s);
+                log.info(s);
             return;
         }
 
@@ -844,7 +842,7 @@ public final class CL {
             return;
         }
 
-        logger.warn("Unknown command.");
+        log.warn("Unknown command.");
     }
 
 
@@ -872,7 +870,7 @@ public final class CL {
                 continue; // dump it if not connected
 
             if (Globals.net_message.cursize < 8) {
-                logger.info("{}: Runt packet", NET.AdrToString(Globals.net_from));
+                log.info("{}: Runt packet", NET.AdrToString(Globals.net_from));
                 continue;
             }
 
@@ -897,7 +895,7 @@ public final class CL {
                 && Globals.cls.realtime - Globals.cls.netchan.last_received > Globals.cl_timeout.value * 1000) {
             if (++Globals.cl.timeoutcount > 5) // timeoutcount saves debugger
             {
-                logger.info("Server connection timed out.");
+                log.info("Server connection timed out.");
                 Disconnect();
                 return;
             }
@@ -1412,7 +1410,7 @@ public final class CL {
         path = fileSystem.getGamedir() + "/config.cfg";
         f = Lib.fopen(path, "rw");
         if (f == null) {
-            logger.warn("Couldn't write config.cfg.");
+            log.warn("Couldn't write config.cfg.");
             return;
         }
         try {
@@ -1571,7 +1569,7 @@ public final class CL {
     public static void Shutdown() {
 
         if (isdown) {
-            logger.info("recursive shutdown");
+            log.info("recursive shutdown");
             return;
         }
         isdown = true;

@@ -18,17 +18,15 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL;
-import lwjake2.client.Console;
 import lwjake2.game.Cmd;
 import lwjake2.server.SV_MAIN;
 import lwjake2.sys.Sys;
 import lwjake2.util.PrintfFormat;
 import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -36,9 +34,8 @@ import java.io.IOException;
  * Com
  *
  */
-public final class Com
-{
-	private static final Logger logger = LoggerFactory.getLogger(Com.class);
+@Slf4j
+public final class Com {
     static String debugContext = "";
     static String _debugContext = "";
     
@@ -349,7 +346,7 @@ public final class Com
 		while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
 		msg = msg.trim();
 		if (!msg.isEmpty()) {
-			logger.warn(msg);
+			log.warn(msg);
 		}
 	}
 

@@ -18,6 +18,7 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.monsters.M_Player;
@@ -30,8 +31,6 @@ import lwjake2.qcommon.SZ;
 import lwjake2.qcommon.cmd_function_t;
 import lwjake2.server.SV_GAME;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -40,36 +39,36 @@ import java.util.Vector;
 /**
  * Cmd
  */
+@Slf4j
 public final class Cmd {
-    private static final Logger logger = LoggerFactory.getLogger(Cmd.class);
     static Runnable List_f = new Runnable() {
         public void run() {
             cmd_function_t cmd = Cmd.cmd_functions;
             int i = 0;
 
             while (cmd != null) {
-                logger.info(cmd.name);
+                log.info(cmd.name);
                 i++;
                 cmd = cmd.next;
             }
-            logger.info("{} commands", i);
+            log.info("{} commands", i);
         }
     };
 
     static Runnable Exec_f = new Runnable() {
         public void run() {
             if (Cmd.Argc() != 2) {
-                logger.info("exec <filename> : execute a script file");
+                log.info("exec <filename> : execute a script file");
                 return;
             }
 
             byte[] f = null;
             f = FS.LoadFile(Cmd.Argv(1));
             if (f == null) {
-                logger.info("couldn't exec {}", Cmd.Argv(1));
+                log.info("couldn't exec {}", Cmd.Argv(1));
                 return;
             }
-            logger.info("execing {}", Cmd.Argv(1));
+            log.info("execing {}", Cmd.Argv(1));
 
             Cbuf.InsertText(new String(f));
 
@@ -83,7 +82,7 @@ public final class Cmd {
             for (int i = 1; i < Cmd.Argc(); i++) {
                 sb.append(Cmd.Argv(i)).append(' ');
             }
-            logger.info(sb.toString());
+            log.info(sb.toString());
         }
     };
 
@@ -91,16 +90,16 @@ public final class Cmd {
         public void run() {
             cmdalias_t a = null;
             if (Cmd.Argc() == 1) {
-                logger.info("Current alias commands:");
+                log.info("Current alias commands:");
                 for (a = Globals.cmd_alias; a != null; a = a.next) {
-                    logger.info("{} : {}", a.name, a.value);
+                    log.info("{} : {}", a.name, a.value);
                 }
                 return;
             }
 
             String s = Cmd.Argv(1);
             if (s.length() > Defines.MAX_ALIAS_NAME) {
-                logger.warn("Alias name is too long");
+                log.warn("Alias name is too long");
                 return;
             }
 
@@ -194,7 +193,7 @@ public final class Cmd {
         scan = text;
 
         if (len >= Defines.MAX_STRING_CHARS) {
-            logger.info("Line exceeded {} chars, discarded.", Defines.MAX_STRING_CHARS);
+            log.info("Line exceeded {} chars, discarded.", Defines.MAX_STRING_CHARS);
             return null;
         }
 
@@ -224,7 +223,7 @@ public final class Cmd {
             len += j;
 
             if (len >= Defines.MAX_STRING_CHARS) {
-                logger.warn("Expanded line exceeded {} chars, discarded.", Defines.MAX_STRING_CHARS);
+                log.warn("Expanded line exceeded {} chars, discarded.", Defines.MAX_STRING_CHARS);
                 return null;
             }
 
@@ -236,13 +235,13 @@ public final class Cmd {
             scan = expanded;
             i--;
             if (++count == 100) {
-                logger.info("Macro expansion loop, discarded.");
+                log.info("Macro expansion loop, discarded.");
                 return null;
             }
         }
 
         if (inquote) {
-            logger.info("Line has unmatched quote, discarded.");
+            log.info("Line has unmatched quote, discarded.");
             return null;
         }
 
@@ -310,14 +309,14 @@ public final class Cmd {
         //Com.DPrintf("Cmd_AddCommand: " + cmd_name + "\n");
         // fail if the command is a variable name
         if ((Cvar.VariableString(cmd_name)).length() > 0) {
-            logger.warn("Cmd_AddCommand: {} already defined as a var", cmd_name);
+            log.warn("Cmd_AddCommand: {} already defined as a var", cmd_name);
             return;
         }
 
         // fail if the command already exists
         for (cmd = cmd_functions; cmd != null; cmd = cmd.next) {
             if (cmd_name.equals(cmd.name)) {
-                logger.warn("Cmd_AddCommand: {} already defined", cmd_name);
+                log.warn("Cmd_AddCommand: {} already defined", cmd_name);
                 return;
             }
         }
@@ -341,7 +340,7 @@ public final class Cmd {
         while (true) {
 
             if (cmd == null) {
-                logger.info("Cmd_RemoveCommand: {} not added", cmd_name);
+                log.info("Cmd_RemoveCommand: {} not added", cmd_name);
                 return;
             }
             if (0 == Lib.strcmp(cmd_name, cmd.name)) {
@@ -419,7 +418,7 @@ public final class Cmd {
             if (cmd_argv[0].equalsIgnoreCase(a.name)) {
 
                 if (++Globals.alias_count == ALIAS_LOOP_COUNT) {
-                    logger.info("ALIAS_LOOP_COUNT");
+                    log.info("ALIAS_LOOP_COUNT");
                     return;
                 }
                 Cbuf.InsertText(a.value);
@@ -1164,7 +1163,7 @@ public final class Cmd {
         cmd = Cmd.Argv(0);
         if (Globals.cls.state <= Defines.ca_connected || cmd.charAt(0) == '-'
                 || cmd.charAt(0) == '+') {
-            logger.warn("Unknown command \"{}\"", cmd);
+            log.warn("Unknown command \"{}\"", cmd);
             return;
         }
 

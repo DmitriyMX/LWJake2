@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
 import lwjake2.client.CL;
 import lwjake2.client.Key;
@@ -28,8 +29,6 @@ import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
 import lwjake2.sys.Timer;
 import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,8 +37,8 @@ import java.io.IOException;
  * Qcommon contains some  basic routines for the game engine
  * namely initialization, shutdown and frame generation.
  */
+@Slf4j
 public final class Qcommon extends Globals {
-	private static final Logger logger = LoggerFactory.getLogger(Qcommon.class);
 	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 	public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
 	public static final String CPUSTRING = System.getProperty("os.arch");
@@ -125,7 +124,7 @@ public final class Qcommon extends Globals {
 				SCR.EndLoadingPlaque();
 			}
 
-			logger.info("====== Quake2 Initialized ======");
+			log.info("====== Quake2 Initialized ======");
 
 			// save config when configuration is completed
 			CL.WriteConfiguration();
@@ -187,7 +186,7 @@ public final class Qcommon extends Globals {
 			}
 
 			if (Globals.showtrace.value != 0.0f) {
-				logger.info(String.format("%4d traces  %4d points", Globals.c_traces, Globals.c_pointcontents));
+				log.info(String.format("%4d traces  %4d points", Globals.c_traces, Globals.c_pointcontents));
 
 				
 				Globals.c_traces= 0;
@@ -224,7 +223,7 @@ public final class Qcommon extends Globals {
 				sv -= gm;
 				cl -= rf;
 
-				logger.info(String.format("all:%3d sv:%3d gm:%3d cl:%3d rf:%3d", all, sv, gm, cl, rf));
+				log.info(String.format("all:%3d sv:%3d gm:%3d cl:%3d rf:%3d", all, sv, gm, cl, rf));
 			}
 
 		} catch (IllegalStateException e) {

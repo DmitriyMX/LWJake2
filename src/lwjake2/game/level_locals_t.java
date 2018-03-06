@@ -18,15 +18,13 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.util.QuakeFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class level_locals_t
-{
-	private final Logger logger = LoggerFactory.getLogger(level_locals_t.class);
+@Slf4j
+public class level_locals_t {
 	//	this structure is cleared as each map is entered
 	//	it is read/written to the level.sav file for savegames
 	//
@@ -151,6 +149,6 @@ public class level_locals_t
 		
 		// rst's checker :-)
 		if (f.readInt()!= 4711)
-			logger.error("error in reading level_locals.");
+			log.error("error in reading level_locals.");
 	}
 }

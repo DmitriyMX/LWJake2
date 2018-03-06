@@ -19,18 +19,16 @@
 package lwjake2.game;
 
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.StringTokenizer;
 
-
+@Slf4j
 public class GameItems {
-    private static final Logger logger = LoggerFactory.getLogger(GameItems.class);
     public static gitem_armor_t jacketarmor_info = new gitem_armor_t(25, 50,
     .30f, .00f, Defines.ARMOR_JACKET);
     public static gitem_armor_t combatarmor_info = new gitem_armor_t(50, 100,
@@ -817,7 +815,7 @@ public class GameItems {
             if (it.pickup_name.equalsIgnoreCase(pickup_name))
                 return it;
         }
-        logger.info("Item not found:{}", pickup_name);
+        log.info("Item not found:{}", pickup_name);
         return null;
     }
 

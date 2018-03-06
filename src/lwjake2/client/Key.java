@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -25,8 +26,6 @@ import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -35,8 +34,8 @@ import java.util.Vector;
 /**
  * Key
  */
+@Slf4j
 public class Key extends Globals {
-	private static final Logger logger = LoggerFactory.getLogger(Key.class);
 	//
 	// these are the key numbers that should be passed to Key_Event
 	//
@@ -578,7 +577,7 @@ public class Key extends Globals {
 			
 			Cbuf.AddText("\n");
 		
-			logger.info(new String(Globals.key_lines[Globals.edit_line], 0, Lib.strlen(Globals.key_lines[Globals.edit_line])));
+			log.info(new String(Globals.key_lines[Globals.edit_line], 0, Lib.strlen(Globals.key_lines[Globals.edit_line])));
 			Globals.edit_line = (Globals.edit_line + 1) & 31;
 			history_line = Globals.edit_line;
 		
@@ -676,7 +675,7 @@ public class Key extends Globals {
 		while (type.endsWith("\n")) { type = type.substring(0, type.lastIndexOf("\n")); }
 		while (type.endsWith("\r")) { type = type.substring(0, type.lastIndexOf("\r")); }
 		type = type.trim();
-		logger.info("{} {}", type, sb.toString());
+		log.info("{} {}", type, sb.toString());
 	}
 	
 	static void CompleteCommand() {

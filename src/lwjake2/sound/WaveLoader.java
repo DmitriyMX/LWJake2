@@ -18,18 +18,16 @@
 
 package lwjake2.sound;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.FS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * SND_MEM
  */
+@Slf4j
 public class WaveLoader {
-	private static final Logger logger = LoggerFactory.getLogger(WaveLoader.class);
-
 	/** 
 	 * The ResampleSfx can squeeze and stretch samples to a default sample rate. 
 	 * Since Joal and lwjgl sound drivers support this, we don't need it and the samples
@@ -230,7 +228,7 @@ public class WaveLoader {
 				return;
 			}
 			if (iff_chunk_len > 1024*1024) {
-				logger.warn("Warning: FindNextChunk: length is past the 1 meg sanity limit");
+				log.warn("Warning: FindNextChunk: length is past the 1 meg sanity limit");
 			}
 			data_p -= 8;
 			last_chunk = data_p + 8 + ((iff_chunk_len + 1) & ~1);

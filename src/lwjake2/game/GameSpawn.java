@@ -18,6 +18,7 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.game.monsters.M_Actor;
 import lwjake2.game.monsters.M_Berserk;
@@ -42,11 +43,9 @@ import lwjake2.game.monsters.M_Supertank;
 import lwjake2.game.monsters.M_Tank;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class GameSpawn {
-    private static final Logger logger = LoggerFactory.getLogger(GameSpawn.class);
     static EntThinkAdapter SP_item_health = new EntThinkAdapter() {
         public String getID(){ return "SP_item_health"; }
         public boolean think(edict_t ent) {
@@ -354,7 +353,7 @@ public class GameSpawn {
     static void ED_ParseField(String key, String value, edict_t ent) {
 
         if (key.equals("nextmap"))
-            logger.info("nextmap: {}", value);
+            log.info("nextmap: {}", value);
         if (!GameBase.st.set(key, value))
             if (!ent.setField(key, value))
                 GameBase.gi.dprintf("??? The key [" + key

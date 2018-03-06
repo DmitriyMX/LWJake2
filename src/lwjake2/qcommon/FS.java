@@ -18,13 +18,12 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.sys.Sys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,8 +43,8 @@ import java.util.List;
  * 
  * @author cwei
  */
+@Slf4j
 public final class FS extends Globals {
-    private static final Logger logger = LoggerFactory.getLogger(FS.class);
     /*
      * ==================================================
      * 
@@ -145,7 +144,7 @@ public final class FS extends Globals {
         if (index > 0) {
             File f = new File(path.substring(0, index));
             if (!f.mkdirs() && !f.isDirectory()) {
-                logger.warn("can't create path \"{}\"", path);
+                log.warn("can't create path \"{}\"", path);
             }
         }
     }
@@ -583,7 +582,7 @@ public final class FS extends Globals {
         pack.numfiles = numpackfiles;
         pack.files = newfiles;
 
-        logger.info("Added packfile {} ({} files)", packfile, numpackfiles);
+        log.info("Added packfile {} ({} files)", packfile, numpackfiles);
 
         return pack;
     }
@@ -685,7 +684,7 @@ public final class FS extends Globals {
 
         if (dir.indexOf("..") != -1 || dir.indexOf("/") != -1
                 || dir.indexOf("\\") != -1 || dir.indexOf(":") != -1) {
-            logger.warn("Gamedir should be a single filename, not a path");
+            log.warn("Gamedir should be a single filename, not a path");
             return;
         }
 
@@ -738,7 +737,7 @@ public final class FS extends Globals {
         filelink_t entry = null;
 
         if (Cmd.Argc() != 3) {
-            logger.info("USAGE: link <from> <to>");
+            log.info("USAGE: link <from> <to>");
             return;
         }
 
@@ -806,8 +805,8 @@ public final class FS extends Globals {
             if (tmp != null)
                 tmp.replaceAll("\\\\", "/");
 
-            logger.info("Directory of {}", findname);
-            logger.info("----");
+            log.info("Directory of {}", findname);
+            log.info("----");
 
             dirnames = ListFiles(findname, 0, 0);
 
@@ -815,9 +814,9 @@ public final class FS extends Globals {
                 int index = 0;
                 for (int i = 0; i < dirnames.length; i++) {
                     if ((index = dirnames[i].lastIndexOf('/')) > 0) {
-                        logger.info(dirnames[i].substring(index + 1, dirnames[i].length()));
+                        log.info(dirnames[i].substring(index + 1, dirnames[i].length()));
                     } else {
-                        logger.info(dirnames[i]);
+                        log.info(dirnames[i]);
                     }
                 }
             }
@@ -833,20 +832,20 @@ public final class FS extends Globals {
         searchpath_t s;
         filelink_t link;
 
-        logger.info("Current search path:");
+        log.info("Current search path:");
         for (s = fs_searchpaths; s != null; s = s.next) {
             if (s == fs_base_searchpaths)
-                logger.info("----------");
+                log.info("----------");
             if (s.pack != null)
-                logger.info("{} ({} files)", s.pack.filename, s.pack.numfiles);
+                log.info("{} ({} files)", s.pack.filename, s.pack.numfiles);
             else
-                logger.info(s.filename);
+                log.info(s.filename);
         }
 
-        logger.info("Links:");
+        log.info("Links:");
         for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
             link = it.next();
-            logger.info("{} : {}", link.from, link.to);
+            log.info("{} : {}", link.from, link.to);
         }
     }
 

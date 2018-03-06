@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -40,8 +41,6 @@ import lwjake2.sys.Sys;
 import lwjake2.util.Lib;
 import lwjake2.util.QuakeFile;
 import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,8 +48,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Calendar;
 
+@Slf4j
 public class SV_CCMDS {
-	private static final Logger logger = LoggerFactory.getLogger(SV_CCMDS.class);
 	/*
 	===============================================================================
 	
@@ -769,10 +768,10 @@ public class SV_CCMDS {
 			Com.Printf("No server running.\n");
 			return;
 		}
-		logger.info("map              : {}", SV_INIT.sv.name);
+		log.info("map              : {}", SV_INIT.sv.name);
 
-		logger.info("num score ping name            lastmsg address               qport ");
-		logger.info("--- ----- ---- --------------- ------- --------------------- ------");
+		log.info("num score ping name            lastmsg address               qport ");
+		log.info("--- ----- ---- --------------- ------- --------------------- ------");
 		for (i = 0; i < SV_MAIN.maxclients.value; i++) {
 			cl = SV_INIT.svs.clients[i];
 			if (0 == cl.state)
@@ -806,9 +805,9 @@ public class SV_CCMDS {
 
 			sb.append(String.format("%5d", cl.netchan.qport));
 
-			logger.info(sb.toString());
+			log.info(sb.toString());
 		}
-		logger.info("");
+		log.info("");
 	}
 	/*
 	==================

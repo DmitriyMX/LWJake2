@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -36,15 +37,12 @@ import lwjake2.qcommon.netadr_t;
 import lwjake2.sys.NET;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+@Slf4j
 public class SV_MAIN {
-    private static final Logger logger = LoggerFactory.getLogger(SV_MAIN.class);
-
-	/** Address of group servers. */ 
+	/** Address of group servers. */
     public static netadr_t master_adr[] = new netadr_t[Defines.MAX_MASTERS];
                                                                             
                                                                             
