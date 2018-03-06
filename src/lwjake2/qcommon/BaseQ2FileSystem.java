@@ -727,6 +727,7 @@ public class BaseQ2FileSystem implements FileSystem {
         checkOverride();
     }
 
+    @Override
     public int fileLength(String filename) {
         searchpath_t search;
         String netpath;
