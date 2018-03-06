@@ -6,6 +6,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'findbugs'
 
 repositories {
     mavenCentral()
@@ -34,6 +35,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.16.20'
     apt "org.projectlombok:lombok:1.16.20"
+    compileOnly 'com.google.code.findbugs:annotations:3.0.1'
 }
 
 sourceSets {
