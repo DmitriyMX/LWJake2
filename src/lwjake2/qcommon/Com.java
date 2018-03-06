@@ -243,18 +243,18 @@ public final class Com
 
 	public static Runnable Error_f= new Runnable()
 	{
-		public void run() throws longjmpException
+		public void run() throws IllegalStateException
 		{
 			Error(Defines.ERR_FATAL, Cmd.Argv(1));
 		}
 	};
 
-	public static void Error(int code, String fmt) throws longjmpException
+	public static void Error(int code, String fmt) throws IllegalStateException
 	{
 		Error(code, fmt, null);
 	}
 
-	public static void Error(int code, String fmt, Vargs vargs) throws longjmpException
+	public static void Error(int code, String fmt, Vargs vargs) throws IllegalStateException
 	{
 		// va_list argptr;
 		// static char msg[MAXPRINTMSG];
@@ -271,7 +271,7 @@ public final class Com
 		{
 			CL.Drop();
 			recursive= false;
-			throw new longjmpException();
+			throw new IllegalStateException();
 		}
 		else if (code == Defines.ERR_DROP)
 		{
@@ -279,7 +279,7 @@ public final class Com
 			SV_MAIN.SV_Shutdown("Server crashed: " + msg + "\n", false);
 			CL.Drop();
 			recursive= false;
-			throw new longjmpException();
+			throw new IllegalStateException();
 		}
 		else
 		{
@@ -294,7 +294,7 @@ public final class Com
 	 * Com_InitArgv checks the number of command line arguments
 	 * and copies all arguments with valid length into com_argv.
 	 */
-	static void InitArgv(String[] args) throws longjmpException
+	static void InitArgv(String[] args) throws IllegalStateException
 	{
 
 		if (args.length > Defines.MAX_NUM_ARGVS)
