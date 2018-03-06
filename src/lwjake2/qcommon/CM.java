@@ -37,6 +37,7 @@ import java.nio.IntBuffer;
 import java.util.Arrays;
 
 public class CM {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     public static class cnode_t {
         cplane_t plane; // ptr
@@ -248,7 +249,7 @@ public class CM {
         //
         // load the file
         //
-        buf = FS.LoadFile(name);
+        buf = fileSystem.loadFile(name);
 
         if (buf == null)
             Com.Error(Defines.ERR_DROP, "Couldn't load " + name);
@@ -283,8 +284,6 @@ public class CM {
         CMod_LoadAreaPortals(header.lumps[Defines.LUMP_AREAPORTALS]);       
         CMod_LoadVisibility(header.lumps[Defines.LUMP_VISIBILITY]);
         CMod_LoadEntityString(header.lumps[Defines.LUMP_ENTITIES]);
-        
-        FS.FreeFile(buf);
 
         CM_InitBoxHull();
 
@@ -1787,7 +1786,7 @@ public class CM {
 
         byte buf[] = new byte[len];
 
-        FS.Read(buf, len, f);
+        fileSystem.read(buf, len, f);
 
         ByteBuffer bb = ByteBuffer.wrap(buf);
         IntBuffer ib = bb.asIntBuffer();

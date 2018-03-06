@@ -189,7 +189,7 @@ public final class Cbuf {
 
             }
 
-            // run the command line
+            // execute the command line
             int len = Lib.strlen(line);
 
             String cmd = new String(line, 0, len);

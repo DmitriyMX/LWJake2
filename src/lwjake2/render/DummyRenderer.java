@@ -163,7 +163,7 @@ public class DummyRenderer implements refexport_t {
 	}
 
 	/* (non-Javadoc)
-	 * @see jake2.client.refexport_t#updateScreen(jake2.qcommon.Runnable)
+	 * @see jake2.client.refexport_t#updateScreen(java.lang.Runnable)
 	 */
 	public void updateScreen(Runnable callback) {
 	    callback.run();

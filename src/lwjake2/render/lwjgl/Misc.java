@@ -20,7 +20,7 @@ package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
 import lwjake2.client.VID;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.BaseQ2FileSystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +29,7 @@ import java.nio.FloatBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
+import lwjake2.qcommon.FileSystem;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.EXTPointParameters;
@@ -42,6 +43,7 @@ import org.lwjgl.opengl.GL12;
  * @author cwei
  */
 public abstract class Misc extends Mesh {
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
 	/*
 	==================
@@ -121,8 +123,8 @@ public abstract class Misc extends Mesh {
 	================== 
 	*/  
 	void GL_ScreenShot_f() {
-	    StringBuffer sb = new StringBuffer(FS.Gamedir() + "/scrshot/jake00.tga");
-	    FS.CreatePath(sb.toString());
+	    StringBuffer sb = new StringBuffer(fileSystem.getGamedir() + "/scrshot/jake00.tga");
+	    fileSystem.createPath(sb.toString());
 	    File file = new File(sb.toString());
 	    // find a valid file name
 	    int i = 0; int offset = sb.length() - 6;

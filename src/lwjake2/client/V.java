@@ -384,6 +384,7 @@ public final class V extends Globals {
                     (int) cl.refdef.vieworg[1],
                     (int) cl.refdef.vieworg[2],
                     (int) cl.refdef.viewangles[YAW]
+            );
         }
     };
 

@@ -29,7 +29,6 @@ import lwjake2.game.cvar_t;
 import lwjake2.game.edict_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
@@ -116,7 +115,6 @@ public class SV_MAIN {
         }
 
         if (drop.download != null) {
-            FS.FreeFile(drop.download);
             drop.download = null;
         }
 

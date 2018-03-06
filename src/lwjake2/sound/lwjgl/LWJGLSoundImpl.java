@@ -25,9 +25,7 @@ import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
 import lwjake2.game.cvar_t;
 import lwjake2.game.entity_state_t;
-import lwjake2.qcommon.Com;
-import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.*;
 import lwjake2.sound.S;
 import lwjake2.sound.Sound;
 import lwjake2.sound.WaveLoader;
@@ -57,6 +55,7 @@ import org.lwjgl.openal.OpenALException;
  */
 @Slf4j
 public final class LWJGLSoundImpl implements Sound {
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 	static {
 		S.register(new LWJGLSoundImpl());
 	};
@@ -379,14 +378,14 @@ public final class LWJGLSoundImpl implements Sound {
 		// fall back strategies
 		//
 		// not found , so see if it exists
-		if (FS.FileLength(sexedFilename.substring(1)) > 0) {
+		if (fileSystem.fileLength(sexedFilename.substring(1)) > 0) {
 			// yes, register it
 			return RegisterSound(sexedFilename);
 		}
 	    // try it with the female sound in the pak0.pak
 		if (model.equalsIgnoreCase("female")) {
 			String femaleFilename = "player/female/" + base.substring(1);
-			if (FS.FileLength("sound/" + femaleFilename) > 0)
+			if (fileSystem.fileLength("sound/" + femaleFilename) > 0)
 			    return AliasName(sexedFilename, femaleFilename);
 		}
 		// no chance, revert to the male sound in the pak0.pak

@@ -22,13 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.monsters.M_Player;
-import lwjake2.qcommon.Cbuf;
-import lwjake2.qcommon.Com;
-import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
-import lwjake2.qcommon.MSG;
-import lwjake2.qcommon.SZ;
-import lwjake2.qcommon.cmd_function_t;
+import lwjake2.qcommon.*;
 import lwjake2.server.SV_GAME;
 import lwjake2.util.Lib;
 
@@ -41,6 +35,7 @@ import java.util.Vector;
  */
 @Slf4j
 public final class Cmd {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     static Runnable List_f = new Runnable() {
         public void run() {
             cmd_function_t cmd = Cmd.cmd_functions;
@@ -63,7 +58,7 @@ public final class Cmd {
             }
 
             byte[] f = null;
-            f = FS.LoadFile(Cmd.Argv(1));
+            f = fileSystem.loadFile(Cmd.Argv(1));
             if (f == null) {
                 log.info("couldn't exec {}", Cmd.Argv(1));
                 return;
@@ -71,8 +66,6 @@ public final class Cmd {
             log.info("execing {}", Cmd.Argv(1));
 
             Cbuf.InsertText(new String(f));
-
-            FS.FreeFile(f);
         }
     };
 
@@ -386,7 +379,7 @@ public final class Cmd {
     /**
      * Cmd_ExecuteString
      * 
-     * A complete command line has been parsed, so try to run it
+     * A complete command line has been parsed, so try to execute it 
      * FIXME: lookupnoadd the token to speed search? 
      */
     public static void ExecuteString(String text) {
@@ -396,7 +389,7 @@ public final class Cmd {
 
         TokenizeString(text.toCharArray(), true);
 
-        // run the command line
+        // execute the command line
         if (Argc() == 0)
             return; // no tokens
 

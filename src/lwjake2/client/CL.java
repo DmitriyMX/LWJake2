@@ -30,7 +30,8 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
@@ -56,6 +57,8 @@ import java.nio.ByteOrder;
  */
 @Slf4j
 public final class CL {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+
     static int precache_check; // for autodownload of precache items
 
     static int precache_spawncount;
@@ -159,10 +162,10 @@ public final class CL {
                 //
                 // open the demo file
                 //
-                name = FS.Gamedir() + "/demos/" + Cmd.Argv(1) + ".dm2";
+                name = fileSystem.getGamedir() + "/demos/" + Cmd.Argv(1) + ".dm2";
 
                 log.info("recording to {}", name);
-                FS.CreatePath(name);
+                fileSystem.createPath(name);
                 Globals.cls.demofile = new RandomAccessFile(name, "rw");
                 if (Globals.cls.demofile == null) {
                     log.error("ERROR: couldn't open.");
@@ -973,8 +976,7 @@ public final class CL {
                     // checking for skins in the model
                     if (CL.precache_model == null) {
 
-                        CL.precache_model = FS
-                                .LoadFile(Globals.cl.configstrings[CL.precache_check]);
+                        CL.precache_model = fileSystem.loadFile(Globals.cl.configstrings[CL.precache_check]);
                         if (CL.precache_model == null) {
                             CL.precache_model_skin = 0;
                             CL.precache_check++;
@@ -986,8 +988,6 @@ public final class CL {
                         int header = bb.getInt();
 
                         if (header != qfiles.IDALIASHEADER) {
-                            // not an alias model
-                            FS.FreeFile(CL.precache_model);
                             CL.precache_model = null;
                             CL.precache_model_skin = 0;
                             CL.precache_check++;
@@ -1025,7 +1025,6 @@ public final class CL {
                         CL.precache_model_skin++;
                     }
                     if (CL.precache_model != null) {
-                        FS.FreeFile(CL.precache_model);
                         CL.precache_model = null;
                     }
                     CL.precache_model_skin = 0;
@@ -1408,7 +1407,7 @@ public final class CL {
 //        if (Globals.cls.state == Defines.ca_uninitialized)
 //            return;
 
-        path = FS.Gamedir() + "/config.cfg";
+        path = fileSystem.getGamedir() + "/config.cfg";
         f = Lib.fopen(path, "rw");
         if (f == null) {
             log.warn("Couldn't write config.cfg.");
@@ -1609,7 +1608,7 @@ public final class CL {
         InitLocal();
         IN.Init();
 
-        FS.ExecAutoexec();
+        fileSystem.execAutoexec();
         Cbuf.Execute();
     }
 

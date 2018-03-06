@@ -33,6 +33,7 @@ import java.util.Vector;
  * Cvar implements console variables. The original code is located in cvar.c
  */
 public class Cvar extends Globals {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     /**
      * @param var_name
@@ -194,8 +195,8 @@ public class Cvar extends Globals {
                         var.value = 0.0f;
                     }
                     if (var.name.equals("game")) {
-                        FS.SetGamedir(var.string);
-                        FS.ExecAutoexec();
+                        fileSystem.setGamedir(var.string);
+                        fileSystem.execAutoexec();
                     }
                 }
                 return var;
@@ -384,8 +385,8 @@ public class Cvar extends Globals {
                 var.value = 0.0f;
             }
             if (var.name.equals("game")) {
-                FS.SetGamedir(var.string);
-                FS.ExecAutoexec();
+                fileSystem.setGamedir(var.string);
+                fileSystem.execAutoexec();
             }
         }
     }
