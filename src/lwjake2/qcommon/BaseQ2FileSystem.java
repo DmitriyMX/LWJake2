@@ -788,82 +788,6 @@ public class BaseQ2FileSystem implements FileSystem {
     }
 
     /*
-     * FOpenFile
-     *
-     * Finds the file in the search path. returns a RadomAccesFile. Used for
-     * streaming data out of either a pak file or a seperate file.
-     */
-    private RandomAccessFile fOpenFile(String filename) throws IOException {
-        searchpath_t search;
-        String netpath;
-        pack_t pak;
-        File file;
-
-        file_from_pak = 0;
-
-        // check for links first
-        for (filelink_t link : fs_links) {
-            //			if (!strncmp (filename, link->from, link->fromlength))
-            if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
-                netpath = link.to + filename.substring(link.fromlength);
-                file = new File(netpath);
-                if (file.canRead()) {
-                    //Com.DPrintf ("link file: " + netpath +'\n');
-                    return new RandomAccessFile(file, "r");
-                }
-                return null;
-            }
-        }
-
-        //
-        // search through the path, one element at a time
-        //
-        for (search = fs_searchpaths; search != null; search = search.next) {
-            // is the element a pak file?
-            if (search.pack != null) {
-                // look through all the pak file elements
-                pak = search.pack;
-                filename = filename.toLowerCase();
-                packfile_t entry = pak.files.get(filename);
-
-                if (entry != null) {
-                    // found it!
-                    file_from_pak = 1;
-                    //Com.DPrintf ("PackFile: " + pak.filename + " : " +
-                    // filename + '\n');
-                    file = new File(pak.filename);
-                    if (!file.canRead())
-                        Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
-                                + pak.filename);
-                    if (pak.handle == null || !pak.handle.getFD().valid()) {
-                        // hold the pakfile handle open
-                        pak.handle = new RandomAccessFile(pak.filename, "r");
-                    }
-                    // open a new file on the pakfile
-
-                    RandomAccessFile raf = new RandomAccessFile(file, "r");
-                    raf.seek(entry.filepos);
-
-                    return raf;
-                }
-            } else {
-                // check a file in the directory tree
-                netpath = search.filename + '/' + filename;
-
-                file = new File(netpath);
-                if (!file.canRead())
-                    continue;
-
-                //Com.DPrintf("FindFile: " + netpath +'\n');
-
-                return new RandomAccessFile(file, "r");
-            }
-        }
-        //Com.DPrintf ("FindFile: can't find " + filename + '\n');
-        return null;
-    }
-
-    /*
      * LoadFile
      *
      * Filename are reletive to the quake search path a null buffer will just
@@ -888,7 +812,7 @@ public class BaseQ2FileSystem implements FileSystem {
             return null;
 
         try {
-            file = fOpenFile(path);
+            file = FOpenFile(path);
             //Read(buf = new byte[len], len, h);
             buf = new byte[len];
             assert file != null;
