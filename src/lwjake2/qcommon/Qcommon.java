@@ -127,7 +127,7 @@ public final class Qcommon extends Globals {
 			// save config when configuration is completed
 			CL.WriteConfiguration();
 
-		} catch (longjmpException e) {
+		} catch (IllegalStateException e) {
 			Sys.Error("Error during initialization");
 		}
 	}
@@ -227,7 +227,7 @@ public final class Qcommon extends Globals {
 					new Vargs(5).add(all).add(sv).add(gm).add(cl).add(rf));
 			}
 
-		} catch (longjmpException e) {
+		} catch (IllegalStateException e) {
 			Com.DPrintf("lonjmp exception:" + e);
 		}
 	}
