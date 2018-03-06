@@ -502,18 +502,18 @@ public class BaseQ2FileSystem implements FileSystem {
 
     @Override
     public void init() {
-        Cmd.AddCommand("path", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("path", new Runnable() {
+            public void run() {
                 path_f();
             }
         });
-        Cmd.AddCommand("link", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("link", new Runnable() {
+            public void run() {
                 link_f();
             }
         });
-        Cmd.AddCommand("dir", new xcommand_t() {
-            public void execute() {
+        Cmd.AddCommand("dir", new Runnable() {
+            public void run() {
                 dir_f();
             }
         });
