@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -28,8 +29,6 @@ import lwjake2.qcommon.FS;
 import lwjake2.qcommon.xcommand_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -38,8 +37,8 @@ import java.util.Arrays;
 /**
  * Console
  */
+@Slf4j
 public final class Console extends Globals {
-    private static final Logger logger = LoggerFactory.getLogger(Console.class);
     public static xcommand_t ToggleConsole_f = new xcommand_t() {
         public void execute() {
             SCR.EndLoadingPlaque(); // get rid of loading plaque
@@ -88,7 +87,7 @@ public final class Console extends Globals {
             String name;
 
             if (Cmd.Argc() != 2) {
-                logger.info("usage: condump <filename>");
+                log.info("usage: condump <filename>");
 
                 return;
             }
@@ -97,11 +96,11 @@ public final class Console extends Globals {
             // Cmd_Argv(1));
             name = FS.Gamedir() + "/" + Cmd.Argv(1) + ".txt";
 
-            logger.info("Dumped console text to {}", name);
+            log.info("Dumped console text to {}", name);
             FS.CreatePath(name);
             f = Lib.fopen(name, "rw");
             if (f == null) {
-                logger.error("ERROR: couldn't open.");
+                log.error("ERROR: couldn't open.");
                 return;
             }
 
@@ -151,7 +150,7 @@ public final class Console extends Globals {
 
         CheckResize();
 
-        logger.info("Console initialized.");
+        log.info("Console initialized.");
 
         //
         // register our commands

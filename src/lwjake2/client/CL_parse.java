@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -34,8 +35,6 @@ import lwjake2.render.model_t;
 import lwjake2.sound.S;
 import lwjake2.sys.Sys;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -43,9 +42,8 @@ import java.io.RandomAccessFile;
 /**
  * CL_parse
  */
+@Slf4j
 public class CL_parse {
-    private static final Logger logger = LoggerFactory.getLogger(CL_parse.class);
-
     //// cl_parse.c -- parse a message received from the server
 
     public static String svc_strings[] = { "svc_bad", "svc_muzzleflash",
@@ -725,7 +723,7 @@ public class CL_parse {
                 while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
                 msg = msg.trim();
                 if (!msg.isEmpty()) {
-                    logger.info(msg);
+                    log.info(msg);
                 }
                 Globals.con.ormask = 0;
                 break;

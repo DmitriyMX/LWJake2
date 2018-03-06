@@ -18,17 +18,15 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.QuakeFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class GameSave {
-    private static final Logger logger = LoggerFactory.getLogger(GameSave.class);
-
     public static void CreateEdicts() {
         GameBase.g_edicts = new edict_t[GameBase.game.maxentities];
         for (int i = 0; i < GameBase.game.maxentities; i++)
@@ -117,7 +115,7 @@ public class GameSave {
      * a new game is started or a save game is loaded. 
      */
     public static void InitGame() {
-        logger.info("==== InitGame ====");
+        log.info("==== InitGame ====");
 
         // preload all classes to register the adapters
         for ( int n=0; n < preloadclasslist.length; n++)

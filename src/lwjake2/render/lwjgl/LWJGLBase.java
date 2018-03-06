@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.viddef_t;
@@ -32,16 +33,14 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * LWJGLBase
  * 
  * @author dsanders/cwei
  */
+@Slf4j
 public abstract class LWJGLBase {
-	private final Logger logger = LoggerFactory.getLogger(LWJGLBase.class);
 	// IMPORTED FUNCTIONS
 	protected DisplayMode oldDisplayMode; 
 
@@ -210,7 +209,7 @@ public abstract class LWJGLBase {
 
 		Dimension newDim = new Dimension();
 
-		logger.info("Initializing OpenGL display");
+		log.info("Initializing OpenGL display");
 
 		/*
 		 * fullscreen handling
@@ -220,11 +219,11 @@ public abstract class LWJGLBase {
 		}
 
 		if (!VID.GetModeInfo(newDim, mode)) {
-			logger.warn("...setting mode {}: invalid mode", mode);
+			log.warn("...setting mode {}: invalid mode", mode);
 			return rserr_invalid_mode;
 		}
 
-		logger.info("...setting mode {}: {} {}", mode, newDim.width, newDim.height);
+		log.info("...setting mode {}: {} {}", mode, newDim.width, newDim.height);
 
 		// destroy the existing window
 		GLimp_Shutdown();
@@ -255,7 +254,7 @@ public abstract class LWJGLBase {
 				return rserr_invalid_fullscreen; 
 			}	
 
-			logger.info("...setting fullscreen {}", getModeString(displayMode));
+			log.info("...setting fullscreen {}", getModeString(displayMode));
 
 		} 
 		else 

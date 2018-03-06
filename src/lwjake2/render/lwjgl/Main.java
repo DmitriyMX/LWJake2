@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.VID;
@@ -47,16 +48,14 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Main
  * 
  * @author cwei
  */
+@Slf4j
 public abstract class Main extends Base {
-	private final Logger logger = LoggerFactory.getLogger(Main.class);
 	public static int[] d_8to24table = new int[256];
 
 	int c_visible_lightmaps;
@@ -1039,19 +1038,19 @@ public abstract class Main extends Base {
 			if (err == rserr_invalid_fullscreen) {
 				Cvar.SetValue("vid_fullscreen", 0);
 				vid_fullscreen.modified = false;
-				logger.warn("ref_gl::R_SetMode() - fullscreen unavailable in this mode");
+				log.warn("ref_gl::R_SetMode() - fullscreen unavailable in this mode");
 				if ((err = GLimp_SetMode(dim, (int) gl_mode.value, false)) == rserr_ok)
 					return true;
 			}
 			else if (err == rserr_invalid_mode) {
 				Cvar.SetValue("gl_mode", gl_state.prev_mode);
 				gl_mode.modified = false;
-				logger.warn("ref_gl::R_SetMode() - invalid mode");
+				log.warn("ref_gl::R_SetMode() - invalid mode");
 			}
 
 			// try setting it back to something safe
 			if ((err = GLimp_SetMode(dim, gl_state.prev_mode, false)) != rserr_ok) {
-				logger.warn("ref_gl::R_SetMode() - could not revert to safe mode");
+				log.warn("ref_gl::R_SetMode() - could not revert to safe mode");
 				return false;
 			}
 		}
@@ -1072,7 +1071,7 @@ public abstract class Main extends Base {
 			r_turbsin[j] = Warp.SIN[j] * 0.5f;
 		}
 
-		logger.info("ref_gl version: {}", REF_VERSION);
+		log.info("ref_gl version: {}", REF_VERSION);
 
 		Draw_GetPalette();
 
@@ -1083,7 +1082,7 @@ public abstract class Main extends Base {
 
 		// create the window and set up the context
 		if (!R_SetMode()) {
-			logger.info("ref_gl::R_Init() - could not R_SetMode()");
+			log.info("ref_gl::R_Init() - could not R_SetMode()");
 			return false;
 		}
 		return true;
@@ -1099,13 +1098,13 @@ public abstract class Main extends Base {
 		** get our various GL strings
 		*/
 		gl_config.vendor_string = GL11.glGetString(GL11.GL_VENDOR);
-		logger.info("GL_VENDOR: {}", gl_config.vendor_string);
+		log.info("GL_VENDOR: {}", gl_config.vendor_string);
 		gl_config.renderer_string = GL11.glGetString(GL11.GL_RENDERER);
-		logger.info("GL_RENDERER: {}", gl_config.renderer_string);
+		log.info("GL_RENDERER: {}", gl_config.renderer_string);
 		gl_config.version_string = GL11.glGetString(GL11.GL_VERSION);
-		logger.info("GL_VERSION: {}", gl_config.version_string);
+		log.info("GL_VERSION: {}", gl_config.version_string);
 		gl_config.extensions_string = GL11.glGetString(GL11.GL_EXTENSIONS);
-		logger.info("GL_EXTENSIONS: {}", gl_config.extensions_string);
+		log.info("GL_EXTENSIONS: {}", gl_config.extensions_string);
 		
 		gl_config.parseOpenGLVersion();
 
@@ -1139,7 +1138,7 @@ public abstract class Main extends Base {
 		if (monolightmap.length() < 2 || monolightmap.charAt(1) != 'F') {
 			if (gl_config.renderer == GL_RENDERER_PERMEDIA2) {
 				Cvar.Set("gl_monolightmap", "A");
-				logger.info("...using gl_monolightmap 'a'");
+				log.info("...using gl_monolightmap 'a'");
 			}
 			else if ((gl_config.renderer & GL_RENDERER_POWERVR) != 0) {
 				Cvar.Set("gl_monolightmap", "0");
@@ -1174,16 +1173,16 @@ public abstract class Main extends Base {
 		}
 
 		if (gl_config.allow_cds)
-			logger.info("...allowing CDS");
+			log.info("...allowing CDS");
 		else
-			logger.info("...disabling CDS");
+			log.info("...disabling CDS");
 
 		/*
 		** grab extensions
 		*/
 		if (gl_config.extensions_string.indexOf("GL_EXT_compiled_vertex_array") >= 0
 			|| gl_config.extensions_string.indexOf("GL_SGI_compiled_vertex_array") >= 0) {
-			logger.info("...enabling GL_EXT_compiled_vertex_array");
+			log.info("...enabling GL_EXT_compiled_vertex_array");
 			//		 qglLockArraysEXT = ( void * ) qwglGetProcAddress( "glLockArraysEXT" );
 			if (gl_ext_compiled_vertex_array.value != 0.0f)
 				qglLockArraysEXT = true;
@@ -1193,16 +1192,16 @@ public abstract class Main extends Base {
 			//qglUnlockArraysEXT = true;
 		}
 		else {
-			logger.info("...GL_EXT_compiled_vertex_array not found");
+			log.info("...GL_EXT_compiled_vertex_array not found");
 			qglLockArraysEXT = false;
 		}
 
 		if (gl_config.extensions_string.indexOf("WGL_EXT_swap_control") >= 0) {
 			qwglSwapIntervalEXT = true;
-			logger.info("...enabling WGL_EXT_swap_control");
+			log.info("...enabling WGL_EXT_swap_control");
 		} else {
 			qwglSwapIntervalEXT = false;
-			logger.info("...WGL_EXT_swap_control not found");
+			log.info("...WGL_EXT_swap_control not found");
 		}
 
 		if (gl_config.extensions_string.indexOf("GL_EXT_point_parameters") >= 0) {
@@ -1210,14 +1209,14 @@ public abstract class Main extends Base {
 				//			 qglPointParameterfEXT = ( void (APIENTRY *)( GLenum, GLfloat ) ) qwglGetProcAddress( "glPointParameterfEXT" );
 				qglPointParameterfEXT = true;
 				//			 qglPointParameterfvEXT = ( void (APIENTRY *)( GLenum, const GLfloat * ) ) qwglGetProcAddress( "glPointParameterfvEXT" );
-				logger.info("...using GL_EXT_point_parameters");
+				log.info("...using GL_EXT_point_parameters");
 			}
 			else {
-				logger.info("...ignoring GL_EXT_point_parameters");
+				log.info("...ignoring GL_EXT_point_parameters");
 			}
 		}
 		else {
-			logger.info("...GL_EXT_point_parameters not found");
+			log.info("...GL_EXT_point_parameters not found");
 		}
 
 		// #ifdef __linux__
@@ -1244,26 +1243,26 @@ public abstract class Main extends Base {
 			&& gl_config.extensions_string.indexOf("GL_EXT_paletted_texture") >= 0
 			&& gl_config.extensions_string.indexOf("GL_EXT_shared_texture_palette") >= 0) {
 			if (gl_ext_palettedtexture.value != 0.0f) {
-				logger.info("...using GL_EXT_shared_texture_palette");
+				log.info("...using GL_EXT_shared_texture_palette");
 				qglColorTableEXT = false; // true; TODO jogl bug
 			}
 			else {
-				logger.info("...ignoring GL_EXT_shared_texture_palette");
+				log.info("...ignoring GL_EXT_shared_texture_palette");
 				qglColorTableEXT = false;
 			}
 		}
 		else {
-			logger.info("...GL_EXT_shared_texture_palette not found");
+			log.info("...GL_EXT_shared_texture_palette not found");
 		}
 
 		if (gl_config.extensions_string.indexOf("GL_ARB_multitexture") >= 0) {
-			logger.info("...using GL_ARB_multitexture");
+			log.info("...using GL_ARB_multitexture");
 			qglActiveTextureARB = true;
 			GL_TEXTURE0 = ARBMultitexture.GL_TEXTURE0_ARB;
 			GL_TEXTURE1 = ARBMultitexture.GL_TEXTURE1_ARB;
 		}
 		else {
-			logger.info("...GL_ARB_multitexture not found");
+			log.info("...GL_ARB_multitexture not found");
 		}
 
 		if (!(qglActiveTextureARB))

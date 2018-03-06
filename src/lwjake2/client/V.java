@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
@@ -26,9 +27,6 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.xcommand_t;
 import lwjake2.sys.Timer;
 import lwjake2.util.Math3D;
-import lwjake2.util.Vargs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -36,9 +34,8 @@ import java.nio.FloatBuffer;
 /**
  * V
  */
+@Slf4j
 public final class V extends Globals {
-    private static final Logger logger = LoggerFactory.getLogger(V.class);
-
     static cvar_t cl_testblend;
 
     static cvar_t cl_testparticles;
@@ -363,7 +360,7 @@ public final class V extends Globals {
 
         re.RenderFrame(cl.refdef);
         if (cl_stats.value != 0.0f)
-            logger.info("ent:{}  lt:{}  part:{}", r_numentities, r_numdlights, r_numparticles);
+            log.info("ent:{}  lt:{}  part:{}", r_numentities, r_numdlights, r_numparticles);
         if (log_stats.value != 0.0f && (log_stats_file != null))
             try {
                 log_stats_file.write(r_numentities + "," + r_numdlights + ","
@@ -383,7 +380,7 @@ public final class V extends Globals {
      */
     static xcommand_t Viewpos_f = new xcommand_t() {
         public void execute() {
-            logger.info("({} {} {}) : {}",
+            log.info("({} {} {}) : {}",
                     (int) cl.refdef.vieworg[0],
                     (int) cl.refdef.vieworg[1],
                     (int) cl.refdef.vieworg[2],

@@ -18,6 +18,7 @@
 
 package lwjake2.sys;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.cvar_t;
@@ -26,8 +27,6 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.netadr_t;
 import lwjake2.qcommon.sizebuf_t;
 import lwjake2.util.Lib;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -37,8 +36,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+@Slf4j
 public final class NET {
-    private static final Logger logger = LoggerFactory.getLogger(NET.class);
     private final static int MAX_LOOPBACK = 4;
 
     /** Local loopback adress. */
@@ -138,7 +137,7 @@ public final class NET {
                 a.port = Lib.atoi(address[1]);
             return true;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             return false;
         }
     }
@@ -229,7 +228,7 @@ public final class NET {
             int packetLength = receiveBuffer.position();
 
             if (packetLength > net_message.maxsize) {
-                logger.info("Oversize packet from {}", AdrToString(net_from));
+                log.info("Oversize packet from {}", AdrToString(net_from));
                 return false;
             }
 
@@ -267,7 +266,7 @@ public final class NET {
             SocketAddress dstSocket = new InetSocketAddress(to.getInetAddress(), to.port);
             ip_channels[sock].send(ByteBuffer.wrap(data, 0, length), dstSocket);
         } catch (Exception e) {
-            logger.error(String.format("NET_SendPacket: %s to %s", e.getMessage(), AdrToString(to)), e);
+            log.error(String.format("NET_SendPacket: %s to %s", e.getMessage(), AdrToString(to)), e);
         }
     }
 
@@ -347,7 +346,7 @@ public final class NET {
             // the socket have to be broadcastable
             newsocket.setBroadcast(true);
         } catch (Exception e) {
-            logger.error(String.format("Error: %s", e.getMessage()), e);
+            log.error(String.format("Error: %s", e.getMessage()), e);
             newsocket = null;
         }
         return newsocket;
