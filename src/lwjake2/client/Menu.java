@@ -24,7 +24,8 @@ import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.netadr_t;
 import lwjake2.sound.S;
 import lwjake2.sys.NET;
@@ -33,6 +34,8 @@ import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 import lwjake2.util.QuakeFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Dimension;
 import java.io.RandomAccessFile;
@@ -50,6 +53,8 @@ abstract class keyfunc_t {
 }
 
 public final class Menu extends Key {
+    private static final Logger logger = LoggerFactory.getLogger(Menu.class);
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     static int m_main_cursor;
 
@@ -1906,7 +1911,7 @@ public final class Menu extends Key {
         int n;
         int isdeveloper = 0;
 
-        byte b[] = FS.LoadFile("credits");
+        byte b[] = fileSystem.loadFile("credits");
 
         if (b != null) {
             creditsBuffer = new String(b);
@@ -1919,7 +1924,7 @@ public final class Menu extends Key {
             creditsIndex[n] = null;
             credits = creditsIndex;
         } else {
-            isdeveloper = FS.Developer_searchpath(1);
+            isdeveloper = fileSystem.developer_searchpath(1);
 
             if (isdeveloper == 1) // xatrix
                 credits = xatcredits;
@@ -2167,7 +2172,7 @@ public final class Menu extends Key {
         for (i = 0; i < MAX_SAVEGAMES; i++) {
 
             m_savestrings[i] = "<EMPTY>";
-            name = FS.Gamedir() + "/save/save" + i + "/server.ssv";
+            name = fileSystem.getGamedir() + "/save/save" + i + "/server.ssv";
 
             try {
                 f = new QuakeFile(name, "r");
@@ -2589,7 +2594,7 @@ public final class Menu extends Key {
         //	  =====
         //	  PGM
         // ROGUE GAMES
-        else if (FS.Developer_searchpath(2) == 2) {
+        else if (fileSystem.developer_searchpath(2) == 2) {
             if (s_rules_box.curvalue == 2) // tag
             {
                 s_maxclients_field.statusbar = null;
@@ -2635,7 +2640,7 @@ public final class Menu extends Key {
         //		Cvar.SetValue ("coop", s_rules_box.curvalue );
 
         //	  PGM
-        if ((s_rules_box.curvalue < 2) || (FS.Developer_searchpath(2) != 2)) {
+        if ((s_rules_box.curvalue < 2) || (fileSystem.developer_searchpath(2) != 2)) {
             Cvar.SetValue("deathmatch", 1 - (int) (s_rules_box.curvalue));
             Cvar.SetValue("coop", s_rules_box.curvalue);
             Cvar.SetValue("gamerules", 0);
@@ -2699,15 +2704,15 @@ public final class Menu extends Key {
         /*
          * * load the list of map names
          */
-        mapsname = FS.Gamedir() + "/maps.lst";
+        mapsname = fileSystem.getGamedir() + "/maps.lst";
 
         // Check user dir first (default ~/.lwjake2)
         if ((fp = Lib.fopen(mapsname, "r")) == null) {
         	// Check base dir first (baseq2 folder)
-        	mapsname = FS.BaseGamedir() + "/maps.lst";
+        	mapsname = fileSystem.getBaseGamedir() + "/maps.lst";
         	if ((fp = Lib.fopen(mapsname, "r")) == null) {
         		// Open the pak's maplist
-	            buffer = FS.LoadFile("maps.lst");
+	            buffer = fileSystem.loadFile("maps.lst");
 	            if (buffer == null)
 	                Com.Error(ERR_DROP, "couldn't find maps.lst\n");
         	} else {
@@ -2755,7 +2760,7 @@ public final class Menu extends Key {
             fp = null;
 
         } else {
-            FS.FreeFile(buffer);
+            buffer = null;
         }
 
         /*
@@ -2776,7 +2781,7 @@ public final class Menu extends Key {
         s_rules_box.name = "rules";
 
         //	  PGM - rogue games only available with rogue DLL.
-        if (FS.Developer_searchpath(2) == 2)
+        if (fileSystem.developer_searchpath(2) == 2)
             s_rules_box.itemnames = dm_coop_names_rogue;
         else
             s_rules_box.itemnames = dm_coop_names;
@@ -3059,7 +3064,7 @@ public final class Menu extends Key {
 
         //	  =======
         //	  ROGUE
-        else if (FS.Developer_searchpath(2) == 2) {
+        else if (fileSystem.developer_searchpath(2) == 2) {
             if (f == s_no_mines_box) {
                 bit = DF_NO_MINES;
             } else if (f == s_no_nukes_box) {
@@ -3283,7 +3288,7 @@ public final class Menu extends Key {
 
         //	  ============
         //	  ROGUE
-        if (FS.Developer_searchpath(2) == 2) {
+        if (fileSystem.developer_searchpath(2) == 2) {
             s_no_mines_box.type = MTYPE_SPINCONTROL;
             s_no_mines_box.x = 0;
             s_no_mines_box.y = y += 10;
@@ -3354,7 +3359,7 @@ public final class Menu extends Key {
 
         //	  =======
         //	  ROGUE
-        if (FS.Developer_searchpath(2) == 2) {
+        if (fileSystem.developer_searchpath(2) == 2) {
             Menu_AddItem(s_dmoptions_menu, s_no_mines_box);
             Menu_AddItem(s_dmoptions_menu, s_no_nukes_box);
             Menu_AddItem(s_dmoptions_menu, s_stack_double_box);
@@ -3764,10 +3769,10 @@ public final class Menu extends Key {
          * * get a list of directories
          */
         do {
-            path = FS.NextPath(path);
+            path = fileSystem.nextPath(path);
             findname = path + "/players/*.*";
 
-            if ((dirnames = FS.ListFiles(findname, 0, SFF_SUBDIR)) != null) {
+            if ((dirnames = fileSystem.listFiles(findname, 0, SFF_SUBDIR)) != null) {
                 ndirs = dirnames.length;
                 break;
             }
@@ -3807,7 +3812,7 @@ public final class Menu extends Key {
 
             // verify the existence of at least one pcx skin
             scratch = dirnames[i] + "/*.pcx";
-            pcxnames = FS.ListFiles(scratch, 0, 0);
+            pcxnames = fileSystem.listFiles(scratch, 0, 0);
             npcxfiles = pcxnames.length;
 
             // count valid skins, which consist of a skin with a matching "_i"

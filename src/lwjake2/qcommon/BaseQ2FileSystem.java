@@ -159,7 +159,8 @@ public class BaseQ2FileSystem implements FileSystem {
      *
      * Allows enumerating all of the directories in the search path
      */
-    private String nextPath(String prevpath) {
+    @Override
+    public String nextPath(String prevpath) {
         searchpath_t s;
         String prev;
 
@@ -180,7 +181,8 @@ public class BaseQ2FileSystem implements FileSystem {
         return null;
     }
 
-    private String[] listFiles(String findname, int musthave, int canthave) {
+    @Override
+    public String[] listFiles(String findname, int musthave, int canthave) {
         String[] list = new String[0];
 
         File[] files = Sys.FindAll(findname, musthave, canthave);
@@ -468,6 +470,11 @@ public class BaseQ2FileSystem implements FileSystem {
     @Override
     public String getGamedir() {
         return (fs_userdir != null) ? fs_userdir : Globals.BASEDIRNAME;
+    }
+
+    @Override
+    public String getBaseGamedir() {
+        return (fs_gamedir != null) ? fs_gamedir : Globals.BASEDIRNAME;
     }
 
     @Override

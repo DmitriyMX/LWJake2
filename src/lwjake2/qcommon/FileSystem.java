@@ -15,10 +15,14 @@ public interface FileSystem {
     void execAutoexec();
     void createPath(String path);
     int fileLength(String filename);
+    String nextPath(String prevpath);
+    String[] listFiles(String findname, int musthave, int canthave);
 
     int developer_searchpath(int who);
     cvar_t getGamedirVar();
 
     void setGamedir(String dir);
     String getGamedir();
+
+    String getBaseGamedir();
 }
