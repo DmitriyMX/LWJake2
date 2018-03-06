@@ -100,7 +100,6 @@ public class BaseQ2FileSystem implements FileSystem {
 
     private void path_f() {
         searchpath_t s;
-        filelink_t link;
 
         log.info("Current search path:");
         for (s = fs_searchpaths; s != null; s = s.next) {
@@ -113,8 +112,7 @@ public class BaseQ2FileSystem implements FileSystem {
         }
 
         log.info("Links:");
-        for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
-            link = it.next();
+        for (filelink_t link : fs_links) {
             log.info("{} : {}", link.from, link.to);
         }
     }
@@ -140,7 +138,7 @@ public class BaseQ2FileSystem implements FileSystem {
                     it.remove();
                     return;
                 }
-                entry.to = new String(Cmd.Argv(2));
+                entry.to = Cmd.Argv(2);
                 return;
             }
         }
@@ -148,9 +146,9 @@ public class BaseQ2FileSystem implements FileSystem {
         // create a new link if the <to> is not empty
         if (Cmd.Argv(2).length() > 0) {
             entry = new filelink_t();
-            entry.from = new String(Cmd.Argv(1));
+            entry.from = Cmd.Argv(1);
             entry.fromlength = entry.from.length();
-            entry.to = new String(Cmd.Argv(2));
+            entry.to = Cmd.Argv(2);
             fs_links.add(entry);
         }
     }
@@ -173,7 +171,7 @@ public class BaseQ2FileSystem implements FileSystem {
             if (s.pack != null)
                 continue;
 
-            if (prevpath == prev)
+            if (prevpath.equals(prev))
                 return s.filename;
 
             prev = s.filename;
@@ -200,7 +198,7 @@ public class BaseQ2FileSystem implements FileSystem {
 
     private void dir_f() {
         String path = null;
-        String findname = null;
+        String findname;
         String wildcard = "*.*";
         String[] dirnames;
 
@@ -209,12 +207,7 @@ public class BaseQ2FileSystem implements FileSystem {
         }
 
         while ((path = nextPath(path)) != null) {
-            String tmp = findname;
-
             findname = path + '/' + wildcard;
-
-            if (tmp != null)
-                tmp.replaceAll("\\\\", "/");
 
             log.info("Directory of {}", findname);
             log.info("----");
@@ -222,12 +215,12 @@ public class BaseQ2FileSystem implements FileSystem {
             dirnames = listFiles(findname, 0, 0);
 
             if (dirnames.length != 0) {
-                int index = 0;
-                for (int i = 0; i < dirnames.length; i++) {
-                    if ((index = dirnames[i].lastIndexOf('/')) > 0) {
-                        log.info(dirnames[i].substring(index + 1, dirnames[i].length()));
+                int index;
+                for (String dirname : dirnames) {
+                    if ((index = dirname.lastIndexOf('/')) > 0) {
+                        log.info(dirname.substring(index + 1, dirname.length()));
                     } else {
-                        log.info(dirnames[i]);
+                        log.info(dirname);
                     }
                 }
             }
@@ -263,10 +256,10 @@ public class BaseQ2FileSystem implements FileSystem {
         searchpath_t s;
 
         for (s = fs_searchpaths; s != null; s = s.next) {
-            if (s.filename.indexOf("xatrix") != -1)
+            if (s.filename.contains("xatrix"))
                 return 1;
 
-            if (s.filename.indexOf("rogue") != -1)
+            if (s.filename.contains("rogue"))
                 return 2;
         }
 
@@ -290,8 +283,8 @@ public class BaseQ2FileSystem implements FileSystem {
         dpackheader_t header;
         Hashtable<String, packfile_t> newfiles;
         RandomAccessFile file;
-        int numpackfiles = 0;
-        pack_t pack = null;
+        int numpackfiles;
+        pack_t pack;
         //		unsigned checksum;
         //
         try {
@@ -302,7 +295,7 @@ public class BaseQ2FileSystem implements FileSystem {
 
             fc.close();
 
-            if (packhandle == null || packhandle.limit() < 1)
+            if (packhandle.limit() < 1)
                 return null;
             //
             header = new dpackheader_t();
@@ -319,12 +312,12 @@ public class BaseQ2FileSystem implements FileSystem {
                 Com.Error(Defines.ERR_FATAL, packfile + " has " + numpackfiles
                         + " files");
 
-            newfiles = new Hashtable<String, packfile_t>(numpackfiles);
+            newfiles = new Hashtable<>(numpackfiles);
 
             packhandle.position(header.dirofs);
 
             // parse the directory
-            packfile_t entry = null;
+            packfile_t entry;
 
             for (int i = 0; i < numpackfiles; i++) {
                 packhandle.get(tmpText);
@@ -343,7 +336,7 @@ public class BaseQ2FileSystem implements FileSystem {
         }
 
         pack = new pack_t();
-        pack.filename = new String(packfile);
+        pack.filename = packfile;
         pack.handle = file;
         pack.numfiles = numpackfiles;
         pack.files = newfiles;
@@ -365,13 +358,13 @@ public class BaseQ2FileSystem implements FileSystem {
         pack_t pak;
         String pakfile;
 
-        fs_gamedir = new String(dir);
+        fs_gamedir = dir;
 
         //
         // add the directory to the search path
         // ensure fs_userdir is first in searchpath
         search = new searchpath_t();
-        search.filename = new String(dir);
+        search.filename = dir;
         if (fs_searchpaths != null) {
             search.next = fs_searchpaths.next;
             fs_searchpaths.next = search;
@@ -405,7 +398,7 @@ public class BaseQ2FileSystem implements FileSystem {
     @Override
     public void setCDDir() {
         fs_cddir = Cvar.Get("cddir", "", CVAR_ARCHIVE);
-        if (fs_cddir.string.length() > 0)
+        if (fs_cddir != null && fs_cddir.string.length() > 0)
             addGameDirectory(fs_cddir.string + '/' + Globals.BASEDIRNAME);
     }
 
@@ -424,8 +417,7 @@ public class BaseQ2FileSystem implements FileSystem {
     public void setGamedir(String dir) {
         searchpath_t next;
 
-        if (dir.indexOf("..") != -1 || dir.indexOf("/") != -1
-                || dir.indexOf("\\") != -1 || dir.indexOf(":") != -1) {
+        if (dir.contains("..") || dir.contains("/") || dir.contains("\\") || dir.contains(":")) {
             log.warn("Gamedir should be a single filename, not a path");
             return;
         }
@@ -613,8 +605,9 @@ public class BaseQ2FileSystem implements FileSystem {
     public void checkOverride() {
         fs_gamedirvar = Cvar.Get("game", "", CVAR_LATCH | CVAR_SERVERINFO);
 
-        if (fs_gamedirvar.string.length() > 0)
+        if (fs_gamedirvar != null && fs_gamedirvar.string.length() > 0) {
             setGamedir(fs_gamedirvar.string);
+        }
     }
 
     /*
@@ -628,15 +621,12 @@ public class BaseQ2FileSystem implements FileSystem {
         searchpath_t search;
         String netpath;
         pack_t pak;
-        filelink_t link;
-        File file = null;
+        File file;
 
         file_from_pak = 0;
 
         // check for links first
-        for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
-            link = it.next();
-
+        for (filelink_t link : fs_links) {
             //			if (!strncmp (filename, link->from, link->fromlength))
             if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
                 netpath = link.to + filename.substring(link.fromlength);
@@ -704,21 +694,9 @@ public class BaseQ2FileSystem implements FileSystem {
 
     @Override
     public void init() {
-        Cmd.AddCommand("path", new Runnable() {
-            public void run() {
-                path_f();
-            }
-        });
-        Cmd.AddCommand("link", new Runnable() {
-            public void run() {
-                link_f();
-            }
-        });
-        Cmd.AddCommand("dir", new Runnable() {
-            public void run() {
-                dir_f();
-            }
-        });
+        Cmd.AddCommand("path", this::path_f);
+        Cmd.AddCommand("link", this::link_f);
+        Cmd.AddCommand("dir", this::dir_f);
 
         fs_userdir = System.getProperty("user.home") + "/.lwjake2";
         createPath(fs_userdir + "/");
@@ -754,14 +732,11 @@ public class BaseQ2FileSystem implements FileSystem {
         searchpath_t search;
         String netpath;
         pack_t pak;
-        filelink_t link;
 
         file_from_pak = 0;
 
         // check for links first
-        for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
-            link = it.next();
-
+        for (filelink_t link : fs_links) {
             if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
                 netpath = link.to + filename.substring(link.fromlength);
                 File file = new File(netpath);
@@ -823,15 +798,12 @@ public class BaseQ2FileSystem implements FileSystem {
         searchpath_t search;
         String netpath;
         pack_t pak;
-        filelink_t link;
-        File file = null;
+        File file;
 
         file_from_pak = 0;
 
         // check for links first
-        for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
-            link = it.next();
-
+        for (filelink_t link : fs_links) {
             //			if (!strncmp (filename, link->from, link->fromlength))
             if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
                 netpath = link.to + filename.substring(link.fromlength);
@@ -903,7 +875,7 @@ public class BaseQ2FileSystem implements FileSystem {
         RandomAccessFile file;
 
         byte[] buf = null;
-        int len = 0;
+        int len;
 
         // TODO hack for bad strings (fuck \0)
         int index = path.indexOf('\0');
@@ -920,6 +892,7 @@ public class BaseQ2FileSystem implements FileSystem {
             file = fOpenFile(path);
             //Read(buf = new byte[len], len, h);
             buf = new byte[len];
+            assert file != null;
             file.readFully(buf);
             file.close();
         } catch (IOException e) {
@@ -937,7 +910,7 @@ public class BaseQ2FileSystem implements FileSystem {
     public void read(byte[] buffer, int len, RandomAccessFile file) {
         int block, remaining;
         int offset = 0;
-        int read = 0;
+        int read;
 
         // read in chunks for progress bar
         remaining = len;
