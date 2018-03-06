@@ -1890,9 +1890,6 @@ public final class Menu extends Key {
     public static String Credits_Key(int key) {
         switch (key) {
         case K_ESCAPE:
-            if (creditsBuffer != null)
-                //FS.FreeFile(creditsBuffer);
-                ;
             PopMenu();
             break;
         }

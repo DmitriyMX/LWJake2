@@ -32,7 +32,8 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.PMove;
 import lwjake2.qcommon.SZ;
@@ -45,6 +46,7 @@ import java.io.RandomAccessFile;
 
 @Slf4j
 public class SV_INIT {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     /**
      * SV_FindIndex.
      */
@@ -134,7 +136,7 @@ public class SV_INIT {
         if (Cvar.VariableValue("deathmatch") != 0)
             return;
 
-        name = FS.Gamedir() + "/save/current/" + sv.name + ".sav";
+        name = fileSystem.getGamedir() + "/save/current/" + sv.name + ".sav";
         try {
             f = new RandomAccessFile(name, "r");
         }

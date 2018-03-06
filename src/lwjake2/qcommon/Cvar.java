@@ -195,8 +195,8 @@ public class Cvar extends Globals {
                         var.value = 0.0f;
                     }
                     if (var.name.equals("game")) {
-                        FS.SetGamedir(var.string);
-                        FS.ExecAutoexec();
+                        fileSystem.setGamedir(var.string);
+                        fileSystem.execAutoexec();
                     }
                 }
                 return var;

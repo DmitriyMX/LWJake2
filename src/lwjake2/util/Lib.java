@@ -20,8 +20,9 @@ package lwjake2.util;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.Com;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.nio.IntBuffer;
 
 @Slf4j
 public class Lib {
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 	/** Converts a vector to a string. */
 	public static String vtos(float[] v) {
 		return (int) v[0] + " " + (int) v[1] + " " + (int) v[2];
@@ -240,7 +242,7 @@ public class Lib {
 	/** Like in libc */
 	public static String freadString(RandomAccessFile f, int len) {
 		byte buffer[] = new byte[len];
-		FS.Read(buffer, len, f);
+		fileSystem.read(buffer, len, f);
 	
 		return Lib.CtoJava(buffer);
 	}

@@ -23,12 +23,7 @@ import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
-import lwjake2.qcommon.Com;
-import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
-import lwjake2.qcommon.MSG;
-import lwjake2.qcommon.SZ;
-import lwjake2.qcommon.qfiles;
+import lwjake2.qcommon.*;
 import lwjake2.sound.S;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
@@ -44,6 +39,7 @@ import java.util.Arrays;
  */
 @Slf4j
 public final class SCR extends Globals {
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     //	cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
 
     static String[][] sb_nums = {
@@ -1392,7 +1388,7 @@ public final class SCR extends Globals {
         qfiles.pcx_t pcx;
 
         // load the file
-        ByteBuffer raw = FS.LoadMappedFile(filename);
+        ByteBuffer raw = fileSystem.loadMappedFile(filename);
 
         if (raw == null) {
             VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename
@@ -1831,7 +1827,7 @@ public final class SCR extends Globals {
         }
 
         String name = "video/" + arg;
-        cl.cinematic_file = FS.LoadMappedFile(name);
+        cl.cinematic_file = fileSystem.loadMappedFile(name);
         if (cl.cinematic_file == null) {
             //Com.Error(ERR_DROP, "Cinematic " + name + " not found.\n");
             FinishCinematic();

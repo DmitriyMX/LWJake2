@@ -6,10 +6,12 @@ package lwjake2.qcommon;
 
 import lwjake2.game.cvar_t;
 
+import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
 
 public interface FileSystem {
-    void init(); // FS.InitFilesystem();
+    void init();
     byte[] loadFile(String path);
     void read(byte[] buffer, int len, RandomAccessFile file);
     void execAutoexec();
@@ -25,4 +27,11 @@ public interface FileSystem {
     String getGamedir();
 
     String getBaseGamedir();
+
+    ByteBuffer loadMappedFile(String filename);
+    void setCDDir();
+    void markBaseSearchPaths();
+    void checkOverride();
+    RandomAccessFile FOpenFile(String filename) throws IOException;
+    int getFileFromPak();
 }

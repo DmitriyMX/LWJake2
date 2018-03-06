@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -24,7 +25,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static lwjake2.Defines.*;
-import static lwjake2.qcommon.FS.MAX_READ;
 
 /*
  * ==================================================
@@ -38,6 +38,8 @@ public class BaseQ2FileSystem implements FileSystem {
     private static final BaseQ2FileSystem instance = new BaseQ2FileSystem();
     private static final int IDPAKHEADER = (('K' << 24) + ('C' << 16) + ('A' << 8) + 'P');
     private static final int MAX_FILES_IN_PACK = 4096;
+    // read in blocks of 64k
+    private static final int MAX_READ = 0x10000;
 
     public static BaseQ2FileSystem getInstance() {
         return instance;
@@ -401,13 +403,15 @@ public class BaseQ2FileSystem implements FileSystem {
     /**
      * set baseq2 directory
      */
-    private void setCDDir() {
+    @Override
+    public void setCDDir() {
         fs_cddir = Cvar.Get("cddir", "", CVAR_ARCHIVE);
         if (fs_cddir.string.length() > 0)
             addGameDirectory(fs_cddir.string + '/' + Globals.BASEDIRNAME);
     }
 
-    private void markBaseSearchPaths() {
+    @Override
+    public void markBaseSearchPaths() {
         // any set gamedirs will be freed up to here
         fs_base_searchpaths = fs_searchpaths;
     }
@@ -477,6 +481,112 @@ public class BaseQ2FileSystem implements FileSystem {
         return (fs_gamedir != null) ? fs_gamedir : Globals.BASEDIRNAME;
     }
 
+    /*
+     * LoadMappedFile
+     *
+     * Filename are reletive to the quake search path a null buffer will just
+     * return the file content as ByteBuffer (memory mapped)
+     */
+    @Override
+    public ByteBuffer loadMappedFile(String filename) {
+        searchpath_t search;
+        String netpath;
+        pack_t pak;
+        File file;
+
+        int fileLength;
+        FileChannel channel = null;
+        FileInputStream input = null;
+        ByteBuffer buffer;
+
+        file_from_pak = 0;
+
+        try {
+            // check for links first
+            for (filelink_t link : fs_links) {
+                if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
+                    netpath = link.to + filename.substring(link.fromlength);
+                    file = new File(netpath);
+                    if (file.canRead()) {
+                        input = new FileInputStream(file);
+                        channel = input.getChannel();
+                        fileLength = (int) channel.size();
+                        buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0,
+                                fileLength);
+                        input.close();
+                        return buffer;
+                    }
+                    return null;
+                }
+            }
+
+            //
+            // search through the path, one element at a time
+            //
+            for (search = fs_searchpaths; search != null; search = search.next) {
+                // is the element a pak file?
+                if (search.pack != null) {
+                    // look through all the pak file elements
+                    pak = search.pack;
+                    filename = filename.toLowerCase();
+                    packfile_t entry = pak.files.get(filename);
+
+                    if (entry != null) {
+                        // found it!
+                        file_from_pak = 1;
+                        //Com.DPrintf ("PackFile: " + pak.filename + " : " +
+                        // filename + '\n');
+                        file = new File(pak.filename);
+                        if (!file.canRead())
+                            Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
+                                    + pak.filename);
+                        if (pak.handle == null || !pak.handle.getFD().valid()) {
+                            // hold the pakfile handle open
+                            pak.handle = new RandomAccessFile(pak.filename, "r");
+                        }
+                        // open a new file on the pakfile
+                        if (pak.backbuffer == null) {
+                            channel = pak.handle.getChannel();
+                            pak.backbuffer = channel.map(
+                                    FileChannel.MapMode.READ_ONLY, 0,
+                                    pak.handle.length());
+                            channel.close();
+                        }
+                        pak.backbuffer.position(entry.filepos);
+                        buffer = pak.backbuffer.slice();
+                        buffer.limit(entry.filelen);
+                        return buffer;
+                    }
+                } else {
+                    // check a file in the directory tree
+                    netpath = search.filename + '/' + filename;
+
+                    file = new File(netpath);
+                    if (!file.canRead())
+                        continue;
+
+                    //Com.DPrintf("FindFile: " + netpath +'\n');
+                    input = new FileInputStream(file);
+                    channel = input.getChannel();
+                    fileLength = (int) channel.size();
+                    buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0,
+                            fileLength);
+                    input.close();
+                    return buffer;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        try {
+            if (input != null)
+                input.close();
+            else if (channel != null && channel.isOpen())
+                channel.close();
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
+
     @Override
     public void execAutoexec() {
         String dir = fs_userdir;
@@ -500,11 +610,97 @@ public class BaseQ2FileSystem implements FileSystem {
     /**
      * Check for "+set game" override - Used to properly set gamedir
      */
-    private void checkOverride() {
+    @Override
+    public void checkOverride() {
         fs_gamedirvar = Cvar.Get("game", "", CVAR_LATCH | CVAR_SERVERINFO);
 
         if (fs_gamedirvar.string.length() > 0)
             setGamedir(fs_gamedirvar.string);
+    }
+
+    /*
+     * FOpenFile
+     *
+     * Finds the file in the search path. returns a RadomAccesFile. Used for
+     * streaming data out of either a pak file or a seperate file.
+     */
+    @Override
+    public RandomAccessFile FOpenFile(String filename) throws IOException {
+        searchpath_t search;
+        String netpath;
+        pack_t pak;
+        filelink_t link;
+        File file = null;
+
+        file_from_pak = 0;
+
+        // check for links first
+        for (Iterator<filelink_t> it = fs_links.iterator(); it.hasNext();) {
+            link = it.next();
+
+            //			if (!strncmp (filename, link->from, link->fromlength))
+            if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
+                netpath = link.to + filename.substring(link.fromlength);
+                file = new File(netpath);
+                if (file.canRead()) {
+                    //Com.DPrintf ("link file: " + netpath +'\n');
+                    return new RandomAccessFile(file, "r");
+                }
+                return null;
+            }
+        }
+
+        //
+        // search through the path, one element at a time
+        //
+        for (search = fs_searchpaths; search != null; search = search.next) {
+            // is the element a pak file?
+            if (search.pack != null) {
+                // look through all the pak file elements
+                pak = search.pack;
+                filename = filename.toLowerCase();
+                packfile_t entry = pak.files.get(filename);
+
+                if (entry != null) {
+                    // found it!
+                    file_from_pak = 1;
+                    //Com.DPrintf ("PackFile: " + pak.filename + " : " +
+                    // filename + '\n');
+                    file = new File(pak.filename);
+                    if (!file.canRead())
+                        Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
+                                + pak.filename);
+                    if (pak.handle == null || !pak.handle.getFD().valid()) {
+                        // hold the pakfile handle open
+                        pak.handle = new RandomAccessFile(pak.filename, "r");
+                    }
+                    // open a new file on the pakfile
+
+                    RandomAccessFile raf = new RandomAccessFile(file, "r");
+                    raf.seek(entry.filepos);
+
+                    return raf;
+                }
+            } else {
+                // check a file in the directory tree
+                netpath = search.filename + '/' + filename;
+
+                file = new File(netpath);
+                if (!file.canRead())
+                    continue;
+
+                //Com.DPrintf("FindFile: " + netpath +'\n');
+
+                return new RandomAccessFile(file, "r");
+            }
+        }
+        //Com.DPrintf ("FindFile: can't find " + filename + '\n');
+        return null;
+    }
+
+    @Override
+    public int getFileFromPak() {
+        return file_from_pak;
     }
 
     @Override

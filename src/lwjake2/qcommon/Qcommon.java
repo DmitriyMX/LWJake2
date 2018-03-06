@@ -74,9 +74,9 @@ public final class Qcommon extends Globals {
 			
 			reconfigure(false);
 
-			FS.setCDDir(); // use cddir from config.cfg
-			FS.markBaseSearchPaths(); // mark the default search paths
-			FS.checkOverride();
+			fileSystem.setCDDir(); // use cddir from config.cfg
+			fileSystem.markBaseSearchPaths(); // mark the default search paths
+			fileSystem.checkOverride();
 			
 			reconfigure(true); // reload default.cfg and config.cfg
 			

@@ -24,7 +24,8 @@ import lwjake2.game.cplane_t;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FS;
+import lwjake2.qcommon.FileSystem;
+import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.lump_t;
 import lwjake2.qcommon.qfiles;
 import lwjake2.qcommon.texinfo_t;
@@ -54,6 +55,7 @@ import org.lwjgl.BufferUtils;
  * @author cwei
  */
 public abstract class Model extends Surf {
+	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 	
 	// models.c -- model loading and caching
 
@@ -271,7 +273,7 @@ public abstract class Model extends Surf {
 		//
 		// load the file
 		//
-		fileBuffer = FS.LoadFile(name);
+		fileBuffer = fileSystem.loadFile(name);
 
 		if (fileBuffer == null)
 		{
