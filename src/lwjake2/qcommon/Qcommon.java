@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
 import lwjake2.client.CL;
 import lwjake2.client.Key;
@@ -36,8 +37,8 @@ import java.io.IOException;
  * Qcommon contains some  basic routines for the game engine
  * namely initialization, shutdown and frame generation.
  */
+@Slf4j
 public final class Qcommon extends Globals {
-
 	public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
 	public static final String CPUSTRING = System.getProperty("os.arch");
 
@@ -122,7 +123,7 @@ public final class Qcommon extends Globals {
 				SCR.EndLoadingPlaque();
 			}
 
-			Com.Printf("====== Quake2 Initialized ======\n\n");
+			log.info("====== Quake2 Initialized ======");
 
 			// save config when configuration is completed
 			CL.WriteConfiguration();
@@ -184,9 +185,7 @@ public final class Qcommon extends Globals {
 			}
 
 			if (Globals.showtrace.value != 0.0f) {
-				Com.Printf("%4i traces  %4i points\n",
-					new Vargs(2).add(Globals.c_traces)
-								.add(Globals.c_pointcontents));
+				log.info(String.format("%4d traces  %4d points", Globals.c_traces, Globals.c_pointcontents));
 
 				
 				Globals.c_traces= 0;
@@ -223,8 +222,7 @@ public final class Qcommon extends Globals {
 				sv -= gm;
 				cl -= rf;
 
-				Com.Printf("all:%3i sv:%3i gm:%3i cl:%3i rf:%3i\n",
-					new Vargs(5).add(all).add(sv).add(gm).add(cl).add(rf));
+				log.info(String.format("all:%3d sv:%3d gm:%3d cl:%3d rf:%3d", all, sv, gm, cl, rf));
 			}
 
 		} catch (IllegalStateException e) {

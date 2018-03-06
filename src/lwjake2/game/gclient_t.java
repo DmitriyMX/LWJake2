@@ -18,13 +18,13 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.util.QuakeFile;
 
 import java.io.IOException;
 
-public class gclient_t
-{
-
+@Slf4j
+public class gclient_t {
 	public gclient_t(int index)
 	{
 		this.index = index;
@@ -303,7 +303,7 @@ public class gclient_t
 		update_chase = f.readInt() != 0;
 		
 		if (f.readInt() != 8765)
-			System.err.println("game client load failed for num=" + index);
+			log.error("game client load failed for num={}", index);
 	}
 	
 	/** Writes a game_client_t (a player) to a file. */ 

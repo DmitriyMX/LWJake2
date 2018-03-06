@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -40,8 +41,8 @@ import java.io.RandomAccessFile;
 /**
  * CL_parse
  */
+@Slf4j
 public class CL_parse {
-
     //// cl_parse.c -- parse a message received from the server
 
     public static String svc_strings[] = { "svc_bad", "svc_muzzleflash",
@@ -714,7 +715,15 @@ public class CL_parse {
                     S.StartLocalSound("misc/talk.wav");
                     Globals.con.ormask = 128;
                 }
-                Com.Printf(MSG.ReadString(Globals.net_message));
+                //TODO потом уброать
+                String msg = MSG.ReadString(Globals.net_message);
+                while (msg.startsWith("\n")) { msg = msg.substring(1); }
+                while (msg.endsWith("\n")) { msg = msg.substring(0, msg.lastIndexOf("\n")); }
+                while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
+                msg = msg.trim();
+                if (!msg.isEmpty()) {
+                    log.info(msg);
+                }
                 Globals.con.ormask = 0;
                 break;
 

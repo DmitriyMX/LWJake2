@@ -20,6 +20,7 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.client.M;
 import lwjake2.qcommon.Com;
@@ -30,6 +31,7 @@ import lwjake2.util.Math3D;
 
 import java.util.StringTokenizer;
 
+@Slf4j
 public class GameBase {
     public static cplane_t dummyplane = new cplane_t();
 
@@ -239,7 +241,7 @@ public class GameBase {
         edict_t choice[] = new edict_t[MAXCHOICES];
 
         if (targetname == null) {
-            gi.dprintf("G_PickTarget called with null targetname\n");
+            log.info("G_PickTarget called with null targetname");
             return null;
         }
 
@@ -252,7 +254,7 @@ public class GameBase {
         }
 
         if (num_choices == 0) {
-            gi.dprintf("G_PickTarget: target " + targetname + " not found\n");
+            log.info("G_PickTarget: target {} not found", targetname);
             return null;
         }
 
@@ -396,7 +398,7 @@ public class GameBase {
     };
 
     public static void ShutdownGame() {
-        gi.dprintf("==== ShutdownGame ====\n");
+        log.info("==== ShutdownGame ====");
     }
 
     /**

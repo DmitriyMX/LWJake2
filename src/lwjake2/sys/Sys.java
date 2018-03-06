@@ -18,6 +18,7 @@
 
 package lwjake2.sys;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL;
@@ -31,8 +32,8 @@ import java.util.regex.PatternSyntaxException;
 /**
  * Sys
  */
+@Slf4j
 public final class Sys extends Defines {
-
     public static void Error(String error) {
 
         CL.Shutdown();
@@ -224,13 +225,6 @@ public final class Sys extends Defines {
     public static String GetClipboardData() {
         // TODO: implement GetClipboardData
         return null;
-    }
-
-    public static void ConsoleOutput(String msg) {
-        if (Globals.nostdout != null && Globals.nostdout.value != 0)
-            return;
-
-        System.out.print(msg);
     }
 
 }

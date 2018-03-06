@@ -18,6 +18,7 @@
 
 package lwjake2.sound;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
@@ -29,8 +30,8 @@ import java.util.Vector;
 /**
  * S
  */
+@Slf4j
 public class S {
-	
 	static Sound impl;
 	static cvar_t s_impl;
 	
@@ -93,11 +94,11 @@ public class S {
 	 */
 	public static void Init() {
 		
-		Com.Printf("\n------- sound initialization -------\n");
+		log.info("------- sound initialization -------");
 
 		cvar_t cv = Cvar.Get("s_initsound", "1", 0);
 		if (cv.value == 0.0f) {
-			Com.Printf("not initializing.\n");
+			log.info("not initializing.");
 			useDriver("dummy");
 			return;			
 		}
@@ -119,7 +120,7 @@ public class S {
 			useDriver("dummy");
 		}
 		
-		Com.Printf("\n------- use sound driver \"" + impl.getName() + "\" -------\n");
+		log.info("------- use sound driver \"{}\" -------", impl.getName());
 		StopAllSounds();
 	}
 	

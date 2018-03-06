@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -39,6 +40,7 @@ import java.awt.DisplayMode;
  * 
  * @author cwei
  */
+@Slf4j
 public class VID extends Globals {
 	//	   Main windowed and fullscreen graphics interface module. This module
 	//	   is used for both the software and OpenGL rendering versions of the
@@ -74,7 +76,11 @@ public class VID extends Globals {
 	*/
 
 	public static void Printf(int print_level, String fmt) {
-		Printf(print_level, fmt, null);	
+		while (fmt.startsWith("\n")) { fmt = fmt.substring(1); }
+		while (fmt.endsWith("\n")) { fmt = fmt.substring(0, fmt.lastIndexOf("\n")); }
+		while (fmt.endsWith("\r")) { fmt = fmt.substring(0, fmt.lastIndexOf("\r")); }
+		fmt = fmt.trim();
+		log.warn("{}", fmt);
 	}
 
 	public static void Printf(int print_level, String fmt, Vargs vargs) {
@@ -173,7 +179,8 @@ public class VID extends Globals {
 			FreeReflib();
 		}
 
-		Com.Printf( "------- Loading " + name + " -------\n");
+		log.info("------- Loading {} -------", name);
+
 		
 		boolean found = false;
 		
@@ -186,11 +193,11 @@ public class VID extends Globals {
 		}
 
 		if (!found) {
-			Com.Printf( "LoadLibrary(\"" + name +"\") failed\n");
+			log.warn("LoadLibrary(\"{}\") failed", name);
 			return false;
 		}
 
-		Com.Printf( "LoadLibrary(\"" + name +"\")\n" );
+		log.info("LoadLibrary(\"{}\")", name);
 		Globals.re = Renderer.getDriver(name);
 		
 		if (Globals.re == null)
@@ -216,7 +223,7 @@ public class VID extends Globals {
 		/* Init KBD */
 		Globals.re.getKeyboardHandler().Init();
 
-		Com.Printf( "------------------------------------\n");
+		log.info("------------------------------------");
 		reflib_active = true;
 		return true;
 	}
@@ -262,10 +269,10 @@ public class VID extends Globals {
 				}
 				if ( vid_ref.string.equals(Renderer.getDefaultName())) {
 				    renderer = vid_ref.string;
-					Com.Printf("Refresh failed\n");
+					log.info("Refresh failed");
 					gl_mode = Cvar.Get( "gl_mode", "0", 0 );
 					if (gl_mode.value != 0.0f) {
-						Com.Printf("Trying mode 0\n");
+						log.info("Trying mode 0");
 						Cvar.SetValue("gl_mode", 0);
 						if ( !LoadRefresh( vid_ref.string ) )
 							Com.Error(Defines.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");

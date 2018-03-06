@@ -18,11 +18,11 @@
 
 package lwjake2.sys;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
-import lwjake2.qcommon.Com;
 
+@Slf4j
 public abstract class Timer {
-
 	abstract public long currentTimeMillis();
 	
 	static Timer t;
@@ -33,7 +33,7 @@ public abstract class Timer {
 		} catch (Throwable e) {
 			t = new StandardTimer();
 		}
-		Com.Println("using " + t.getClass().getName());
+		log.info("using {}", t.getClass().getName());
 	}
 	
 	public static int Milliseconds() {

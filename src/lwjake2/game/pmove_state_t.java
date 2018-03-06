@@ -18,12 +18,13 @@
 
 package lwjake2.game;
 
-import lwjake2.qcommon.Com;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.util.Math3D;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+@Slf4j
 public class pmove_state_t {
 	//	this structure needs to be communicated bit-accurate
 	//	from the server to the client to guarantee that
@@ -129,22 +130,22 @@ public class pmove_state_t {
 	}
 
 	public void dump() {
-		Com.Println("pm_type: " + pm_type);
+		log.info("pm_type: {}", pm_type);
 
-		Com.Println("origin[0]: " + origin[0]);
-		Com.Println("origin[1]: " + origin[0]);
-		Com.Println("origin[2]: " + origin[0]);
+		log.info("origin[0]: {}", origin[0]);
+		log.info("origin[1]: {}", origin[1]);
+		log.info("origin[2]: {}", origin[2]);
 
-		Com.Println("velocity[0]: " + velocity[0]);
-		Com.Println("velocity[1]: " + velocity[1]);
-		Com.Println("velocity[2]: " + velocity[2]);
+		log.info("velocity[0]: {}", velocity[0]);
+		log.info("velocity[1]: {}", velocity[1]);
+		log.info("velocity[2]: {}", velocity[2]);
 
-		Com.Println("pmflags: " + pm_flags);
-		Com.Println("pmtime: " + pm_time);
-		Com.Println("gravity: " + gravity);
+		log.info("pmflags: {}", pm_flags);
+		log.info("pmtime: {}", pm_time);
+		log.info("gravity: {}", gravity);
 
-		Com.Println("delta-angle[0]: " + delta_angles[0]);
-		Com.Println("delta-angle[1]: " + delta_angles[0]);
-		Com.Println("delta-angle[2]: " + delta_angles[0]);
+		log.info("delta-angle[0]: {}", delta_angles[0]);
+		log.info("delta-angle[1]: {}", delta_angles[1]);
+		log.info("delta-angle[2]: {}", delta_angles[2]);
 	}
 }

@@ -1,3 +1,7 @@
+plugins {
+    id 'net.ltgt.apt' version '0.10'
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
@@ -18,10 +22,18 @@ if (OperatingSystem.current().isWindows()) {
 } else if (OperatingSystem.current().isLinux()) {
     platform = 'linux'
 }
+def slf4jVersion = '1.7.21'
+def log4jVersion = '2.5'
 
 dependencies {
     compile (['org.lwjgl.lwjgl:lwjgl:'      + lwjgl_ver],
              ['org.lwjgl.lwjgl:lwjgl_util:' + lwjgl_ver])
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    apt "org.projectlombok:lombok:1.16.20"
 }
 
 sourceSets {

@@ -18,6 +18,7 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
@@ -25,8 +26,8 @@ import lwjake2.util.QuakeFile;
 
 import java.io.IOException;
 
+@Slf4j
 public class edict_t {
-
     /** Constructor. */
     public edict_t(int i) {
         s.number = i;
@@ -768,6 +769,6 @@ public class edict_t {
 
         // rst's checker :-)
         if (f.readInt() != 9876)
-            System.err.println("ent load check failed for num " + index);
+            log.error("ent load check failed for num {}", index);
     }
 }

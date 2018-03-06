@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -35,8 +36,8 @@ import java.util.Arrays;
 /**
  * Console
  */
+@Slf4j
 public final class Console extends Globals {
-
     public static Runnable ToggleConsole_f = new Runnable() {
         public void run() {
             SCR.EndLoadingPlaque(); // get rid of loading plaque
@@ -85,7 +86,8 @@ public final class Console extends Globals {
             String name;
 
             if (Cmd.Argc() != 2) {
-                Com.Printf("usage: condump <filename>\n");
+                log.info("usage: condump <filename>");
+
                 return;
             }
 
@@ -93,11 +95,11 @@ public final class Console extends Globals {
             // Cmd_Argv(1));
             name = FS.Gamedir() + "/" + Cmd.Argv(1) + ".txt";
 
-            Com.Printf("Dumped console text to " + name + ".\n");
+            log.info("Dumped console text to {}", name);
             FS.CreatePath(name);
             f = Lib.fopen(name, "rw");
             if (f == null) {
-                Com.Printf("ERROR: couldn't open.\n");
+                log.error("ERROR: couldn't open.");
                 return;
             }
 
@@ -147,7 +149,7 @@ public final class Console extends Globals {
 
         CheckResize();
 
-        Com.Printf("Console initialized.\n");
+        log.info("Console initialized.");
 
         //
         // register our commands

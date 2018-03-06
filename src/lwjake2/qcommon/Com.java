@@ -18,27 +18,24 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL;
-import lwjake2.client.Console;
 import lwjake2.game.Cmd;
 import lwjake2.server.SV_MAIN;
 import lwjake2.sys.Sys;
 import lwjake2.util.PrintfFormat;
 import lwjake2.util.Vargs;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 /**
  * Com
  *
  */
-public final class Com
-{
-
+@Slf4j
+public final class Com {
     static String debugContext = "";
     static String _debugContext = "";
     
@@ -342,70 +339,15 @@ public final class Com
 	public static void Printf(String fmt, Vargs vargs)
 	{
 		String msg= sprintf(_debugContext + fmt, vargs);
-		if (rd_target != 0)
-		{
-			if ((msg.length() + rd_buffer.length()) > (rd_buffersize - 1))
-			{
-				rd_flusher.rd_flush(rd_target, rd_buffer);
-				rd_buffer.setLength(0);
-			}
-			rd_buffer.append(msg);
-			return;
-		}
-
-		Console.Print(msg);
 
 		// also echo to debugging console
-		Sys.ConsoleOutput(msg);
-
-		// logfile
-		if (Globals.logfile_active != null && Globals.logfile_active.value != 0)
-		{
-			String name;
-
-			if (Globals.logfile == null)
-			{
-				name= FS.Gamedir() + "/qconsole.log";
-				if (Globals.logfile_active.value > 2)
-					try
-					{
-						Globals.logfile = new RandomAccessFile(name, "rw");
-						Globals.logfile.seek(Globals.logfile.length());
-					}
-					catch (Exception e)
-					{
-						// TODO: do quake2 error handling!
-						e.printStackTrace();
-					}
-				else
-					try
-					{
-						Globals.logfile= new RandomAccessFile(name, "rw");
-					}
-					catch (FileNotFoundException e1)
-					{
-						// TODO: do quake2 error handling!
-						e1.printStackTrace();
-					}
-			}
-			if (Globals.logfile != null)
-				try
-				{
-					Globals.logfile.writeChars(msg);
-				}
-				catch (IOException e)
-				{
-					// TODO: do quake2 error handling!
-					e.printStackTrace();
-				}
-			if (Globals.logfile_active.value > 1); // do nothing
-			// fflush (logfile);		// force it to save every time
+		while (msg.startsWith("\n")) { msg = msg.substring(1); }
+		while (msg.endsWith("\n")) { msg = msg.substring(0, msg.lastIndexOf("\n")); }
+		while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
+		msg = msg.trim();
+		if (!msg.isEmpty()) {
+			log.warn(msg);
 		}
-	}
-
-	public static void Println(String fmt)
-	{
-		Printf(_debugContext + fmt + "\n");
 	}
 
 	public static String sprintf(String fmt, Vargs vargs)

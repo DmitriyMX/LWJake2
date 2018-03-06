@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="lwjake2.logger.log4j2">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] (%t) \{%20.20c\:%-4L} %msg%n"/>
+        </Console>
+        <QConsole name="QConsole">
+            <PatternLayout pattern="%msg"/>
+        </QConsole>
+        <File name="File" fileName="qconsole.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] (%t) \{%logger{36}\:%L} %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="QConsole"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

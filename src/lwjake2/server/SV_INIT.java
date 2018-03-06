@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL;
@@ -42,8 +43,8 @@ import lwjake2.util.Math3D;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+@Slf4j
 public class SV_INIT {
-
     /**
      * SV_FindIndex.
      */
@@ -185,7 +186,7 @@ public class SV_INIT {
         if (attractloop)
             Cvar.Set("paused", "0");
 
-        Com.Printf("------- Server Initialization -------\n");
+        log.info("------- Server Initialization -------");
 
         Com.DPrintf("SpawnServer: " + server + "\n");
         if (sv.demofile != null)
@@ -320,7 +321,7 @@ public class SV_INIT {
 
         if (Cvar.VariableValue("coop") != 0
                 && Cvar.VariableValue("deathmatch") != 0) {
-            Com.Printf("Deathmatch and Coop both set, disabling Coop\n");
+            log.info("Deathmatch and Coop both set, disabling Coop");
             Cvar.FullSet("coop", "0", Defines.CVAR_SERVERINFO
                     | Defines.CVAR_LATCH);
         }

@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -47,8 +48,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Calendar;
 
+@Slf4j
 public class SV_CCMDS {
-
 	/*
 	===============================================================================
 	
@@ -767,45 +768,46 @@ public class SV_CCMDS {
 			Com.Printf("No server running.\n");
 			return;
 		}
-		Com.Printf("map              : " + SV_INIT.sv.name + "\n");
+		log.info("map              : {}", SV_INIT.sv.name);
 
-		Com.Printf("num score ping name            lastmsg address               qport \n");
-		Com.Printf("--- ----- ---- --------------- ------- --------------------- ------\n");
+		log.info("num score ping name            lastmsg address               qport ");
+		log.info("--- ----- ---- --------------- ------- --------------------- ------");
 		for (i = 0; i < SV_MAIN.maxclients.value; i++) {
 			cl = SV_INIT.svs.clients[i];
 			if (0 == cl.state)
 				continue;
 
-			Com.Printf("%3i ", new Vargs().add(i));
-			Com.Printf("%5i ", new Vargs().add(cl.edict.client.ps.stats[Defines.STAT_FRAGS]));
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.format("%3d ", i))
+			  .append(String.format("%5d ", cl.edict.client.ps.stats[Defines.STAT_FRAGS]));
 
 			if (cl.state == Defines.cs_connected)
-				Com.Printf("CNCT ");
+				sb.append("CNCT ");
 			else if (cl.state == Defines.cs_zombie)
-				Com.Printf("ZMBI ");
+				sb.append("ZMBI ");
 			else {
 				ping = cl.ping < 9999 ? cl.ping : 9999;
-				Com.Printf("%4i ", new Vargs().add(ping));
+				sb.append(String.format("%4d ", ping));
 			}
 
-			Com.Printf("%s", new Vargs().add(cl.name));
+			sb.append(cl.name);
 			l = 16 - cl.name.length();
 			for (j = 0; j < l; j++)
-				Com.Printf(" ");
+				sb.append(' ');
 
-			Com.Printf("%7i ", new Vargs().add(SV_INIT.svs.realtime - cl.lastmessage));
+			sb.append(String.format("%7d ", (SV_INIT.svs.realtime - cl.lastmessage)));
 
 			s = NET.AdrToString(cl.netchan.remote_address);
-			Com.Printf(s);
+			sb.append(s);
 			l = 22 - s.length();
 			for (j = 0; j < l; j++)
-				Com.Printf(" ");
+				sb.append(' ');
 
-			Com.Printf("%5i", new Vargs().add(cl.netchan.qport));
+			sb.append(String.format("%5d", cl.netchan.qport));
 
-			Com.Printf("\n");
+			log.info(sb.toString());
 		}
-		Com.Printf("\n");
+		log.info("");
 	}
 	/*
 	==================
