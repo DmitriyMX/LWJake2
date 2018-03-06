@@ -46,7 +46,7 @@ public class BaseQ2FileSystem implements FileSystem {
 
     private BaseQ2FileSystem() {}
 
-    private class packfile_t {
+    private static class packfile_t {
         static final int SIZE = 64;
         static final int NAME_SIZE = 56;
         String name; // char name[56]
@@ -56,7 +56,7 @@ public class BaseQ2FileSystem implements FileSystem {
         }
     }
 
-    private class pack_t {
+    private static class pack_t {
         String filename;
         RandomAccessFile handle;
         ByteBuffer backbuffer;
@@ -64,19 +64,19 @@ public class BaseQ2FileSystem implements FileSystem {
         Hashtable<String, packfile_t> files; // with packfile_t entries
     }
 
-    private class searchpath_t {
+    private static class searchpath_t {
         String filename;
         pack_t pack; // only one of filename or pack will be used
         searchpath_t next;
     }
 
-    private class filelink_t {
+    private static class filelink_t {
         String from;
         int fromlength;
         String to;
     }
 
-    private class dpackheader_t {
+    private static class dpackheader_t {
         int ident; // IDPAKHEADER
         int dirofs;
         int dirlen;
@@ -438,7 +438,6 @@ public class BaseQ2FileSystem implements FileSystem {
                 fs_searchpaths.pack = null;
             }
             next = fs_searchpaths.next;
-            fs_searchpaths = null;
             fs_searchpaths = next;
         }
 
