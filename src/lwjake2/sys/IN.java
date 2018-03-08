@@ -105,28 +105,12 @@ public final class IN extends Globals {
         Globals.m_forward = Cvar.Get("m_forward", "1", 0);
         Globals.m_side = Cvar.Get("m_side", "0.8", 0);
 
-        Cmd.AddCommand("+mlook", new Runnable() {
-            public void run() {
-                MLookDown();
-            }
-        });
-        Cmd.AddCommand("-mlook", new Runnable() {
-            public void run() {
-                MLookUp();
-            }
-        });
+        Cmd.AddCommand("+mlook", IN::MLookDown);
+        Cmd.AddCommand("-mlook", IN::MLookUp);
 
-        Cmd.AddCommand("force_centerview", new Runnable() {
-            public void run() {
-                Force_CenterView_f();
-            }
-        });
+        Cmd.AddCommand("force_centerview", IN::Force_CenterView_f);
 
-        Cmd.AddCommand("togglemouse", new Runnable() {
-            public void run() {
-                toggleMouse();
-            }
-        });
+        Cmd.AddCommand("togglemouse", IN::toggleMouse);
 
         IN.mouse_avail = true;
     }

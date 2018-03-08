@@ -48,54 +48,22 @@ public class SV_USER {
         Runnable r;
     }
 
-    static ucmd_t u1 = new ucmd_t("new", new Runnable() {
-        public void run() {
-            SV_USER.SV_New_f();
-        }
-    });
+    static ucmd_t u1 = new ucmd_t("new", SV_USER::SV_New_f);
 
     static ucmd_t ucmds[] = {
-    // auto issued
-            new ucmd_t("new", new Runnable() {
-                public void run() {
-                    SV_USER.SV_New_f();
-                }
-            }), new ucmd_t("configstrings", new Runnable() {
-                public void run() {
-                    SV_USER.SV_Configstrings_f();
-                }
-            }), new ucmd_t("baselines", new Runnable() {
-                public void run() {
-                    SV_USER.SV_Baselines_f();
-                }
-            }), new ucmd_t("begin", new Runnable() {
-                public void run() {
-                    SV_USER.SV_Begin_f();
-                }
-            }), new ucmd_t("nextserver", new Runnable() {
-                public void run() {
-                    SV_USER.SV_Nextserver_f();
-                }
-            }), new ucmd_t("disconnect", new Runnable() {
-                public void run() {
-                    SV_USER.SV_Disconnect_f();
-                }
-            }),
+            // auto issued
+            new ucmd_t("new", SV_USER::SV_New_f),
+            new ucmd_t("configstrings", SV_USER::SV_Configstrings_f),
+            new ucmd_t("baselines", SV_USER::SV_Baselines_f),
+            new ucmd_t("begin", SV_USER::SV_Begin_f),
+            new ucmd_t("nextserver", SV_USER::SV_Nextserver_f),
+            new ucmd_t("disconnect", SV_USER::SV_Disconnect_f),
 
             // issued by hand at client consoles
-            new ucmd_t("info", new Runnable() {
-                public void run() {
-                    SV_USER.SV_ShowServerinfo_f();
-                }
-            }), new ucmd_t("download", new Runnable() {
-                public void run() {
-                    SV_USER.SV_BeginDownload_f();
-                }
-            }), new ucmd_t("nextdl", new Runnable() {
-                public void run() {
-                    SV_USER.SV_NextDownload_f();
-                }
-            }) };
+            new ucmd_t("info", SV_USER::SV_ShowServerinfo_f),
+            new ucmd_t("download", SV_USER::SV_BeginDownload_f),
+            new ucmd_t("nextdl", SV_USER::SV_NextDownload_f)
+    };
 
     public static final int MAX_STRINGCMDS = 8;
 

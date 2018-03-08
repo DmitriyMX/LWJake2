@@ -432,31 +432,11 @@ public final class SCR extends Globals {
         //
         // register our commands
         //
-        Cmd.AddCommand("timerefresh", new Runnable() {
-            public void run() {
-                TimeRefresh_f();
-            }
-        });
-        Cmd.AddCommand("loading", new Runnable() {
-            public void run() {
-                Loading_f();
-            }
-        });
-        Cmd.AddCommand("sizeup", new Runnable() {
-            public void run() {
-                SizeUp_f();
-            }
-        });
-        Cmd.AddCommand("sizedown", new Runnable() {
-            public void run() {
-                SizeDown_f();
-            }
-        });
-        Cmd.AddCommand("sky", new Runnable() {
-            public void run() {
-                Sky_f();
-            }
-        });
+        Cmd.AddCommand("timerefresh", SCR::TimeRefresh_f);
+        Cmd.AddCommand("loading", SCR::Loading_f);
+        Cmd.AddCommand("sizeup", SCR::SizeUp_f);
+        Cmd.AddCommand("sizedown", SCR::SizeDown_f);
+        Cmd.AddCommand("sky", SCR::Sky_f);
 
         scr_initialized = true;
     }
@@ -1295,11 +1275,7 @@ public final class SCR extends Globals {
                 crosshair_pic);
     }
 
-    private static Runnable updateScreenCallback = new Runnable() {
-        public void run() {
-            UpdateScreen2();
-        }
-    };
+    private static Runnable updateScreenCallback = SCR::UpdateScreen2;
 
     // wird anstelle von der richtigen UpdateScreen benoetigt
     public static void UpdateScreen() {

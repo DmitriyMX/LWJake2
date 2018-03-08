@@ -36,100 +36,88 @@ import java.util.Vector;
 @Slf4j
 public final class Cmd {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
-    static Runnable List_f = new Runnable() {
-        public void run() {
-            cmd_function_t cmd = Cmd.cmd_functions;
-            int i = 0;
+    static Runnable List_f = () -> {
+        cmd_function_t cmd = Cmd.cmd_functions;
+        int i = 0;
 
-            while (cmd != null) {
-                log.info(cmd.name);
-                i++;
-                cmd = cmd.next;
-            }
-            log.info("{} commands", i);
+        while (cmd != null) {
+            log.info(cmd.name);
+            i++;
+            cmd = cmd.next;
         }
+        log.info("{} commands", i);
     };
 
-    static Runnable Exec_f = new Runnable() {
-        public void run() {
-            if (Cmd.Argc() != 2) {
-                log.info("exec <filename> : execute a script file");
-                return;
-            }
-
-            byte[] f = null;
-            f = fileSystem.loadFile(Cmd.Argv(1));
-            if (f == null) {
-                log.info("couldn't exec {}", Cmd.Argv(1));
-                return;
-            }
-            log.info("execing {}", Cmd.Argv(1));
-
-            Cbuf.InsertText(new String(f));
+    static Runnable Exec_f = () -> {
+        if (Cmd.Argc() != 2) {
+            log.info("exec <filename> : execute a script file");
+            return;
         }
+
+        byte[] f = null;
+        f = fileSystem.loadFile(Cmd.Argv(1));
+        if (f == null) {
+            log.info("couldn't exec {}", Cmd.Argv(1));
+            return;
+        }
+        log.info("execing {}", Cmd.Argv(1));
+
+        Cbuf.InsertText(new String(f));
     };
 
-    static Runnable Echo_f = new Runnable() {
-        public void run() {
-            StringBuilder sb = new StringBuilder(Cmd.Argc());
-            for (int i = 1; i < Cmd.Argc(); i++) {
-                sb.append(Cmd.Argv(i)).append(' ');
-            }
-            log.info(sb.toString());
+    static Runnable Echo_f = () -> {
+        StringBuilder sb = new StringBuilder(Cmd.Argc());
+        for (int i = 1; i < Cmd.Argc(); i++) {
+            sb.append(Cmd.Argv(i)).append(' ');
         }
+        log.info(sb.toString());
     };
 
-    static Runnable Alias_f = new Runnable() {
-        public void run() {
-            cmdalias_t a = null;
-            if (Cmd.Argc() == 1) {
-                log.info("Current alias commands:");
-                for (a = Globals.cmd_alias; a != null; a = a.next) {
-                    log.info("{} : {}", a.name, a.value);
-                }
-                return;
-            }
-
-            String s = Cmd.Argv(1);
-            if (s.length() > Defines.MAX_ALIAS_NAME) {
-                log.warn("Alias name is too long");
-                return;
-            }
-
-            // if the alias already exists, reuse it
+    static Runnable Alias_f = () -> {
+        cmdalias_t a = null;
+        if (Cmd.Argc() == 1) {
+            log.info("Current alias commands:");
             for (a = Globals.cmd_alias; a != null; a = a.next) {
-                if (s.equalsIgnoreCase(a.name)) {
-                    a.value = null;
-                    break;
-                }
+                log.info("{} : {}", a.name, a.value);
             }
-
-            if (a == null) {
-                a = new cmdalias_t();
-                a.next = Globals.cmd_alias;
-                Globals.cmd_alias = a;
-            }
-            a.name = s;
-
-            // copy the rest of the command line
-            String cmd = "";
-            int c = Cmd.Argc();
-            for (int i = 2; i < c; i++) {
-                cmd = cmd + Cmd.Argv(i);
-                if (i != (c - 1))
-                    cmd = cmd + " ";
-            }
-            cmd = cmd + "\n";
-
-            a.value = cmd;
+            return;
         }
+
+        String s = Cmd.Argv(1);
+        if (s.length() > Defines.MAX_ALIAS_NAME) {
+            log.warn("Alias name is too long");
+            return;
+        }
+
+        // if the alias already exists, reuse it
+        for (a = Globals.cmd_alias; a != null; a = a.next) {
+            if (s.equalsIgnoreCase(a.name)) {
+                a.value = null;
+                break;
+            }
+        }
+
+        if (a == null) {
+            a = new cmdalias_t();
+            a.next = Globals.cmd_alias;
+            Globals.cmd_alias = a;
+        }
+        a.name = s;
+
+        // copy the rest of the command line
+        String cmd = "";
+        int c = Cmd.Argc();
+        for (int i = 2; i < c; i++) {
+            cmd = cmd + Cmd.Argv(i);
+            if (i != (c - 1))
+                cmd = cmd + " ";
+        }
+        cmd = cmd + "\n";
+
+        a.value = cmd;
     };
 
-    public static Runnable Wait_f = new Runnable() {
-        public void run() {
-            Globals.cmd_wait = true;
-        }
-    };
+    public static Runnable Wait_f = () -> Globals.cmd_wait = true;
 
     public static cmd_function_t cmd_functions = null;
 
@@ -157,18 +145,15 @@ public final class Cmd {
 
     private static char temporary[] = new char[Defines.MAX_STRING_CHARS];
 
-    public static Comparator<Integer> PlayerSort = new Comparator<Integer>() {
-        public int compare(Integer o1, Integer o2) {
-    
-            int anum1 = GameBase.game.clients[o1].ps.stats[Defines.STAT_FRAGS];
-            int bnum1 = GameBase.game.clients[o2].ps.stats[Defines.STAT_FRAGS];
-    
-            if (anum1 < bnum1)
-                return -1;
-            if (anum1 > bnum1)
-                return 1;
-            return 0;
-        }
+    public static Comparator<Integer> PlayerSort = (o1, o2) -> {
+        int anum1 = GameBase.game.clients[o1].ps.stats[Defines.STAT_FRAGS];
+        int bnum1 = GameBase.game.clients[o2].ps.stats[Defines.STAT_FRAGS];
+
+        if (anum1 < bnum1)
+            return -1;
+        if (anum1 > bnum1)
+            return 1;
+        return 0;
     };
 
     /** 

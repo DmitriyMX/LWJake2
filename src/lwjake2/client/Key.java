@@ -715,11 +715,7 @@ public class Key extends Globals {
 		return;
 	}
 
-	public static Runnable Bind_f = new Runnable() {
-		public void run() {
-			Key_Bind_f();
-		}
-	};
+	public static Runnable Bind_f = Key::Key_Bind_f;
 
 	static void Key_Bind_f() {
 		int c = Cmd.Argc();
@@ -763,11 +759,7 @@ public class Key extends Globals {
 		Globals.keybindings[keynum] = binding;
 	}
 
-	static Runnable Unbind_f = new Runnable() {
-		public void run() {
-			Key_Unbind_f();
-		}
-	};
+	static Runnable Unbind_f = Key::Key_Unbind_f;
 
 	static void Key_Unbind_f() {
 
@@ -785,22 +777,14 @@ public class Key extends Globals {
 		Key.SetBinding(b, null);
 	}
 
-	static Runnable Unbindall_f = new Runnable() {
-		public void run() {
-			Key_Unbindall_f();
-		}
-	};
+	static Runnable Unbindall_f = Key::Key_Unbindall_f;
 
 	static void Key_Unbindall_f() {
 		for (int i = 0; i < 256; i++)
 			Key.SetBinding(i, null);
 	}
 
-	static Runnable Bindlist_f = new Runnable() {
-		public void run() {
-			Key_Bindlist_f();
-		}
-	};
+	static Runnable Bindlist_f = Key::Key_Bindlist_f;
 
 	static void Key_Bindlist_f() {
 		for (int i = 0; i < 256; i++)

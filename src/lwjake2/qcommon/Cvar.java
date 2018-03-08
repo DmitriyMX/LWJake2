@@ -229,66 +229,61 @@ public class Cvar extends Globals {
      * Set command, sets variables.
      */
     
-    static Runnable Set_f = new Runnable() {
-        public void run() {
-            int c;
-            int flags;
+    static Runnable Set_f = () -> {
+        int c;
+        int flags;
 
-            c = Cmd.Argc();
-            if (c != 3 && c != 4) {
-                Com.Printf("usage: set <variable> <value> [u / s]\n");
+        c = Cmd.Argc();
+        if (c != 3 && c != 4) {
+            Com.Printf("usage: set <variable> <value> [u / s]\n");
+            return;
+        }
+
+        if (c == 4) {
+            if (Cmd.Argv(3).equals("u"))
+                flags = CVAR_USERINFO;
+            else if (Cmd.Argv(3).equals("s"))
+                flags = CVAR_SERVERINFO;
+            else {
+                Com.Printf("flags can only be 'u' or 's'\n");
                 return;
             }
-
-            if (c == 4) {
-                if (Cmd.Argv(3).equals("u"))
-                    flags = CVAR_USERINFO;
-                else if (Cmd.Argv(3).equals("s"))
-                    flags = CVAR_SERVERINFO;
-                else {
-                    Com.Printf("flags can only be 'u' or 's'\n");
-                    return;
-                }
-                Cvar.FullSet(Cmd.Argv(1), Cmd.Argv(2), flags);
-            } else
-                Cvar.Set(Cmd.Argv(1), Cmd.Argv(2));
-
-        }
+            Cvar.FullSet(Cmd.Argv(1), Cmd.Argv(2), flags);
+        } else
+            Cvar.Set(Cmd.Argv(1), Cmd.Argv(2));
 
     };
 
     /**
      * List command, lists all available commands.
      */
-    static Runnable List_f = new Runnable() {
-        public void run() {
-            cvar_t var;
-            int i;
+    static Runnable List_f = () -> {
+        cvar_t var;
+        int i;
 
-            i = 0;
-            for (var = Globals.cvar_vars; var != null; var = var.next, i++) {
-                if ((var.flags & CVAR_ARCHIVE) != 0)
-                    Com.Printf("*");
-                else
-                    Com.Printf(" ");
-                if ((var.flags & CVAR_USERINFO) != 0)
-                    Com.Printf("U");
-                else
-                    Com.Printf(" ");
-                if ((var.flags & CVAR_SERVERINFO) != 0)
-                    Com.Printf("S");
-                else
-                    Com.Printf(" ");
-                if ((var.flags & CVAR_NOSET) != 0)
-                    Com.Printf("-");
-                else if ((var.flags & CVAR_LATCH) != 0)
-                    Com.Printf("L");
-                else
-                    Com.Printf(" ");
-                Com.Printf(" " + var.name + " \"" + var.string + "\"\n");
-            }
-            Com.Printf(i + " cvars\n");
+        i = 0;
+        for (var = Globals.cvar_vars; var != null; var = var.next, i++) {
+            if ((var.flags & CVAR_ARCHIVE) != 0)
+                Com.Printf("*");
+            else
+                Com.Printf(" ");
+            if ((var.flags & CVAR_USERINFO) != 0)
+                Com.Printf("U");
+            else
+                Com.Printf(" ");
+            if ((var.flags & CVAR_SERVERINFO) != 0)
+                Com.Printf("S");
+            else
+                Com.Printf(" ");
+            if ((var.flags & CVAR_NOSET) != 0)
+                Com.Printf("-");
+            else if ((var.flags & CVAR_LATCH) != 0)
+                Com.Printf("L");
+            else
+                Com.Printf(" ");
+            Com.Printf(" " + var.name + " \"" + var.string + "\"\n");
         }
+        Com.Printf(i + " cvars\n");
     };
 
 

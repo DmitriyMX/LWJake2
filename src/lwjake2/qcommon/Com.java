@@ -238,13 +238,7 @@ public final class Com {
 		return new String(com_token, 0, len);
 	}
 
-	public static Runnable Error_f= new Runnable()
-	{
-		public void run() throws IllegalStateException
-		{
-			Error(Defines.ERR_FATAL, Cmd.Argv(1));
-		}
-	};
+	public static Runnable Error_f= () -> Error(Defines.ERR_FATAL, Cmd.Argv(1));
 
 	public static void Error(int code, String fmt) throws IllegalStateException
 	{

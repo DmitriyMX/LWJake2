@@ -486,167 +486,38 @@ public class CL_input {
 	 * ============ CL_InitInput ============
 	 */
 	static void InitInput() {
-		Cmd.AddCommand("centerview", new Runnable() {
-			public void run() {
-				IN.CenterView();
-			}
-		});
-
-		Cmd.AddCommand("+moveup", new Runnable() {
-			public void run() {
-				IN_UpDown();
-			}
-		});
-		Cmd.AddCommand("-moveup", new Runnable() {
-			public void run() {
-				IN_UpUp();
-			}
-		});
-		Cmd.AddCommand("+movedown", new Runnable() {
-			public void run() {
-				IN_DownDown();
-			}
-		});
-		Cmd.AddCommand("-movedown", new Runnable() {
-			public void run() {
-				IN_DownUp();
-			}
-		});
-		Cmd.AddCommand("+left", new Runnable() {
-			public void run() {
-				IN_LeftDown();
-			}
-		});
-		Cmd.AddCommand("-left", new Runnable() {
-			public void run() {
-				IN_LeftUp();
-			}
-		});
-		Cmd.AddCommand("+right", new Runnable() {
-			public void run() {
-				IN_RightDown();
-			}
-		});
-		Cmd.AddCommand("-right", new Runnable() {
-			public void run() {
-				IN_RightUp();
-			}
-		});
-		Cmd.AddCommand("+forward", new Runnable() {
-			public void run() {
-				IN_ForwardDown();
-			}
-		});
-		Cmd.AddCommand("-forward", new Runnable() {
-			public void run() {
-				IN_ForwardUp();
-			}
-		});
-		Cmd.AddCommand("+back", new Runnable() {
-			public void run() {
-				IN_BackDown();
-			}
-		});
-		Cmd.AddCommand("-back", new Runnable() {
-			public void run() {
-				IN_BackUp();
-			}
-		});
-		Cmd.AddCommand("+lookup", new Runnable() {
-			public void run() {
-				IN_LookupDown();
-			}
-		});
-		Cmd.AddCommand("-lookup", new Runnable() {
-			public void run() {
-				IN_LookupUp();
-			}
-		});
-		Cmd.AddCommand("+lookdown", new Runnable() {
-			public void run() {
-				IN_LookdownDown();
-			}
-		});
-		Cmd.AddCommand("-lookdown", new Runnable() {
-			public void run() {
-				IN_LookdownUp();
-			}
-		});
-		Cmd.AddCommand("+strafe", new Runnable() {
-			public void run() {
-				IN_StrafeDown();
-			}
-		});
-		Cmd.AddCommand("-strafe", new Runnable() {
-			public void run() {
-				IN_StrafeUp();
-			}
-		});
-		Cmd.AddCommand("+moveleft", new Runnable() {
-			public void run() {
-				IN_MoveleftDown();
-			}
-		});
-		Cmd.AddCommand("-moveleft", new Runnable() {
-			public void run() {
-				IN_MoveleftUp();
-			}
-		});
-		Cmd.AddCommand("+moveright", new Runnable() {
-			public void run() {
-				IN_MoverightDown();
-			}
-		});
-		Cmd.AddCommand("-moveright", new Runnable() {
-			public void run() {
-				IN_MoverightUp();
-			}
-		});
-		Cmd.AddCommand("+speed", new Runnable() {
-			public void run() {
-				IN_SpeedDown();
-			}
-		});
-		Cmd.AddCommand("-speed", new Runnable() {
-			public void run() {
-				IN_SpeedUp();
-			}
-		});
-		Cmd.AddCommand("+attack", new Runnable() {
-			public void run() {
-				IN_AttackDown();
-			}
-		});
-		Cmd.AddCommand("-attack", new Runnable() {
-			public void run() {
-				IN_AttackUp();
-			}
-		});
-		Cmd.AddCommand("+use", new Runnable() {
-			public void run() {
-				IN_UseDown();
-			}
-		});
-		Cmd.AddCommand("-use", new Runnable() {
-			public void run() {
-				IN_UseUp();
-			}
-		});
-		Cmd.AddCommand("impulse", new Runnable() {
-			public void run() {
-				IN_Impulse();
-			}
-		});
-		Cmd.AddCommand("+klook", new Runnable() {
-			public void run() {
-				IN_KLookDown();
-			}
-		});
-		Cmd.AddCommand("-klook", new Runnable() {
-			public void run() {
-				IN_KLookUp();
-			}
-		});
+		Cmd.AddCommand("centerview", IN::CenterView);
+		Cmd.AddCommand("+moveup", CL_input::IN_UpDown);
+		Cmd.AddCommand("-moveup", CL_input::IN_UpUp);
+		Cmd.AddCommand("+movedown", CL_input::IN_DownDown);
+		Cmd.AddCommand("-movedown", CL_input::IN_DownUp);
+		Cmd.AddCommand("+left", CL_input::IN_LeftDown);
+		Cmd.AddCommand("-left", CL_input::IN_LeftUp);
+		Cmd.AddCommand("+right", CL_input::IN_RightDown);
+		Cmd.AddCommand("-right", CL_input::IN_RightUp);
+		Cmd.AddCommand("+forward", CL_input::IN_ForwardDown);
+		Cmd.AddCommand("-forward", CL_input::IN_ForwardUp);
+		Cmd.AddCommand("+back", CL_input::IN_BackDown);
+		Cmd.AddCommand("-back", CL_input::IN_BackUp);
+		Cmd.AddCommand("+lookup", CL_input::IN_LookupDown);
+		Cmd.AddCommand("-lookup", CL_input::IN_LookupUp);
+		Cmd.AddCommand("+lookdown", CL_input::IN_LookdownDown);
+		Cmd.AddCommand("-lookdown", CL_input::IN_LookdownUp);
+		Cmd.AddCommand("+strafe", CL_input::IN_StrafeDown);
+		Cmd.AddCommand("-strafe", CL_input::IN_StrafeUp);
+		Cmd.AddCommand("+moveleft", CL_input::IN_MoveleftDown);
+		Cmd.AddCommand("-moveleft", CL_input::IN_MoveleftUp);
+		Cmd.AddCommand("+moveright", CL_input::IN_MoverightDown);
+		Cmd.AddCommand("-moveright", CL_input::IN_MoverightUp);
+		Cmd.AddCommand("+speed", CL_input::IN_SpeedDown);
+		Cmd.AddCommand("-speed", CL_input::IN_SpeedUp);
+		Cmd.AddCommand("+attack", CL_input::IN_AttackDown);
+		Cmd.AddCommand("-attack", CL_input::IN_AttackUp);
+		Cmd.AddCommand("+use", CL_input::IN_UseDown);
+		Cmd.AddCommand("-use", CL_input::IN_UseUp);
+		Cmd.AddCommand("impulse", CL_input::IN_Impulse);
+		Cmd.AddCommand("+klook", CL_input::IN_KLookDown);
+		Cmd.AddCommand("-klook", CL_input::IN_KLookUp);
 
 		cl_nodelta = Cvar.Get("cl_nodelta", "0", 0);
 	}

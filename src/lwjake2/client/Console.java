@@ -40,107 +40,99 @@ import java.util.Arrays;
 @Slf4j
 public final class Console extends Globals {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
-    public static Runnable ToggleConsole_f = new Runnable() {
-        public void run() {
-            SCR.EndLoadingPlaque(); // get rid of loading plaque
+    public static Runnable ToggleConsole_f = () -> {
+        SCR.EndLoadingPlaque(); // get rid of loading plaque
 
-            if (Globals.cl.attractloop) {
-                Cbuf.AddText("killserver\n");
-                return;
-            }
+        if (Globals.cl.attractloop) {
+            Cbuf.AddText("killserver\n");
+            return;
+        }
 
-            if (Globals.cls.state == Defines.ca_disconnected) {
-                // start the demo loop again
-                Cbuf.AddText("d1\n");
-                return;
-            }
+        if (Globals.cls.state == Defines.ca_disconnected) {
+            // start the demo loop again
+            Cbuf.AddText("d1\n");
+            return;
+        }
 
-            Key.ClearTyping();
-            Console.ClearNotify();
+        Key.ClearTyping();
+        Console.ClearNotify();
 
-            if (Globals.cls.key_dest == Defines.key_console) {
-                Menu.ForceMenuOff();
-                Cvar.Set("paused", "0");
-            } else {
-                Menu.ForceMenuOff();
-                Globals.cls.key_dest = Defines.key_console;
+        if (Globals.cls.key_dest == Defines.key_console) {
+            Menu.ForceMenuOff();
+            Cvar.Set("paused", "0");
+        } else {
+            Menu.ForceMenuOff();
+            Globals.cls.key_dest = Defines.key_console;
 
-                if (Cvar.VariableValue("maxclients") == 1
-                        && Globals.server_state != 0)
-                    Cvar.Set("paused", "1");
-            }
+            if (Cvar.VariableValue("maxclients") == 1
+                    && Globals.server_state != 0)
+                Cvar.Set("paused", "1");
         }
     };
 
-    public static Runnable Clear_f = new Runnable() {
-        public void run() {
-            Arrays.fill(Globals.con.text, (byte) ' ');
+    public static Runnable Clear_f = () -> Arrays.fill(Globals.con.text, (byte) ' ');
+
+    public static Runnable Dump_f = () -> {
+
+        int l, x;
+        int line;
+        RandomAccessFile f;
+        byte[] buffer = new byte[1024];
+        String name;
+
+        if (Cmd.Argc() != 2) {
+            log.info("usage: condump <filename>");
+
+            return;
         }
-    };
 
-    public static Runnable Dump_f = new Runnable() {
-        public void run() {
+        //Com_sprintf (name, sizeof(name), "%s/%s.txt", FS_Gamedir(),
+        // Cmd_Argv(1));
+        name = fileSystem.getGamedir() + "/" + Cmd.Argv(1) + ".txt";
 
-            int l, x;
-            int line;
-            RandomAccessFile f;
-            byte[] buffer = new byte[1024];
-            String name;
+        log.info("Dumped console text to {}", name);
+        fileSystem.createPath(name);
+        f = Lib.fopen(name, "rw");
+        if (f == null) {
+            log.error("ERROR: couldn't open.");
+            return;
+        }
 
-            if (Cmd.Argc() != 2) {
-                log.info("usage: condump <filename>");
+        // skip empty lines
+        for (l = con.current - con.totallines + 1; l <= con.current; l++) {
+            line = (l % con.totallines) * con.linewidth;
+            for (x = 0; x < con.linewidth; x++)
+                if (con.text[line + x] != ' ')
+                    break;
+            if (x != con.linewidth)
+                break;
+        }
 
-                return;
-            }
-
-            //Com_sprintf (name, sizeof(name), "%s/%s.txt", FS_Gamedir(),
-            // Cmd_Argv(1));
-            name = fileSystem.getGamedir() + "/" + Cmd.Argv(1) + ".txt";
-
-            log.info("Dumped console text to {}", name);
-            fileSystem.createPath(name);
-            f = Lib.fopen(name, "rw");
-            if (f == null) {
-                log.error("ERROR: couldn't open.");
-                return;
-            }
-
-            // skip empty lines
-            for (l = con.current - con.totallines + 1; l <= con.current; l++) {
-                line = (l % con.totallines) * con.linewidth;
-                for (x = 0; x < con.linewidth; x++)
-                    if (con.text[line + x] != ' ')
-                        break;
-                if (x != con.linewidth)
+        // write the remaining lines
+        buffer[con.linewidth] = 0;
+        for (; l <= con.current; l++) {
+            line = (l % con.totallines) * con.linewidth;
+            //strncpy (buffer, line, con.linewidth);
+            System.arraycopy(con.text, line, buffer, 0, con.linewidth);
+            for (x = con.linewidth - 1; x >= 0; x--) {
+                if (buffer[x] == ' ')
+                    buffer[x] = 0;
+                else
                     break;
             }
+            for (x = 0; buffer[x] != 0; x++)
+                buffer[x] &= 0x7f;
 
-            // write the remaining lines
-            buffer[con.linewidth] = 0;
-            for (; l <= con.current; l++) {
-                line = (l % con.totallines) * con.linewidth;
-                //strncpy (buffer, line, con.linewidth);
-                System.arraycopy(con.text, line, buffer, 0, con.linewidth);
-                for (x = con.linewidth - 1; x >= 0; x--) {
-                    if (buffer[x] == ' ')
-                        buffer[x] = 0;
-                    else
-                        break;
-                }
-                for (x = 0; buffer[x] != 0; x++)
-                    buffer[x] &= 0x7f;
-
-                buffer[x] = '\n';
-                // fprintf (f, "%s\n", buffer);
-                try {
-                    f.write(buffer, 0, x + 1);
-                } catch (IOException e) {
-                }
+            buffer[x] = '\n';
+            // fprintf (f, "%s\n", buffer);
+            try {
+                f.write(buffer, 0, x + 1);
+            } catch (IOException e) {
             }
-
-            Lib.fclose(f);
-
         }
+
+        Lib.fclose(f);
+
     };
 
     /**
@@ -245,40 +237,34 @@ public final class Console extends Globals {
     /*
      * ================ Con_ToggleChat_f ================
      */
-    static Runnable ToggleChat_f = new Runnable() {
-        public void run() {
-            Key.ClearTyping();
+    static Runnable ToggleChat_f = () -> {
+        Key.ClearTyping();
 
-            if (cls.key_dest == key_console) {
-                if (cls.state == ca_active) {
-                    Menu.ForceMenuOff();
-                    cls.key_dest = key_game;
-                }
-            } else
-                cls.key_dest = key_console;
+        if (cls.key_dest == key_console) {
+            if (cls.state == ca_active) {
+                Menu.ForceMenuOff();
+                cls.key_dest = key_game;
+            }
+        } else
+            cls.key_dest = key_console;
 
-            ClearNotify();
-        }
+        ClearNotify();
     };
 
     /*
      * ================ Con_MessageMode_f ================
      */
-    static Runnable MessageMode_f = new Runnable() {
-        public void run() {
-            chat_team = false;
-            cls.key_dest = key_message;
-        }
+    static Runnable MessageMode_f = () -> {
+        chat_team = false;
+        cls.key_dest = key_message;
     };
 
     /*
      * ================ Con_MessageMode2_f ================
      */
-    static Runnable MessageMode2_f = new Runnable() {
-        public void run() {
-            chat_team = true;
-            cls.key_dest = key_message;
-        }
+    static Runnable MessageMode2_f = () -> {
+        chat_team = true;
+        cls.key_dest = key_message;
     };
 
     /*

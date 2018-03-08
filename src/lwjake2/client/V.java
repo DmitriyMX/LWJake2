@@ -234,31 +234,25 @@ public final class V extends Globals {
         }
     }
 
-    static Runnable Gun_Next_f = new Runnable() {
-        public void run() {
-            gun_frame++;
-            Com.Printf("frame " + gun_frame + "\n");
-        }
+    static Runnable Gun_Next_f = () -> {
+        gun_frame++;
+        Com.Printf("frame " + gun_frame + "\n");
     };
 
-    static Runnable Gun_Prev_f = new Runnable() {
-        public void run() {
-            gun_frame--;
-            if (gun_frame < 0)
-                gun_frame = 0;
-            Com.Printf("frame " + gun_frame + "\n");
-        }
+    static Runnable Gun_Prev_f = () -> {
+        gun_frame--;
+        if (gun_frame < 0)
+            gun_frame = 0;
+        Com.Printf("frame " + gun_frame + "\n");
     };
 
-    static Runnable Gun_Model_f = new Runnable() {
-        public void run() {
-            if (Cmd.Argc() != 2) {
-                gun_model = null;
-                return;
-            }
-            String name = "models/" + Cmd.Argv(1) + "/tris.md2";
-            gun_model = re.RegisterModel(name);
+    static Runnable Gun_Model_f = () -> {
+        if (Cmd.Argc() != 2) {
+            gun_model = null;
+            return;
         }
+        String name = "models/" + Cmd.Argv(1) + "/tris.md2";
+        gun_model = re.RegisterModel(name);
     };
 
     /*
@@ -377,16 +371,12 @@ public final class V extends Globals {
     /*
      * ============= V_Viewpos_f =============
      */
-    static Runnable Viewpos_f = new Runnable() {
-        public void run() {
-            log.info("({} {} {}) : {}",
-                    (int) cl.refdef.vieworg[0],
-                    (int) cl.refdef.vieworg[1],
-                    (int) cl.refdef.vieworg[2],
-                    (int) cl.refdef.viewangles[YAW]
-            );
-        }
-    };
+    static Runnable Viewpos_f = () -> log.info("({} {} {}) : {}",
+            (int) cl.refdef.vieworg[0],
+            (int) cl.refdef.vieworg[1],
+            (int) cl.refdef.vieworg[2],
+            (int) cl.refdef.viewangles[YAW]
+    );
 
     public static void Init() {
         Cmd.AddCommand("gun_next", Gun_Next_f);

@@ -995,27 +995,11 @@ public abstract class Main extends Base {
 		vid_gamma = Cvar.Get("vid_gamma", "1.0", Globals.CVAR_ARCHIVE);
 		vid_ref = Cvar.Get("vid_ref", "lwjgl", Globals.CVAR_ARCHIVE);
 
-		Cmd.AddCommand("imagelist", new Runnable() {
-			public void run() {
-				GL_ImageList_f();
-			}
-		});
+		Cmd.AddCommand("imagelist", this::GL_ImageList_f);
 
-		Cmd.AddCommand("screenshot", new Runnable() {
-			public void run() {
-				GL_ScreenShot_f();
-			}
-		});
-		Cmd.AddCommand("modellist", new Runnable() {
-			public void run() {
-				Mod_Modellist_f();
-			}
-		});
-		Cmd.AddCommand("gl_strings", new Runnable() {
-			public void run() {
-				GL_Strings_f();
-			}
-		});
+		Cmd.AddCommand("screenshot", this::GL_ScreenShot_f);
+		Cmd.AddCommand("modellist", this::Mod_Modellist_f);
+		Cmd.AddCommand("gl_strings", this::GL_Strings_f);
 	}
 
 	/**
