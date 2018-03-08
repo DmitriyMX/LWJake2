@@ -340,19 +340,6 @@ public final class Menu extends Key {
         }
     }
 
-    public static void PrintWhite(int cx, int cy, String str) {
-        for (int n = 0; n < str.length(); n++) {
-            DrawCharacter(cx, cy, str.charAt(n));
-            //str++;
-            cx += 8;
-        }
-    }
-
-    public static void DrawPic(int x, int y, String pic) {
-        re.DrawPic(x + ((viddef.width - 320) >> 1), y
-                + ((viddef.height - 240) >> 1), pic);
-    }
-
     /*
      * ============= DrawCursor
      * 
@@ -436,8 +423,6 @@ public final class Menu extends Key {
      */
     static final int MAIN_ITEMS = 5;
 
-    static Runnable Main_Draw = Menu::Main_Draw;
-
     static void Main_Draw() {
         int i;
         int w, h;
@@ -452,7 +437,6 @@ public final class Menu extends Key {
         for (i = 0; i < names.length; i++) {
             Globals.re.DrawGetPicSize(dim, names[i]);
             w = dim.width;
-            h = dim.height;
 
             if (w > widest)
                 widest = w;
@@ -471,7 +455,7 @@ public final class Menu extends Key {
         Globals.re.DrawPic(xoffset, ystart + m_main_cursor * 40 + 13, litname);
 
         DrawCursor(xoffset - 25, ystart + m_main_cursor * 40 + 11,
-                (int) ((Globals.cls.realtime / 100)) % NUM_CURSOR_FRAMES);
+                (Globals.cls.realtime / 100) % NUM_CURSOR_FRAMES);
 
         Globals.re.DrawGetPicSize(dim, "m_main_plaque");
         w = dim.width;
@@ -480,12 +464,6 @@ public final class Menu extends Key {
 
         Globals.re.DrawPic(xoffset - 30 - w, ystart + h + 5, "m_main_logo");
     }
-
-    static keyfunc_t Main_Key = new keyfunc_t() {
-        public String execute(int key) {
-            return Main_Key(key);
-        }
-    };
 
     static String Main_Key(int key) {
         String sound = menu_move_sound;
@@ -569,15 +547,15 @@ public final class Menu extends Key {
         Menu_Draw(s_multiplayer_menu);
     }
 
-    static void PlayerSetupFunc(Object unused) {
+    static void PlayerSetupFunc() {
         Menu_PlayerConfig_f();
     }
 
-    static void JoinNetworkServerFunc(Object unused) {
+    static void JoinNetworkServerFunc() {
         Menu_JoinServer_f();
     }
 
-    static void StartNetworkServerFunc(Object unused) {
+    static void StartNetworkServerFunc() {
         Menu_StartServer_f();
     }
 
@@ -592,8 +570,8 @@ public final class Menu extends Key {
         s_join_network_server_action.name = " join network server";
         s_join_network_server_action.callback = new mcallback() {
             public void execute(Object o) {
-                JoinNetworkServerFunc(o);
-            };
+                JoinNetworkServerFunc();
+            }
         };
 
         s_start_network_server_action.type = MTYPE_ACTION;
@@ -603,7 +581,7 @@ public final class Menu extends Key {
         s_start_network_server_action.name = " start network server";
         s_start_network_server_action.callback = new mcallback() {
             public void execute(Object o) {
-                StartNetworkServerFunc(o);
+                StartNetworkServerFunc();
             }
         };
 
@@ -614,7 +592,7 @@ public final class Menu extends Key {
         s_player_setup_action.name = " player setup";
         s_player_setup_action.callback = new mcallback() {
             public void execute(Object o) {
-                PlayerSetupFunc(o);
+                PlayerSetupFunc();
             }
         };
 
@@ -664,8 +642,6 @@ public final class Menu extends Key {
             { "invnext", "next item" }, {
 
             "cmd help", "help computer" }, { null, null } };
-
-    int keys_cursor;
 
     static boolean bind_grab;
 
@@ -756,8 +732,8 @@ public final class Menu extends Key {
         if (bind_grab)
             re.DrawChar(menu.x, menu.y + menu.cursor * 9, '=');
         else
-            re.DrawChar(menu.x, menu.y + menu.cursor * 9, 12 + ((int) (Timer
-                    .Milliseconds() / 250) & 1));
+            re.DrawChar(menu.x, menu.y + menu.cursor * 9, 12 + (Timer
+                    .Milliseconds() / 250 & 1));
     }
 
     static void DrawKeyBindingFunc(Object self) {
