@@ -43,8 +43,9 @@ import java.util.Comparator;
  *  
  */
 
-abstract class keyfunc_t {
-    abstract String execute(int key);
+@FunctionalInterface
+interface KeyCallback {
+    String execute(int key);
 }
 
 public final class Menu extends Key {
@@ -67,7 +68,7 @@ public final class Menu extends Key {
 
     static Runnable m_drawfunc;
 
-    static keyfunc_t m_keyfunc;
+    static KeyCallback m_keyfunc;
 
     //	  =============================================================================
     /* Support Routines */
@@ -77,7 +78,7 @@ public final class Menu extends Key {
     public static class menulayer_t {
         Runnable draw;
 
-        keyfunc_t key;
+        KeyCallback key;
     }
 
     static class menuframework_s {
@@ -176,7 +177,7 @@ public final class Menu extends Key {
                 viddef.height / 2 - 110, name);
     }
 
-    static void PushMenu(Runnable draw, keyfunc_t key) { //, String(*key)
+    static void PushMenu(Runnable draw, KeyCallback key) { //, String(*key)
                                                            // (int k) ) {
         int i;
 
@@ -534,11 +535,7 @@ public final class Menu extends Key {
     static Runnable Menu_Main = Menu::Menu_Main_f;
 
     static void Menu_Main_f() {
-        PushMenu(Menu::Main_Draw, new keyfunc_t() {
-            public String execute(int key) {
-                return Main_Key(key);
-            }
-        });
+        PushMenu(Menu::Main_Draw, Menu::Main_Key);
     }
 
     /*
@@ -617,11 +614,7 @@ public final class Menu extends Key {
 
     static void Menu_Multiplayer_f() {
         Multiplayer_MenuInit();
-        PushMenu(Menu::Multiplayer_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return Multiplayer_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::Multiplayer_MenuDraw, Menu::Multiplayer_MenuKey);
     }
 
     /*
@@ -1074,11 +1067,7 @@ public final class Menu extends Key {
 
     static void Menu_Keys_f() {
         Keys_MenuInit();
-        PushMenu(Menu::Keys_MenuDraw_f, new keyfunc_t() {
-            public String execute(int key) {
-                return Keys_MenuKey_f(key);
-            }
-        });
+        PushMenu(Menu::Keys_MenuDraw_f, Menu::Keys_MenuKey_f);
     }
 
     /*
@@ -1453,11 +1442,7 @@ public final class Menu extends Key {
 
     static void Menu_Options_f() {
         Options_MenuInit();
-        PushMenu(Menu::Options_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return Options_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::Options_MenuDraw, Menu::Options_MenuKey);
     }
 
     /*
@@ -1472,11 +1457,7 @@ public final class Menu extends Key {
 
     static void Menu_Video_f() {
         VID.MenuInit();
-        PushMenu(VID::MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return VID.MenuKey(key);
-            }
-        });
+        PushMenu(VID::MenuDraw, VID::MenuKey);
     }
 
     /*
@@ -1709,11 +1690,7 @@ public final class Menu extends Key {
         }
 
         credits_start_time = cls.realtime;
-        PushMenu(Menu::Credits_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return Credits_Key(key);
-            }
-        });
+        PushMenu(Menu::Credits_MenuDraw, Menu::Credits_Key);
     }
 
     /*
@@ -1860,11 +1837,7 @@ public final class Menu extends Key {
 
     static void Menu_Game_f() {
         Game_MenuInit();
-        PushMenu(Menu::Game_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return Game_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::Game_MenuDraw, Menu::Game_MenuKey);
         m_game_cursor = 1;
     }
 
@@ -1978,11 +1951,7 @@ public final class Menu extends Key {
 
     static void Menu_LoadGame_f() {
         LoadGame_MenuInit();
-        PushMenu(Menu::LoadGame_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return LoadGame_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::LoadGame_MenuDraw, Menu::LoadGame_MenuKey);
     }
 
     /*
@@ -2055,11 +2024,7 @@ public final class Menu extends Key {
             return; // not playing a game
 
         SaveGame_MenuInit();
-        PushMenu(Menu::SaveGame_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return SaveGame_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::SaveGame_MenuDraw, Menu::SaveGame_MenuKey);
         Create_Savestrings();
     }
 
@@ -2228,11 +2193,7 @@ public final class Menu extends Key {
 
     static void Menu_JoinServer_f() {
         JoinServer_MenuInit();
-        PushMenu(Menu::JoinServer_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return JoinServer_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::JoinServer_MenuDraw, Menu::JoinServer_MenuKey);
     }
 
     /*
@@ -2592,11 +2553,7 @@ public final class Menu extends Key {
     static Runnable Menu_StartServer = Menu::Menu_StartServer_f;
 
     static Runnable startServer_MenuDraw = Menu::StartServer_MenuDraw;
-    static keyfunc_t startServer_MenuKey = new keyfunc_t() {
-        public String execute(int key) {
-            return StartServer_MenuKey(key);
-        }        
-    };
+    static KeyCallback startServer_MenuKey = Menu::StartServer_MenuKey;
     static void Menu_StartServer_f() {
         StartServer_MenuInit();
         PushMenu(startServer_MenuDraw, startServer_MenuKey);
@@ -2985,11 +2942,7 @@ public final class Menu extends Key {
 
     static void Menu_DMOptions_f() {
         DMOptions_MenuInit();
-        PushMenu(Menu::DMOptions_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return DMOptions_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::DMOptions_MenuDraw, Menu::DMOptions_MenuKey);
     }
 
     /*
@@ -3122,11 +3075,7 @@ public final class Menu extends Key {
 
     static void Menu_DownloadOptions_f() {
         DownloadOptions_MenuInit();
-        PushMenu(Menu::DownloadOptions_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return DownloadOptions_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::DownloadOptions_MenuDraw, Menu::DownloadOptions_MenuKey);
     }
 
     /*
@@ -3196,11 +3145,7 @@ public final class Menu extends Key {
 
     static void Menu_AddressBook_f() {
         AddressBook_MenuInit();
-        PushMenu(Menu::AddressBook_MenuDraw_f, new keyfunc_t() {
-            public String execute(int key) {
-                return AddressBook_MenuKey_f(key);
-            }
-        });
+        PushMenu(Menu::AddressBook_MenuDraw_f, Menu::AddressBook_MenuKey_f);
     }
 
     /*
@@ -3727,11 +3672,7 @@ public final class Menu extends Key {
             return;
         }
         Menu_SetStatusBar(s_multiplayer_menu, null);
-        PushMenu(Menu::PlayerConfig_MenuDraw, new keyfunc_t() {
-            public String execute(int key) {
-                return PlayerConfig_MenuKey(key);
-            }
-        });
+        PushMenu(Menu::PlayerConfig_MenuDraw, Menu::PlayerConfig_MenuKey);
     }
 
     /*
@@ -3776,11 +3717,7 @@ public final class Menu extends Key {
     static Runnable Menu_Quit = Menu::Menu_Quit_f;
 
     static void Menu_Quit_f() {
-        PushMenu(Menu::Quit_Draw, new keyfunc_t() {
-            public String execute(int key) {
-                return Quit_Key(key);
-            }
-        });
+        PushMenu(Menu::Quit_Draw, Menu::Quit_Key);
     }
 
     //	  =============================================================================
