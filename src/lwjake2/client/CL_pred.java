@@ -141,8 +141,7 @@ public class CL_pred {
                 } else
                     tr.set(trace); // rst: solved the Z U P P E L - P R O B L E
                                    // M
-            } else if (trace.startsolid)
-                tr.startsolid = true;
+            }
         }
     }
 

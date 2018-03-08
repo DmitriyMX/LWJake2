@@ -1620,17 +1620,21 @@ public class GameMisc {
             self.touch = misc_viper_bomb_touch;
             self.activator = activator;
 
-            EdictIterator es = null;
+            EdictIterator es;
 
-            es = GameBase.G_Find(es, GameBase.findByClass, "misc_viper");
+            es = GameBase.G_Find(null, GameBase.findByClass, "misc_viper");
             if (es != null)
                 viper = es.o;
 
-            Math3D.VectorScale(viper.moveinfo.dir, viper.moveinfo.speed,
+            Math3D.VectorScale(
+                    (viper != null ? viper.moveinfo.dir : new float[0]),
+                    (viper != null ? viper.moveinfo.speed : 0),
                     self.velocity);
 
             self.timestamp = GameBase.level.time;
-            Math3D.VectorCopy(viper.moveinfo.dir, self.moveinfo.dir);
+            Math3D.VectorCopy(
+                    (viper != null ? viper.moveinfo.dir : new float[0]),
+                    self.moveinfo.dir);
         }
     };
 

@@ -408,10 +408,7 @@ public class Key extends Globals {
 			return;
 		}
 
-		if (!down)
-			return; // other systems only care about key down events
-
-//		if (shift_down)
+		//		if (shift_down)
 //			key = keyshift[key];
 
 		switch (Globals.cls.key_dest) {

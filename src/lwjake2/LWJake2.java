@@ -18,6 +18,7 @@
 
 package lwjake2;
 
+import lombok.NonNull;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.Qcommon;
@@ -34,7 +35,7 @@ public final class LWJake2 {
      * 
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(@NonNull String[] args) {
     	
     	boolean dedicated = false;
 
