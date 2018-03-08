@@ -559,21 +559,22 @@ public final class Menu extends Key {
         s_join_network_server_action.x = 0;
         s_join_network_server_action.y = 0;
         s_join_network_server_action.name = " join network server";
-        s_join_network_server_action.callback = Menu::JoinNetworkServerFunc;
+        s_join_network_server_action.callback = object ->JoinNetworkServerFunc();
+
 
         s_start_network_server_action.type = MTYPE_ACTION;
         s_start_network_server_action.flags = QMF_LEFT_JUSTIFY;
         s_start_network_server_action.x = 0;
         s_start_network_server_action.y = 10;
         s_start_network_server_action.name = " start network server";
-        s_start_network_server_action.callback = Menu::StartNetworkServerFunc;
+        s_start_network_server_action.callback = object ->StartNetworkServerFunc();
 
         s_player_setup_action.type = MTYPE_ACTION;
         s_player_setup_action.flags = QMF_LEFT_JUSTIFY;
         s_player_setup_action.x = 0;
         s_player_setup_action.y = 20;
         s_player_setup_action.name = " player setup";
-        s_player_setup_action.callback = Menu::PlayerSetupFunc;
+        s_player_setup_action.callback = object -> PlayerSetupFunc();
 
         Menu_AddItem(s_multiplayer_menu, s_join_network_server_action);
         Menu_AddItem(s_multiplayer_menu, s_start_network_server_action);
