@@ -21,12 +21,7 @@ package lwjake2.client;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
-import lwjake2.qcommon.Cbuf;
-import lwjake2.qcommon.Com;
-import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
-import lwjake2.qcommon.netadr_t;
+import lwjake2.qcommon.*;
 import lwjake2.sound.S;
 import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
@@ -99,12 +94,8 @@ public final class Menu extends Key {
         String statusbar;
 
         //void (*cursordraw)( struct _tag_menuframework *m );
-        mcallback cursordraw;
+        Callback cursordraw;
 
-    }
-
-    abstract static class mcallback {
-        abstract public void execute(Object self);
     }
 
     static class menucommon_s {
@@ -126,13 +117,13 @@ public final class Menu extends Key {
 
         String statusbar;
 
-        mcallback callback;
+        Callback callback;
 
-        mcallback statusbarfunc;
+        Callback statusbarfunc;
 
-        mcallback ownerdraw;
+        Callback ownerdraw;
 
-        mcallback cursordraw;
+        Callback cursordraw;
     }
 
     static class menufield_s extends menucommon_s {
@@ -593,33 +584,21 @@ public final class Menu extends Key {
         s_join_network_server_action.x = 0;
         s_join_network_server_action.y = 0;
         s_join_network_server_action.name = " join network server";
-        s_join_network_server_action.callback = new mcallback() {
-            public void execute(Object o) {
-                JoinNetworkServerFunc(o);
-            };
-        };
+        s_join_network_server_action.callback = Menu::JoinNetworkServerFunc;
 
         s_start_network_server_action.type = MTYPE_ACTION;
         s_start_network_server_action.flags = QMF_LEFT_JUSTIFY;
         s_start_network_server_action.x = 0;
         s_start_network_server_action.y = 10;
         s_start_network_server_action.name = " start network server";
-        s_start_network_server_action.callback = new mcallback() {
-            public void execute(Object o) {
-                StartNetworkServerFunc(o);
-            }
-        };
+        s_start_network_server_action.callback = Menu::StartNetworkServerFunc;
 
         s_player_setup_action.type = MTYPE_ACTION;
         s_player_setup_action.flags = QMF_LEFT_JUSTIFY;
         s_player_setup_action.x = 0;
         s_player_setup_action.y = 20;
         s_player_setup_action.name = " player setup";
-        s_player_setup_action.callback = new mcallback() {
-            public void execute(Object o) {
-                PlayerSetupFunc(o);
-            }
-        };
+        s_player_setup_action.callback = Menu::PlayerSetupFunc;
 
         Menu_AddItem(s_multiplayer_menu, s_join_network_server_action);
         Menu_AddItem(s_multiplayer_menu, s_start_network_server_action);
@@ -810,21 +789,13 @@ public final class Menu extends Key {
 
         s_keys_menu.x = (int) (viddef.width * 0.50);
         s_keys_menu.nitems = 0;
-        s_keys_menu.cursordraw = new mcallback() {
-            public void execute(Object o) {
-                KeyCursorDrawFunc((menuframework_s) o);
-            }
-        };
+        s_keys_menu.cursordraw = o -> KeyCursorDrawFunc((menuframework_s) o);
 
         s_keys_attack_action.type = MTYPE_ACTION;
         s_keys_attack_action.flags = QMF_GRAYED;
         s_keys_attack_action.x = 0;
         s_keys_attack_action.y = y;
-        s_keys_attack_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_attack_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_attack_action.localdata[0] = i;
         s_keys_attack_action.name = bindnames[s_keys_attack_action.localdata[0]][1];
 
@@ -832,11 +803,7 @@ public final class Menu extends Key {
         s_keys_change_weapon_action.flags = QMF_GRAYED;
         s_keys_change_weapon_action.x = 0;
         s_keys_change_weapon_action.y = y += 9;
-        s_keys_change_weapon_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_change_weapon_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_change_weapon_action.localdata[0] = ++i;
         s_keys_change_weapon_action.name = bindnames[s_keys_change_weapon_action.localdata[0]][1];
@@ -845,11 +812,7 @@ public final class Menu extends Key {
         s_keys_walk_forward_action.flags = QMF_GRAYED;
         s_keys_walk_forward_action.x = 0;
         s_keys_walk_forward_action.y = y += 9;
-        s_keys_walk_forward_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_walk_forward_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_walk_forward_action.localdata[0] = ++i;
         s_keys_walk_forward_action.name = bindnames[s_keys_walk_forward_action.localdata[0]][1];
 
@@ -857,11 +820,7 @@ public final class Menu extends Key {
         s_keys_backpedal_action.flags = QMF_GRAYED;
         s_keys_backpedal_action.x = 0;
         s_keys_backpedal_action.y = y += 9;
-        s_keys_backpedal_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_backpedal_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_backpedal_action.localdata[0] = ++i;
         s_keys_backpedal_action.name = bindnames[s_keys_backpedal_action.localdata[0]][1];
 
@@ -869,11 +828,7 @@ public final class Menu extends Key {
         s_keys_turn_left_action.flags = QMF_GRAYED;
         s_keys_turn_left_action.x = 0;
         s_keys_turn_left_action.y = y += 9;
-        s_keys_turn_left_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_turn_left_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_turn_left_action.localdata[0] = ++i;
         s_keys_turn_left_action.name = bindnames[s_keys_turn_left_action.localdata[0]][1];
 
@@ -881,11 +836,7 @@ public final class Menu extends Key {
         s_keys_turn_right_action.flags = QMF_GRAYED;
         s_keys_turn_right_action.x = 0;
         s_keys_turn_right_action.y = y += 9;
-        s_keys_turn_right_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_turn_right_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_turn_right_action.localdata[0] = ++i;
         s_keys_turn_right_action.name = bindnames[s_keys_turn_right_action.localdata[0]][1];
 
@@ -893,11 +844,7 @@ public final class Menu extends Key {
         s_keys_run_action.flags = QMF_GRAYED;
         s_keys_run_action.x = 0;
         s_keys_run_action.y = y += 9;
-        s_keys_run_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_run_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_run_action.localdata[0] = ++i;
         s_keys_run_action.name = bindnames[s_keys_run_action.localdata[0]][1];
 
@@ -905,11 +852,7 @@ public final class Menu extends Key {
         s_keys_step_left_action.flags = QMF_GRAYED;
         s_keys_step_left_action.x = 0;
         s_keys_step_left_action.y = y += 9;
-        s_keys_step_left_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_step_left_action.ownerdraw = Menu::DrawKeyBindingFunc;
         s_keys_step_left_action.localdata[0] = ++i;
         s_keys_step_left_action.name = bindnames[s_keys_step_left_action.localdata[0]][1];
 
@@ -917,11 +860,7 @@ public final class Menu extends Key {
         s_keys_step_right_action.flags = QMF_GRAYED;
         s_keys_step_right_action.x = 0;
         s_keys_step_right_action.y = y += 9;
-        s_keys_step_right_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_step_right_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_step_right_action.localdata[0] = ++i;
         s_keys_step_right_action.name = bindnames[s_keys_step_right_action.localdata[0]][1];
@@ -930,11 +869,7 @@ public final class Menu extends Key {
         s_keys_sidestep_action.flags = QMF_GRAYED;
         s_keys_sidestep_action.x = 0;
         s_keys_sidestep_action.y = y += 9;
-        s_keys_sidestep_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_sidestep_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_sidestep_action.localdata[0] = ++i;
         s_keys_sidestep_action.name = bindnames[s_keys_sidestep_action.localdata[0]][1];
@@ -943,11 +878,7 @@ public final class Menu extends Key {
         s_keys_look_up_action.flags = QMF_GRAYED;
         s_keys_look_up_action.x = 0;
         s_keys_look_up_action.y = y += 9;
-        s_keys_look_up_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_look_up_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_look_up_action.localdata[0] = ++i;
         s_keys_look_up_action.name = bindnames[s_keys_look_up_action.localdata[0]][1];
@@ -956,11 +887,7 @@ public final class Menu extends Key {
         s_keys_look_down_action.flags = QMF_GRAYED;
         s_keys_look_down_action.x = 0;
         s_keys_look_down_action.y = y += 9;
-        s_keys_look_down_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_look_down_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_look_down_action.localdata[0] = ++i;
         s_keys_look_down_action.name = bindnames[s_keys_look_down_action.localdata[0]][1];
@@ -969,11 +896,7 @@ public final class Menu extends Key {
         s_keys_center_view_action.flags = QMF_GRAYED;
         s_keys_center_view_action.x = 0;
         s_keys_center_view_action.y = y += 9;
-        s_keys_center_view_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_center_view_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_center_view_action.localdata[0] = ++i;
         s_keys_center_view_action.name = bindnames[s_keys_center_view_action.localdata[0]][1];
@@ -982,11 +905,7 @@ public final class Menu extends Key {
         s_keys_mouse_look_action.flags = QMF_GRAYED;
         s_keys_mouse_look_action.x = 0;
         s_keys_mouse_look_action.y = y += 9;
-        s_keys_mouse_look_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_mouse_look_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_mouse_look_action.localdata[0] = ++i;
         s_keys_mouse_look_action.name = bindnames[s_keys_mouse_look_action.localdata[0]][1];
@@ -995,11 +914,7 @@ public final class Menu extends Key {
         s_keys_keyboard_look_action.flags = QMF_GRAYED;
         s_keys_keyboard_look_action.x = 0;
         s_keys_keyboard_look_action.y = y += 9;
-        s_keys_keyboard_look_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_keyboard_look_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_keyboard_look_action.localdata[0] = ++i;
         s_keys_keyboard_look_action.name = bindnames[s_keys_keyboard_look_action.localdata[0]][1];
@@ -1008,11 +923,7 @@ public final class Menu extends Key {
         s_keys_move_up_action.flags = QMF_GRAYED;
         s_keys_move_up_action.x = 0;
         s_keys_move_up_action.y = y += 9;
-        s_keys_move_up_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_move_up_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_move_up_action.localdata[0] = ++i;
         s_keys_move_up_action.name = bindnames[s_keys_move_up_action.localdata[0]][1];
@@ -1021,11 +932,7 @@ public final class Menu extends Key {
         s_keys_move_down_action.flags = QMF_GRAYED;
         s_keys_move_down_action.x = 0;
         s_keys_move_down_action.y = y += 9;
-        s_keys_move_down_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_move_down_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_move_down_action.localdata[0] = ++i;
         s_keys_move_down_action.name = bindnames[s_keys_move_down_action.localdata[0]][1];
@@ -1034,11 +941,7 @@ public final class Menu extends Key {
         s_keys_inventory_action.flags = QMF_GRAYED;
         s_keys_inventory_action.x = 0;
         s_keys_inventory_action.y = y += 9;
-        s_keys_inventory_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_inventory_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_inventory_action.localdata[0] = ++i;
         s_keys_inventory_action.name = bindnames[s_keys_inventory_action.localdata[0]][1];
@@ -1047,11 +950,7 @@ public final class Menu extends Key {
         s_keys_inv_use_action.flags = QMF_GRAYED;
         s_keys_inv_use_action.x = 0;
         s_keys_inv_use_action.y = y += 9;
-        s_keys_inv_use_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_inv_use_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_inv_use_action.localdata[0] = ++i;
         s_keys_inv_use_action.name = bindnames[s_keys_inv_use_action.localdata[0]][1];
@@ -1060,11 +959,7 @@ public final class Menu extends Key {
         s_keys_inv_drop_action.flags = QMF_GRAYED;
         s_keys_inv_drop_action.x = 0;
         s_keys_inv_drop_action.y = y += 9;
-        s_keys_inv_drop_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_inv_drop_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_inv_drop_action.localdata[0] = ++i;
         s_keys_inv_drop_action.name = bindnames[s_keys_inv_drop_action.localdata[0]][1];
@@ -1073,11 +968,7 @@ public final class Menu extends Key {
         s_keys_inv_prev_action.flags = QMF_GRAYED;
         s_keys_inv_prev_action.x = 0;
         s_keys_inv_prev_action.y = y += 9;
-        s_keys_inv_prev_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_inv_prev_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_inv_prev_action.localdata[0] = ++i;
         s_keys_inv_prev_action.name = bindnames[s_keys_inv_prev_action.localdata[0]][1];
@@ -1086,11 +977,7 @@ public final class Menu extends Key {
         s_keys_inv_next_action.flags = QMF_GRAYED;
         s_keys_inv_next_action.x = 0;
         s_keys_inv_next_action.y = y += 9;
-        s_keys_inv_next_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_inv_next_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_inv_next_action.localdata[0] = ++i;
         s_keys_inv_next_action.name = bindnames[s_keys_inv_next_action.localdata[0]][1];
@@ -1099,11 +986,7 @@ public final class Menu extends Key {
         s_keys_help_computer_action.flags = QMF_GRAYED;
         s_keys_help_computer_action.x = 0;
         s_keys_help_computer_action.y = y += 9;
-        s_keys_help_computer_action.ownerdraw = new mcallback() {
-            public void execute(Object o) {
-                DrawKeyBindingFunc(o);
-            }
-        };
+        s_keys_help_computer_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_help_computer_action.localdata[0] = ++i;
         s_keys_help_computer_action.name = bindnames[s_keys_help_computer_action.localdata[0]][1];
@@ -1433,11 +1316,7 @@ public final class Menu extends Key {
         s_options_sfxvolume_slider.x = 0;
         s_options_sfxvolume_slider.y = 0;
         s_options_sfxvolume_slider.name = "effects volume";
-        s_options_sfxvolume_slider.callback = new mcallback() {
-            public void execute(Object o) {
-                UpdateVolumeFunc(o);
-            }
-        };
+        s_options_sfxvolume_slider.callback = Menu::UpdateVolumeFunc;
         s_options_sfxvolume_slider.minvalue = 0;
         s_options_sfxvolume_slider.maxvalue = 10;
         s_options_sfxvolume_slider.curvalue = Cvar.VariableValue("s_volume") * 10;
@@ -1446,11 +1325,7 @@ public final class Menu extends Key {
         s_options_cdvolume_box.x = 0;
         s_options_cdvolume_box.y = 10;
         s_options_cdvolume_box.name = "CD music";
-        s_options_cdvolume_box.callback = new mcallback() {
-            public void execute(Object o) {
-                UpdateCDVolumeFunc(o);
-            }
-        };
+        s_options_cdvolume_box.callback = Menu::UpdateCDVolumeFunc;
         s_options_cdvolume_box.itemnames = cd_music_items;
         s_options_cdvolume_box.curvalue = 1 - (int) Cvar
                 .VariableValue("cd_nocd");
@@ -1460,22 +1335,14 @@ public final class Menu extends Key {
         s_options_quality_list.y = 20;
         ;
         s_options_quality_list.name = "sound";
-        s_options_quality_list.callback = new mcallback() {
-            public void execute(Object o) {
-                UpdateSoundQualityFunc(o);
-            }
-        };
+        s_options_quality_list.callback = Menu::UpdateSoundQualityFunc;
         s_options_quality_list.itemnames = s_labels;
 
         s_options_sensitivity_slider.type = MTYPE_SLIDER;
         s_options_sensitivity_slider.x = 0;
         s_options_sensitivity_slider.y = 50;
         s_options_sensitivity_slider.name = "mouse speed";
-        s_options_sensitivity_slider.callback = new mcallback() {
-            public void execute(Object o) {
-                MouseSpeedFunc(o);
-            }
-        };
+        s_options_sensitivity_slider.callback = Menu::MouseSpeedFunc;
         s_options_sensitivity_slider.minvalue = 2;
         s_options_sensitivity_slider.maxvalue = 22;
 
@@ -1483,66 +1350,42 @@ public final class Menu extends Key {
         s_options_alwaysrun_box.x = 0;
         s_options_alwaysrun_box.y = 60;
         s_options_alwaysrun_box.name = "always run";
-        s_options_alwaysrun_box.callback = new mcallback() {
-            public void execute(Object o) {
-                AlwaysRunFunc(o);
-            }
-        };
+        s_options_alwaysrun_box.callback = Menu::AlwaysRunFunc;
         s_options_alwaysrun_box.itemnames = yesno_names;
 
         s_options_invertmouse_box.type = MTYPE_SPINCONTROL;
         s_options_invertmouse_box.x = 0;
         s_options_invertmouse_box.y = 70;
         s_options_invertmouse_box.name = "invert mouse";
-        s_options_invertmouse_box.callback = new mcallback() {
-            public void execute(Object o) {
-                InvertMouseFunc(o);
-            }
-        };
+        s_options_invertmouse_box.callback = Menu::InvertMouseFunc;
         s_options_invertmouse_box.itemnames = yesno_names;
 
         s_options_lookspring_box.type = MTYPE_SPINCONTROL;
         s_options_lookspring_box.x = 0;
         s_options_lookspring_box.y = 80;
         s_options_lookspring_box.name = "lookspring";
-        s_options_lookspring_box.callback = new mcallback() {
-            public void execute(Object o) {
-                LookspringFunc(o);
-            }
-        };
+        s_options_lookspring_box.callback = Menu::LookspringFunc;
         s_options_lookspring_box.itemnames = yesno_names;
 
         s_options_lookstrafe_box.type = MTYPE_SPINCONTROL;
         s_options_lookstrafe_box.x = 0;
         s_options_lookstrafe_box.y = 90;
         s_options_lookstrafe_box.name = "lookstrafe";
-        s_options_lookstrafe_box.callback = new mcallback() {
-            public void execute(Object o) {
-                LookstrafeFunc(o);
-            }
-        };
+        s_options_lookstrafe_box.callback = Menu::LookstrafeFunc;
         s_options_lookstrafe_box.itemnames = yesno_names;
 
         s_options_freelook_box.type = MTYPE_SPINCONTROL;
         s_options_freelook_box.x = 0;
         s_options_freelook_box.y = 100;
         s_options_freelook_box.name = "free look";
-        s_options_freelook_box.callback = new mcallback() {
-            public void execute(Object o) {
-                FreeLookFunc(o);
-            }
-        };
+        s_options_freelook_box.callback = Menu::FreeLookFunc;
         s_options_freelook_box.itemnames = yesno_names;
 
         s_options_crosshair_box.type = MTYPE_SPINCONTROL;
         s_options_crosshair_box.x = 0;
         s_options_crosshair_box.y = 110;
         s_options_crosshair_box.name = "crosshair";
-        s_options_crosshair_box.callback = new mcallback() {
-            public void execute(Object o) {
-                CrosshairFunc(o);
-            }
-        };
+        s_options_crosshair_box.callback = Menu::CrosshairFunc;
         s_options_crosshair_box.itemnames = crosshair_names;
         /*
          * s_options_noalttab_box.type = MTYPE_SPINCONTROL;
@@ -1555,42 +1398,26 @@ public final class Menu extends Key {
         s_options_joystick_box.x = 0;
         s_options_joystick_box.y = 120;
         s_options_joystick_box.name = "use joystick";
-        s_options_joystick_box.callback = new mcallback() {
-            public void execute(Object o) {
-                JoystickFunc(o);
-            }
-        };
+        s_options_joystick_box.callback = Menu::JoystickFunc;
         s_options_joystick_box.itemnames = yesno_names;
 
         s_options_customize_options_action.type = MTYPE_ACTION;
         s_options_customize_options_action.x = 0;
         s_options_customize_options_action.y = 140;
         s_options_customize_options_action.name = "customize controls";
-        s_options_customize_options_action.callback = new mcallback() {
-            public void execute(Object o) {
-                CustomizeControlsFunc(o);
-            }
-        };
+        s_options_customize_options_action.callback = Menu::CustomizeControlsFunc;
 
         s_options_defaults_action.type = MTYPE_ACTION;
         s_options_defaults_action.x = 0;
         s_options_defaults_action.y = 150;
         s_options_defaults_action.name = "reset defaults";
-        s_options_defaults_action.callback = new mcallback() {
-            public void execute(Object o) {
-                ControlsResetDefaultsFunc(o);
-            }
-        };
+        s_options_defaults_action.callback = Menu::ControlsResetDefaultsFunc;
 
         s_options_console_action.type = MTYPE_ACTION;
         s_options_console_action.x = 0;
         s_options_console_action.y = 160;
         s_options_console_action.name = "go to console";
-        s_options_console_action.callback = new mcallback() {
-            public void execute(Object o) {
-                ConsoleFunc(o);
-            }
-        };
+        s_options_console_action.callback = Menu::ConsoleFunc;
 
         ControlsSetMenuItemValues();
 
@@ -1968,33 +1795,21 @@ public final class Menu extends Key {
         s_easy_game_action.x = 0;
         s_easy_game_action.y = 0;
         s_easy_game_action.name = "easy";
-        s_easy_game_action.callback = new mcallback() {
-            public void execute(Object o) {
-                EasyGameFunc(o);
-            }
-        };
+        s_easy_game_action.callback = Menu::EasyGameFunc;
 
         s_medium_game_action.type = MTYPE_ACTION;
         s_medium_game_action.flags = QMF_LEFT_JUSTIFY;
         s_medium_game_action.x = 0;
         s_medium_game_action.y = 10;
         s_medium_game_action.name = "medium";
-        s_medium_game_action.callback = new mcallback() {
-            public void execute(Object o) {
-                MediumGameFunc(o);
-            }
-        };
+        s_medium_game_action.callback = Menu::MediumGameFunc;
 
         s_hard_game_action.type = MTYPE_ACTION;
         s_hard_game_action.flags = QMF_LEFT_JUSTIFY;
         s_hard_game_action.x = 0;
         s_hard_game_action.y = 20;
         s_hard_game_action.name = "hard";
-        s_hard_game_action.callback = new mcallback() {
-            public void execute(Object o) {
-                HardGameFunc(o);
-            }
-        };
+        s_hard_game_action.callback = Menu::HardGameFunc;
 
         s_blankline.type = MTYPE_SEPARATOR;
 
@@ -2003,33 +1818,21 @@ public final class Menu extends Key {
         s_load_game_action.x = 0;
         s_load_game_action.y = 40;
         s_load_game_action.name = "load game";
-        s_load_game_action.callback = new mcallback() {
-            public void execute(Object o) {
-                LoadGameFunc(o);
-            }
-        };
+        s_load_game_action.callback = Menu::LoadGameFunc;
 
         s_save_game_action.type = MTYPE_ACTION;
         s_save_game_action.flags = QMF_LEFT_JUSTIFY;
         s_save_game_action.x = 0;
         s_save_game_action.y = 50;
         s_save_game_action.name = "save game";
-        s_save_game_action.callback = new mcallback() {
-            public void execute(Object o) {
-                SaveGameFunc(o);
-            }
-        };
+        s_save_game_action.callback = Menu::SaveGameFunc;
 
         s_credits_action.type = MTYPE_ACTION;
         s_credits_action.flags = QMF_LEFT_JUSTIFY;
         s_credits_action.x = 0;
         s_credits_action.y = 60;
         s_credits_action.name = "credits";
-        s_credits_action.callback = new mcallback() {
-            public void execute(Object o) {
-                CreditsFunc(o);
-            }
-        };
+        s_credits_action.callback = Menu::CreditsFunc;
 
         Menu_AddItem(s_game_menu, s_easy_game_action);
         Menu_AddItem(s_game_menu, s_medium_game_action);
@@ -2143,11 +1946,7 @@ public final class Menu extends Key {
             s_loadgame_actions[i].name = m_savestrings[i];
             s_loadgame_actions[i].flags = QMF_LEFT_JUSTIFY;
             s_loadgame_actions[i].localdata[0] = i;
-            s_loadgame_actions[i].callback = new mcallback() {
-                public void execute(Object o) {
-                    LoadGameCallback(o);
-                }
-            };
+            s_loadgame_actions[i].callback = Menu::LoadGameCallback;
 
             s_loadgame_actions[i].x = 0;
             s_loadgame_actions[i].y = (i) * 10;
@@ -2229,11 +2028,7 @@ public final class Menu extends Key {
             s_savegame_actions[i].name = m_savestrings[i + 1];
             s_savegame_actions[i].localdata[0] = i + 1;
             s_savegame_actions[i].flags = QMF_LEFT_JUSTIFY;
-            s_savegame_actions[i].callback = new mcallback() {
-                public void execute(Object o) {
-                    SaveGameCallback(o);
-                }
-            };
+            s_savegame_actions[i].callback = Menu::SaveGameCallback;
 
             s_savegame_actions[i].x = 0;
             s_savegame_actions[i].y = (i) * 10;
@@ -2382,22 +2177,14 @@ public final class Menu extends Key {
         s_joinserver_address_book_action.flags = QMF_LEFT_JUSTIFY;
         s_joinserver_address_book_action.x = 0;
         s_joinserver_address_book_action.y = 0;
-        s_joinserver_address_book_action.callback = new mcallback() {
-            public void execute(Object o) {
-                AddressBookFunc(o);
-            }
-        };
+        s_joinserver_address_book_action.callback = Menu::AddressBookFunc;
 
         s_joinserver_search_action.type = MTYPE_ACTION;
         s_joinserver_search_action.name = "refresh server list";
         s_joinserver_search_action.flags = QMF_LEFT_JUSTIFY;
         s_joinserver_search_action.x = 0;
         s_joinserver_search_action.y = 10;
-        s_joinserver_search_action.callback = new mcallback() {
-            public void execute(Object o) {
-                SearchLocalGamesFunc(o);
-            }
-        };
+        s_joinserver_search_action.callback = Menu::SearchLocalGamesFunc;
         s_joinserver_search_action.statusbar = "search for servers";
 
         s_joinserver_server_title.type = MTYPE_SEPARATOR;
@@ -2412,11 +2199,7 @@ public final class Menu extends Key {
             s_joinserver_server_actions[i].flags = QMF_LEFT_JUSTIFY;
             s_joinserver_server_actions[i].x = 0;
             s_joinserver_server_actions[i].y = 40 + i * 10;
-            s_joinserver_server_actions[i].callback = new mcallback() {
-                public void execute(Object o) {
-                    JoinServerFunc(o);
-                }
-            };
+            s_joinserver_server_actions[i].callback = Menu::JoinServerFunc;
             s_joinserver_server_actions[i].statusbar = "press ENTER to connect";
         }
 
@@ -2700,11 +2483,7 @@ public final class Menu extends Key {
             s_rules_box.curvalue = 1;
         else
             s_rules_box.curvalue = 0;
-        s_rules_box.callback = new mcallback() {
-            public void execute(Object o) {
-                RulesChangeFunc(o);
-            }
-        };
+        s_rules_box.callback = Menu::RulesChangeFunc;
 
         s_timelimit_field.type = MTYPE_FIELD;
         s_timelimit_field.name = "time limit";
@@ -2766,22 +2545,14 @@ public final class Menu extends Key {
         s_startserver_dmoptions_action.x = 24;
         s_startserver_dmoptions_action.y = 108;
         s_startserver_dmoptions_action.statusbar = null;
-        s_startserver_dmoptions_action.callback = new mcallback() {
-            public void execute(Object o) {
-                DMOptionsFunc(o);
-            }
-        };
+        s_startserver_dmoptions_action.callback = Menu::DMOptionsFunc;
 
         s_startserver_start_action.type = MTYPE_ACTION;
         s_startserver_start_action.name = " begin";
         s_startserver_start_action.flags = QMF_LEFT_JUSTIFY;
         s_startserver_start_action.x = 24;
         s_startserver_start_action.y = 128;
-        s_startserver_start_action.callback = new mcallback() {
-            public void execute(Object o) {
-                StartServerActionFunc(o);
-            }
-        };
+        s_startserver_start_action.callback = Menu::StartServerActionFunc;
 
         Menu_AddItem(s_startserver_menu, s_startmap_list);
         Menu_AddItem(s_startserver_menu, s_rules_box);
@@ -3007,11 +2778,9 @@ public final class Menu extends Key {
         s_falls_box.x = 0;
         s_falls_box.y = y;
         s_falls_box.name = "falling damage";
-        s_falls_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_falls_box.callback = Menu::DMFlagCallback;
+        s_falls_box.callback = Menu::DMFlagCallback;
+
         s_falls_box.itemnames = yes_no_names;
         s_falls_box.curvalue = (dmflags & DF_NO_FALLING) == 0 ? 1 : 0;
 
@@ -3019,11 +2788,7 @@ public final class Menu extends Key {
         s_weapons_stay_box.x = 0;
         s_weapons_stay_box.y = y += 10;
         s_weapons_stay_box.name = "weapons stay";
-        s_weapons_stay_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_weapons_stay_box.callback = Menu::DMFlagCallback;
         s_weapons_stay_box.itemnames = yes_no_names;
         s_weapons_stay_box.curvalue = (dmflags & DF_WEAPONS_STAY) != 0 ? 1 : 0;
 
@@ -3031,11 +2796,7 @@ public final class Menu extends Key {
         s_instant_powerups_box.x = 0;
         s_instant_powerups_box.y = y += 10;
         s_instant_powerups_box.name = "instant powerups";
-        s_instant_powerups_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_instant_powerups_box.callback = Menu::DMFlagCallback;
         s_instant_powerups_box.itemnames = yes_no_names;
         s_instant_powerups_box.curvalue = (dmflags & DF_INSTANT_ITEMS) != 0 ? 1
                 : 0;
@@ -3044,22 +2805,14 @@ public final class Menu extends Key {
         s_powerups_box.x = 0;
         s_powerups_box.y = y += 10;
         s_powerups_box.name = "allow powerups";
-        s_powerups_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_powerups_box.callback = Menu::DMFlagCallback;
         s_powerups_box.itemnames = yes_no_names;
         s_powerups_box.curvalue = (dmflags & DF_NO_ITEMS) == 0 ? 1 : 0;
 
         s_health_box.type = MTYPE_SPINCONTROL;
         s_health_box.x = 0;
         s_health_box.y = y += 10;
-        s_health_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_health_box.callback = Menu::DMFlagCallback;
         s_health_box.name = "allow health";
         s_health_box.itemnames = yes_no_names;
         s_health_box.curvalue = (dmflags & DF_NO_HEALTH) == 0 ? 1 : 0;
@@ -3068,11 +2821,7 @@ public final class Menu extends Key {
         s_armor_box.x = 0;
         s_armor_box.y = y += 10;
         s_armor_box.name = "allow armor";
-        s_armor_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_armor_box.callback = Menu::DMFlagCallback;
         s_armor_box.itemnames = yes_no_names;
         s_armor_box.curvalue = (dmflags & DF_NO_ARMOR) == 0 ? 1 : 0;
 
@@ -3080,11 +2829,7 @@ public final class Menu extends Key {
         s_spawn_farthest_box.x = 0;
         s_spawn_farthest_box.y = y += 10;
         s_spawn_farthest_box.name = "spawn farthest";
-        s_spawn_farthest_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_spawn_farthest_box.callback = Menu::DMFlagCallback;
         s_spawn_farthest_box.itemnames = yes_no_names;
         s_spawn_farthest_box.curvalue = (dmflags & DF_SPAWN_FARTHEST) != 0 ? 1
                 : 0;
@@ -3093,11 +2838,7 @@ public final class Menu extends Key {
         s_samelevel_box.x = 0;
         s_samelevel_box.y = y += 10;
         s_samelevel_box.name = "same map";
-        s_samelevel_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_samelevel_box.callback = Menu::DMFlagCallback;
         s_samelevel_box.itemnames = yes_no_names;
         s_samelevel_box.curvalue = (dmflags & DF_SAME_LEVEL) != 0 ? 1 : 0;
 
@@ -3105,11 +2846,7 @@ public final class Menu extends Key {
         s_force_respawn_box.x = 0;
         s_force_respawn_box.y = y += 10;
         s_force_respawn_box.name = "force respawn";
-        s_force_respawn_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_force_respawn_box.callback = Menu::DMFlagCallback;
         s_force_respawn_box.itemnames = yes_no_names;
         s_force_respawn_box.curvalue = (dmflags & DF_FORCE_RESPAWN) != 0 ? 1
                 : 0;
@@ -3118,22 +2855,14 @@ public final class Menu extends Key {
         s_teamplay_box.x = 0;
         s_teamplay_box.y = y += 10;
         s_teamplay_box.name = "teamplay";
-        s_teamplay_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_teamplay_box.callback = Menu::DMFlagCallback;
         s_teamplay_box.itemnames = teamplay_names;
 
         s_allow_exit_box.type = MTYPE_SPINCONTROL;
         s_allow_exit_box.x = 0;
         s_allow_exit_box.y = y += 10;
         s_allow_exit_box.name = "allow exit";
-        s_allow_exit_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_allow_exit_box.callback = Menu::DMFlagCallback;
         s_allow_exit_box.itemnames = yes_no_names;
         s_allow_exit_box.curvalue = (dmflags & DF_ALLOW_EXIT) != 0 ? 1 : 0;
 
@@ -3141,11 +2870,7 @@ public final class Menu extends Key {
         s_infinite_ammo_box.x = 0;
         s_infinite_ammo_box.y = y += 10;
         s_infinite_ammo_box.name = "infinite ammo";
-        s_infinite_ammo_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_infinite_ammo_box.callback = Menu::DMFlagCallback;
         s_infinite_ammo_box.itemnames = yes_no_names;
         s_infinite_ammo_box.curvalue = (dmflags & DF_INFINITE_AMMO) != 0 ? 1
                 : 0;
@@ -3154,11 +2879,7 @@ public final class Menu extends Key {
         s_fixed_fov_box.x = 0;
         s_fixed_fov_box.y = y += 10;
         s_fixed_fov_box.name = "fixed FOV";
-        s_fixed_fov_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_fixed_fov_box.callback = Menu::DMFlagCallback;
         s_fixed_fov_box.itemnames = yes_no_names;
         s_fixed_fov_box.curvalue = (dmflags & DF_FIXED_FOV) != 0 ? 1 : 0;
 
@@ -3166,11 +2887,7 @@ public final class Menu extends Key {
         s_quad_drop_box.x = 0;
         s_quad_drop_box.y = y += 10;
         s_quad_drop_box.name = "quad drop";
-        s_quad_drop_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_quad_drop_box.callback = Menu::DMFlagCallback;
         s_quad_drop_box.itemnames = yes_no_names;
         s_quad_drop_box.curvalue = (dmflags & DF_QUAD_DROP) != 0 ? 1 : 0;
 
@@ -3178,11 +2895,7 @@ public final class Menu extends Key {
         s_friendlyfire_box.x = 0;
         s_friendlyfire_box.y = y += 10;
         s_friendlyfire_box.name = "friendly fire";
-        s_friendlyfire_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DMFlagCallback(o);
-            }
-        };
+        s_friendlyfire_box.callback = Menu::DMFlagCallback;
         s_friendlyfire_box.itemnames = yes_no_names;
         s_friendlyfire_box.curvalue = (dmflags & DF_NO_FRIENDLY_FIRE) == 0 ? 1
                 : 0;
@@ -3194,11 +2907,7 @@ public final class Menu extends Key {
             s_no_mines_box.x = 0;
             s_no_mines_box.y = y += 10;
             s_no_mines_box.name = "remove mines";
-            s_no_mines_box.callback = new mcallback() {
-                public void execute(Object o) {
-                    DMFlagCallback(o);
-                }
-            };
+            s_no_mines_box.callback = Menu::DMFlagCallback;
             s_no_mines_box.itemnames = yes_no_names;
             s_no_mines_box.curvalue = (dmflags & DF_NO_MINES) != 0 ? 1 : 0;
 
@@ -3206,11 +2915,7 @@ public final class Menu extends Key {
             s_no_nukes_box.x = 0;
             s_no_nukes_box.y = y += 10;
             s_no_nukes_box.name = "remove nukes";
-            s_no_nukes_box.callback = new mcallback() {
-                public void execute(Object o) {
-                    DMFlagCallback(o);
-                }
-            };
+            s_no_nukes_box.callback = Menu::DMFlagCallback;
             s_no_nukes_box.itemnames = yes_no_names;
             s_no_nukes_box.curvalue = (dmflags & DF_NO_NUKES) != 0 ? 1 : 0;
 
@@ -3218,11 +2923,7 @@ public final class Menu extends Key {
             s_stack_double_box.x = 0;
             s_stack_double_box.y = y += 10;
             s_stack_double_box.name = "2x/4x stacking off";
-            s_stack_double_box.callback = new mcallback() {
-                public void execute(Object o) {
-                    DMFlagCallback(o);
-                }
-            };
+            s_stack_double_box.callback = Menu::DMFlagCallback;
             s_stack_double_box.itemnames = yes_no_names;
             s_stack_double_box.curvalue = (dmflags & DF_NO_STACK_DOUBLE);
 
@@ -3230,11 +2931,7 @@ public final class Menu extends Key {
             s_no_spheres_box.x = 0;
             s_no_spheres_box.y = y += 10;
             s_no_spheres_box.name = "remove spheres";
-            s_no_spheres_box.callback = new mcallback() {
-                public void execute(Object o) {
-                    DMFlagCallback(o);
-                }
-            };
+            s_no_spheres_box.callback = Menu::DMFlagCallback;
             s_no_spheres_box.itemnames = yes_no_names;
             s_no_spheres_box.curvalue = (dmflags & DF_NO_SPHERES) != 0 ? 1 : 0;
 
@@ -3358,11 +3055,7 @@ public final class Menu extends Key {
         s_allow_download_box.x = 0;
         s_allow_download_box.y = y += 20;
         s_allow_download_box.name = "allow downloading";
-        s_allow_download_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadCallback(o);
-            }
-        };
+        s_allow_download_box.callback = Menu::DownloadCallback;
         s_allow_download_box.itemnames = yes_no_names;
         s_allow_download_box.curvalue = (Cvar.VariableValue("allow_download") != 0) ? 1
                 : 0;
@@ -3371,11 +3064,7 @@ public final class Menu extends Key {
         s_allow_download_maps_box.x = 0;
         s_allow_download_maps_box.y = y += 20;
         s_allow_download_maps_box.name = "maps";
-        s_allow_download_maps_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadCallback(o);
-            }
-        };
+        s_allow_download_maps_box.callback = Menu::DownloadCallback;
         s_allow_download_maps_box.itemnames = yes_no_names;
         s_allow_download_maps_box.curvalue = (Cvar
                 .VariableValue("allow_download_maps") != 0) ? 1 : 0;
@@ -3384,11 +3073,7 @@ public final class Menu extends Key {
         s_allow_download_players_box.x = 0;
         s_allow_download_players_box.y = y += 10;
         s_allow_download_players_box.name = "player models/skins";
-        s_allow_download_players_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadCallback(o);
-            }
-        };
+        s_allow_download_players_box.callback = Menu::DownloadCallback;
         s_allow_download_players_box.itemnames = yes_no_names;
         s_allow_download_players_box.curvalue = (Cvar
                 .VariableValue("allow_download_players") != 0) ? 1 : 0;
@@ -3397,11 +3082,7 @@ public final class Menu extends Key {
         s_allow_download_models_box.x = 0;
         s_allow_download_models_box.y = y += 10;
         s_allow_download_models_box.name = "models";
-        s_allow_download_models_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadCallback(o);
-            }
-        };
+        s_allow_download_models_box.callback = Menu::DownloadCallback;
         s_allow_download_models_box.itemnames = yes_no_names;
         s_allow_download_models_box.curvalue = (Cvar
                 .VariableValue("allow_download_models") != 0) ? 1 : 0;
@@ -3410,11 +3091,7 @@ public final class Menu extends Key {
         s_allow_download_sounds_box.x = 0;
         s_allow_download_sounds_box.y = y += 10;
         s_allow_download_sounds_box.name = "sounds";
-        s_allow_download_sounds_box.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadCallback(o);
-            }
-        };
+        s_allow_download_sounds_box.callback = Menu::DownloadCallback;
         s_allow_download_sounds_box.itemnames = yes_no_names;
         s_allow_download_sounds_box.curvalue = (Cvar
                 .VariableValue("allow_download_sounds") != 0) ? 1 : 0;
@@ -3863,11 +3540,7 @@ public final class Menu extends Key {
         s_player_model_box.type = MTYPE_SPINCONTROL;
         s_player_model_box.x = -56;
         s_player_model_box.y = 70;
-        s_player_model_box.callback = new mcallback() {
-            public void execute(Object o) {
-                ModelCallback(o);
-            }
-        };
+        s_player_model_box.callback = Menu::ModelCallback;
         s_player_model_box.cursor_offset = -48;
         s_player_model_box.curvalue = currentdirectoryindex;
         s_player_model_box.itemnames = s_pmnames;
@@ -3896,11 +3569,7 @@ public final class Menu extends Key {
         s_player_handedness_box.y = 118;
         s_player_handedness_box.name = null;
         s_player_handedness_box.cursor_offset = -48;
-        s_player_handedness_box.callback = new mcallback() {
-            public void execute(Object o) {
-                HandednessCallback(o);
-            }
-        };
+        s_player_handedness_box.callback = Menu::HandednessCallback;
         s_player_handedness_box.curvalue = (int) Cvar.VariableValue("hand");
         s_player_handedness_box.itemnames = handedness;
 
@@ -3918,11 +3587,7 @@ public final class Menu extends Key {
         s_player_rate_box.y = 166;
         s_player_rate_box.name = null;
         s_player_rate_box.cursor_offset = -48;
-        s_player_rate_box.callback = new mcallback() {
-            public void execute(Object o) {
-                RateCallback(o);
-            }
-        };
+        s_player_rate_box.callback = Menu::RateCallback;
         s_player_rate_box.curvalue = i;
         s_player_rate_box.itemnames = rate_names;
 
@@ -3932,11 +3597,7 @@ public final class Menu extends Key {
         s_player_download_action.x = -24;
         s_player_download_action.y = 186;
         s_player_download_action.statusbar = null;
-        s_player_download_action.callback = new mcallback() {
-            public void execute(Object o) {
-                DownloadOptionsFunc(o);
-            }
-        };
+        s_player_download_action.callback = Menu::DownloadOptionsFunc;
 
         Menu_AddItem(s_player_config_menu, s_player_name_field);
         Menu_AddItem(s_player_config_menu, s_player_model_title);

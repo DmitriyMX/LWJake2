@@ -23,6 +23,7 @@ import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
+import lwjake2.qcommon.Callback;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.render.Renderer;
@@ -576,11 +577,7 @@ public class VID extends Globals {
 		s_ref_list.name = "driver";
 		s_ref_list.x = 0;
 		s_ref_list.y = 0;
-		s_ref_list.callback = new Menu.mcallback() {
-			public void execute(Object self) {
-				DriverCallback(self);
-			}
-		};
+		s_ref_list.callback = VID::DriverCallback;
 		s_ref_list.itemnames = refs;
 
 		s_mode_list.type = MTYPE_SPINCONTROL;
@@ -594,20 +591,12 @@ public class VID extends Globals {
 		s_screensize_slider.name	= "screen size";
 		s_screensize_slider.minvalue = 3;
 		s_screensize_slider.maxvalue = 12;
-		s_screensize_slider.callback = new Menu.mcallback() {
-			public void execute(Object self) {
-				ScreenSizeCallback(self);
-			}
-		};
+		s_screensize_slider.callback = VID::ScreenSizeCallback;
 		s_brightness_slider.type	= MTYPE_SLIDER;
 		s_brightness_slider.x	= 0;
 		s_brightness_slider.y	= 30;
 		s_brightness_slider.name	= "brightness";
-		s_brightness_slider.callback =  new Menu.mcallback() {
-			public void execute(Object self) {
-				BrightnessCallback(self);
-			}
-		};
+		s_brightness_slider.callback = VID::BrightnessCallback;
 		s_brightness_slider.minvalue = 5;
 		s_brightness_slider.maxvalue = 13;
 		s_brightness_slider.curvalue = ( 1.3f - vid_gamma.value + 0.5f ) * 10;
@@ -618,42 +607,32 @@ public class VID extends Globals {
 		s_fs_box.name	= "fullscreen";
 		s_fs_box.itemnames = yesno_names;
 		s_fs_box.curvalue = (int)vid_fullscreen.value;
-		s_fs_box.callback = new Menu.mcallback() {
-			public void execute(Object o) {
-				int fs = ((Menu.menulist_s)o).curvalue;
-				if (fs == 0) {
-					s_mode_list.itemnames = resolutions;
-					int i = vid_modes.length - 2;
-					while (i > 0 && vid_modes[i].width > mode_x) i--;
-					s_mode_list.curvalue = i;
-				} else {
-					s_mode_list.itemnames = fs_resolutions;
-					int i = fs_modes.length - 1;
-					while (i > 0 && fs_modes[i].width > mode_x) i--;						
-					s_mode_list.curvalue = i;						
-				}
-			}
-		};
+		s_fs_box.callback = o -> {
+            int fs = ((Menu.menulist_s)o).curvalue;
+            if (fs == 0) {
+                s_mode_list.itemnames = resolutions;
+                int i = vid_modes.length - 2;
+                while (i > 0 && vid_modes[i].width > mode_x) i--;
+                s_mode_list.curvalue = i;
+            } else {
+                s_mode_list.itemnames = fs_resolutions;
+                int i = fs_modes.length - 1;
+                while (i > 0 && fs_modes[i].width > mode_x) i--;
+                s_mode_list.curvalue = i;
+            }
+        };
 
 		s_defaults_action.type = MTYPE_ACTION;
 		s_defaults_action.name = "reset to default";
 		s_defaults_action.x    = 0;
 		s_defaults_action.y    = 90;
-		s_defaults_action.callback = new Menu.mcallback() {
-			public void execute(Object self) {
-				ResetDefaults(self);
-			}
-		};
+		s_defaults_action.callback = VID::ResetDefaults;
 
 		s_apply_action.type = MTYPE_ACTION;
 		s_apply_action.name = "apply";
 		s_apply_action.x    = 0;
 		s_apply_action.y    = 100;
-		s_apply_action.callback = new Menu.mcallback() {
-			public void execute(Object self) {
-				ApplyChanges(self);
-			}
-		};
+		s_apply_action.callback = VID::ApplyChanges;
 		
 
 		s_stipple_box.type = MTYPE_SPINCONTROL;
