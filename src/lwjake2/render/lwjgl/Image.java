@@ -55,7 +55,6 @@ public abstract class Image extends Main {
 	image_t[] gltextures = new image_t[MAX_GLTEXTURES];
 	//Map gltextures = new Hashtable(MAX_GLTEXTURES); // image_t
 	int numgltextures;
-	int base_textureid; // gltextures[i] = base_textureid+i
 
 	byte[] intensitytable = new byte[256];
 	byte[] gammatable = new byte[256];
@@ -96,7 +95,7 @@ public abstract class Image extends Main {
 		{
 			ByteBuffer temptable=BufferUtils.createByteBuffer(768);
 			for (i = 0; i < 256; i++) {
-				temptable.put(i * 3 + 0, (byte) ((palette[i] >> 0) & 0xff));
+				temptable.put(i * 3, (byte) ((palette[i]) & 0xff));
 				temptable.put(i * 3 + 1, (byte) ((palette[i] >> 8) & 0xff));
 				temptable.put(i * 3 + 2, (byte) ((palette[i] >> 16) & 0xff));
 			}
@@ -490,8 +489,8 @@ public abstract class Image extends Main {
 		// decode pcx
 		//
 		int count = 0;
-		byte dataByte = 0;
-		int runLength = 0;
+		byte dataByte;
+		int runLength;
 		int x, y;
 
 		for (y = 0; y < height; y++) {
@@ -540,7 +539,7 @@ public abstract class Image extends Main {
 		byte[] raw;
 		ByteBuffer buf_p;
 		qfiles.tga_t targa_header;
-		byte[] pic = null;
+		byte[] pic;
 
 		//
 		// load the file
@@ -759,24 +758,22 @@ public abstract class Image extends Main {
 		int fillcolor = skin[0] & 0xff;
 //		floodfill_t[] fifo = new floodfill_t[FLOODFILL_FIFO_SIZE];
 		int inpt = 0, outpt = 0;
-		int filledcolor = -1;
+		int filledcolor;
 		int i;
 
 //		for (int j = 0; j < fifo.length; j++) {
 //			fifo[j] = new floodfill_t();
 //		}
 
-		if (filledcolor == -1) {
-			filledcolor = 0;
-			// attempt to find opaque black
-			for (i = 0; i < 256; ++i)
-				// TODO check this
-				if (d_8to24table[i]  == 0xFF000000) { // alpha 1.0
-				//if (d_8to24table[i] == (255 << 0)) // alpha 1.0
-					filledcolor = i;
-					break;
-				}
-		}
+		filledcolor = 0;
+		// attempt to find opaque black
+		for (i = 0; i < 256; ++i)
+            // TODO check this
+            if (d_8to24table[i]  == 0xFF000000) { // alpha 1.0
+            //if (d_8to24table[i] == (255 << 0)) // alpha 1.0
+                filledcolor = i;
+                break;
+            }
 
 		// can't fill to filled color or to transparent color (used as visited marker)
 		if ((fillcolor == filledcolor) || (fillcolor == 255)) {
@@ -946,7 +943,7 @@ public abstract class Image extends Main {
 			c = inwidth * inheight;
 			for (i = 0; i < c; i++) {
 				color = in[i];
-				r = (color >> 0) & 0xFF;
+				r = (color) & 0xFF;
 				g = (color >> 8) & 0xFF;
 				b = (color >> 16) & 0xFF;
 
@@ -954,7 +951,7 @@ public abstract class Image extends Main {
 				g = gammatable[g] & 0xFF;
 				b = gammatable[b] & 0xFF;
 
-				in[i] = (r << 0) | (g << 8) | (b << 16) | (color & 0xFF000000);
+				in[i] = (r) | (g << 8) | (b << 16) | (color & 0xFF000000);
 			}
 		}
 		else {
@@ -964,7 +961,7 @@ public abstract class Image extends Main {
 			c = inwidth * inheight;
 			for (i = 0; i < c; i++) {
 				color = in[i];
-				r = (color >> 0) & 0xFF;
+				r = (color) & 0xFF;
 				g = (color >> 8) & 0xFF;
 				b = (color >> 16) & 0xFF;
 
@@ -972,7 +969,7 @@ public abstract class Image extends Main {
 				g = gammatable[intensitytable[g] & 0xFF] & 0xFF;
 				b = gammatable[intensitytable[b] & 0xFF] & 0xFF;
 
-				in[i] = (r << 0) | (g << 8) | (b << 16) | (color & 0xFF000000);
+				in[i] = (r) | (g << 8) | (b << 16) | (color & 0xFF000000);
 			}
 
 		}
@@ -1000,17 +997,17 @@ public abstract class Image extends Main {
 		for (i = 0; i < height; i += 2, inIndex += width) {
 			for (j = 0; j < width; j += 2, outIndex += 1, inIndex += 2) {
 
-				p1 = in[inIndex + 0];
+				p1 = in[inIndex];
 				p2 = in[inIndex + 1];
-				p3 = in[inIndex + width + 0];
+				p3 = in[inIndex + width];
 				p4 = in[inIndex + width + 1];
 
-				r = (((p1 >> 0) & 0xFF) + ((p2 >> 0) & 0xFF) + ((p3 >> 0) & 0xFF) + ((p4 >> 0) & 0xFF)) >> 2;
+				r = (((p1) & 0xFF) + ((p2) & 0xFF) + ((p3) & 0xFF) + ((p4) & 0xFF)) >> 2;
 				g = (((p1 >> 8) & 0xFF) + ((p2 >> 8) & 0xFF) + ((p3 >> 8) & 0xFF) + ((p4 >> 8) & 0xFF)) >> 2;
 				b = (((p1 >> 16) & 0xFF) + ((p2 >> 16) & 0xFF) + ((p3 >> 16) & 0xFF) + ((p4 >> 16) & 0xFF)) >> 2;
 				a = (((p1 >> 24) & 0xFF) + ((p2 >> 24) & 0xFF) + ((p3 >> 24) & 0xFF) + ((p4 >> 24) & 0xFF)) >> 2;
 
-				out[outIndex] = (r << 0) | (g << 8) | (b << 16) | (a << 24);
+				out[outIndex] = (r) | (g << 8) | (b << 16) | (a << 24);
 			}
 		}
 	}
@@ -1402,7 +1399,7 @@ public abstract class Image extends Main {
 				int[] tmp = new int[pic.length / 4];
 
 				for (i = 0; i < tmp.length; i++) {
-					tmp[i] = ((pic[4 * i + 0] & 0xFF) << 0); // & 0x000000FF;
+					tmp[i] = ((pic[4 * i] & 0xFF)); // & 0x000000FF;
 					tmp[i] |= ((pic[4 * i + 1] & 0xFF) << 8); // & 0x0000FF00;
 					tmp[i] |= ((pic[4 * i + 2] & 0xFF) << 16); // & 0x00FF0000;
 					tmp[i] |= ((pic[4 * i + 3] & 0xFF) << 24); // & 0xFF000000;
@@ -1428,7 +1425,7 @@ public abstract class Image extends Main {
 	*/
 	image_t GL_LoadWal(String name) {
 
-		image_t image = null;
+		image_t image;
 
 		byte[] raw = fileSystem.loadFile(name);
 		if (raw == null) {
@@ -1454,7 +1451,7 @@ public abstract class Image extends Main {
 	===============
 	*/
 	image_t GL_FindImage(String name, int type) {
-		image_t image = null;
+		image_t image;
 
 //		// TODO loest das grossschreibungs problem
 //		name = name.toLowerCase();
@@ -1482,7 +1479,7 @@ public abstract class Image extends Main {
 		// load the pic from disk
 		//
 		image = null;
-		byte[] pic = null;
+		byte[] pic;
 		Dimension dim = new Dimension();
 
 		if (name.endsWith(".pcx")) {
@@ -1537,7 +1534,7 @@ public abstract class Image extends Main {
 		r_notexture.registration_sequence = registration_sequence;
 		r_particletexture.registration_sequence = registration_sequence;
 
-		image_t image = null;
+		image_t image;
 
 		for (int i = 0; i < numgltextures; i++) {
 			image = gltextures[i];
@@ -1584,7 +1581,7 @@ public abstract class Image extends Main {
 			g = pal[j++] & 0xFF;
 			b = pal[j++] & 0xFF;
 
-			d_8to24table[i] = (255 << 24) | (b << 16) | (g << 8) | (r << 0);
+			d_8to24table[i] = (255 << 24) | (b << 16) | (g << 8) | (r);
 		}
 
 		d_8to24table[255] &= 0x00FFFFFF; // 255 is transparent
