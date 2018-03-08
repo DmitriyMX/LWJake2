@@ -694,7 +694,7 @@ public class GameTarget {
                         GameBase.gi.dprintf(self.classname + " at "
                                 + Lib.vtos(self.s.origin) + ": " + self.target
                                 + " is a bad target\n");
-                    self.enemy = edit.o;
+                    self.enemy = (edit != null ? edit.o : null);
                 } else {
                     GameBase.G_SetMovedir(self.s.angles, self.movedir);
                 }

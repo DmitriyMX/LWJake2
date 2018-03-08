@@ -30,7 +30,7 @@ public class Vargs {
 	// initial capacity
 	static final int SIZE = 5;
 
-	Vector<Object> v;
+	Vector<Object> v = null;
 
 	public Vargs() {
 		this(SIZE);
@@ -39,46 +39,46 @@ public class Vargs {
 	public Vargs(int initialSize) {
 		if (v != null)
 			v.clear(); // clear previous list for GC
-		v = new Vector<Object>(initialSize);
+		v = new Vector<>(initialSize);
 	}
 
 	public Vargs add(boolean value) {
-		v.add(new Boolean(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(byte value) {
-		v.add(new Byte(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(char value) {
-		v.add(new Character(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(short value) {
-		v.add(new Short(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(int value) {
-		v.add(new Integer(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(long value) {
-		v.add(new Long(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(float value) {
-		v.add(new Float(value));
+		v.add(value);
 		return this;
 	}
 
 	public Vargs add(double value) {
-		v.add(new Double(value));
+		v.add(value);
 		return this;
 	}
 

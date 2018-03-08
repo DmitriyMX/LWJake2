@@ -1356,22 +1356,8 @@ public abstract class Image extends Main {
 				image.texnum = TEXNUM_IMAGES + image.getId(); // image pos in array
 				GL_Bind(image.texnum);
 
-				if (bits == 8) {
-					image.has_alpha =
-						GL_Upload8(pic, width, height, (image.type != it_pic && image.type != it_sky), image.type == it_sky);
-				}
-				else {
-					int[] tmp = new int[pic.length / 4];
-
-					for (i = 0; i < tmp.length; i++) {
-						tmp[i] = ((pic[4 * i + 0] & 0xFF) << 0); // & 0x000000FF;
-						tmp[i] |= ((pic[4 * i + 1] & 0xFF) << 8); // & 0x0000FF00;
-						tmp[i] |= ((pic[4 * i + 2] & 0xFF) << 16); // & 0x00FF0000;
-						tmp[i] |= ((pic[4 * i + 3] & 0xFF) << 24); // & 0xFF000000;
-					}
-
-					image.has_alpha = GL_Upload32(tmp, width, height, (image.type != it_pic && image.type != it_sky));
-				}
+				image.has_alpha =
+                    GL_Upload8(pic, width, height, (image.type != it_pic && image.type != it_sky), image.type == it_sky);
 
 				image.upload_width = upload_width; // after power of 2 and scales
 				image.upload_height = upload_height;

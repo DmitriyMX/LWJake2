@@ -457,8 +457,7 @@ public class SV_WORLD {
                     clip.trace.startsolid = true;
                 } else
                     clip.trace.set(trace);
-            } else if (trace.startsolid)
-                clip.trace.startsolid = true;
+            }
         }
     }
 

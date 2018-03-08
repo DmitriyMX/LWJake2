@@ -664,12 +664,12 @@ public class CL_tent {
             } else {
                 //					Com_Printf ("No free sustains!\n");
                 // FIXME - read the stuff anyway
-                cnt = MSG.ReadByte(Globals.net_message);
+                MSG.ReadByte(Globals.net_message);
                 MSG.ReadPos(Globals.net_message, pos);
                 MSG.ReadDir(Globals.net_message, dir);
-                r = MSG.ReadByte(Globals.net_message);
-                magnitude = MSG.ReadShort(Globals.net_message);
-                magnitude = MSG.ReadLong(Globals.net_message); // really
+                MSG.ReadByte(Globals.net_message);
+                MSG.ReadShort(Globals.net_message);
+                MSG.ReadLong(Globals.net_message);
                                                                // interval
             }
         } else // instant
@@ -1027,7 +1027,7 @@ public class CL_tent {
 
         case Defines.TE_PARASITE_ATTACK:
         case Defines.TE_MEDIC_CABLE_ATTACK:
-            ent = ParseBeam(cl_mod_parasite_segment);
+            ParseBeam(cl_mod_parasite_segment);
             break;
 
         case Defines.TE_BOSSTPORT: // boss teleporting to station
@@ -1038,7 +1038,7 @@ public class CL_tent {
             break;
 
         case Defines.TE_GRAPPLE_CABLE:
-            ent = ParseBeam2(cl_mod_grapple_cable);
+            ParseBeam2(cl_mod_grapple_cable);
             break;
 
         // RAFAEL

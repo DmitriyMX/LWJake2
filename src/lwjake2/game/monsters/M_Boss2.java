@@ -590,8 +590,6 @@ public class M_Boss2 {
 
             if ((self.monsterinfo.aiflags & Defines.AI_STAND_GROUND) != 0) {
                 chance = 0.4f;
-            } else if (enemy_range == Defines.RANGE_MELEE) {
-                chance = 0.8f;
             } else if (enemy_range == Defines.RANGE_NEAR) {
                 chance = 0.8f;
             } else if (enemy_range == Defines.RANGE_MID) {

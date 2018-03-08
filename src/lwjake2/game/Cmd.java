@@ -267,7 +267,7 @@ public final class Cmd {
             // set cmd_args to everything after the first arg
             if (cmd_argc == 1) {
                 cmd_args = new String(text, ph.index, len - ph.index);
-                cmd_args.trim();
+                cmd_args = cmd_args.trim();
             }
 
             com_token = Com.Parse(ph);

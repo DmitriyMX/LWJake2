@@ -34,8 +34,6 @@ import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 import lwjake2.util.QuakeFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.Dimension;
 import java.io.RandomAccessFile;
@@ -53,7 +51,6 @@ abstract class keyfunc_t {
 }
 
 public final class Menu extends Key {
-    private static final Logger logger = LoggerFactory.getLogger(Menu.class);
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     static int m_main_cursor;
@@ -246,7 +243,7 @@ public final class Menu extends Key {
         menucommon_s item;
 
         if (m != null) {
-            if ((item = ((menucommon_s) Menu_ItemAtCursor(m))) != null) {
+            if ((item = Menu_ItemAtCursor(m)) != null) {
                 if (item.type == MTYPE_FIELD) {
                     if (Field_Key((menufield_s) item, key))
                         return null;
@@ -4261,7 +4258,7 @@ public final class Menu extends Key {
             else
                 offset = f.cursor;
 
-            if ((((int) (Timer.Milliseconds() / 250)) & 1) != 0) {
+            if ((Timer.Milliseconds() / 250 & 1) != 0) {
                 re.DrawChar(f.x + f.parent.x + (offset + 2) * 8 + 8, f.y
                         + f.parent.y, 11);
             } else {
