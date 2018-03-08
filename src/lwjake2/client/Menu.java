@@ -33,7 +33,7 @@ import lwjake2.util.QuakeFile;
 import java.awt.Dimension;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Menu
@@ -959,7 +959,7 @@ public final class Menu extends Key {
         s_keys_help_computer_action.type = MTYPE_ACTION;
         s_keys_help_computer_action.flags = QMF_GRAYED;
         s_keys_help_computer_action.x = 0;
-        s_keys_help_computer_action.y = y += 9;
+        s_keys_help_computer_action.y = y + 9;
         s_keys_help_computer_action.ownerdraw = Menu::DrawKeyBindingFunc;
 
         s_keys_help_computer_action.localdata[0] = ++i;
@@ -995,21 +995,13 @@ public final class Menu extends Key {
         Menu_Center(s_keys_menu);
     }
 
-    static Runnable Keys_MenuDraw = Menu::Keys_MenuDraw_f;
-
     static void Keys_MenuDraw_f() {
         Menu_AdjustCursor(s_keys_menu, 1);
         Menu_Draw(s_keys_menu);
     }
 
-    static keyfunc_t Keys_MenuKey = new keyfunc_t() {
-        public String execute(int key) {
-            return Keys_MenuKey_f(key);
-        }
-    };
-
     static String Keys_MenuKey_f(int key) {
-        menuaction_s item = (menuaction_s) Menu_ItemAtCursor(s_keys_menu);
+        menuaction_s item = (menuaction_s) Objects.requireNonNull(Menu_ItemAtCursor(s_keys_menu));
 
         if (bind_grab) {
             if (key != K_ESCAPE && key != '`') {
@@ -1097,38 +1089,34 @@ public final class Menu extends Key {
     //static menulist_s s_options_compatibility_list = new menulist_s();
     static menuaction_s s_options_console_action = new menuaction_s();
 
-    static void CrosshairFunc(Object unused) {
+    static void CrosshairFunc() {
         Cvar.SetValue("crosshair", s_options_crosshair_box.curvalue);
     }
 
-    static void JoystickFunc(Object unused) {
+    static void JoystickFunc() {
         Cvar.SetValue("in_joystick", s_options_joystick_box.curvalue);
     }
 
-    static void CustomizeControlsFunc(Object unused) {
+    static void CustomizeControlsFunc() {
         Menu_Keys_f();
     }
 
-    static void AlwaysRunFunc(Object unused) {
+    static void AlwaysRunFunc() {
         Cvar.SetValue("cl_run", s_options_alwaysrun_box.curvalue);
     }
 
-    static void FreeLookFunc(Object unused) {
+    static void FreeLookFunc() {
         Cvar.SetValue("freelook", s_options_freelook_box.curvalue);
     }
 
-    static void MouseSpeedFunc(Object unused) {
+    static void MouseSpeedFunc() {
         Cvar.SetValue("sensitivity",
                 s_options_sensitivity_slider.curvalue / 2.0F);
     }
 
-    static void NoAltTabFunc(Object unused) {
-        Cvar.SetValue("win_noalttab", s_options_noalttab_box.curvalue);
-    }
-
-    static float ClampCvar(float min, float max, float value) {
-        if (value < min)
-            return min;
+    static float ClampCvar(float max, float value) {
+        if (value < 0f)
+            return 0f;
         if (value > max)
             return max;
         return value;
@@ -1149,57 +1137,57 @@ public final class Menu extends Key {
 
         s_options_sensitivity_slider.curvalue = (sensitivity.value) * 2;
 
-        Cvar.SetValue("cl_run", ClampCvar(0, 1, cl_run.value));
+        Cvar.SetValue("cl_run", ClampCvar(1, cl_run.value));
         s_options_alwaysrun_box.curvalue = (int) cl_run.value;
 
         s_options_invertmouse_box.curvalue = m_pitch.value < 0 ? 1 : 0;
 
-        Cvar.SetValue("lookspring", ClampCvar(0, 1, lookspring.value));
+        Cvar.SetValue("lookspring", ClampCvar(1, lookspring.value));
         s_options_lookspring_box.curvalue = (int) lookspring.value;
 
-        Cvar.SetValue("lookstrafe", ClampCvar(0, 1, lookstrafe.value));
+        Cvar.SetValue("lookstrafe", ClampCvar(1, lookstrafe.value));
         s_options_lookstrafe_box.curvalue = (int) lookstrafe.value;
 
-        Cvar.SetValue("freelook", ClampCvar(0, 1, freelook.value));
+        Cvar.SetValue("freelook", ClampCvar(1, freelook.value));
         s_options_freelook_box.curvalue = (int) freelook.value;
 
-        Cvar.SetValue("crosshair", ClampCvar(0, 3, Globals.crosshair.value));
+        Cvar.SetValue("crosshair", ClampCvar(3, Globals.crosshair.value));
         s_options_crosshair_box.curvalue = (int) Globals.crosshair.value;
 
-        Cvar.SetValue("in_joystick", ClampCvar(0, 1, in_joystick.value));
+        Cvar.SetValue("in_joystick", ClampCvar(1, in_joystick.value));
         s_options_joystick_box.curvalue = (int) in_joystick.value;
 
         s_options_noalttab_box.curvalue = (int) win_noalttab.value;
     }
 
-    static void ControlsResetDefaultsFunc(Object unused) {
+    static void ControlsResetDefaultsFunc() {
         Cbuf.AddText("exec default.cfg\n");
         Cbuf.Execute();
 
         ControlsSetMenuItemValues();
     }
 
-    static void InvertMouseFunc(Object unused) {
+    static void InvertMouseFunc() {
         Cvar.SetValue("m_pitch", -m_pitch.value);
     }
 
-    static void LookspringFunc(Object unused) {
+    static void LookspringFunc() {
         Cvar.SetValue("lookspring", 1 - lookspring.value);
     }
 
-    static void LookstrafeFunc(Object unused) {
+    static void LookstrafeFunc() {
         Cvar.SetValue("lookstrafe", 1 - lookstrafe.value);
     }
 
-    static void UpdateVolumeFunc(Object unused) {
+    static void UpdateVolumeFunc() {
         Cvar.SetValue("s_volume", s_options_sfxvolume_slider.curvalue / 10);
     }
 
-    static void UpdateCDVolumeFunc(Object unused) {
+    static void UpdateCDVolumeFunc() {
         Cvar.SetValue("cd_nocd", 1 - s_options_cdvolume_box.curvalue);
     }
 
-    static void ConsoleFunc(Object unused) {
+    static void ConsoleFunc() {
         /*
          * * the proper way to do this is probably to have ToggleConsole_f
          * accept a parameter
@@ -1217,8 +1205,8 @@ public final class Menu extends Key {
         cls.key_dest = key_console;
     }
 
-    static void UpdateSoundQualityFunc(Object unused) {
-        boolean driverNotChanged = false;
+    static void UpdateSoundQualityFunc() {
+        boolean driverNotChanged;
         String current = s_drivers[s_options_quality_list.curvalue];
         driverNotChanged = S.getDriverName().equals(current);
 //        if (s_options_quality_list.curvalue != 0) {
@@ -1237,10 +1225,9 @@ public final class Menu extends Key {
 
         if (driverNotChanged) {
             re.EndFrame();
-            return;
         } else {
         	Cvar.Set("s_impl", current);
-        	
+
             DrawTextBox(8, 120 - 48, 36, 3);
             Print(16 + 16, 120 - 48 + 8, "Restarting the sound system. This");
             Print(16 + 16, 120 - 48 + 16, "could take up to a minute, so");
@@ -1255,16 +1242,13 @@ public final class Menu extends Key {
 
     static String cd_music_items[] = { "disabled", "enabled" };
 
-    static String compatibility_items[] = { "max compatibility",
-            "max performance" };
-
     static String yesno_names[] = { "no", "yes" };
 
     static String crosshair_names[] = { "none", "cross", "dot", "angle" };
 
     static String[] s_labels;
     static String[] s_drivers;
-    
+
     static void Options_MenuInit() {
 
     	s_drivers = S.getDriverNames();
@@ -1276,7 +1260,7 @@ public final class Menu extends Key {
     			s_labels[i] = s_drivers[i];
     		}
     	}
-    	
+
         win_noalttab = Cvar.Get("win_noalttab", "0", CVAR_ARCHIVE);
 
         /*
@@ -1290,7 +1274,7 @@ public final class Menu extends Key {
         s_options_sfxvolume_slider.x = 0;
         s_options_sfxvolume_slider.y = 0;
         s_options_sfxvolume_slider.name = "effects volume";
-        s_options_sfxvolume_slider.callback = Menu::UpdateVolumeFunc;
+        s_options_sfxvolume_slider.callback = unused -> UpdateVolumeFunc();
         s_options_sfxvolume_slider.minvalue = 0;
         s_options_sfxvolume_slider.maxvalue = 10;
         s_options_sfxvolume_slider.curvalue = Cvar.VariableValue("s_volume") * 10;
@@ -1299,7 +1283,7 @@ public final class Menu extends Key {
         s_options_cdvolume_box.x = 0;
         s_options_cdvolume_box.y = 10;
         s_options_cdvolume_box.name = "CD music";
-        s_options_cdvolume_box.callback = Menu::UpdateCDVolumeFunc;
+        s_options_cdvolume_box.callback = unused -> UpdateCDVolumeFunc();
         s_options_cdvolume_box.itemnames = cd_music_items;
         s_options_cdvolume_box.curvalue = 1 - (int) Cvar
                 .VariableValue("cd_nocd");
@@ -1307,16 +1291,16 @@ public final class Menu extends Key {
         s_options_quality_list.type = MTYPE_SPINCONTROL;
         s_options_quality_list.x = 0;
         s_options_quality_list.y = 20;
-        ;
+
         s_options_quality_list.name = "sound";
-        s_options_quality_list.callback = Menu::UpdateSoundQualityFunc;
+        s_options_quality_list.callback = unused -> UpdateSoundQualityFunc();
         s_options_quality_list.itemnames = s_labels;
 
         s_options_sensitivity_slider.type = MTYPE_SLIDER;
         s_options_sensitivity_slider.x = 0;
         s_options_sensitivity_slider.y = 50;
         s_options_sensitivity_slider.name = "mouse speed";
-        s_options_sensitivity_slider.callback = Menu::MouseSpeedFunc;
+        s_options_sensitivity_slider.callback = unused -> MouseSpeedFunc();
         s_options_sensitivity_slider.minvalue = 2;
         s_options_sensitivity_slider.maxvalue = 22;
 
@@ -1324,74 +1308,68 @@ public final class Menu extends Key {
         s_options_alwaysrun_box.x = 0;
         s_options_alwaysrun_box.y = 60;
         s_options_alwaysrun_box.name = "always run";
-        s_options_alwaysrun_box.callback = Menu::AlwaysRunFunc;
+        s_options_alwaysrun_box.callback = unused -> AlwaysRunFunc();
         s_options_alwaysrun_box.itemnames = yesno_names;
 
         s_options_invertmouse_box.type = MTYPE_SPINCONTROL;
         s_options_invertmouse_box.x = 0;
         s_options_invertmouse_box.y = 70;
         s_options_invertmouse_box.name = "invert mouse";
-        s_options_invertmouse_box.callback = Menu::InvertMouseFunc;
+        s_options_invertmouse_box.callback = unused -> InvertMouseFunc();
         s_options_invertmouse_box.itemnames = yesno_names;
 
         s_options_lookspring_box.type = MTYPE_SPINCONTROL;
         s_options_lookspring_box.x = 0;
         s_options_lookspring_box.y = 80;
         s_options_lookspring_box.name = "lookspring";
-        s_options_lookspring_box.callback = Menu::LookspringFunc;
+        s_options_lookspring_box.callback = unused -> LookspringFunc();
         s_options_lookspring_box.itemnames = yesno_names;
 
         s_options_lookstrafe_box.type = MTYPE_SPINCONTROL;
         s_options_lookstrafe_box.x = 0;
         s_options_lookstrafe_box.y = 90;
         s_options_lookstrafe_box.name = "lookstrafe";
-        s_options_lookstrafe_box.callback = Menu::LookstrafeFunc;
+        s_options_lookstrafe_box.callback = unused -> LookstrafeFunc();
         s_options_lookstrafe_box.itemnames = yesno_names;
 
         s_options_freelook_box.type = MTYPE_SPINCONTROL;
         s_options_freelook_box.x = 0;
         s_options_freelook_box.y = 100;
         s_options_freelook_box.name = "free look";
-        s_options_freelook_box.callback = Menu::FreeLookFunc;
+        s_options_freelook_box.callback = unused -> FreeLookFunc();
         s_options_freelook_box.itemnames = yesno_names;
 
         s_options_crosshair_box.type = MTYPE_SPINCONTROL;
         s_options_crosshair_box.x = 0;
         s_options_crosshair_box.y = 110;
         s_options_crosshair_box.name = "crosshair";
-        s_options_crosshair_box.callback = Menu::CrosshairFunc;
+        s_options_crosshair_box.callback = unused -> CrosshairFunc();
         s_options_crosshair_box.itemnames = crosshair_names;
-        /*
-         * s_options_noalttab_box.type = MTYPE_SPINCONTROL;
-         * s_options_noalttab_box.x = 0; s_options_noalttab_box.y = 110;
-         * s_options_noalttab_box.name = "disable alt-tab";
-         * s_options_noalttab_box.callback = NoAltTabFunc;
-         * s_options_noalttab_box.itemnames = yesno_names;
-         */
+
         s_options_joystick_box.type = MTYPE_SPINCONTROL;
         s_options_joystick_box.x = 0;
         s_options_joystick_box.y = 120;
         s_options_joystick_box.name = "use joystick";
-        s_options_joystick_box.callback = Menu::JoystickFunc;
+        s_options_joystick_box.callback = unused -> JoystickFunc();
         s_options_joystick_box.itemnames = yesno_names;
 
         s_options_customize_options_action.type = MTYPE_ACTION;
         s_options_customize_options_action.x = 0;
         s_options_customize_options_action.y = 140;
         s_options_customize_options_action.name = "customize controls";
-        s_options_customize_options_action.callback = Menu::CustomizeControlsFunc;
+        s_options_customize_options_action.callback = unused -> CustomizeControlsFunc();
 
         s_options_defaults_action.type = MTYPE_ACTION;
         s_options_defaults_action.x = 0;
         s_options_defaults_action.y = 150;
         s_options_defaults_action.name = "reset defaults";
-        s_options_defaults_action.callback = Menu::ControlsResetDefaultsFunc;
+        s_options_defaults_action.callback = unused -> ControlsResetDefaultsFunc();
 
         s_options_console_action.type = MTYPE_ACTION;
         s_options_console_action.x = 0;
         s_options_console_action.y = 160;
         s_options_console_action.name = "go to console";
-        s_options_console_action.callback = Menu::ConsoleFunc;
+        s_options_console_action.callback = unused -> ConsoleFunc();
 
         ControlsSetMenuItemValues();
 
@@ -1607,8 +1585,8 @@ public final class Menu extends Key {
          */
         for (i = 0, y = (int) (viddef.height - ((cls.realtime - credits_start_time) / 40.0F)); credits[i] != null
                 && y < viddef.height; y += 10, i++) {
-            int j, stringoffset = 0;
-            boolean bold = false;
+            int j, stringoffset;
+            boolean bold;
 
             if (y <= -8)
                 continue;
@@ -1655,7 +1633,7 @@ public final class Menu extends Key {
 
     static void Menu_Credits_f() {
         int n;
-        int isdeveloper = 0;
+        int isdeveloper;
 
         byte b[] = fileSystem.loadFile("credits");
 
@@ -1729,35 +1707,32 @@ public final class Menu extends Key {
         cls.key_dest = key_game;
     }
 
-    static void EasyGameFunc(Object data) {
+    static void EasyGameFunc() {
         Cvar.ForceSet("skill", "0");
         StartGame();
     }
 
-    static void MediumGameFunc(Object data) {
+    static void MediumGameFunc() {
         Cvar.ForceSet("skill", "1");
         StartGame();
     }
 
-    static void HardGameFunc(Object data) {
+    static void HardGameFunc() {
         Cvar.ForceSet("skill", "2");
         StartGame();
     }
 
-    static void LoadGameFunc(Object unused) {
+    static void LoadGameFunc() {
         Menu_LoadGame_f();
     }
 
-    static void SaveGameFunc(Object unused) {
+    static void SaveGameFunc() {
         Menu_SaveGame_f();
     }
 
-    static void CreditsFunc(Object unused) {
+    static void CreditsFunc() {
         Menu_Credits_f();
     }
-
-    static String difficulty_names[] = { "easy", "medium",
-            "fuckin shitty hard" };
 
     static void Game_MenuInit() {
 
@@ -1769,21 +1744,21 @@ public final class Menu extends Key {
         s_easy_game_action.x = 0;
         s_easy_game_action.y = 0;
         s_easy_game_action.name = "easy";
-        s_easy_game_action.callback = Menu::EasyGameFunc;
+        s_easy_game_action.callback = unused -> EasyGameFunc();
 
         s_medium_game_action.type = MTYPE_ACTION;
         s_medium_game_action.flags = QMF_LEFT_JUSTIFY;
         s_medium_game_action.x = 0;
         s_medium_game_action.y = 10;
         s_medium_game_action.name = "medium";
-        s_medium_game_action.callback = Menu::MediumGameFunc;
+        s_medium_game_action.callback = unused -> MediumGameFunc();
 
         s_hard_game_action.type = MTYPE_ACTION;
         s_hard_game_action.flags = QMF_LEFT_JUSTIFY;
         s_hard_game_action.x = 0;
         s_hard_game_action.y = 20;
         s_hard_game_action.name = "hard";
-        s_hard_game_action.callback = Menu::HardGameFunc;
+        s_hard_game_action.callback = unused -> HardGameFunc();
 
         s_blankline.type = MTYPE_SEPARATOR;
 
@@ -1792,21 +1767,21 @@ public final class Menu extends Key {
         s_load_game_action.x = 0;
         s_load_game_action.y = 40;
         s_load_game_action.name = "load game";
-        s_load_game_action.callback = Menu::LoadGameFunc;
+        s_load_game_action.callback = unused -> LoadGameFunc();
 
         s_save_game_action.type = MTYPE_ACTION;
         s_save_game_action.flags = QMF_LEFT_JUSTIFY;
         s_save_game_action.x = 0;
         s_save_game_action.y = 50;
         s_save_game_action.name = "save game";
-        s_save_game_action.callback = Menu::SaveGameFunc;
+        s_save_game_action.callback = unused -> SaveGameFunc();
 
         s_credits_action.type = MTYPE_ACTION;
         s_credits_action.flags = QMF_LEFT_JUSTIFY;
         s_credits_action.x = 0;
         s_credits_action.y = 60;
         s_credits_action.name = "credits";
-        s_credits_action.callback = Menu::CreditsFunc;
+        s_credits_action.callback = unused -> CreditsFunc();
 
         Menu_AddItem(s_game_menu, s_easy_game_action);
         Menu_AddItem(s_game_menu, s_medium_game_action);
@@ -1895,7 +1870,6 @@ public final class Menu extends Key {
                 m_savestrings[i] = "<EMPTY>";
                 m_savevalid[i] = false;
             }
-            ;
         }
     }
 
@@ -2110,11 +2084,8 @@ public final class Menu extends Key {
         ForceMenuOff();
     }
 
-    static void AddressBookFunc(Object self) {
+    static void AddressBookFunc() {
         Menu_AddressBook_f();
-    }
-
-    static void NullCursorDraw(Object self) {
     }
 
     static void SearchLocalGames() {
@@ -2136,7 +2107,7 @@ public final class Menu extends Key {
         CL.PingServers_f.run();
     }
 
-    static void SearchLocalGamesFunc(Object self) {
+    static void SearchLocalGamesFunc() {
         SearchLocalGames();
     }
 
@@ -2151,14 +2122,14 @@ public final class Menu extends Key {
         s_joinserver_address_book_action.flags = QMF_LEFT_JUSTIFY;
         s_joinserver_address_book_action.x = 0;
         s_joinserver_address_book_action.y = 0;
-        s_joinserver_address_book_action.callback = Menu::AddressBookFunc;
+        s_joinserver_address_book_action.callback = unused -> AddressBookFunc();
 
         s_joinserver_search_action.type = MTYPE_ACTION;
         s_joinserver_search_action.name = "refresh server list";
         s_joinserver_search_action.flags = QMF_LEFT_JUSTIFY;
         s_joinserver_search_action.x = 0;
         s_joinserver_search_action.y = 10;
-        s_joinserver_search_action.callback = Menu::SearchLocalGamesFunc;
+        s_joinserver_search_action.callback = unused -> SearchLocalGamesFunc();
         s_joinserver_search_action.statusbar = "search for servers";
 
         s_joinserver_server_title.type = MTYPE_SEPARATOR;
@@ -2238,13 +2209,13 @@ public final class Menu extends Key {
 
     static menulist_s s_rules_box = new menulist_s();
 
-    static void DMOptionsFunc(Object self) {
+    static void DMOptionsFunc() {
         if (s_rules_box.curvalue == 1)
             return;
         Menu_DMOptions_f();
     }
 
-    static void RulesChangeFunc(Object self) {
+    static void RulesChangeFunc() {
         // DM
         if (s_rules_box.curvalue == 0) {
             s_maxclients_field.statusbar = null;
@@ -2276,7 +2247,7 @@ public final class Menu extends Key {
         //	  =====
     }
 
-    static void StartServerActionFunc(Object self) {
+    static void StartServerActionFunc() {
         //char startmap[1024];
         String startmap;
         int timelimit;
@@ -2298,16 +2269,16 @@ public final class Menu extends Key {
         timelimit = Lib.atoi(s_timelimit_field.buffer.toString());
         fraglimit = Lib.atoi(s_fraglimit_field.buffer.toString());
 
-        Cvar.SetValue("maxclients", ClampCvar(0, maxclients, maxclients));
-        Cvar.SetValue("timelimit", ClampCvar(0, timelimit, timelimit));
-        Cvar.SetValue("fraglimit", ClampCvar(0, fraglimit, fraglimit));
+        Cvar.SetValue("maxclients", ClampCvar(maxclients, maxclients));
+        Cvar.SetValue("timelimit", ClampCvar(timelimit, timelimit));
+        Cvar.SetValue("fraglimit", ClampCvar(fraglimit, fraglimit));
         Cvar.Set("hostname", s_hostname_field.buffer.toString());
         //		Cvar.SetValue ("deathmatch", !s_rules_box.curvalue );
         //		Cvar.SetValue ("coop", s_rules_box.curvalue );
 
         //	  PGM
         if ((s_rules_box.curvalue < 2) || (fileSystem.developer_searchpath(2) != 2)) {
-            Cvar.SetValue("deathmatch", 1 - (int) (s_rules_box.curvalue));
+            Cvar.SetValue("deathmatch", 1 - s_rules_box.curvalue);
             Cvar.SetValue("coop", s_rules_box.curvalue);
             Cvar.SetValue("gamerules", 0);
         } else {
@@ -2400,7 +2371,7 @@ public final class Menu extends Key {
             }
         }
 
-        s = new String(buffer);
+        s = (buffer != null ? new String(buffer) : "");
         String lines[] = s.split("\r\n");
 
         nummaps = lines.length;
@@ -2423,10 +2394,7 @@ public final class Menu extends Key {
 
         if (fp != null) {
             Lib.fclose(fp);
-            fp = null;
 
-        } else {
-            buffer = null;
         }
 
         /*
@@ -2457,7 +2425,7 @@ public final class Menu extends Key {
             s_rules_box.curvalue = 1;
         else
             s_rules_box.curvalue = 0;
-        s_rules_box.callback = Menu::RulesChangeFunc;
+        s_rules_box.callback = unused -> RulesChangeFunc();
 
         s_timelimit_field.type = MTYPE_FIELD;
         s_timelimit_field.name = "time limit";
@@ -2519,14 +2487,14 @@ public final class Menu extends Key {
         s_startserver_dmoptions_action.x = 24;
         s_startserver_dmoptions_action.y = 108;
         s_startserver_dmoptions_action.statusbar = null;
-        s_startserver_dmoptions_action.callback = Menu::DMOptionsFunc;
+        s_startserver_dmoptions_action.callback = unused -> DMOptionsFunc();
 
         s_startserver_start_action.type = MTYPE_ACTION;
         s_startserver_start_action.name = " begin";
         s_startserver_start_action.flags = QMF_LEFT_JUSTIFY;
         s_startserver_start_action.x = 24;
         s_startserver_start_action.y = 128;
-        s_startserver_start_action.callback = Menu::StartServerActionFunc;
+        s_startserver_start_action.callback = unused -> StartServerActionFunc();
 
         Menu_AddItem(s_startserver_menu, s_startmap_list);
         Menu_AddItem(s_startserver_menu, s_rules_box);
@@ -2540,7 +2508,7 @@ public final class Menu extends Key {
         Menu_Center(s_startserver_menu);
 
         // call this now to set proper inital state
-        RulesChangeFunc(null);
+        RulesChangeFunc();
     }
 
     static void StartServer_MenuDraw() {
@@ -2871,8 +2839,7 @@ public final class Menu extends Key {
         s_friendlyfire_box.name = "friendly fire";
         s_friendlyfire_box.callback = Menu::DMFlagCallback;
         s_friendlyfire_box.itemnames = yes_no_names;
-        s_friendlyfire_box.curvalue = (dmflags & DF_NO_FRIENDLY_FIRE) == 0 ? 1
-                : 0;
+        s_friendlyfire_box.curvalue = (dmflags & DF_NO_FRIENDLY_FIRE) == 0 ? 1 : 0;
 
         //	  ============
         //	  ROGUE
@@ -2903,7 +2870,7 @@ public final class Menu extends Key {
 
             s_no_spheres_box.type = MTYPE_SPINCONTROL;
             s_no_spheres_box.x = 0;
-            s_no_spheres_box.y = y += 10;
+            s_no_spheres_box.y = y + 10;
             s_no_spheres_box.name = "remove spheres";
             s_no_spheres_box.callback = Menu::DMFlagCallback;
             s_no_spheres_box.itemnames = yes_no_names;
@@ -3063,7 +3030,7 @@ public final class Menu extends Key {
 
         s_allow_download_sounds_box.type = MTYPE_SPINCONTROL;
         s_allow_download_sounds_box.x = 0;
-        s_allow_download_sounds_box.y = y += 10;
+        s_allow_download_sounds_box.y = y + 10;
         s_allow_download_sounds_box.name = "sounds";
         s_allow_download_sounds_box.callback = Menu::DownloadCallback;
         s_allow_download_sounds_box.itemnames = yes_no_names;
@@ -3125,13 +3092,13 @@ public final class Menu extends Key {
         s_addressbook_menu.nitems = 0;
 
         for (int i = 0; i < NUM_ADDRESSBOOK_ENTRIES; i++) {
-            cvar_t adr = Cvar.Get("adr" + i, "", CVAR_ARCHIVE);
+            cvar_t adr = Objects.requireNonNull(Cvar.Get("adr" + i, "", CVAR_ARCHIVE));
 
             s_addressbook_fields[i].type = MTYPE_FIELD;
             s_addressbook_fields[i].name = null;
             s_addressbook_fields[i].callback = null;
             s_addressbook_fields[i].x = 0;
-            s_addressbook_fields[i].y = i * 18 + 0;
+            s_addressbook_fields[i].y = i * 18;
             s_addressbook_fields[i].localdata[0] = i;
             // put the cursor to the end of text for editing
             s_addressbook_fields[i].cursor = adr.string.length();
@@ -3144,12 +3111,6 @@ public final class Menu extends Key {
         }
     }
 
-    static keyfunc_t AddressBook_MenuKey = new keyfunc_t() {
-        public String execute(int key) {
-            return AddressBook_MenuKey_f(key);
-        }
-    };
-
     static String AddressBook_MenuKey_f(int key) {
         if (key == K_ESCAPE) {
             for (int index = 0; index < NUM_ADDRESSBOOK_ENTRIES; index++) {
@@ -3158,8 +3119,6 @@ public final class Menu extends Key {
         }
         return Default_MenuKey(s_addressbook_menu, key);
     }
-
-    static Runnable AddressBook_MenuDraw = Menu::AddressBook_MenuDraw_f;
 
     static void AddressBook_MenuDraw_f() {
         Banner("m_banner_addressbook");
@@ -3216,7 +3175,7 @@ public final class Menu extends Key {
 
         //char directory[MAX_QPATH];
         String directory;
-    };
+    }
 
     static playermodelinfo_s s_pmi[] = new playermodelinfo_s[MAX_PLAYERMODELS];
 
@@ -3229,22 +3188,22 @@ public final class Menu extends Key {
     static String rate_names[] = { "28.8 Modem", "33.6 Modem", "Single ISDN",
             "Dual ISDN/Cable", "T1/LAN", "User defined" };
 
-    static void DownloadOptionsFunc(Object self) {
+    static void DownloadOptionsFunc() {
         Menu_DownloadOptions_f();
     }
 
-    static void HandednessCallback(Object unused) {
+    static void HandednessCallback() {
         Cvar.SetValue("hand", s_player_handedness_box.curvalue);
     }
 
-    static void RateCallback(Object unused) {
+    static void RateCallback() {
         if (s_player_rate_box.curvalue != rate_tbl.length - 1) //sizeof(rate_tbl)
                                                                // / sizeof(*
                                                                // rate_tbl) - 1)
             Cvar.SetValue("rate", rate_tbl[s_player_rate_box.curvalue]);
     }
 
-    static void ModelCallback(Object unused) {
+    static void ModelCallback() {
         s_player_skin_box.itemnames = s_pmi[s_player_model_box.curvalue].skindisplaynames;
         s_player_skin_box.curvalue = 0;
     }
@@ -3271,13 +3230,13 @@ public final class Menu extends Key {
         return false;
     }
 
-    static boolean PlayerConfig_ScanDirectories() {
+    static void PlayerConfig_ScanDirectories() {
         //char findname[1024];
         String findname;
         //char scratch[1024];
         String scratch;
 
-        int ndirs = 0, npms = 0;
+        int ndirs = 0, npms;
         int a, b, c;
         String dirnames[];
 
@@ -3303,7 +3262,7 @@ public final class Menu extends Key {
         } while (path != null);
 
         if (dirnames == null)
-            return false;
+            return;
 
         /*
          * * go through the subdirectories
@@ -3359,7 +3318,7 @@ public final class Menu extends Key {
             // copy the valid skins
             for (s = 0, k = 0; k < npcxfiles; k++) {
 
-                if (pcxnames[k].indexOf("_i.pcx") < 0) {
+                if (!pcxnames[k].contains("_i.pcx")) {
                     if (IconOfSkinExists(pcxnames[k], pcxnames, npcxfiles)) {
                         a = pcxnames[k].lastIndexOf('/');
                         b = pcxnames[k].lastIndexOf('\\');
@@ -3403,8 +3362,6 @@ public final class Menu extends Key {
             s_numplayermodels++;
         }
 
-        return true;
-
     }
 
     static int pmicmpfnc(playermodelinfo_s a, playermodelinfo_s b) {
@@ -3436,12 +3393,12 @@ public final class Menu extends Key {
         //char currentskin[1024];
         String currentskin;
 
-        int i = 0;
+        int i;
 
         int currentdirectoryindex = 0;
         int currentskinindex = 0;
 
-        cvar_t hand = Cvar.Get("hand", "0", CVAR_USERINFO | CVAR_ARCHIVE);
+        cvar_t hand = Objects.requireNonNull(Cvar.Get("hand", "0", CVAR_USERINFO | CVAR_ARCHIVE));
 
         PlayerConfig_ScanDirectories();
 
@@ -3465,11 +3422,7 @@ public final class Menu extends Key {
         }
 
         //qsort(s_pmi, s_numplayermodels, sizeof(s_pmi[0]), pmicmpfnc);
-        Arrays.sort(s_pmi, 0, s_numplayermodels, new Comparator<playermodelinfo_s>() {
-            public int compare(playermodelinfo_s o1, playermodelinfo_s o2) {
-                return pmicmpfnc(o1, o2);
-            }
-        });
+        Arrays.sort(s_pmi, 0, s_numplayermodels, Menu::pmicmpfnc);
 
         //memset(s_pmnames, 0, sizeof(s_pmnames));
         s_pmnames = new String[MAX_PLAYERMODELS];
@@ -3514,7 +3467,7 @@ public final class Menu extends Key {
         s_player_model_box.type = MTYPE_SPINCONTROL;
         s_player_model_box.x = -56;
         s_player_model_box.y = 70;
-        s_player_model_box.callback = Menu::ModelCallback;
+        s_player_model_box.callback = unused -> ModelCallback();
         s_player_model_box.cursor_offset = -48;
         s_player_model_box.curvalue = currentdirectoryindex;
         s_player_model_box.itemnames = s_pmnames;
@@ -3543,7 +3496,7 @@ public final class Menu extends Key {
         s_player_handedness_box.y = 118;
         s_player_handedness_box.name = null;
         s_player_handedness_box.cursor_offset = -48;
-        s_player_handedness_box.callback = Menu::HandednessCallback;
+        s_player_handedness_box.callback = unused -> HandednessCallback();
         s_player_handedness_box.curvalue = (int) Cvar.VariableValue("hand");
         s_player_handedness_box.itemnames = handedness;
 
@@ -3561,7 +3514,7 @@ public final class Menu extends Key {
         s_player_rate_box.y = 166;
         s_player_rate_box.name = null;
         s_player_rate_box.cursor_offset = -48;
-        s_player_rate_box.callback = Menu::RateCallback;
+        s_player_rate_box.callback = unused -> RateCallback();
         s_player_rate_box.curvalue = i;
         s_player_rate_box.itemnames = rate_names;
 
@@ -3571,7 +3524,7 @@ public final class Menu extends Key {
         s_player_download_action.x = -24;
         s_player_download_action.y = 186;
         s_player_download_action.statusbar = null;
-        s_player_download_action.callback = Menu::DownloadOptionsFunc;
+        s_player_download_action.callback = unused -> DownloadOptionsFunc();
 
         Menu_AddItem(s_player_config_menu, s_player_name_field);
         Menu_AddItem(s_player_config_menu, s_player_model_title);
@@ -3849,12 +3802,10 @@ public final class Menu extends Key {
             a.ownerdraw.execute(a);
     }
 
-    public static boolean Field_DoEnter(menufield_s f) {
+    public static void Field_DoEnter(menufield_s f) {
         if (f.callback != null) {
             f.callback.execute(f);
-            return true;
         }
-        return false;
     }
 
     public static void Field_Draw(menufield_s f) {
@@ -3965,8 +3916,7 @@ public final class Menu extends Key {
         /*
          * * support pasting from the clipboard
          */
-        if ((Character.toUpperCase(key) == 'V' && keydown[K_CTRL])
-                || (((key == K_INS) || (key == K_KP_INS)) && keydown[K_SHIFT])) {
+        if (Character.toUpperCase(key) == 'V' && keydown[K_CTRL] || key == K_INS && keydown[K_SHIFT]) {
             String cbd;
 
             if ((cbd = Sys.GetClipboardData()) != null) {
@@ -3987,7 +3937,7 @@ public final class Menu extends Key {
         }
 
         switch (key) {
-        case K_KP_LEFTARROW:
+//        case K_KP_LEFTARROW:
         case K_LEFTARROW:
         case K_BACKSPACE:
             if (f.cursor > 0) {
@@ -4002,7 +3952,7 @@ public final class Menu extends Key {
             }
             break;
 
-        case K_KP_DEL:
+//        case K_KP_DEL:
         case K_DEL:
             //memmove(& f.buffer[f.cursor], & f.buffer[f.cursor + 1], strlen(&
             // f.buffer[f.cursor + 1]) + 1);
@@ -4039,7 +3989,7 @@ public final class Menu extends Key {
 
         if (menu.nitems < MAXMENUITEMS) {
             menu.items[menu.nitems] = item;
-            ((menucommon_s) menu.items[menu.nitems]).parent = menu;
+            menu.items[menu.nitems].parent = menu;
             menu.nitems++;
         }
 
@@ -4094,7 +4044,7 @@ public final class Menu extends Key {
     public static void Menu_Center(menuframework_s menu) {
         int height;
 
-        height = ((menucommon_s) menu.items[menu.nitems - 1]).y;
+        height = menu.items[menu.nitems - 1].y;
         height += 10;
 
         menu.y = (viddef.height - height) / 2;
@@ -4108,7 +4058,7 @@ public final class Menu extends Key {
          * * draw contents
          */
         for (i = 0; i < menu.nitems; i++) {
-            switch (((menucommon_s) menu.items[i]).type) {
+            switch (menu.items[i].type) {
             case MTYPE_FIELD:
                 Field_Draw((menufield_s) menu.items[i]);
                 break;
@@ -4139,10 +4089,10 @@ public final class Menu extends Key {
         } else if (item != null && item.type != MTYPE_FIELD) {
             if ((item.flags & QMF_LEFT_JUSTIFY) != 0) {
                 re.DrawChar(menu.x + item.x - 24 + item.cursor_offset, menu.y
-                        + item.y, 12 + ((int) (Timer.Milliseconds() / 250) & 1));
+                        + item.y, 12 + (Timer.Milliseconds() / 250 & 1));
             } else {
                 re.DrawChar(menu.x + item.cursor_offset, menu.y + item.y,
-                        12 + ((int) (Timer.Milliseconds() / 250) & 1));
+                        12 + (Timer.Milliseconds() / 250 & 1));
             }
         }
 
@@ -4210,28 +4160,24 @@ public final class Menu extends Key {
         if (m.cursor < 0 || m.cursor >= m.nitems)
             return null;
 
-        return (menucommon_s) m.items[m.cursor];
+        return m.items[m.cursor];
     }
 
-    static boolean Menu_SelectItem(menuframework_s s) {
+    static void Menu_SelectItem(menuframework_s s) {
         menucommon_s item = Menu_ItemAtCursor(s);
 
         if (item != null) {
             switch (item.type) {
             case MTYPE_FIELD:
-                return Field_DoEnter((menufield_s) item);
+                Field_DoEnter((menufield_s) item);
+                return;
             case MTYPE_ACTION:
                 Action_DoEnter((menuaction_s) item);
-                return true;
+                return;
             case MTYPE_LIST:
-                //			Menulist_DoEnter( ( menulist_s ) item );
-                return false;
             case MTYPE_SPINCONTROL:
-                //			SpinControl_DoEnter( ( menulist_s ) item );
-                return false;
             }
         }
-        return false;
     }
 
     public static void Menu_SetStatusBar(menuframework_s m, String string) {
@@ -4239,7 +4185,7 @@ public final class Menu extends Key {
     }
 
     public static void Menu_SlideItem(menuframework_s s, int dir) {
-        menucommon_s item = (menucommon_s) Menu_ItemAtCursor(s);
+        menucommon_s item = Menu_ItemAtCursor(s);
 
         if (item != null) {
             switch (item.type) {
@@ -4258,7 +4204,7 @@ public final class Menu extends Key {
         int total = 0;
 
         for (i = 0; i < menu.nitems; i++) {
-            if (((menucommon_s) menu.items[i]).type == MTYPE_LIST) {
+            if (menu.items[i].type == MTYPE_LIST) {
                 int nitems = 0;
                 String n[] = ((menulist_s) menu.items[i]).itemnames;
 
@@ -4272,17 +4218,6 @@ public final class Menu extends Key {
         }
 
         return total;
-    }
-
-    public static void Menulist_DoEnter(menulist_s l) {
-        int start;
-
-        start = l.y / 10 + 1;
-
-        l.curvalue = l.parent.cursor - start;
-
-        if (l.callback != null)
-            l.callback.execute(l);
     }
 
     public static void MenuList_Draw(menulist_s l) {
@@ -4332,7 +4267,7 @@ public final class Menu extends Key {
         Menu_DrawStringR2LDark(s.x + s.parent.x + LCOLUMN_OFFSET, s.y
                 + s.parent.y, s.name);
 
-        s.range = (s.curvalue - s.minvalue) / (float) (s.maxvalue - s.minvalue);
+        s.range = (s.curvalue - s.minvalue) / (s.maxvalue - s.minvalue);
 
         if (s.range < 0)
             s.range = 0;
@@ -4348,15 +4283,6 @@ public final class Menu extends Key {
                 .DrawChar(
                         (int) (8 + RCOLUMN_OFFSET + s.parent.x + s.x + (SLIDER_RANGE - 1)
                                 * 8 * s.range), s.y + s.parent.y, 131);
-    }
-
-    public static void SpinControl_DoEnter(menulist_s s) {
-        s.curvalue++;
-        if (s.itemnames[s.curvalue] == null)
-            s.curvalue = 0;
-
-        if (s.callback != null)
-            s.callback.execute(s);
     }
 
     public static void SpinControl_DoSlide(menulist_s s, int dir) {
