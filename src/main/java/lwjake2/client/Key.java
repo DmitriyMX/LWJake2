@@ -32,11 +32,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Vector;
 
+import static lwjake2.Globals.*;
+
 /**
  * Key
  */
 @Slf4j
-public class Key extends Globals {
+public class Key {
     //
     // these are the key numbers that should be passed to Key_Event
     //

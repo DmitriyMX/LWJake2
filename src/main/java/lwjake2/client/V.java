@@ -19,7 +19,6 @@
 package lwjake2.client;
 
 import lombok.extern.slf4j.Slf4j;
-import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
@@ -30,13 +29,15 @@ import lwjake2.util.Math3D;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import static lwjake2.Defines.*;
 import static lwjake2.ErrorCode.ERR_DROP;
+import static lwjake2.Globals.*;
 
 /**
  * V
  */
 @Slf4j
-public final class V extends Globals {
+public final class V {
     static cvar_t cl_testblend;
 
     static cvar_t cl_testparticles;

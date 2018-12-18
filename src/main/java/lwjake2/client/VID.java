@@ -24,7 +24,6 @@ import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
-import lwjake2.qcommon.Callback;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.render.Renderer;
@@ -32,8 +31,11 @@ import lwjake2.sound.S;
 import lwjake2.sys.IN;
 import lwjake2.util.Vargs;
 
-import java.awt.Dimension;
-import java.awt.DisplayMode;
+import java.awt.*;
+
+import static lwjake2.Defines.*;
+import static lwjake2.Globals.re;
+import static lwjake2.Globals.viddef;
 
 /**
  * VID is a video driver.
@@ -43,7 +45,7 @@ import java.awt.DisplayMode;
  * @author cwei
  */
 @Slf4j
-public class VID extends Globals {
+public class VID {
     //       Main windowed and fullscreen graphics interface module. This module
     //       is used for both the software and OpenGL rendering versions of the
     //       Quake refresh engine.

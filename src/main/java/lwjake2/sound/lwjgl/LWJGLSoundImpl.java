@@ -336,7 +336,7 @@ public final class LWJGLSoundImpl implements Sound {
 
         // determine what model the client is using
         String model = null;
-        int n = Globals.CS_PLAYERSKINS + ent.number - 1;
+        int n = Defines.CS_PLAYERSKINS + ent.number - 1;
         if (Globals.cl.configstrings[n] != null) {
             int p = Globals.cl.configstrings[n].indexOf('\\');
             if (p >= 0) {

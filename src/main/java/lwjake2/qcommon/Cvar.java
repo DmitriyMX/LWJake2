@@ -29,10 +29,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Vector;
 
+import static lwjake2.Defines.*;
+import static lwjake2.Globals.cvar_vars;
+
 /**
  * Cvar implements console variables. The original code is located in cvar.c
  */
-public class Cvar extends Globals {
+public class Cvar {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
 
     /**
@@ -77,8 +80,8 @@ public class Cvar extends Globals {
             var.value = 0.0f;
         }
         // link the variable in
-        var.next = Globals.cvar_vars;
-        Globals.cvar_vars = var;
+        var.next = cvar_vars;
+        cvar_vars = var;
 
         var.flags = flags;
 
@@ -99,7 +102,7 @@ public class Cvar extends Globals {
     static cvar_t FindVar(String var_name) {
         cvar_t var;
 
-        for (var = Globals.cvar_vars; var != null; var = var.next) {
+        for (var = cvar_vars; var != null; var = var.next) {
             if (var_name.equals(var.name))
                 return var;
         }
@@ -262,7 +265,7 @@ public class Cvar extends Globals {
         int i;
 
         i = 0;
-        for (var = Globals.cvar_vars; var != null; var = var.next, i++) {
+        for (var = cvar_vars; var != null; var = var.next, i++) {
             if ((var.flags & CVAR_ARCHIVE) != 0)
                 Com.Printf("*");
             else
@@ -348,7 +351,7 @@ public class Cvar extends Globals {
 
         info = "";
 
-        for (var = Globals.cvar_vars; var != null; var = var.next) {
+        for (var = cvar_vars; var != null; var = var.next) {
             if ((var.flags & bit) != 0)
                 info = Info.Info_SetValueForKey(info, var.name, var.string);
         }
@@ -369,7 +372,7 @@ public class Cvar extends Globals {
     public static void GetLatchedVars() {
         cvar_t var;
 
-        for (var = Globals.cvar_vars; var != null; var = var.next) {
+        for (var = cvar_vars; var != null; var = var.next) {
             if (var.latched_string == null || var.latched_string.length() == 0)
                 continue;
             var.string = var.latched_string;
@@ -433,7 +436,7 @@ public class Cvar extends Globals {
         Vector<String> vars = new Vector<String>();
 
         // check match
-        for (cvar_t cvar = Globals.cvar_vars; cvar != null; cvar = cvar.next)
+        for (cvar_t cvar = cvar_vars; cvar != null; cvar = cvar.next)
             if (cvar.name.startsWith(partial))
                 vars.add(cvar.name);
 

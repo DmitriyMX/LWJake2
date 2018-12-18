@@ -63,7 +63,7 @@ public final class LWJake2 {
         
         // TODO: check if dedicated is set in config file
         
-        Globals.dedicated= Cvar.Get("dedicated", "0", Qcommon.CVAR_NOSET);
+        Globals.dedicated= Cvar.Get("dedicated", "0", Defines.CVAR_NOSET);
     
         if (dedicated)
             Globals.dedicated.value = 1.0f;

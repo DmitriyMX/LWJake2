@@ -26,10 +26,13 @@ import lwjake2.game.usercmd_t;
 import lwjake2.qcommon.Cvar;
 import lwjake2.util.Math3D;
 
+import static lwjake2.Defines.*;
+import static lwjake2.Globals.*;
+
 /**
  * IN
  */
-public final class IN extends Globals {
+public final class IN {
 
     static boolean mouse_avail = true;
 

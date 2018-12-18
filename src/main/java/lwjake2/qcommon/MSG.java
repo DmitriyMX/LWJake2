@@ -18,16 +18,17 @@
 
 package lwjake2.qcommon;
 
-import lwjake2.Globals;
 import lwjake2.game.entity_state_t;
 import lwjake2.game.usercmd_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 
+import static lwjake2.Defines.*;
 import static lwjake2.ErrorCode.ERR_DROP;
 import static lwjake2.ErrorCode.ERR_FATAL;
+import static lwjake2.Globals.bytedirs;
 
-public class MSG extends Globals {
+public class MSG {
 
     //
     // writing functions

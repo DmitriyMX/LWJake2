@@ -352,7 +352,7 @@ public class Channel {
      */
     static void addLoopSounds() {
         
-        if ((Globals.cl_paused.value != 0.0f) || (Globals.cls.state != Globals.ca_active) || !Globals.cl.sound_prepped) {
+        if ((Globals.cl_paused.value != 0.0f) || (Globals.cls.state != Defines.ca_active) || !Globals.cl.sound_prepped) {
             removeUnusedLoopSounds();
             return;
         }

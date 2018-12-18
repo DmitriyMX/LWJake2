@@ -33,12 +33,14 @@ import lwjake2.util.Vargs;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static lwjake2.Defines.*;
+
 /**
  * Qcommon contains some  basic routines for the game engine
  * namely initialization, shutdown and frame generation.
  */
 @Slf4j
-public final class Qcommon extends Globals {
+public final class Qcommon {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
     public static final String CPUSTRING = System.getProperty("os.arch");

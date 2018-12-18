@@ -33,7 +33,7 @@ import java.util.regex.PatternSyntaxException;
  * Sys
  */
 @Slf4j
-public final class Sys extends Defines {
+public final class Sys {
     public static void Error(String error) {
 
         CL.Shutdown();

@@ -29,18 +29,20 @@ import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
+import static lwjake2.Defines.*;
 import static lwjake2.ErrorCode.ERR_DROP;
+import static lwjake2.Globals.*;
 
 /**
  * SCR
  */
 @Slf4j
-public final class SCR extends Globals {
+public final class SCR {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     //    cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
 

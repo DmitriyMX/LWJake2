@@ -512,10 +512,10 @@ public class Defines {
     public final static int DF_FIXED_FOV = 0x00008000; // 32768
 
     //      ROGUE
-    protected final static int DF_NO_MINES = 0x00020000;
-    protected final static int DF_NO_STACK_DOUBLE = 0x00040000;
-    protected final static int DF_NO_NUKES = 0x00080000;
-    protected final static int DF_NO_SPHERES = 0x00100000;
+    public final static int DF_NO_MINES = 0x00020000;
+    public final static int DF_NO_STACK_DOUBLE = 0x00040000;
+    public final static int DF_NO_NUKES = 0x00080000;
+    public final static int DF_NO_SPHERES = 0x00100000;
     //      ROGUE
 
     //
@@ -865,7 +865,7 @@ public class Defines {
     // R E N D E R E R
     ////////////////////
     public static final int MAX_DLIGHTS = 32;
-    protected static final int MAX_ENTITIES = 128;
+    public static final int MAX_ENTITIES = 128;
     public static final int MAX_PARTICLES = 4096;
 
     // gl_model.h
@@ -930,14 +930,14 @@ public class Defines {
     public final static int PS_WEAPONFRAME = (1 << 13);
     public final static int PS_RDFLAGS = (1 << 14);
 
-    protected static final int CM_ANGLE1 = (1);
-    protected static final int CM_ANGLE2 = (1 << 1);
-    protected static final int CM_ANGLE3 = (1 << 2);
-    protected static final int CM_FORWARD = (1 << 3);
-    protected static final int CM_SIDE = (1 << 4);
-    protected static final int CM_UP = (1 << 5);
-    protected static final int CM_BUTTONS = (1 << 6);
-    protected static final int CM_IMPULSE = (1 << 7);
+    public static final int CM_ANGLE1 = (1);
+    public static final int CM_ANGLE2 = (1 << 1);
+    public static final int CM_ANGLE3 = (1 << 2);
+    public static final int CM_FORWARD = (1 << 3);
+    public static final int CM_SIDE = (1 << 4);
+    public static final int CM_UP = (1 << 5);
+    public static final int CM_BUTTONS = (1 << 6);
+    public static final int CM_IMPULSE = (1 << 7);
 
     // try to pack the common update flags into the first byte
     public final static int U_ORIGIN1 = (1);

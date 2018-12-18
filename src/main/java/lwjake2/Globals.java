@@ -18,13 +18,7 @@
 
 package lwjake2;
 
-import lwjake2.client.centity_t;
-import lwjake2.client.client_state_t;
-import lwjake2.client.client_static_t;
-import lwjake2.client.console_t;
-import lwjake2.client.refexport_t;
-import lwjake2.client.viddef_t;
-import lwjake2.client.vrect_t;
+import lwjake2.client.*;
 import lwjake2.game.cmdalias_t;
 import lwjake2.game.cvar_t;
 import lwjake2.game.entity_state_t;
@@ -37,6 +31,8 @@ import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.util.Random;
 
+import static lwjake2.Defines.*;
+
 /**
  * Globals ist the collection of global variables and constants.
  * It is more elegant to use these vars by inheritance to separate 
@@ -44,7 +40,7 @@ import java.util.Random;
  * 
  * As consequence you dont have to touch that much code this time. 
  */
-public class Globals extends Defines {
+public class Globals {
 
     public static final String __DATE__ = "2003";
 

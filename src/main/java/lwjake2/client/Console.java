@@ -22,11 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
-import lwjake2.qcommon.Cbuf;
-import lwjake2.qcommon.Com;
-import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
+import lwjake2.qcommon.*;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
 
@@ -34,11 +30,19 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
+import static lwjake2.Defines.NUM_CON_TIMES;
+import static lwjake2.Defines.ca_active;
+import static lwjake2.Defines.key_console;
+import static lwjake2.Defines.key_game;
+import static lwjake2.Defines.key_menu;
+import static lwjake2.Defines.key_message;
+import static lwjake2.Globals.*;
+
 /**
  * Console
  */
 @Slf4j
-public final class Console extends Globals {
+public final class Console {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
     public static Runnable ToggleConsole_f = () -> {
         SCR.EndLoadingPlaque(); // get rid of loading plaque
@@ -48,7 +52,7 @@ public final class Console extends Globals {
             return;
         }
 
-        if (Globals.cls.state == Defines.ca_disconnected) {
+        if (cls.state == Defines.ca_disconnected) {
             // start the demo loop again
             Cbuf.AddText("d1\n");
             return;
@@ -57,12 +61,12 @@ public final class Console extends Globals {
         Key.ClearTyping();
         Console.ClearNotify();
 
-        if (Globals.cls.key_dest == Defines.key_console) {
+        if (cls.key_dest == key_console) {
             Menu.ForceMenuOff();
             Cvar.Set("paused", "0");
         } else {
             Menu.ForceMenuOff();
-            Globals.cls.key_dest = Defines.key_console;
+            cls.key_dest = key_console;
 
             if (Cvar.VariableValue("maxclients") == 1
                     && Globals.server_state != 0)
@@ -70,7 +74,7 @@ public final class Console extends Globals {
         }
     };
 
-    public static Runnable Clear_f = () -> Arrays.fill(Globals.con.text, (byte) ' ');
+    public static Runnable Clear_f = () -> Arrays.fill(con.text, (byte) ' ');
 
     public static Runnable Dump_f = () -> {
 
@@ -139,7 +143,7 @@ public final class Console extends Globals {
      *  
      */
     public static void Init() {
-        Globals.con.linewidth = -1;
+        con.linewidth = -1;
 
         CheckResize();
 
@@ -156,7 +160,7 @@ public final class Console extends Globals {
         Cmd.AddCommand("messagemode2", MessageMode2_f);
         Cmd.AddCommand("clear", Clear_f);
         Cmd.AddCommand("condump", Dump_f);
-        Globals.con.initialized = true;
+        con.initialized = true;
     }
 
     /**
@@ -167,41 +171,41 @@ public final class Console extends Globals {
         int width = (Globals.viddef.width >> 3) - 2;
         if (width > Defines.MAXCMDLINE) width = Defines.MAXCMDLINE;
 
-        if (width == Globals.con.linewidth)
+        if (width == con.linewidth)
             return;
 
         if (width < 1) { // video hasn't been initialized yet
             width = 38;
-            Globals.con.linewidth = width;
-            Globals.con.totallines = Defines.CON_TEXTSIZE
-                    / Globals.con.linewidth;
-            Arrays.fill(Globals.con.text, (byte) ' ');
+            con.linewidth = width;
+            con.totallines = Defines.CON_TEXTSIZE
+                    / con.linewidth;
+            Arrays.fill(con.text, (byte) ' ');
         } else {
-            int oldwidth = Globals.con.linewidth;
-            Globals.con.linewidth = width;
-            int oldtotallines = Globals.con.totallines;
-            Globals.con.totallines = Defines.CON_TEXTSIZE
-                    / Globals.con.linewidth;
+            int oldwidth = con.linewidth;
+            con.linewidth = width;
+            int oldtotallines = con.totallines;
+            con.totallines = Defines.CON_TEXTSIZE
+                    / con.linewidth;
             int numlines = oldtotallines;
 
-            if (Globals.con.totallines < numlines)
-                numlines = Globals.con.totallines;
+            if (con.totallines < numlines)
+                numlines = con.totallines;
 
             int numchars = oldwidth;
 
-            if (Globals.con.linewidth < numchars)
-                numchars = Globals.con.linewidth;
+            if (con.linewidth < numchars)
+                numchars = con.linewidth;
 
             byte[] tbuf = new byte[Defines.CON_TEXTSIZE];
             System
-                    .arraycopy(Globals.con.text, 0, tbuf, 0,
+                    .arraycopy(con.text, 0, tbuf, 0,
                             Defines.CON_TEXTSIZE);
-            Arrays.fill(Globals.con.text, (byte) ' ');
+            Arrays.fill(con.text, (byte) ' ');
 
             for (int i = 0; i < numlines; i++) {
                 for (int j = 0; j < numchars; j++) {
-                    Globals.con.text[(Globals.con.totallines - 1 - i)
-                            * Globals.con.linewidth + j] = tbuf[((Globals.con.current
+                    con.text[(con.totallines - 1 - i)
+                            * con.linewidth + j] = tbuf[((con.current
                             - i + oldtotallines) % oldtotallines)
                             * oldwidth + j];
                 }
@@ -210,14 +214,14 @@ public final class Console extends Globals {
             Console.ClearNotify();
         }
 
-        Globals.con.current = Globals.con.totallines - 1;
-        Globals.con.display = Globals.con.current;
+        con.current = con.totallines - 1;
+        con.display = con.current;
     }
 
     public static void ClearNotify() {
         int i;
         for (i = 0; i < Defines.NUM_CON_TIMES; i++)
-            Globals.con.times[i] = 0;
+            con.times[i] = 0;
     }
 
     static void DrawString(int x, int y, String s) {
@@ -271,15 +275,15 @@ public final class Console extends Globals {
      * =============== Con_Linefeed ===============
      */
     static void Linefeed() {
-        Globals.con.x = 0;
-        if (Globals.con.display == Globals.con.current)
-            Globals.con.display++;
-        Globals.con.current++;
-        int i = (Globals.con.current % Globals.con.totallines)
-                * Globals.con.linewidth;
-        int e = i + Globals.con.linewidth;
+        con.x = 0;
+        if (con.display == con.current)
+            con.display++;
+        con.current++;
+        int i = (con.current % con.totallines)
+                * con.linewidth;
+        int e = i + con.linewidth;
         while (i++ < e)
-            Globals.con.text[i] = ' ';
+            con.text[i] = ' ';
     }
 
     /*

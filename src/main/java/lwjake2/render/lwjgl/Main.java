@@ -929,7 +929,7 @@ public abstract class Main extends Base {
      * R_Register
      */
     protected void R_Register() {
-        r_lefthand = Cvar.Get("hand", "0", Globals.CVAR_USERINFO | Globals.CVAR_ARCHIVE);
+        r_lefthand = Cvar.Get("hand", "0", Defines.CVAR_USERINFO | Defines.CVAR_ARCHIVE);
         r_norefresh = Cvar.Get("r_norefresh", "0", 0);
         r_fullbright = Cvar.Get("r_fullbright", "0", 0);
         r_drawentities = Cvar.Get("r_drawentities", "1", 0);
@@ -944,19 +944,19 @@ public abstract class Main extends Base {
         gl_nosubimage = Cvar.Get("gl_nosubimage", "0", 0);
         gl_allow_software = Cvar.Get("gl_allow_software", "0", 0);
 
-        gl_particle_min_size = Cvar.Get("gl_particle_min_size", "2", Globals.CVAR_ARCHIVE);
-        gl_particle_max_size = Cvar.Get("gl_particle_max_size", "40", Globals.CVAR_ARCHIVE);
-        gl_particle_size = Cvar.Get("gl_particle_size", "40", Globals.CVAR_ARCHIVE);
-        gl_particle_att_a = Cvar.Get("gl_particle_att_a", "0.01", Globals.CVAR_ARCHIVE);
-        gl_particle_att_b = Cvar.Get("gl_particle_att_b", "0.0", Globals.CVAR_ARCHIVE);
-        gl_particle_att_c = Cvar.Get("gl_particle_att_c", "0.01", Globals.CVAR_ARCHIVE);
+        gl_particle_min_size = Cvar.Get("gl_particle_min_size", "2", Defines.CVAR_ARCHIVE);
+        gl_particle_max_size = Cvar.Get("gl_particle_max_size", "40", Defines.CVAR_ARCHIVE);
+        gl_particle_size = Cvar.Get("gl_particle_size", "40", Defines.CVAR_ARCHIVE);
+        gl_particle_att_a = Cvar.Get("gl_particle_att_a", "0.01", Defines.CVAR_ARCHIVE);
+        gl_particle_att_b = Cvar.Get("gl_particle_att_b", "0.0", Defines.CVAR_ARCHIVE);
+        gl_particle_att_c = Cvar.Get("gl_particle_att_c", "0.01", Defines.CVAR_ARCHIVE);
 
-        gl_modulate = Cvar.Get("gl_modulate", "1.5", Globals.CVAR_ARCHIVE);
+        gl_modulate = Cvar.Get("gl_modulate", "1.5", Defines.CVAR_ARCHIVE);
         gl_log = Cvar.Get("gl_log", "0", 0);
         gl_bitdepth = Cvar.Get("gl_bitdepth", "0", 0);
-        gl_mode = Cvar.Get("gl_mode", "3", Globals.CVAR_ARCHIVE); // 640x480
+        gl_mode = Cvar.Get("gl_mode", "3", Defines.CVAR_ARCHIVE); // 640x480
         gl_lightmap = Cvar.Get("gl_lightmap", "0", 0);
-        gl_shadows = Cvar.Get("gl_shadows", "0", Globals.CVAR_ARCHIVE);
+        gl_shadows = Cvar.Get("gl_shadows", "0", Defines.CVAR_ARCHIVE);
         gl_dynamic = Cvar.Get("gl_dynamic", "1", 0);
         gl_nobind = Cvar.Get("gl_nobind", "0", 0);
         gl_round_down = Cvar.Get("gl_round_down", "1", 0);
@@ -964,37 +964,37 @@ public abstract class Main extends Base {
         gl_skymip = Cvar.Get("gl_skymip", "0", 0);
         gl_showtris = Cvar.Get("gl_showtris", "0", 0);
         gl_ztrick = Cvar.Get("gl_ztrick", "0", 0);
-        gl_finish = Cvar.Get("gl_finish", "0", Globals.CVAR_ARCHIVE);
+        gl_finish = Cvar.Get("gl_finish", "0", Defines.CVAR_ARCHIVE);
         gl_clear = Cvar.Get("gl_clear", "0", 0);
         gl_cull = Cvar.Get("gl_cull", "1", 0);
         gl_polyblend = Cvar.Get("gl_polyblend", "1", 0);
         gl_flashblend = Cvar.Get("gl_flashblend", "0", 0);
         gl_playermip = Cvar.Get("gl_playermip", "0", 0);
         gl_monolightmap = Cvar.Get("gl_monolightmap", "0", 0);
-        gl_driver = Cvar.Get("gl_driver", "opengl32", Globals.CVAR_ARCHIVE);
-        gl_texturemode = Cvar.Get("gl_texturemode", "GL_LINEAR_MIPMAP_NEAREST", Globals.CVAR_ARCHIVE);
-        gl_texturealphamode = Cvar.Get("gl_texturealphamode", "default", Globals.CVAR_ARCHIVE);
-        gl_texturesolidmode = Cvar.Get("gl_texturesolidmode", "default", Globals.CVAR_ARCHIVE);
+        gl_driver = Cvar.Get("gl_driver", "opengl32", Defines.CVAR_ARCHIVE);
+        gl_texturemode = Cvar.Get("gl_texturemode", "GL_LINEAR_MIPMAP_NEAREST", Defines.CVAR_ARCHIVE);
+        gl_texturealphamode = Cvar.Get("gl_texturealphamode", "default", Defines.CVAR_ARCHIVE);
+        gl_texturesolidmode = Cvar.Get("gl_texturesolidmode", "default", Defines.CVAR_ARCHIVE);
         gl_lockpvs = Cvar.Get("gl_lockpvs", "0", 0);
 
-        gl_vertex_arrays = Cvar.Get("gl_vertex_arrays", "1", Globals.CVAR_ARCHIVE);
+        gl_vertex_arrays = Cvar.Get("gl_vertex_arrays", "1", Defines.CVAR_ARCHIVE);
 
-        gl_ext_swapinterval = Cvar.Get("gl_ext_swapinterval", "1", Globals.CVAR_ARCHIVE);
-        gl_ext_palettedtexture = Cvar.Get("gl_ext_palettedtexture", "0", Globals.CVAR_ARCHIVE);
-        gl_ext_multitexture = Cvar.Get("gl_ext_multitexture", "1", Globals.CVAR_ARCHIVE);
-        gl_ext_pointparameters = Cvar.Get("gl_ext_pointparameters", "1", Globals.CVAR_ARCHIVE);
-        gl_ext_compiled_vertex_array = Cvar.Get("gl_ext_compiled_vertex_array", "1", Globals.CVAR_ARCHIVE);
+        gl_ext_swapinterval = Cvar.Get("gl_ext_swapinterval", "1", Defines.CVAR_ARCHIVE);
+        gl_ext_palettedtexture = Cvar.Get("gl_ext_palettedtexture", "0", Defines.CVAR_ARCHIVE);
+        gl_ext_multitexture = Cvar.Get("gl_ext_multitexture", "1", Defines.CVAR_ARCHIVE);
+        gl_ext_pointparameters = Cvar.Get("gl_ext_pointparameters", "1", Defines.CVAR_ARCHIVE);
+        gl_ext_compiled_vertex_array = Cvar.Get("gl_ext_compiled_vertex_array", "1", Defines.CVAR_ARCHIVE);
 
         gl_drawbuffer = Cvar.Get("gl_drawbuffer", "GL_BACK", 0);
-        gl_swapinterval = Cvar.Get("gl_swapinterval", "0", Globals.CVAR_ARCHIVE);
+        gl_swapinterval = Cvar.Get("gl_swapinterval", "0", Defines.CVAR_ARCHIVE);
 
         gl_saturatelighting = Cvar.Get("gl_saturatelighting", "0", 0);
 
-        gl_3dlabs_broken = Cvar.Get("gl_3dlabs_broken", "1", Globals.CVAR_ARCHIVE);
+        gl_3dlabs_broken = Cvar.Get("gl_3dlabs_broken", "1", Defines.CVAR_ARCHIVE);
 
-        vid_fullscreen = Cvar.Get("vid_fullscreen", "0", Globals.CVAR_ARCHIVE);
-        vid_gamma = Cvar.Get("vid_gamma", "1.0", Globals.CVAR_ARCHIVE);
-        vid_ref = Cvar.Get("vid_ref", "lwjgl", Globals.CVAR_ARCHIVE);
+        vid_fullscreen = Cvar.Get("vid_fullscreen", "0", Defines.CVAR_ARCHIVE);
+        vid_gamma = Cvar.Get("vid_gamma", "1.0", Defines.CVAR_ARCHIVE);
+        vid_ref = Cvar.Get("vid_ref", "lwjgl", Defines.CVAR_ARCHIVE);
 
         Cmd.AddCommand("imagelist", this::GL_ImageList_f);
 

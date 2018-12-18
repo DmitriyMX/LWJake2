@@ -30,13 +30,15 @@ import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 import lwjake2.util.QuakeFile;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static lwjake2.Defines.*;
 import static lwjake2.ErrorCode.ERR_DROP;
 import static lwjake2.ErrorCode.ERR_FATAL;
+import static lwjake2.Globals.*;
 
 /**
  * Menu
