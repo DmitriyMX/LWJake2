@@ -19,12 +19,6 @@ gradle/
 gradlew
 gradlew.bat
 
-## MAVEN ##
-target/
-
 ## OTHER ##
-lib/
 baseq2/
-baseq2.rar
-TODO.txt
-qconsole.log
+*.log

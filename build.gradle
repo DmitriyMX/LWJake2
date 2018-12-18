@@ -38,13 +38,6 @@ dependencies {
     compileOnly 'com.google.code.findbugs:annotations:3.0.1'
 }
 
-sourceSets {
-    main {
-        java.srcDirs      = ['src']
-        resources.srcDirs = ['resources']
-    }
-}
-
 mainClassName = 'lwjake2.LWJake2'
 applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"]
 
