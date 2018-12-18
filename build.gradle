@@ -1,47 +1,56 @@
-plugins {
-    id 'net.ltgt.apt' version '0.10'
-}
+group = 'lwjake2'
+version = '1.1-SNAPSHOT'
+
+import org.gradle.internal.os.OperatingSystem
 
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'findbugs'
 
 repositories {
     mavenCentral()
 }
 
-import org.gradle.internal.os.OperatingSystem;
-
-def lwjgl_ver = '2.9.3'
-def platform = ''
-if (OperatingSystem.current().isWindows()) {
-    platform = 'windows'
-} else if (OperatingSystem.current().isMacOsX()) {
-    platform = 'osx'
-} else if (OperatingSystem.current().isLinux()) {
-    platform = 'linux'
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding = 'UTF-8'
 }
-def slf4jVersion = '1.7.21'
-def log4jVersion = '2.5'
+
+ext {
+    slf4j_version  = '1.7.25'
+    log4j_version  = '2.11.1'
+    lwjgl_version  = '2.9.3'
+    lombok_version = '1.18.2'
+
+    platform         = 'linux'
+    dependencies_dir = 'libs'
+}
 
 dependencies {
-    compile (['org.lwjgl.lwjgl:lwjgl:'      + lwjgl_ver],
-             ['org.lwjgl.lwjgl:lwjgl_util:' + lwjgl_ver])
-    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+    /* LOGGER */
+    compile (group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version)
+    compile (group: 'org.apache.logging.log4j', name: 'log4j-core',       version: log4j_version)
+    compile (group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4j_version)
 
-    compileOnly 'org.projectlombok:lombok:1.16.20'
-    apt "org.projectlombok:lombok:1.16.20"
-    compileOnly 'com.google.code.findbugs:annotations:3.0.1'
+    /* LOMBOK */
+    annotationProcessor (group: 'org.projectlombok', name: 'lombok', version: lombok_version)
+    compileOnly         (group: 'org.projectlombok', name: 'lombok', version: lombok_version)
+
+    /* LWJGL */
+    compile (group: 'org.lwjgl.lwjgl', name: 'lwjgl',      version: lwjgl_version)
+    compile (group: 'org.lwjgl.lwjgl', name: 'lwjgl_util', version: lwjgl_version)
+
+    /* COMPONENTS */
+    compileOnly (group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1')
 }
 
-mainClassName = 'lwjake2.LWJake2'
-applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"]
+task unpackNatibeLibraries(type: Copy) {
+    if (OperatingSystem.current().isWindows()) {
+        platform = 'windows'
+    } else if (OperatingSystem.current().isMacOsX()) {
+        platform = 'osx'
+    }
 
-task t1(type: Copy) {
     configurations.compile.filter {
         (it.getName().indexOf("lwjgl-platform-") >= 0) &&
         (it.getName().indexOf("$platform") >= 0)
@@ -52,5 +61,9 @@ task t1(type: Copy) {
         }
         into "$buildDir/natives/$platform"
     }
-
 }
+
+tasks.run.doFirst {
+    mainClassName = 'lwjake2.LWJake2'
+    applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"] 
+}.dependsOn(unpackNatibeLibraries)
