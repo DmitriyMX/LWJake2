@@ -53,147 +53,19 @@ public class M_Boss31 {
 
     public final static int FRAME_attak109 = 8;
 
-    public final static int FRAME_attak110 = 9;
-
-    public final static int FRAME_attak111 = 10;
-
-    public final static int FRAME_attak112 = 11;
-
-    public final static int FRAME_attak113 = 12;
-
     public final static int FRAME_attak114 = 13;
 
     public final static int FRAME_attak115 = 14;
-
-    public final static int FRAME_attak116 = 15;
-
-    public final static int FRAME_attak117 = 16;
 
     public final static int FRAME_attak118 = 17;
 
     public final static int FRAME_attak201 = 18;
 
-    public final static int FRAME_attak202 = 19;
-
-    public final static int FRAME_attak203 = 20;
-
-    public final static int FRAME_attak204 = 21;
-
-    public final static int FRAME_attak205 = 22;
-
-    public final static int FRAME_attak206 = 23;
-
-    public final static int FRAME_attak207 = 24;
-
     public final static int FRAME_attak208 = 25;
-
-    public final static int FRAME_attak209 = 26;
-
-    public final static int FRAME_attak210 = 27;
-
-    public final static int FRAME_attak211 = 28;
-
-    public final static int FRAME_attak212 = 29;
 
     public final static int FRAME_attak213 = 30;
 
     public final static int FRAME_death01 = 31;
-
-    public final static int FRAME_death02 = 32;
-
-    public final static int FRAME_death03 = 33;
-
-    public final static int FRAME_death04 = 34;
-
-    public final static int FRAME_death05 = 35;
-
-    public final static int FRAME_death06 = 36;
-
-    public final static int FRAME_death07 = 37;
-
-    public final static int FRAME_death08 = 38;
-
-    public final static int FRAME_death09 = 39;
-
-    public final static int FRAME_death10 = 40;
-
-    public final static int FRAME_death11 = 41;
-
-    public final static int FRAME_death12 = 42;
-
-    public final static int FRAME_death13 = 43;
-
-    public final static int FRAME_death14 = 44;
-
-    public final static int FRAME_death15 = 45;
-
-    public final static int FRAME_death16 = 46;
-
-    public final static int FRAME_death17 = 47;
-
-    public final static int FRAME_death18 = 48;
-
-    public final static int FRAME_death19 = 49;
-
-    public final static int FRAME_death20 = 50;
-
-    public final static int FRAME_death21 = 51;
-
-    public final static int FRAME_death22 = 52;
-
-    public final static int FRAME_death23 = 53;
-
-    public final static int FRAME_death24 = 54;
-
-    public final static int FRAME_death25 = 55;
-
-    public final static int FRAME_death26 = 56;
-
-    public final static int FRAME_death27 = 57;
-
-    public final static int FRAME_death28 = 58;
-
-    public final static int FRAME_death29 = 59;
-
-    public final static int FRAME_death30 = 60;
-
-    public final static int FRAME_death31 = 61;
-
-    public final static int FRAME_death32 = 62;
-
-    public final static int FRAME_death33 = 63;
-
-    public final static int FRAME_death34 = 64;
-
-    public final static int FRAME_death35 = 65;
-
-    public final static int FRAME_death36 = 66;
-
-    public final static int FRAME_death37 = 67;
-
-    public final static int FRAME_death38 = 68;
-
-    public final static int FRAME_death39 = 69;
-
-    public final static int FRAME_death40 = 70;
-
-    public final static int FRAME_death41 = 71;
-
-    public final static int FRAME_death42 = 72;
-
-    public final static int FRAME_death43 = 73;
-
-    public final static int FRAME_death44 = 74;
-
-    public final static int FRAME_death45 = 75;
-
-    public final static int FRAME_death46 = 76;
-
-    public final static int FRAME_death47 = 77;
-
-    public final static int FRAME_death48 = 78;
-
-    public final static int FRAME_death49 = 79;
 
     public final static int FRAME_death50 = 80;
 
@@ -217,65 +89,9 @@ public class M_Boss31 {
 
     public final static int FRAME_pain304 = 90;
 
-    public final static int FRAME_pain305 = 91;
-
-    public final static int FRAME_pain306 = 92;
-
-    public final static int FRAME_pain307 = 93;
-
-    public final static int FRAME_pain308 = 94;
-
-    public final static int FRAME_pain309 = 95;
-
-    public final static int FRAME_pain310 = 96;
-
-    public final static int FRAME_pain311 = 97;
-
-    public final static int FRAME_pain312 = 98;
-
-    public final static int FRAME_pain313 = 99;
-
-    public final static int FRAME_pain314 = 100;
-
-    public final static int FRAME_pain315 = 101;
-
-    public final static int FRAME_pain316 = 102;
-
-    public final static int FRAME_pain317 = 103;
-
-    public final static int FRAME_pain318 = 104;
-
-    public final static int FRAME_pain319 = 105;
-
-    public final static int FRAME_pain320 = 106;
-
-    public final static int FRAME_pain321 = 107;
-
-    public final static int FRAME_pain322 = 108;
-
-    public final static int FRAME_pain323 = 109;
-
-    public final static int FRAME_pain324 = 110;
-
     public final static int FRAME_pain325 = 111;
 
     public final static int FRAME_stand01 = 112;
-
-    public final static int FRAME_stand02 = 113;
-
-    public final static int FRAME_stand03 = 114;
-
-    public final static int FRAME_stand04 = 115;
-
-    public final static int FRAME_stand05 = 116;
-
-    public final static int FRAME_stand06 = 117;
-
-    public final static int FRAME_stand07 = 118;
-
-    public final static int FRAME_stand08 = 119;
-
-    public final static int FRAME_stand09 = 120;
 
     public final static int FRAME_stand10 = 121;
 
@@ -319,65 +135,13 @@ public class M_Boss31 {
 
     public final static int FRAME_stand30 = 141;
 
-    public final static int FRAME_stand31 = 142;
-
-    public final static int FRAME_stand32 = 143;
-
-    public final static int FRAME_stand33 = 144;
-
-    public final static int FRAME_stand34 = 145;
-
-    public final static int FRAME_stand35 = 146;
-
-    public final static int FRAME_stand36 = 147;
-
-    public final static int FRAME_stand37 = 148;
-
-    public final static int FRAME_stand38 = 149;
-
-    public final static int FRAME_stand39 = 150;
-
-    public final static int FRAME_stand40 = 151;
-
-    public final static int FRAME_stand41 = 152;
-
-    public final static int FRAME_stand42 = 153;
-
-    public final static int FRAME_stand43 = 154;
-
-    public final static int FRAME_stand44 = 155;
-
-    public final static int FRAME_stand45 = 156;
-
-    public final static int FRAME_stand46 = 157;
-
-    public final static int FRAME_stand47 = 158;
-
-    public final static int FRAME_stand48 = 159;
-
-    public final static int FRAME_stand49 = 160;
-
-    public final static int FRAME_stand50 = 161;
-
     public final static int FRAME_stand51 = 162;
 
     public final static int FRAME_walk01 = 163;
 
-    public final static int FRAME_walk02 = 164;
-
-    public final static int FRAME_walk03 = 165;
-
-    public final static int FRAME_walk04 = 166;
-
     public final static int FRAME_walk05 = 167;
 
     public final static int FRAME_walk06 = 168;
-
-    public final static int FRAME_walk07 = 169;
-
-    public final static int FRAME_walk08 = 170;
-
-    public final static int FRAME_walk09 = 171;
 
     public final static int FRAME_walk10 = 172;
 
@@ -385,29 +149,9 @@ public class M_Boss31 {
 
     public final static int FRAME_walk12 = 174;
 
-    public final static int FRAME_walk13 = 175;
-
-    public final static int FRAME_walk14 = 176;
-
-    public final static int FRAME_walk15 = 177;
-
-    public final static int FRAME_walk16 = 178;
-
-    public final static int FRAME_walk17 = 179;
-
-    public final static int FRAME_walk18 = 180;
-
     public final static int FRAME_walk19 = 181;
 
     public final static int FRAME_walk20 = 182;
-
-    public final static int FRAME_walk21 = 183;
-
-    public final static int FRAME_walk22 = 184;
-
-    public final static int FRAME_walk23 = 185;
-
-    public final static int FRAME_walk24 = 186;
 
     public final static int FRAME_walk25 = 187;
 

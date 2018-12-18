@@ -42,77 +42,9 @@ public class M_Parasite {
 
     public final static int FRAME_break01 = 0;
 
-    public final static int FRAME_break02 = 1;
-
-    public final static int FRAME_break03 = 2;
-
-    public final static int FRAME_break04 = 3;
-
-    public final static int FRAME_break05 = 4;
-
-    public final static int FRAME_break06 = 5;
-
-    public final static int FRAME_break07 = 6;
-
-    public final static int FRAME_break08 = 7;
-
-    public final static int FRAME_break09 = 8;
-
-    public final static int FRAME_break10 = 9;
-
-    public final static int FRAME_break11 = 10;
-
-    public final static int FRAME_break12 = 11;
-
-    public final static int FRAME_break13 = 12;
-
-    public final static int FRAME_break14 = 13;
-
-    public final static int FRAME_break15 = 14;
-
-    public final static int FRAME_break16 = 15;
-
-    public final static int FRAME_break17 = 16;
-
-    public final static int FRAME_break18 = 17;
-
-    public final static int FRAME_break19 = 18;
-
-    public final static int FRAME_break20 = 19;
-
-    public final static int FRAME_break21 = 20;
-
-    public final static int FRAME_break22 = 21;
-
-    public final static int FRAME_break23 = 22;
-
-    public final static int FRAME_break24 = 23;
-
-    public final static int FRAME_break25 = 24;
-
-    public final static int FRAME_break26 = 25;
-
-    public final static int FRAME_break27 = 26;
-
-    public final static int FRAME_break28 = 27;
-
-    public final static int FRAME_break29 = 28;
-
-    public final static int FRAME_break30 = 29;
-
-    public final static int FRAME_break31 = 30;
-
     public final static int FRAME_break32 = 31;
 
     public final static int FRAME_death101 = 32;
-
-    public final static int FRAME_death102 = 33;
-
-    public final static int FRAME_death103 = 34;
-
-    public final static int FRAME_death104 = 35;
-
-    public final static int FRAME_death105 = 36;
 
     public final static int FRAME_death106 = 37;
 
@@ -120,37 +52,9 @@ public class M_Parasite {
 
     public final static int FRAME_drain01 = 39;
 
-    public final static int FRAME_drain02 = 40;
-
     public final static int FRAME_drain03 = 41;
 
     public final static int FRAME_drain04 = 42;
-
-    public final static int FRAME_drain05 = 43;
-
-    public final static int FRAME_drain06 = 44;
-
-    public final static int FRAME_drain07 = 45;
-
-    public final static int FRAME_drain08 = 46;
-
-    public final static int FRAME_drain09 = 47;
-
-    public final static int FRAME_drain10 = 48;
-
-    public final static int FRAME_drain11 = 49;
-
-    public final static int FRAME_drain12 = 50;
-
-    public final static int FRAME_drain13 = 51;
-
-    public final static int FRAME_drain14 = 52;
-
-    public final static int FRAME_drain15 = 53;
-
-    public final static int FRAME_drain16 = 54;
-
-    public final static int FRAME_drain17 = 55;
 
     public final static int FRAME_drain18 = 56;
 
@@ -162,18 +66,6 @@ public class M_Parasite {
 
     public final static int FRAME_pain104 = 60;
 
-    public final static int FRAME_pain105 = 61;
-
-    public final static int FRAME_pain106 = 62;
-
-    public final static int FRAME_pain107 = 63;
-
-    public final static int FRAME_pain108 = 64;
-
-    public final static int FRAME_pain109 = 65;
-
-    public final static int FRAME_pain110 = 66;
-
     public final static int FRAME_pain111 = 67;
 
     public final static int FRAME_run01 = 68;
@@ -182,47 +74,13 @@ public class M_Parasite {
 
     public final static int FRAME_run03 = 70;
 
-    public final static int FRAME_run04 = 71;
-
-    public final static int FRAME_run05 = 72;
-
-    public final static int FRAME_run06 = 73;
-
-    public final static int FRAME_run07 = 74;
-
-    public final static int FRAME_run08 = 75;
-
     public final static int FRAME_run09 = 76;
 
     public final static int FRAME_run10 = 77;
 
-    public final static int FRAME_run11 = 78;
-
-    public final static int FRAME_run12 = 79;
-
-    public final static int FRAME_run13 = 80;
-
-    public final static int FRAME_run14 = 81;
-
     public final static int FRAME_run15 = 82;
 
     public final static int FRAME_stand01 = 83;
-
-    public final static int FRAME_stand02 = 84;
-
-    public final static int FRAME_stand03 = 85;
-
-    public final static int FRAME_stand04 = 86;
-
-    public final static int FRAME_stand05 = 87;
-
-    public final static int FRAME_stand06 = 88;
-
-    public final static int FRAME_stand07 = 89;
-
-    public final static int FRAME_stand08 = 90;
-
-    public final static int FRAME_stand09 = 91;
 
     public final static int FRAME_stand10 = 92;
 
@@ -265,14 +123,6 @@ public class M_Parasite {
     public final static int FRAME_stand29 = 111;
 
     public final static int FRAME_stand30 = 112;
-
-    public final static int FRAME_stand31 = 113;
-
-    public final static int FRAME_stand32 = 114;
-
-    public final static int FRAME_stand33 = 115;
-
-    public final static int FRAME_stand34 = 116;
 
     public final static int FRAME_stand35 = 117;
 

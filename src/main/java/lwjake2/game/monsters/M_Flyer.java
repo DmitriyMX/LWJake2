@@ -47,51 +47,15 @@ public class M_Flyer {
 
     public final static int ACTION_run = 3;
 
-    public final static int ACTION_walk = 4;
-
     public final static int FRAME_start01 = 0;
-
-    public final static int FRAME_start02 = 1;
-
-    public final static int FRAME_start03 = 2;
-
-    public final static int FRAME_start04 = 3;
-
-    public final static int FRAME_start05 = 4;
 
     public final static int FRAME_start06 = 5;
 
     public final static int FRAME_stop01 = 6;
 
-    public final static int FRAME_stop02 = 7;
-
-    public final static int FRAME_stop03 = 8;
-
-    public final static int FRAME_stop04 = 9;
-
-    public final static int FRAME_stop05 = 10;
-
-    public final static int FRAME_stop06 = 11;
-
     public final static int FRAME_stop07 = 12;
 
     public final static int FRAME_stand01 = 13;
-
-    public final static int FRAME_stand02 = 14;
-
-    public final static int FRAME_stand03 = 15;
-
-    public final static int FRAME_stand04 = 16;
-
-    public final static int FRAME_stand05 = 17;
-
-    public final static int FRAME_stand06 = 18;
-
-    public final static int FRAME_stand07 = 19;
-
-    public final static int FRAME_stand08 = 20;
-
-    public final static int FRAME_stand09 = 21;
 
     public final static int FRAME_stand10 = 22;
 
@@ -135,34 +99,6 @@ public class M_Flyer {
 
     public final static int FRAME_stand30 = 42;
 
-    public final static int FRAME_stand31 = 43;
-
-    public final static int FRAME_stand32 = 44;
-
-    public final static int FRAME_stand33 = 45;
-
-    public final static int FRAME_stand34 = 46;
-
-    public final static int FRAME_stand35 = 47;
-
-    public final static int FRAME_stand36 = 48;
-
-    public final static int FRAME_stand37 = 49;
-
-    public final static int FRAME_stand38 = 50;
-
-    public final static int FRAME_stand39 = 51;
-
-    public final static int FRAME_stand40 = 52;
-
-    public final static int FRAME_stand41 = 53;
-
-    public final static int FRAME_stand42 = 54;
-
-    public final static int FRAME_stand43 = 55;
-
-    public final static int FRAME_stand44 = 56;
-
     public final static int FRAME_stand45 = 57;
 
     public final static int FRAME_attak101 = 58;
@@ -181,139 +117,39 @@ public class M_Flyer {
 
     public final static int FRAME_attak108 = 65;
 
-    public final static int FRAME_attak109 = 66;
-
-    public final static int FRAME_attak110 = 67;
-
-    public final static int FRAME_attak111 = 68;
-
-    public final static int FRAME_attak112 = 69;
-
-    public final static int FRAME_attak113 = 70;
-
-    public final static int FRAME_attak114 = 71;
-
-    public final static int FRAME_attak115 = 72;
-
-    public final static int FRAME_attak116 = 73;
-
-    public final static int FRAME_attak117 = 74;
-
     public final static int FRAME_attak118 = 75;
 
     public final static int FRAME_attak119 = 76;
-
-    public final static int FRAME_attak120 = 77;
 
     public final static int FRAME_attak121 = 78;
 
     public final static int FRAME_attak201 = 79;
 
-    public final static int FRAME_attak202 = 80;
-
-    public final static int FRAME_attak203 = 81;
-
     public final static int FRAME_attak204 = 82;
-
-    public final static int FRAME_attak205 = 83;
-
-    public final static int FRAME_attak206 = 84;
 
     public final static int FRAME_attak207 = 85;
 
-    public final static int FRAME_attak208 = 86;
-
-    public final static int FRAME_attak209 = 87;
-
     public final static int FRAME_attak210 = 88;
-
-    public final static int FRAME_attak211 = 89;
-
-    public final static int FRAME_attak212 = 90;
-
-    public final static int FRAME_attak213 = 91;
-
-    public final static int FRAME_attak214 = 92;
-
-    public final static int FRAME_attak215 = 93;
-
-    public final static int FRAME_attak216 = 94;
 
     public final static int FRAME_attak217 = 95;
 
     public final static int FRAME_bankl01 = 96;
 
-    public final static int FRAME_bankl02 = 97;
-
-    public final static int FRAME_bankl03 = 98;
-
-    public final static int FRAME_bankl04 = 99;
-
-    public final static int FRAME_bankl05 = 100;
-
-    public final static int FRAME_bankl06 = 101;
-
     public final static int FRAME_bankl07 = 102;
 
     public final static int FRAME_bankr01 = 103;
-
-    public final static int FRAME_bankr02 = 104;
-
-    public final static int FRAME_bankr03 = 105;
-
-    public final static int FRAME_bankr04 = 106;
-
-    public final static int FRAME_bankr05 = 107;
-
-    public final static int FRAME_bankr06 = 108;
 
     public final static int FRAME_bankr07 = 109;
 
     public final static int FRAME_rollf01 = 110;
 
-    public final static int FRAME_rollf02 = 111;
-
-    public final static int FRAME_rollf03 = 112;
-
-    public final static int FRAME_rollf04 = 113;
-
-    public final static int FRAME_rollf05 = 114;
-
-    public final static int FRAME_rollf06 = 115;
-
-    public final static int FRAME_rollf07 = 116;
-
-    public final static int FRAME_rollf08 = 117;
-
     public final static int FRAME_rollf09 = 118;
 
     public final static int FRAME_rollr01 = 119;
 
-    public final static int FRAME_rollr02 = 120;
-
-    public final static int FRAME_rollr03 = 121;
-
-    public final static int FRAME_rollr04 = 122;
-
-    public final static int FRAME_rollr05 = 123;
-
-    public final static int FRAME_rollr06 = 124;
-
-    public final static int FRAME_rollr07 = 125;
-
-    public final static int FRAME_rollr08 = 126;
-
     public final static int FRAME_rollr09 = 127;
 
     public final static int FRAME_defens01 = 128;
-
-    public final static int FRAME_defens02 = 129;
-
-    public final static int FRAME_defens03 = 130;
-
-    public final static int FRAME_defens04 = 131;
-
-    public final static int FRAME_defens05 = 132;
 
     public final static int FRAME_defens06 = 133;
 
@@ -324,14 +160,6 @@ public class M_Flyer {
     public final static int FRAME_pain103 = 136;
 
     public final static int FRAME_pain104 = 137;
-
-    public final static int FRAME_pain105 = 138;
-
-    public final static int FRAME_pain106 = 139;
-
-    public final static int FRAME_pain107 = 140;
-
-    public final static int FRAME_pain108 = 141;
 
     public final static int FRAME_pain109 = 142;
 
