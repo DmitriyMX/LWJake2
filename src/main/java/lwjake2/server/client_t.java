@@ -26,58 +26,58 @@ import lwjake2.qcommon.sizebuf_t;
 
 public class client_t {
 
-	public client_t() {
-		for (int n = 0; n < Defines.UPDATE_BACKUP; n++) {
-			frames[n] = new client_frame_t();
-		}
-	}
+    public client_t() {
+        for (int n = 0; n < Defines.UPDATE_BACKUP; n++) {
+            frames[n] = new client_frame_t();
+        }
+    }
 
-	public static final int LATENCY_COUNTS = 16;
-	public static final int RATE_MESSAGES = 10;
+    public static final int LATENCY_COUNTS = 16;
+    public static final int RATE_MESSAGES = 10;
 
-	int state;
+    int state;
 
-	String userinfo = "";
+    String userinfo = "";
 
-	int lastframe; // for delta compression
-	usercmd_t lastcmd = new usercmd_t(); // for filling in big drops
+    int lastframe; // for delta compression
+    usercmd_t lastcmd = new usercmd_t(); // for filling in big drops
 
-	int commandMsec; // every seconds this is reset, if user
-	// commands exhaust it, assume time cheating
+    int commandMsec; // every seconds this is reset, if user
+    // commands exhaust it, assume time cheating
 
-	int frame_latency[] = new int[LATENCY_COUNTS];
-	int ping;
+    int frame_latency[] = new int[LATENCY_COUNTS];
+    int ping;
 
-	int message_size[] = new int[RATE_MESSAGES]; // used to rate drop packets
-	int rate;
-	int surpressCount; // number of messages rate supressed
+    int message_size[] = new int[RATE_MESSAGES]; // used to rate drop packets
+    int rate;
+    int surpressCount; // number of messages rate supressed
 
-	// pointer
-	edict_t edict; // EDICT_NUM(clientnum+1)
+    // pointer
+    edict_t edict; // EDICT_NUM(clientnum+1)
 
-	//char				name[32];			// extracted from userinfo, high bits masked
-	String name = ""; // extracted from userinfo, high bits masked
+    //char                name[32];            // extracted from userinfo, high bits masked
+    String name = ""; // extracted from userinfo, high bits masked
 
-	int messagelevel; // for filtering printed messages
+    int messagelevel; // for filtering printed messages
 
-	// The datagram is written to by sound calls, prints, temp ents, etc.
-	// It can be harmlessly overflowed.
-	sizebuf_t datagram = new sizebuf_t();
-	byte datagram_buf[] = new byte[Defines.MAX_MSGLEN];
+    // The datagram is written to by sound calls, prints, temp ents, etc.
+    // It can be harmlessly overflowed.
+    sizebuf_t datagram = new sizebuf_t();
+    byte datagram_buf[] = new byte[Defines.MAX_MSGLEN];
 
-	client_frame_t frames[] = new client_frame_t[Defines.UPDATE_BACKUP]; // updates can be delta'd from here
+    client_frame_t frames[] = new client_frame_t[Defines.UPDATE_BACKUP]; // updates can be delta'd from here
 
-	byte download[]; // file being downloaded
-	int downloadsize; // total bytes (can't use EOF because of paks)
-	int downloadcount; // bytes sent
+    byte download[]; // file being downloaded
+    int downloadsize; // total bytes (can't use EOF because of paks)
+    int downloadcount; // bytes sent
 
-	int lastmessage; // sv.framenum when packet was last received
-	int lastconnect;
+    int lastmessage; // sv.framenum when packet was last received
+    int lastconnect;
 
-	int challenge; // challenge of this user, randomly generated
+    int challenge; // challenge of this user, randomly generated
 
-	netchan_t netchan = new netchan_t();
+    netchan_t netchan = new netchan_t();
 
-	//this was introduced by rst, since java can't calculate the index out of the address.
-	int serverindex;
+    //this was introduced by rst, since java can't calculate the index out of the address.
+    int serverindex;
 }

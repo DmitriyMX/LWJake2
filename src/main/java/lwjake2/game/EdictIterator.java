@@ -22,10 +22,10 @@ package lwjake2.game;
 
 public class EdictIterator
 {
-	EdictIterator(int i)
-	{
-		this.i = i;
-	}
-	public edict_t o;
-	int i;
+    EdictIterator(int i)
+    {
+        this.i = i;
+    }
+    public edict_t o;
+    int i;
 }

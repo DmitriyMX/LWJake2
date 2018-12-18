@@ -25,9 +25,9 @@ import java.util.StringTokenizer;
 
 public class Info {
 
-	/**
-	 * Returns a value for a key from an info string. 
-	 */
+    /**
+     * Returns a value for a key from an info string. 
+     */
     public static String Info_ValueForKey(String s, String key) {
 
         StringTokenizer tk = new StringTokenizer(s, "\\");

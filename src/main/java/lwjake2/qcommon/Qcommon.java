@@ -39,213 +39,213 @@ import java.io.IOException;
  */
 @Slf4j
 public final class Qcommon extends Globals {
-	private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
-	public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
-	public static final String CPUSTRING = System.getProperty("os.arch");
+    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
+    public static final String CPUSTRING = System.getProperty("os.arch");
 
-	/**
-	 * This function initializes the different subsystems of
-	 * the game engine. The setjmp/longjmp mechanism of the original
-	 * was replaced with exceptions.
-	 * @param args the original unmodified command line arguments
-	 */
-	public static void Init(String[] args) {
-		try {
+    /**
+     * This function initializes the different subsystems of
+     * the game engine. The setjmp/longjmp mechanism of the original
+     * was replaced with exceptions.
+     * @param args the original unmodified command line arguments
+     */
+    public static void Init(String[] args) {
+        try {
 
-			// prepare enough of the subsystems to handle
-			// cvar and command buffer management
-			Com.InitArgv(args);
+            // prepare enough of the subsystems to handle
+            // cvar and command buffer management
+            Com.InitArgv(args);
 
-			Cbuf.Init();
-			
-			Cmd.Init();
-			Cvar.Init();
+            Cbuf.Init();
+            
+            Cmd.Init();
+            Cvar.Init();
 
-			Key.Init();
+            Key.Init();
 
-			// we need to add the early commands twice, because
-			// a basedir or cddir needs to be set before execing
-			// config files, but we want other parms to override
-			// the settings of the config files
-			Cbuf.AddEarlyCommands(false);
-			Cbuf.Execute();
-			
-			fileSystem.init();
-			
-			reconfigure(false);
+            // we need to add the early commands twice, because
+            // a basedir or cddir needs to be set before execing
+            // config files, but we want other parms to override
+            // the settings of the config files
+            Cbuf.AddEarlyCommands(false);
+            Cbuf.Execute();
+            
+            fileSystem.init();
+            
+            reconfigure(false);
 
-			fileSystem.setCDDir(); // use cddir from config.cfg
-			fileSystem.markBaseSearchPaths(); // mark the default search paths
-			fileSystem.checkOverride();
-			
-			reconfigure(true); // reload default.cfg and config.cfg
-			
-			//
-			// init commands and vars
-			//
-			Cmd.AddCommand("error", Com.Error_f);
+            fileSystem.setCDDir(); // use cddir from config.cfg
+            fileSystem.markBaseSearchPaths(); // mark the default search paths
+            fileSystem.checkOverride();
+            
+            reconfigure(true); // reload default.cfg and config.cfg
+            
+            //
+            // init commands and vars
+            //
+            Cmd.AddCommand("error", Com.Error_f);
 
-			Globals.host_speeds= Cvar.Get("host_speeds", "0", 0);
-			Globals.log_stats= Cvar.Get("log_stats", "0", 0);
-			Globals.developer= Cvar.Get("developer", "0", CVAR_ARCHIVE);
-			Globals.timescale= Cvar.Get("timescale", "0", 0);
-			Globals.fixedtime= Cvar.Get("fixedtime", "0", 0);
-			Globals.logfile_active= Cvar.Get("logfile", "0", 0);
-			Globals.showtrace= Cvar.Get("showtrace", "0", 0);
-			Globals.dedicated= Cvar.Get("dedicated", "0", CVAR_NOSET);
-			String s = Com.sprintf("%4.2f %s %s %s",
-					new Vargs(4)
-						.add(Globals.VERSION)
-						.add(CPUSTRING)
-						.add(Globals.__DATE__)
-						.add(BUILDSTRING));
+            Globals.host_speeds= Cvar.Get("host_speeds", "0", 0);
+            Globals.log_stats= Cvar.Get("log_stats", "0", 0);
+            Globals.developer= Cvar.Get("developer", "0", CVAR_ARCHIVE);
+            Globals.timescale= Cvar.Get("timescale", "0", 0);
+            Globals.fixedtime= Cvar.Get("fixedtime", "0", 0);
+            Globals.logfile_active= Cvar.Get("logfile", "0", 0);
+            Globals.showtrace= Cvar.Get("showtrace", "0", 0);
+            Globals.dedicated= Cvar.Get("dedicated", "0", CVAR_NOSET);
+            String s = Com.sprintf("%4.2f %s %s %s",
+                    new Vargs(4)
+                        .add(Globals.VERSION)
+                        .add(CPUSTRING)
+                        .add(Globals.__DATE__)
+                        .add(BUILDSTRING));
 
-			Cvar.Get("version", s, CVAR_SERVERINFO | CVAR_NOSET);
-			
-			NET.Init();	//ok
-			Netchan.Netchan_Init();	//ok
+            Cvar.Get("version", s, CVAR_SERVERINFO | CVAR_NOSET);
+            
+            NET.Init();    //ok
+            Netchan.Netchan_Init();    //ok
 
-			SV_MAIN.SV_Init();	//ok
-			
-			CL.Init();
+            SV_MAIN.SV_Init();    //ok
+            
+            CL.Init();
 
-			// add + commands from command line
-			if (!Cbuf.AddLateCommands()) {
-				// if the user didn't give any commands, run default action
-			      if (Globals.dedicated.value == 0)
-			          Cbuf.AddText ("d1\n");
-			      else
-			          Cbuf.AddText ("dedicated_start\n");
-			          
-				Cbuf.Execute();
-			} else {
-				// the user asked for something explicit
-				// so drop the loading plaque
-				SCR.EndLoadingPlaque();
-			}
+            // add + commands from command line
+            if (!Cbuf.AddLateCommands()) {
+                // if the user didn't give any commands, run default action
+                  if (Globals.dedicated.value == 0)
+                      Cbuf.AddText ("d1\n");
+                  else
+                      Cbuf.AddText ("dedicated_start\n");
+                      
+                Cbuf.Execute();
+            } else {
+                // the user asked for something explicit
+                // so drop the loading plaque
+                SCR.EndLoadingPlaque();
+            }
 
-			log.info("====== Quake2 Initialized ======");
+            log.info("====== Quake2 Initialized ======");
 
-			// save config when configuration is completed
-			CL.WriteConfiguration();
+            // save config when configuration is completed
+            CL.WriteConfiguration();
 
-		} catch (IllegalStateException e) {
-			Sys.Error("Error during initialization");
-		}
-	}
+        } catch (IllegalStateException e) {
+            Sys.Error("Error during initialization");
+        }
+    }
 
-	/**
-	 * Trigger generation of a frame for the given time. The setjmp/longjmp
-	 * mechanism of the original was replaced with exceptions.
-	 * @param msec the current game time
-	 */
-	public static void Frame(int msec) {
-		try {
+    /**
+     * Trigger generation of a frame for the given time. The setjmp/longjmp
+     * mechanism of the original was replaced with exceptions.
+     * @param msec the current game time
+     */
+    public static void Frame(int msec) {
+        try {
 
-			if (Globals.log_stats.modified) {
-				Globals.log_stats.modified= false;
+            if (Globals.log_stats.modified) {
+                Globals.log_stats.modified= false;
 
-				if (Globals.log_stats.value != 0.0f) {
+                if (Globals.log_stats.value != 0.0f) {
 
-					try {
-						Globals.log_stats_file.close();
-					} catch (IOException e) {
-					}
-					Globals.log_stats_file= null;
+                    try {
+                        Globals.log_stats_file.close();
+                    } catch (IOException e) {
+                    }
+                    Globals.log_stats_file= null;
 
-					try {
-						Globals.log_stats_file= new FileWriter("stats.log");
-					} catch (IOException e) {
-						Globals.log_stats_file= null;
-					}
-					if (Globals.log_stats_file != null) {
-						try {
-							Globals.log_stats_file.write("entities,dlights,parts,frame time\n");
-						} catch (IOException e) {
-						}
-					}
+                    try {
+                        Globals.log_stats_file= new FileWriter("stats.log");
+                    } catch (IOException e) {
+                        Globals.log_stats_file= null;
+                    }
+                    if (Globals.log_stats_file != null) {
+                        try {
+                            Globals.log_stats_file.write("entities,dlights,parts,frame time\n");
+                        } catch (IOException e) {
+                        }
+                    }
 
-				} else {
+                } else {
 
-					if (Globals.log_stats_file != null) {
-						try {
-							Globals.log_stats_file.close();
-						} catch (IOException e) {
-						}
-						Globals.log_stats_file= null;
-					}
-				}
-			}
+                    if (Globals.log_stats_file != null) {
+                        try {
+                            Globals.log_stats_file.close();
+                        } catch (IOException e) {
+                        }
+                        Globals.log_stats_file= null;
+                    }
+                }
+            }
 
-			if (Globals.fixedtime.value != 0.0f) {
-				msec= (int) Globals.fixedtime.value;
-			} else if (Globals.timescale.value != 0.0f) {
-				msec *= Globals.timescale.value;
-				if (msec < 1)
-					msec= 1;
-			}
+            if (Globals.fixedtime.value != 0.0f) {
+                msec= (int) Globals.fixedtime.value;
+            } else if (Globals.timescale.value != 0.0f) {
+                msec *= Globals.timescale.value;
+                if (msec < 1)
+                    msec= 1;
+            }
 
-			if (Globals.showtrace.value != 0.0f) {
-				log.info(String.format("%4d traces  %4d points", Globals.c_traces, Globals.c_pointcontents));
+            if (Globals.showtrace.value != 0.0f) {
+                log.info(String.format("%4d traces  %4d points", Globals.c_traces, Globals.c_pointcontents));
 
-				
-				Globals.c_traces= 0;
-				Globals.c_brush_traces= 0;
-				Globals.c_pointcontents= 0;
-			}
+                
+                Globals.c_traces= 0;
+                Globals.c_brush_traces= 0;
+                Globals.c_pointcontents= 0;
+            }
 
-			Cbuf.Execute();
+            Cbuf.Execute();
 
-			int time_before= 0;
-			int time_between= 0;
-			int time_after= 0;
+            int time_before= 0;
+            int time_between= 0;
+            int time_after= 0;
 
-			if (Globals.host_speeds.value != 0.0f)
-				time_before= Timer.Milliseconds();
-			
-			Com.debugContext = "SV:";
-			SV_MAIN.SV_Frame(msec);
+            if (Globals.host_speeds.value != 0.0f)
+                time_before= Timer.Milliseconds();
+            
+            Com.debugContext = "SV:";
+            SV_MAIN.SV_Frame(msec);
 
-			if (Globals.host_speeds.value != 0.0f)
-				time_between= Timer.Milliseconds();
-			
-			Com.debugContext = "CL:";
-			CL.Frame(msec);
+            if (Globals.host_speeds.value != 0.0f)
+                time_between= Timer.Milliseconds();
+            
+            Com.debugContext = "CL:";
+            CL.Frame(msec);
 
-			if (Globals.host_speeds.value != 0.0f) {
-				time_after= Timer.Milliseconds();
+            if (Globals.host_speeds.value != 0.0f) {
+                time_after= Timer.Milliseconds();
 
-				int all= time_after - time_before;
-				int sv= time_between - time_before;
-				int cl= time_after - time_between;
-				int gm= Globals.time_after_game - Globals.time_before_game;
-				int rf= Globals.time_after_ref - Globals.time_before_ref;
-				sv -= gm;
-				cl -= rf;
+                int all= time_after - time_before;
+                int sv= time_between - time_before;
+                int cl= time_after - time_between;
+                int gm= Globals.time_after_game - Globals.time_before_game;
+                int rf= Globals.time_after_ref - Globals.time_before_ref;
+                sv -= gm;
+                cl -= rf;
 
-				log.info(String.format("all:%3d sv:%3d gm:%3d cl:%3d rf:%3d", all, sv, gm, cl, rf));
-			}
+                log.info(String.format("all:%3d sv:%3d gm:%3d cl:%3d rf:%3d", all, sv, gm, cl, rf));
+            }
 
-		} catch (IllegalStateException e) {
-			Com.DPrintf("lonjmp exception:" + e);
-		}
-	}
+        } catch (IllegalStateException e) {
+            Com.DPrintf("lonjmp exception:" + e);
+        }
+    }
 
-	static void reconfigure(boolean clear) {
-		String dir = Cvar.Get("cddir", "", CVAR_ARCHIVE).string;
-		Cbuf.AddText("exec default.cfg\n");
-		Cbuf.AddText("bind MWHEELUP weapnext\n");
-		Cbuf.AddText("bind MWHEELDOWN weapprev\n");
-		Cbuf.AddText("bind w +forward\n");
-		Cbuf.AddText("bind s +back\n");
-		Cbuf.AddText("bind a +moveleft\n");
-		Cbuf.AddText("bind d +moveright\n");
-		Cbuf.Execute();
-		Cvar.Set("vid_fullscreen", "0");
-		Cbuf.AddText("exec config.cfg\n");
+    static void reconfigure(boolean clear) {
+        String dir = Cvar.Get("cddir", "", CVAR_ARCHIVE).string;
+        Cbuf.AddText("exec default.cfg\n");
+        Cbuf.AddText("bind MWHEELUP weapnext\n");
+        Cbuf.AddText("bind MWHEELDOWN weapprev\n");
+        Cbuf.AddText("bind w +forward\n");
+        Cbuf.AddText("bind s +back\n");
+        Cbuf.AddText("bind a +moveleft\n");
+        Cbuf.AddText("bind d +moveright\n");
+        Cbuf.Execute();
+        Cvar.Set("vid_fullscreen", "0");
+        Cbuf.AddText("exec config.cfg\n");
 
-		Cbuf.AddEarlyCommands(clear);
-		Cbuf.Execute();
-		if (!("".equals(dir))) Cvar.Set("cddir", dir);
-	}
+        Cbuf.AddEarlyCommands(clear);
+        Cbuf.Execute();
+        if (!("".equals(dir))) Cvar.Set("cddir", dir);
+    }
 }

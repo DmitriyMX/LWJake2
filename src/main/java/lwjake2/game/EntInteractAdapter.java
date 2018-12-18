@@ -20,5 +20,5 @@ package lwjake2.game;
 
 public abstract class EntInteractAdapter extends SuperAdapter
 {
-	public abstract boolean interact(edict_t self, edict_t other);
+    public abstract boolean interact(edict_t self, edict_t other);
 }

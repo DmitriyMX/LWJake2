@@ -647,7 +647,7 @@ public class M_Chick {
     static int sound_search;
 
     static EntThinkAdapter ChickMoan = new EntThinkAdapter() {
-    	public String getID() { return "ChickMoan"; }
+        public String getID() { return "ChickMoan"; }
         public boolean think(edict_t self) {
             if (Lib.random() < 0.5)
                 GameBase.gi.sound(self, Defines.CHAN_VOICE, sound_idle1, 1,
@@ -692,7 +692,7 @@ public class M_Chick {
             new mframe_t(GameAI.ai_stand, 0, null) };
 
     static EntThinkAdapter chick_stand = new EntThinkAdapter() {
-    	public String getID() { return "chick_stand"; }
+        public String getID() { return "chick_stand"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_stand;
             return true;
@@ -703,7 +703,7 @@ public class M_Chick {
             FRAME_stand230, chick_frames_fidget, chick_stand);
 
     static EntThinkAdapter chick_fidget = new EntThinkAdapter() {
-    	public String getID() { return "chick_fidget"; }
+        public String getID() { return "chick_fidget"; }
         public boolean think(edict_t self) {
             if ((self.monsterinfo.aiflags & Defines.AI_STAND_GROUND) != 0)
                 return true;
@@ -749,7 +749,7 @@ public class M_Chick {
             FRAME_stand130, chick_frames_stand, null);
 
     static EntThinkAdapter chick_run = new EntThinkAdapter() {
-    	public String getID() { return "chick_run"; }
+        public String getID() { return "chick_run"; }
         public boolean think(edict_t self) {
             if ((self.monsterinfo.aiflags & Defines.AI_STAND_GROUND) != 0) {
                 self.monsterinfo.currentmove = chick_move_stand;
@@ -812,7 +812,7 @@ public class M_Chick {
             chick_frames_walk, null);
 
     static EntThinkAdapter chick_walk = new EntThinkAdapter() {
-    	public String getID() { return "chick_walk"; }
+        public String getID() { return "chick_walk"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_walk;
             return true;
@@ -866,7 +866,7 @@ public class M_Chick {
             chick_frames_pain3, chick_run);
 
     static EntPainAdapter chick_pain = new EntPainAdapter() {
-    	public String getID() { return "chick_pain"; }
+        public String getID() { return "chick_pain"; }
         public void pain(edict_t self, edict_t other, float kick, int damage) {
             float r;
 
@@ -903,7 +903,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_dead = new EntThinkAdapter() {
-    	public String getID() { return "chick_dead"; }
+        public String getID() { return "chick_dead"; }
         public boolean think(edict_t self) {
             Math3D.VectorSet(self.mins, -16, -16, 0);
             Math3D.VectorSet(self.maxs, 16, 16, 16);
@@ -961,13 +961,13 @@ public class M_Chick {
             FRAME_death112, chick_frames_death1, chick_dead);
 
     static EntDieAdapter chick_die = new EntDieAdapter() {
-    	public String getID() { return "chick_die"; }
+        public String getID() { return "chick_die"; }
 
         public void die(edict_t self, edict_t inflictor, edict_t attacker,
                 int damage, float[] point) {
             int n;
 
-            //		   check for gib
+            //           check for gib
             if (self.health <= self.gib_health) {
                 GameBase.gi
                         .sound(self, Defines.CHAN_VOICE, GameBase.gi
@@ -989,7 +989,7 @@ public class M_Chick {
             if (self.deadflag == Defines.DEAD_DEAD)
                 return;
 
-            //		   regular death
+            //           regular death
             self.deadflag = Defines.DEAD_DEAD;
             self.takedamage = Defines.DAMAGE_YES;
 
@@ -1008,7 +1008,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_duck_down = new EntThinkAdapter() {
-    	public String getID() { return "chick_duck_down"; }
+        public String getID() { return "chick_duck_down"; }
         public boolean think(edict_t self) {
             if ((self.monsterinfo.aiflags & Defines.AI_DUCKED) != 0)
                 return true;
@@ -1022,7 +1022,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_duck_hold = new EntThinkAdapter() {
-    	public String getID() { return "chick_duck_hold"; }
+        public String getID() { return "chick_duck_hold"; }
         public boolean think(edict_t self) {
             if (GameBase.level.time >= self.monsterinfo.pausetime)
                 self.monsterinfo.aiflags &= ~Defines.AI_HOLD_FRAME;
@@ -1033,7 +1033,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_duck_up = new EntThinkAdapter() {
-    	public String getID() { return "chick_duck_up"; }
+        public String getID() { return "chick_duck_up"; }
         public boolean think(edict_t self) {
             self.monsterinfo.aiflags &= ~Defines.AI_DUCKED;
             self.maxs[2] += 32;
@@ -1056,7 +1056,7 @@ public class M_Chick {
             chick_frames_duck, chick_run);
 
     static EntDodgeAdapter chick_dodge = new EntDodgeAdapter() {
-    	public String getID() { return "chick_dodge"; }
+        public String getID() { return "chick_dodge"; }
         public void dodge(edict_t self, edict_t attacker, float eta) {
             if (Lib.random() > 0.25)
                 return;
@@ -1070,7 +1070,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter ChickSlash = new EntThinkAdapter() {
-    	public String getID() { return "ChickSlash"; }
+        public String getID() { return "ChickSlash"; }
         public boolean think(edict_t self) {
             float[] aim = { 0, 0, 0 };
 
@@ -1083,7 +1083,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter ChickRocket = new EntThinkAdapter() {
-    	public String getID() { return "ChickRocket"; }
+        public String getID() { return "ChickRocket"; }
         public boolean think(edict_t self) {
             float[] forward = { 0, 0, 0 }, right = { 0, 0, 0 };
             float[] start = { 0, 0, 0 };
@@ -1107,7 +1107,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter Chick_PreAttack1 = new EntThinkAdapter() {
-    	public String getID() { return "Chick_PreAttack1"; }
+        public String getID() { return "Chick_PreAttack1"; }
         public boolean think(edict_t self) {
             GameBase.gi.sound(self, Defines.CHAN_VOICE,
                     sound_missile_prelaunch, 1, Defines.ATTN_NORM, 0);
@@ -1116,7 +1116,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter ChickReload = new EntThinkAdapter() {
-    	public String getID() { return "ChickReload"; }
+        public String getID() { return "ChickReload"; }
         public boolean think(edict_t self) {
             GameBase.gi.sound(self, Defines.CHAN_VOICE, sound_missile_reload,
                     1, Defines.ATTN_NORM, 0);
@@ -1125,7 +1125,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_attack1 = new EntThinkAdapter() {
-    	public String getID() { return "chick_attack1"; }
+        public String getID() { return "chick_attack1"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_attack1;
             return true;
@@ -1133,7 +1133,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_rerocket = new EntThinkAdapter() {
-    	public String getID() { return "chick_rerocket"; }
+        public String getID() { return "chick_rerocket"; }
         public boolean think(edict_t self) {
             if (self.enemy.health > 0) {
                 if (GameUtil.range(self, self.enemy) > Defines.RANGE_MELEE)
@@ -1196,7 +1196,7 @@ public class M_Chick {
             FRAME_attak132, chick_frames_end_attack1, chick_run);
 
     static EntThinkAdapter chick_reslash = new EntThinkAdapter() {
-    	public String getID() { return "chick_reslash"; }
+        public String getID() { return "chick_reslash"; }
         public boolean think(edict_t self) {
             if (self.enemy.health > 0) {
                 if (GameUtil.range(self, self.enemy) == Defines.RANGE_MELEE)
@@ -1237,7 +1237,7 @@ public class M_Chick {
             FRAME_attak216, chick_frames_end_slash, chick_run);
 
     static EntThinkAdapter chick_slash = new EntThinkAdapter() {
-    	public String getID() { return "chick_slash"; }
+        public String getID() { return "chick_slash"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_slash;
             return true;
@@ -1253,7 +1253,7 @@ public class M_Chick {
             FRAME_attak203, chick_frames_start_slash, chick_slash);
 
     static EntThinkAdapter chick_melee = new EntThinkAdapter() {
-    	public String getID() { return "chick_melee"; }
+        public String getID() { return "chick_melee"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_start_slash;
             return true;
@@ -1261,7 +1261,7 @@ public class M_Chick {
     };
 
     static EntThinkAdapter chick_attack = new EntThinkAdapter() {
-    	public String getID() { return "chick_attack"; }
+        public String getID() { return "chick_attack"; }
         public boolean think(edict_t self) {
             self.monsterinfo.currentmove = chick_move_start_attack1;
             return true;
@@ -1269,7 +1269,7 @@ public class M_Chick {
     };
 
     static EntInteractAdapter chick_sight = new EntInteractAdapter() {
-    	public String getID() { return "chick_sight"; }
+        public String getID() { return "chick_sight"; }
         public boolean interact(edict_t self, edict_t other) {
             GameBase.gi.sound(self, Defines.CHAN_VOICE, sound_sight, 1,
                     Defines.ATTN_NORM, 0);

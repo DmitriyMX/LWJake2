@@ -75,7 +75,7 @@ public class SV_GAME {
      * Centerprintf for critical messages.
      */
     public static void PF_cprintfhigh(edict_t ent, String fmt) {
-    	PF_cprintf(ent, Defines.PRINT_HIGH, fmt);
+        PF_cprintf(ent, Defines.PRINT_HIGH, fmt);
     }
     
     /**

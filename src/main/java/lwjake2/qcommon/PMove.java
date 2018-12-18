@@ -151,7 +151,7 @@ public class PMove {
 
             // slide along this plane
             if (numplanes >= SV.MAX_CLIP_PLANES) { 
-            	// this shouldn't really happen
+                // this shouldn't really happen
                 Math3D.VectorCopy(Globals.vec3_origin, pml.velocity);
                 break;
             }
@@ -173,9 +173,9 @@ public class PMove {
             }
 
             if (i != numplanes) { 
-            	// go along this plane
+                // go along this plane
             } else { 
-            	// go along the crease
+                // go along the crease
                 if (numplanes != 2) {
                     // Com.printf("clip velocity, numplanes == " + numplanes + "\n");
                     Math3D.VectorCopy(Globals.vec3_origin, pml.velocity);
@@ -212,7 +212,7 @@ public class PMove {
         float[] down_o = { 0, 0, 0 }, down_v = { 0, 0, 0 };
         trace_t trace;
         float down_dist, up_dist;
-        //	float [] delta;
+        //    float [] delta;
         float[] up = { 0, 0, 0 }, down = { 0, 0, 0 };
 
         Math3D.VectorCopy(pml.origin, start_o);
@@ -285,7 +285,7 @@ public class PMove {
 
         // apply ground friction
         if ((pm.groundentity != null && pml.groundsurface != null && 
-        		0 == (pml.groundsurface.flags & Defines.SURF_SLICK))
+                0 == (pml.groundsurface.flags & Defines.SURF_SLICK))
                 || (pml.ladder)) {
             friction = pm_friction;
             control = speed < pm_stopspeed ? pm_stopspeed : speed;
@@ -520,7 +520,7 @@ public class PMove {
             PM_Accelerate(wishdir, wishspeed, pm_accelerate);
 
             // PGM -- fix for negative trigger_gravity fields
-            //		pml.velocity[2] = 0;
+            //        pml.velocity[2] = 0;
             if (pm.s.gravity > 0)
                 pml.velocity[2] = 0;
             else
@@ -582,8 +582,8 @@ public class PMove {
                 }
 
                 if (0 == (pm.s.pm_flags & pmove_t.PMF_ON_GROUND)) {
-                	
-                	// just hit the ground
+                    
+                    // just hit the ground
                     pm.s.pm_flags |= pmove_t.PMF_ON_GROUND;                    
                     // don't do landing time if we were just going down a slope
                     if (pml.velocity[2] < -200) {
@@ -1068,12 +1068,12 @@ public class PMove {
         }
 
         if ((pm.s.pm_flags & pmove_t.PMF_TIME_TELEPORT) != 0) {
-        	// teleport pause stays exaclty in place
+            // teleport pause stays exaclty in place
         } else if ((pm.s.pm_flags & pmove_t.PMF_TIME_WATERJUMP) != 0) {
-        	// waterjump has no control, but falls 
+            // waterjump has no control, but falls 
             pml.velocity[2] -= pm.s.gravity * pml.frametime;
             if (pml.velocity[2] < 0) { 
-            	// cancel as soon as we are falling down again
+                // cancel as soon as we are falling down again
                 pm.s.pm_flags &= ~(pmove_t.PMF_TIME_WATERJUMP
                         | pmove_t.PMF_TIME_LAND | pmove_t.PMF_TIME_TELEPORT);
                 pm.s.pm_time = 0;

@@ -31,7 +31,7 @@ public class PlayerClient {
      * player_die. 
      */
     static EntDieAdapter player_die = new EntDieAdapter() {
-    	public String getID() { return "player_die"; }
+        public String getID() { return "player_die"; }
         public void die(edict_t self, edict_t inflictor, edict_t attacker,
                 int damage, float[] point) {
             int n;
@@ -129,7 +129,7 @@ public class PlayerClient {
         }
     };
     static EntThinkAdapter SP_FixCoopSpots = new EntThinkAdapter() {
-    	public String getID() { return "SP_FixCoopSpots"; }
+        public String getID() { return "SP_FixCoopSpots"; }
         public boolean think(edict_t self) {
     
             edict_t spot;
@@ -165,7 +165,7 @@ public class PlayerClient {
         }
     };
     static EntThinkAdapter SP_CreateCoopSpots = new EntThinkAdapter() {
-    	public String getID() { return "SP_CreateCoopSpots"; }
+        public String getID() { return "SP_CreateCoopSpots"; }
         public boolean think(edict_t self) {
     
             edict_t spot;
@@ -200,12 +200,12 @@ public class PlayerClient {
     };
     // player pain is handled at the end of the frame in P_DamageFeedback
     static EntPainAdapter player_pain = new EntPainAdapter() {
-    	public String getID() { return "player_pain"; }
+        public String getID() { return "player_pain"; }
         public void pain(edict_t self, edict_t other, float kick, int damage) {
         }
     };
     static EntDieAdapter body_die = new EntDieAdapter() {
-    	public String getID() { return "body_die"; }
+        public String getID() { return "body_die"; }
         public void die(edict_t self, edict_t inflictor, edict_t attacker,
                 int damage, float[] point) {
     
@@ -213,7 +213,7 @@ public class PlayerClient {
     
             if (self.health < -40) {
                 GameBase.gi.sound(self, Defines.CHAN_BODY, 
-                		GameBase.gi.soundindex("misc/udeath.wav"), 1, Defines.ATTN_NORM, 0);
+                        GameBase.gi.soundindex("misc/udeath.wav"), 1, Defines.ATTN_NORM, 0);
                 for (n = 0; n < 4; n++)
                     GameMisc.ThrowGib(self, "models/objects/gibs/sm_meat/tris.md2", damage,
                             Defines.GIB_ORGANIC);
@@ -658,7 +658,7 @@ public class PlayerClient {
     }
 
     /** 
-	 * If turned on in the dmflags, select a spawn point far away from other players.
+     * If turned on in the dmflags, select a spawn point far away from other players.
      */
     static edict_t SelectFarthestDeathmatchSpawnPoint() {
         edict_t bestspot;
@@ -1370,19 +1370,19 @@ public class PlayerClient {
     /*
      * static int CheckBlock(int c) 
      * { 
-     * 		int v, i; 
-     * 		v = 0; 
-     * 		for (i = 0; i < c; i++)
-     *			v += ((byte *) b)[i]; 
-     *		return v; 
+     *         int v, i; 
+     *         v = 0; 
+     *         for (i = 0; i < c; i++)
+     *            v += ((byte *) b)[i]; 
+     *        return v; 
      * }
      * 
      * public static void PrintPmove(pmove_t * pm) 
      * { 
-     *		unsigned c1, c2;
+     *        unsigned c1, c2;
      * 
-     * 		c1 = CheckBlock(&pm.s, sizeof(pm.s));
-     * 		c2 = CheckBlock(&pm.cmd, sizeof(pm.cmd)); 
+     *         c1 = CheckBlock(&pm.s, sizeof(pm.s));
+     *         c2 = CheckBlock(&pm.cmd, sizeof(pm.cmd)); 
      *      Com_Printf("sv %3i:%i %i\n", pm.cmd.impulse, c1, c2); 
      * }
      */

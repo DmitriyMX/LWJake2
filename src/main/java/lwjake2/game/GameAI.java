@@ -622,7 +622,7 @@ public class GameAI {
                 // just lost sight of the player, decide where to go first
                 // dprint("lost sight of player, last seen at ");
                 // dprint(vtos(self.last_sighting)); 
-            	// dprint("\n");
+                // dprint("\n");
                 self.monsterinfo.aiflags |= (Defines.AI_LOST_SIGHT | Defines.AI_PURSUIT_LAST_SEEN);
                 self.monsterinfo.aiflags &= ~(Defines.AI_PURSUE_NEXT | Defines.AI_PURSUE_TEMP);
                 new1 = true;

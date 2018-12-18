@@ -192,7 +192,7 @@ public final class Sys extends Defines {
         if (fdir != null)
             Sys.Error("Sys_BeginFind without close");
 
-        //	COM_FilePath (path, findbase);
+        //    COM_FilePath (path, findbase);
 
         fdir = FindAll(path, canthave, musthave);
         fileindex = 0;
@@ -216,7 +216,7 @@ public final class Sys extends Defines {
     }
 
     public static void SendKeyEvents() {
-		Globals.re.getKeyboardHandler().Update();
+        Globals.re.getKeyboardHandler().Update();
 
         // grab frame time
         Globals.sys_frame_time = Timer.Milliseconds();

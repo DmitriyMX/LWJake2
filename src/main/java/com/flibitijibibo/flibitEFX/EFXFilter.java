@@ -25,35 +25,35 @@ import org.lwjgl.openal.EFX10;
  */
 
 public abstract class EFXFilter {
-	
-	private int filterIndex;
-	
-	/** Constructor creates an EFX effect slot containing a filter.
-	 * @param efxFilter The EFX10 filter type (i.e. EFX10.AL_FILTER_HIGHPASS)
-	 */
-	public EFXFilter(int efxFilter) {
-		filterIndex = EFX10.alGenFilters();
-		// TODO: Check to see if efxFilter is a valid AL_FILTER_TYPE.
-		EFX10.alFilteri(filterIndex, EFX10.AL_FILTER_TYPE, efxFilter);
-	}
-	
-	/** Unloads the EFX filter. */
-	public void killFilter() {
-		EFX10.alDeleteFilters(filterIndex);
-	}
-	
-	/** Returns the index of the EFX filter.
-	 * @return The index of the EFX filter
-	 */
-	public int getIndex() {
-		return filterIndex;
-	}
-	
-	/** Applies a filter property to this EFX filter.
-	 * @param passedProperty The EFX10 filter property
-	 * @param passedValue The EFX10 filter value
-	 */
-	protected void addFilter(int passedProperty, float passedValue) {
-		EFX10.alFilterf(filterIndex, passedProperty, passedValue);
-	}
+    
+    private int filterIndex;
+    
+    /** Constructor creates an EFX effect slot containing a filter.
+     * @param efxFilter The EFX10 filter type (i.e. EFX10.AL_FILTER_HIGHPASS)
+     */
+    public EFXFilter(int efxFilter) {
+        filterIndex = EFX10.alGenFilters();
+        // TODO: Check to see if efxFilter is a valid AL_FILTER_TYPE.
+        EFX10.alFilteri(filterIndex, EFX10.AL_FILTER_TYPE, efxFilter);
+    }
+    
+    /** Unloads the EFX filter. */
+    public void killFilter() {
+        EFX10.alDeleteFilters(filterIndex);
+    }
+    
+    /** Returns the index of the EFX filter.
+     * @return The index of the EFX filter
+     */
+    public int getIndex() {
+        return filterIndex;
+    }
+    
+    /** Applies a filter property to this EFX filter.
+     * @param passedProperty The EFX10 filter property
+     * @param passedValue The EFX10 filter value
+     */
+    protected void addFilter(int passedProperty, float passedValue) {
+        EFX10.alFilterf(filterIndex, passedProperty, passedValue);
+    }
 }

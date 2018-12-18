@@ -25,11 +25,11 @@ import org.lwjgl.openal.EFX10;
  */
 
 public class EFXEffectReverb extends EFXEffect {
-	
-	/** Constructor creates a generic reverb effect. */
-	public EFXEffectReverb() {
-		super(EFX10.AL_EFFECT_REVERB);
-	}
-	
-	// TODO: Add methods for all AL_EFFECT_REVERB properties.
+    
+    /** Constructor creates a generic reverb effect. */
+    public EFXEffectReverb() {
+        super(EFX10.AL_EFFECT_REVERB);
+    }
+    
+    // TODO: Add methods for all AL_EFFECT_REVERB properties.
 }

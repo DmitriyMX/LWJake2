@@ -41,7 +41,7 @@ import java.io.IOException;
 
 @Slf4j
 public class SV_MAIN {
-	/** Address of group servers. */
+    /** Address of group servers. */
     public static netadr_t master_adr[] = new netadr_t[Defines.MAX_MASTERS];
                                                                             
                                                                             
@@ -726,7 +726,7 @@ public class SV_MAIN {
         SV_ReadPackets();
 
         //if (Game.g_edicts[1] !=null)
-        //	Com.p("player at:" + Lib.vtofsbeaty(Game.g_edicts[1].s.origin ));
+        //    Com.p("player at:" + Lib.vtofsbeaty(Game.g_edicts[1].s.origin ));
 
         // move autonomous things around if enough time has passed
         if (0 == SV_MAIN.sv_timedemo.value
@@ -842,7 +842,7 @@ public class SV_MAIN {
         // mask off high bit
         //TODO: masking for german umlaute
         //for (i=0 ; i<sizeof(cl.name) ; i++)
-        //	cl.name[i] &= 127;
+        //    cl.name[i] &= 127;
 
         // rate command
         val = Info.Info_ValueForKey(cl.userinfo, "rate");

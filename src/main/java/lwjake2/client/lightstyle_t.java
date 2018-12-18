@@ -20,6 +20,6 @@ package lwjake2.client;
 
 public class lightstyle_t
 {
-	public float rgb[] = { 0, 0, 0 }; // 0.0 - 2.0
-	public float white; // highest of rgb
+    public float rgb[] = { 0, 0, 0 }; // 0.0 - 2.0
+    public float white; // highest of rgb
 }

@@ -26,7 +26,7 @@ import lwjake2.util.Math3D;
 public class GameWeapon {
 
     static EntTouchAdapter blaster_touch = new EntTouchAdapter() {
-    	public String getID() { return "blaster_touch"; }
+        public String getID() { return "blaster_touch"; }
     
         public void touch(edict_t self, edict_t other, cplane_t plane,
                 csurface_t surf) {
@@ -77,7 +77,7 @@ public class GameWeapon {
     };
     
     static EntThinkAdapter Grenade_Explode = new EntThinkAdapter() {
-    	public String getID() { return "Grenade_Explode"; }
+        public String getID() { return "Grenade_Explode"; }
         public boolean think(edict_t ent) {
             float[] origin = { 0, 0, 0 };
             int mod;
@@ -137,7 +137,7 @@ public class GameWeapon {
         }
     };
     static EntTouchAdapter Grenade_Touch = new EntTouchAdapter() {
-    	public String getID() { return "Grenade_Touch"; }
+        public String getID() { return "Grenade_Touch"; }
         public void touch(edict_t ent, edict_t other, cplane_t plane,
                 csurface_t surf) {
             if (other == ent.owner)
@@ -177,7 +177,7 @@ public class GameWeapon {
      * =================
      */
     static EntTouchAdapter rocket_touch = new EntTouchAdapter() {
-    	public String  getID() { return "rocket_touch"; }
+        public String  getID() { return "rocket_touch"; }
         public void touch(edict_t ent, edict_t other, cplane_t plane,
                 csurface_t surf) {
             float[] origin = { 0, 0, 0 };
@@ -238,7 +238,7 @@ public class GameWeapon {
      * =================
      */
     static EntThinkAdapter bfg_explode = new EntThinkAdapter() {
-    	public String getID() { return "bfg_explode"; }
+        public String getID() { return "bfg_explode"; }
         public boolean think(edict_t self) {
             edict_t ent;
             float points;
@@ -291,7 +291,7 @@ public class GameWeapon {
     };
     
     static EntTouchAdapter bfg_touch = new EntTouchAdapter() {
-    	public String getID() { return "bfg_touch"; }
+        public String getID() { return "bfg_touch"; }
         public void touch(edict_t self, edict_t other, cplane_t plane,
                 csurface_t surf) {
             if (other == self.owner)
@@ -338,7 +338,7 @@ public class GameWeapon {
     };
     
     static EntThinkAdapter bfg_think = new EntThinkAdapter() {
-    	public String getID() { return "bfg_think"; }
+        public String getID() { return "bfg_think"; }
         public boolean think(edict_t self) {
             edict_t ent;
             edict_t ignore;

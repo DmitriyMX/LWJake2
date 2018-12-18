@@ -230,7 +230,7 @@ public class BaseQ2FileSystem implements FileSystem {
 
         // check for links first
         for (filelink_t link : fs_links) {
-            //			if (!strncmp (filename, link->from, link->fromlength))
+            //            if (!strncmp (filename, link->from, link->fromlength))
             if (filename.regionMatches(0, link.from, 0, link.fromlength)) {
                 netpath = link.to + filename.substring(link.fromlength);
                 file = new File(netpath);
@@ -494,7 +494,7 @@ public class BaseQ2FileSystem implements FileSystem {
         RandomAccessFile file;
         int numpackfiles;
         pack_t pack;
-        //		unsigned checksum;
+        //        unsigned checksum;
         //
         try {
             file = new RandomAccessFile(packfile, "r");
@@ -906,14 +906,14 @@ public class BaseQ2FileSystem implements FileSystem {
         fs_base_searchpaths = fs_searchpaths;
     }
 
-    //	RAFAEL
+    //    RAFAEL
     /*
      * Developer_searchpath
      */
     @Override
     public int developer_searchpath(int who) {
         // PMM - warning removal
-        //	 char *start;
+        //     char *start;
         searchpath_t s;
 
         for (s = fs_searchpaths; s != null; s = s.next) {

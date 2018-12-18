@@ -29,7 +29,7 @@ import lwjake2.util.Math3D;
 public class M_Boss3 {
 
     static EntUseAdapter Use_Boss3 = new EntUseAdapter() {
-    	public String getID() { return "Use_Boss3"; }
+        public String getID() { return "Use_Boss3"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
             GameBase.gi.WriteByte(Defines.svc_temp_entity);
             GameBase.gi.WriteByte(Defines.TE_BOSSTPORT);
@@ -40,7 +40,7 @@ public class M_Boss3 {
     };
 
     static EntThinkAdapter Think_Boss3Stand = new EntThinkAdapter() {
-    	public String getID() { return "Think_Boss3Stand"; }
+        public String getID() { return "Think_Boss3Stand"; }
         public boolean think(edict_t ent) {
             if (ent.s.frame == M_Boss32.FRAME_stand260)
                 ent.s.frame = M_Boss32.FRAME_stand201;

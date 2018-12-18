@@ -67,7 +67,7 @@ public final class Menu extends Key {
 
     static KeyCallback m_keyfunc;
 
-    //	  =============================================================================
+    //      =============================================================================
     /* Support Routines */
 
     public final static int MAX_MENU_DEPTH = 8;
@@ -220,8 +220,8 @@ public final class Menu extends Key {
             Com.Error(ERR_FATAL, "PopMenu: depth < 1");
 
         if (0 < m_menudepth){
-	        m_drawfunc = m_layers[m_menudepth-1].draw;
-	        m_keyfunc = m_layers[m_menudepth-1].key;
+            m_drawfunc = m_layers[m_menudepth-1].draw;
+            m_keyfunc = m_layers[m_menudepth-1].key;
         }
 
         if (0 == m_menudepth)
@@ -1119,9 +1119,9 @@ public final class Menu extends Key {
         // Cvar.VariableValue("s_loadas8bit"));
         String s = Cvar.VariableString("s_impl");
         for (int i = 0; i < s_drivers.length; i++) {
-        	if (s.equals(s_drivers[i])) {
-        		s_options_quality_list.curvalue = i;
-        	}
+            if (s.equals(s_drivers[i])) {
+                s_options_quality_list.curvalue = i;
+            }
         }
 
         s_options_sensitivity_slider.curvalue = (sensitivity.value) * 2;
@@ -1199,13 +1199,13 @@ public final class Menu extends Key {
         String current = s_drivers[s_options_quality_list.curvalue];
         driverNotChanged = S.getDriverName().equals(current);
 //        if (s_options_quality_list.curvalue != 0) {
-//            //			Cvar.SetValue("s_khz", 22);
-//            //			Cvar.SetValue("s_loadas8bit", 0);
+//            //            Cvar.SetValue("s_khz", 22);
+//            //            Cvar.SetValue("s_loadas8bit", 0);
 //            driverNotChanged = S.getDriverName().equals("dummy");
 //            Cvar.Set("s_impl", "dummy");
 //        } else {
-//            //			Cvar.SetValue("s_khz", 11);
-//            //			Cvar.SetValue("s_loadas8bit", 1);
+//            //            Cvar.SetValue("s_khz", 11);
+//            //            Cvar.SetValue("s_loadas8bit", 1);
 //            driverNotChanged = S.getDriverName().equals("joal");
 //            Cvar.Set("s_impl", "joal");
 //        }
@@ -1215,7 +1215,7 @@ public final class Menu extends Key {
         if (driverNotChanged) {
             re.EndFrame();
         } else {
-        	Cvar.Set("s_impl", current);
+            Cvar.Set("s_impl", current);
 
             DrawTextBox(8, 120 - 48, 36, 3);
             Print(16 + 16, 120 - 48 + 8, "Restarting the sound system. This");
@@ -1240,15 +1240,15 @@ public final class Menu extends Key {
 
     static void Options_MenuInit() {
 
-    	s_drivers = S.getDriverNames();
-    	s_labels = new String[s_drivers.length];
-    	for (int i = 0; i < s_drivers.length; i++) {
-    		if ("dummy".equals(s_drivers[i])) {
-    			s_labels[i] = "off";
-    		} else {
-    			s_labels[i] = s_drivers[i];
-    		}
-    	}
+        s_drivers = S.getDriverNames();
+        s_labels = new String[s_drivers.length];
+        for (int i = 0; i < s_drivers.length; i++) {
+            if ("dummy".equals(s_drivers[i])) {
+                s_labels[i] = "off";
+            } else {
+                s_labels[i] = s_drivers[i];
+            }
+        }
 
         win_noalttab = Cvar.Get("win_noalttab", "0", CVAR_ARCHIVE);
 
@@ -1366,7 +1366,7 @@ public final class Menu extends Key {
 
         Menu_AddItem(s_options_menu, s_options_cdvolume_box);
         Menu_AddItem(s_options_menu, s_options_quality_list);
-        //		Menu_AddItem(s_options_menu, s_options_compatibility_list);
+        //        Menu_AddItem(s_options_menu, s_options_compatibility_list);
         Menu_AddItem(s_options_menu, s_options_sensitivity_slider);
         Menu_AddItem(s_options_menu, s_options_alwaysrun_box);
         Menu_AddItem(s_options_menu, s_options_invertmouse_box);
@@ -1374,7 +1374,7 @@ public final class Menu extends Key {
         Menu_AddItem(s_options_menu, s_options_lookstrafe_box);
         Menu_AddItem(s_options_menu, s_options_freelook_box);
         Menu_AddItem(s_options_menu, s_options_crosshair_box);
-        //		Menu_AddItem(s_options_menu, s_options_joystick_box);
+        //        Menu_AddItem(s_options_menu, s_options_joystick_box);
         Menu_AddItem(s_options_menu, s_options_customize_options_action);
         Menu_AddItem(s_options_menu, s_options_defaults_action);
         Menu_AddItem(s_options_menu, s_options_console_action);
@@ -1836,7 +1836,7 @@ public final class Menu extends Key {
                 f = new QuakeFile(name, "r");
                 String str = f.readString();
                 if (str != null)
-                	m_savestrings[i] = str;
+                    m_savestrings[i] = str;
                 f.close();
                 m_savevalid[i] = true;
             } catch (Exception e) {
@@ -1882,7 +1882,7 @@ public final class Menu extends Key {
 
     static void LoadGame_MenuDraw() {
         Banner("m_banner_load_game");
-        //		Menu_AdjustCursor( &s_loadgame_menu, 1 );
+        //        Menu_AdjustCursor( &s_loadgame_menu, 1 );
         Menu_Draw(s_loadgame_menu);
     }
 
@@ -1998,8 +1998,8 @@ public final class Menu extends Key {
 
     static menuaction_s s_joinserver_server_actions[] = new menuaction_s[MAX_LOCAL_SERVERS];
 
-    //	   user readable information
-    //	   network address
+    //       user readable information
+    //       network address
     static {
         for (int n = 0; n < MAX_LOCAL_SERVERS; n++) {
             local_server_netadr[n] = new netadr_t();
@@ -2189,8 +2189,8 @@ public final class Menu extends Key {
                 s_maxclients_field.buffer = new StringBuffer("4");
             s_startserver_dmoptions_action.statusbar = "N/A for cooperative";
         }
-        //	  =====
-        //	  PGM
+        //      =====
+        //      PGM
         // ROGUE GAMES
         else if (fileSystem.developer_searchpath(2) == 2) {
             if (s_rules_box.curvalue == 2) // tag
@@ -2204,8 +2204,8 @@ public final class Menu extends Key {
              * s_startserver_dmoptions_action.statusbar = null; }
              */
         }
-        //	  PGM
-        //	  =====
+        //      PGM
+        //      =====
     }
 
     static void StartServerActionFunc() {
@@ -2234,10 +2234,10 @@ public final class Menu extends Key {
         Cvar.SetValue("timelimit", ClampCvar(timelimit, timelimit));
         Cvar.SetValue("fraglimit", ClampCvar(fraglimit, fraglimit));
         Cvar.Set("hostname", s_hostname_field.buffer.toString());
-        //		Cvar.SetValue ("deathmatch", !s_rules_box.curvalue );
-        //		Cvar.SetValue ("coop", s_rules_box.curvalue );
+        //        Cvar.SetValue ("deathmatch", !s_rules_box.curvalue );
+        //        Cvar.SetValue ("coop", s_rules_box.curvalue );
 
-        //	  PGM
+        //      PGM
         if ((s_rules_box.curvalue < 2) || (fileSystem.developer_searchpath(2) != 2)) {
             Cvar.SetValue("deathmatch", 1 - s_rules_box.curvalue);
             Cvar.SetValue("coop", s_rules_box.curvalue);
@@ -2249,7 +2249,7 @@ public final class Menu extends Key {
             // FIXME - this might need to depend on which game we're running
             Cvar.SetValue("gamerules", s_rules_box.curvalue);
         }
-        //	  PGM
+        //      PGM
 
         spot = null;
         if (s_rules_box.curvalue == 1) // PGM
@@ -2289,9 +2289,9 @@ public final class Menu extends Key {
 
     static void StartServer_MenuInit() {
 
-        //	  =======
-        //	  PGM
-        //	  =======
+        //      =======
+        //      PGM
+        //      =======
 
         byte[] buffer = null;
         String mapsname;
@@ -2306,14 +2306,14 @@ public final class Menu extends Key {
 
         // Check user dir first (default ~/.lwjake2)
         if ((fp = Lib.fopen(mapsname, "r")) == null) {
-        	// Check base dir first (baseq2 folder)
-        	mapsname = fileSystem.getBaseGamedir() + "/maps.lst";
-        	if ((fp = Lib.fopen(mapsname, "r")) == null) {
-        		// Open the pak's maplist
-	            buffer = fileSystem.loadFile("maps.lst");
-	            if (buffer == null)
-	                Com.Error(ERR_DROP, "couldn't find maps.lst\n");
-        	} else {
+            // Check base dir first (baseq2 folder)
+            mapsname = fileSystem.getBaseGamedir() + "/maps.lst";
+            if ((fp = Lib.fopen(mapsname, "r")) == null) {
+                // Open the pak's maplist
+                buffer = fileSystem.loadFile("maps.lst");
+                if (buffer == null)
+                    Com.Error(ERR_DROP, "couldn't find maps.lst\n");
+            } else {
                 try {
                     int len = (int) fp.length();
                     buffer = new byte[len];
@@ -2375,12 +2375,12 @@ public final class Menu extends Key {
         s_rules_box.y = 20;
         s_rules_box.name = "rules";
 
-        //	  PGM - rogue games only available with rogue DLL.
+        //      PGM - rogue games only available with rogue DLL.
         if (fileSystem.developer_searchpath(2) == 2)
             s_rules_box.itemnames = dm_coop_names_rogue;
         else
             s_rules_box.itemnames = dm_coop_names;
-        //	  PGM
+        //      PGM
 
         if (Cvar.VariableValue("coop") != 0)
             s_rules_box.curvalue = 1;
@@ -2542,7 +2542,7 @@ public final class Menu extends Key {
 
     static menulist_s s_quad_drop_box = new menulist_s();
 
-    //	  ROGUE
+    //      ROGUE
     static menulist_s s_no_mines_box = new menulist_s();
 
     static menulist_s s_no_nukes_box = new menulist_s();
@@ -2551,7 +2551,7 @@ public final class Menu extends Key {
 
     static menulist_s s_no_spheres_box = new menulist_s();
 
-    //	  ROGUE
+    //      ROGUE
 
     static void setvalue(int flags) {
         Cvar.SetValue("dmflags", flags);
@@ -2633,8 +2633,8 @@ public final class Menu extends Key {
             bit = DF_QUAD_DROP;
         }
 
-        //	  =======
-        //	  ROGUE
+        //      =======
+        //      ROGUE
         else if (fileSystem.developer_searchpath(2) == 2) {
             if (f == s_no_mines_box) {
                 bit = DF_NO_MINES;
@@ -2646,8 +2646,8 @@ public final class Menu extends Key {
                 bit = DF_NO_SPHERES;
             }
         }
-        //	  ROGUE
-        //	  =======
+        //      ROGUE
+        //      =======
 
         if (f != null) {
             if (f.curvalue == 0)
@@ -2798,8 +2798,8 @@ public final class Menu extends Key {
         s_friendlyfire_box.itemnames = yes_no_names;
         s_friendlyfire_box.curvalue = (dmflags & DF_NO_FRIENDLY_FIRE) == 0 ? 1 : 0;
 
-        //	  ============
-        //	  ROGUE
+        //      ============
+        //      ROGUE
         if (fileSystem.developer_searchpath(2) == 2) {
             s_no_mines_box.type = MTYPE_SPINCONTROL;
             s_no_mines_box.x = 0;
@@ -2834,8 +2834,8 @@ public final class Menu extends Key {
             s_no_spheres_box.curvalue = (dmflags & DF_NO_SPHERES) != 0 ? 1 : 0;
 
         }
-        //	  ROGUE
-        //	  ============
+        //      ROGUE
+        //      ============
 
         Menu_AddItem(s_dmoptions_menu, s_falls_box);
         Menu_AddItem(s_dmoptions_menu, s_weapons_stay_box);
@@ -2853,16 +2853,16 @@ public final class Menu extends Key {
         Menu_AddItem(s_dmoptions_menu, s_quad_drop_box);
         Menu_AddItem(s_dmoptions_menu, s_friendlyfire_box);
 
-        //	  =======
-        //	  ROGUE
+        //      =======
+        //      ROGUE
         if (fileSystem.developer_searchpath(2) == 2) {
             Menu_AddItem(s_dmoptions_menu, s_no_mines_box);
             Menu_AddItem(s_dmoptions_menu, s_no_nukes_box);
             Menu_AddItem(s_dmoptions_menu, s_stack_double_box);
             Menu_AddItem(s_dmoptions_menu, s_no_spheres_box);
         }
-        //	  ROGUE
-        //	  =======
+        //      ROGUE
+        //      =======
 
         Menu_Center(s_dmoptions_menu);
 
@@ -3647,7 +3647,7 @@ public final class Menu extends Key {
         PushMenu(Menu::Quit_Draw, Menu::Quit_Key);
     }
 
-    //	  =============================================================================
+    //      =============================================================================
     /* Menu Subsystem */
 
     /**

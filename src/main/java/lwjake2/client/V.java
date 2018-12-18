@@ -186,7 +186,7 @@ public final class V extends Globals {
         r_numentities = 32;
         //memset (r_entities, 0, sizeof(r_entities));
         for (i = 0; i < r_entities.length; i++)
-        	r_entities[i].clear();
+            r_entities[i].clear();
 
         for (i = 0; i < r_numentities; i++) {
             ent = r_entities[i];
@@ -261,7 +261,7 @@ public final class V extends Globals {
      * ==================
      */
     static void RenderView(float stereo_separation) {
-        //		extern int entitycmpfnc( const entity_t *, const entity_t * );
+        //        extern int entitycmpfnc( const entity_t *, const entity_t * );
         //
         if (cls.state != ca_active)
             return;

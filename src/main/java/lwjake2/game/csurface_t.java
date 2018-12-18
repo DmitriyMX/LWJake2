@@ -20,7 +20,7 @@ package lwjake2.game;
 
 public class csurface_t
 {
-	public String name = "";
-	public int flags;
-	public int value;
+    public String name = "";
+    public int flags;
+    public int value;
 }

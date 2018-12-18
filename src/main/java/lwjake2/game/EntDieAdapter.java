@@ -20,5 +20,5 @@ package lwjake2.game;
 
 public abstract class EntDieAdapter extends SuperAdapter
 {
-	public abstract void die(edict_t self, edict_t inflictor, edict_t attacker, int damage, float[] point);
+    public abstract void die(edict_t self, edict_t inflictor, edict_t attacker, int damage, float[] point);
 }

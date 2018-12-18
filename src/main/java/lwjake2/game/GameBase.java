@@ -456,16 +456,16 @@ public class GameBase {
             StringTokenizer tk = new StringTokenizer(s, seps);
             
             while (tk.hasMoreTokens()){
-            	t = tk.nextToken();
+                t = tk.nextToken();
      
-            	// store first map
-            	if (f == null)
-            		f = t;
-            	
+                // store first map
+                if (f == null)
+                    f = t;
+                
                 if (t.equalsIgnoreCase(level.mapname)) {
                     // it's in the list, go to the next one
-                	if (!tk.hasMoreTokens()) {
-                		// end of list, go to first one
+                    if (!tk.hasMoreTokens()) {
+                        // end of list, go to first one
                         if (f == null) // there isn't a first one, same level
                             PlayerHud.BeginIntermission(CreateTargetChangeLevel(level.mapname));
                         else

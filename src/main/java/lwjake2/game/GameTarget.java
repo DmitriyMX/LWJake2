@@ -261,7 +261,7 @@ public class GameTarget {
      * temp entity event to the clients. "style" type byte
      */
     public static EntUseAdapter Use_Target_Tent = new EntUseAdapter() {
-    	public String getID() { return "Use_Target_Tent"; }
+        public String getID() { return "Use_Target_Tent"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
             GameBase.gi.WriteByte(Defines.svc_temp_entity);
             GameBase.gi.WriteByte(ent.style);
@@ -284,7 +284,7 @@ public class GameTarget {
      * without any speed cost.
      */
     public static EntUseAdapter Use_Target_Speaker = new EntUseAdapter() {
-    	public String getID() { return "Use_Target_Speaker"; }
+        public String getID() { return "Use_Target_Speaker"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
             int chan;
 
@@ -309,7 +309,7 @@ public class GameTarget {
 
 
     public static EntUseAdapter Use_Target_Help = new EntUseAdapter() {
-    	public String getID() { return "Use_Target_Help"; }
+        public String getID() { return "Use_Target_Help"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
 
             if ((ent.spawnflags & 1) != 0)
@@ -326,7 +326,7 @@ public class GameTarget {
      * These are single use targets.
      */
     static EntUseAdapter use_target_secret = new EntUseAdapter() {
-    	public String getID() { return "use_target_secret"; }
+        public String getID() { return "use_target_secret"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
             GameBase.gi.sound(ent, Defines.CHAN_VOICE, ent.noise_index, 1,
                     Defines.ATTN_NORM, 0);
@@ -343,7 +343,7 @@ public class GameTarget {
      * These are single use targets.
      */
     static EntUseAdapter use_target_goal = new EntUseAdapter() {
-    	public String getID() { return "use_target_goal"; }
+        public String getID() { return "use_target_goal"; }
         public void use(edict_t ent, edict_t other, edict_t activator) {
             GameBase.gi.sound(ent, Defines.CHAN_VOICE, ent.noise_index, 1,
                     Defines.ATTN_NORM, 0);
@@ -367,7 +367,7 @@ public class GameTarget {
      * should be done, defaults to 0
      */
     static EntThinkAdapter target_explosion_explode = new EntThinkAdapter() {
-    	public String getID() { return "target_explosion_explode"; }
+        public String getID() { return "target_explosion_explode"; }
         public boolean think(edict_t self) {
 
             float save;
@@ -389,7 +389,7 @@ public class GameTarget {
     };
 
     static EntUseAdapter use_target_explosion = new EntUseAdapter() {
-    	public String getID() { return "use_target_explosion"; }
+        public String getID() { return "use_target_explosion"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             self.activator = activator;
 
@@ -408,7 +408,7 @@ public class GameTarget {
      * "map" when fired
      */
     static EntUseAdapter use_target_changelevel = new EntUseAdapter() {
-    	public String getID() { return "use_target_changelevel"; }
+        public String getID() { return "use_target_changelevel"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             if (GameBase.level.intermissiontime != 0)
                 return; // already activated
@@ -456,7 +456,7 @@ public class GameTarget {
      * at this location when it splashes useful for lava/sparks
      */
     static EntUseAdapter use_target_splash = new EntUseAdapter() {
-    	public String getID() { return "use_target_splash"; }
+        public String getID() { return "use_target_splash"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             GameBase.gi.WriteByte(Defines.svc_temp_entity);
             GameBase.gi.WriteByte(Defines.TE_SPLASH);
@@ -484,7 +484,7 @@ public class GameTarget {
      */
 
     static EntUseAdapter use_target_spawner = new EntUseAdapter() {
-    	public String getID() { return "use_target_spawner"; }
+        public String getID() { return "use_target_spawner"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             edict_t ent;
 
@@ -508,10 +508,10 @@ public class GameTarget {
      * dmg default is 15 speed default is 1000
      */
     public static EntUseAdapter use_target_blaster = new EntUseAdapter() {
-    	public String getID() { return "use_target_blaster"; }
+        public String getID() { return "use_target_blaster"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
-        	
-        	/* Wait what - flibit
+            
+            /* Wait what - flibit
             int effect;
 
             if ((self.spawnflags & 2) != 0)
@@ -520,7 +520,7 @@ public class GameTarget {
                 effect = Defines.EF_HYPERBLASTER;
             else
                 effect = Defines.EF_BLASTER;
-			*/
+            */
 
             GameWeapon.fire_blaster(self, self.s.origin, self.movedir, self.dmg,
                     (int) self.speed, Defines.EF_BLASTER,
@@ -541,7 +541,7 @@ public class GameTarget {
      * and killtarget also work.
      */
     public static EntUseAdapter trigger_crosslevel_trigger_use = new EntUseAdapter() {
-    	public String getID() { return "trigger_crosslevel_trigger_use"; }
+        public String getID() { return "trigger_crosslevel_trigger_use"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             GameBase.game.serverflags |= self.spawnflags;
             GameUtil.G_FreeEdict(self);
@@ -558,7 +558,7 @@ public class GameTarget {
      * (default 1)
      */
     static EntThinkAdapter target_crosslevel_target_think = new EntThinkAdapter() {
-    	public String getID() { return "target_crosslevel_target_think"; }
+        public String getID() { return "target_crosslevel_target_think"; }
         public boolean think(edict_t self) {
             if (self.spawnflags == (GameBase.game.serverflags
                     & Defines.SFL_CROSS_TRIGGER_MASK & self.spawnflags)) {
@@ -575,7 +575,7 @@ public class GameTarget {
      * target or a direction.
      */
     public static EntThinkAdapter target_laser_think = new EntThinkAdapter() {
-    	public String getID() { return "target_laser_think"; }
+        public String getID() { return "target_laser_think"; }
         public boolean think(edict_t self) {
 
             edict_t ignore;
@@ -648,7 +648,7 @@ public class GameTarget {
     };
 
     public static EntUseAdapter target_laser_use = new EntUseAdapter() {
-    	public String getID() { return "target_laser_use"; }
+        public String getID() { return "target_laser_use"; }
 
         public void use(edict_t self, edict_t other, edict_t activator) {
             self.activator = activator;
@@ -660,7 +660,7 @@ public class GameTarget {
     };
 
     static EntThinkAdapter target_laser_start = new EntThinkAdapter() {
-    	public String getID() { return "target_laser_start"; }
+        public String getID() { return "target_laser_start"; }
         public boolean think(edict_t self) {
 
             self.movetype = Defines.MOVETYPE_NONE;
@@ -724,7 +724,7 @@ public class GameTarget {
      */
 
     static EntThinkAdapter target_lightramp_think = new EntThinkAdapter() {
-    	public String getID() { return "target_lightramp_think"; }
+        public String getID() { return "target_lightramp_think"; }
         public boolean think(edict_t self) {
 
             char tmp[] = {(char) ('a' + (int) (self.movedir[0] + (GameBase.level.time - self.timestamp)
@@ -749,7 +749,7 @@ public class GameTarget {
     };
 
     static EntUseAdapter target_lightramp_use = new EntUseAdapter() {
-    	public String getID() { return "target_lightramp_use"; }
+        public String getID() { return "target_lightramp_use"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             if (self.enemy == null) {
                 edict_t e;
@@ -800,7 +800,7 @@ public class GameTarget {
      */
 
     static EntThinkAdapter target_earthquake_think = new EntThinkAdapter() {
-    	public String getID() { return "target_earthquake_think"; }
+        public String getID() { return "target_earthquake_think"; }
         public boolean think(edict_t self) {
 
             int i;
@@ -837,7 +837,7 @@ public class GameTarget {
     };
 
     static EntUseAdapter target_earthquake_use = new EntUseAdapter() {
-    	public String getID() { return "target_earthquake_use"; }
+        public String getID() { return "target_earthquake_use"; }
         public void use(edict_t self, edict_t other, edict_t activator) {
             self.timestamp = GameBase.level.time + self.count;
             self.nextthink = GameBase.level.time + Defines.FRAMETIME;

@@ -20,36 +20,36 @@ package lwjake2.render;
 
 public class mleaf_t extends mnode_t {
 
-	//	common with node
-	/*
-	public int contents; // wil be a negative contents number
-	public int visframe; // node needs to be traversed if current
+    //    common with node
+    /*
+    public int contents; // wil be a negative contents number
+    public int visframe; // node needs to be traversed if current
 
-	public float minmaxs[] = new float[6]; // for bounding box culling
+    public float minmaxs[] = new float[6]; // for bounding box culling
 
-	public mnode_t parent;
-	*/
+    public mnode_t parent;
+    */
 
-	//	leaf specific
-	public int cluster;
-	public int area;
+    //    leaf specific
+    public int cluster;
+    public int area;
 
-	//public msurface_t firstmarksurface;
-	public int nummarksurfaces;
-	
-	// added by cwei
-	int markIndex;
-	msurface_t[] markSurfaces;
-	
-	public void setMarkSurface(int markIndex, msurface_t[] markSurfaces) {
-		this.markIndex = markIndex;
-		this.markSurfaces = markSurfaces;
-	}
+    //public msurface_t firstmarksurface;
+    public int nummarksurfaces;
+    
+    // added by cwei
+    int markIndex;
+    msurface_t[] markSurfaces;
+    
+    public void setMarkSurface(int markIndex, msurface_t[] markSurfaces) {
+        this.markIndex = markIndex;
+        this.markSurfaces = markSurfaces;
+    }
 
-	public msurface_t getMarkSurface(int index) {
-		assert (index >= 0 && index <= nummarksurfaces) : "mleaf: markSurface bug (index = " + index +"; num = " + nummarksurfaces + ")";
-		// TODO code in Surf.R_RecursiveWorldNode aendern (der Pointer wird wie in C zu weit gezaehlt)
-		return (index < nummarksurfaces) ? markSurfaces[markIndex + index] : null;
-	}
+    public msurface_t getMarkSurface(int index) {
+        assert (index >= 0 && index <= nummarksurfaces) : "mleaf: markSurface bug (index = " + index +"; num = " + nummarksurfaces + ")";
+        // TODO code in Surf.R_RecursiveWorldNode aendern (der Pointer wird wie in C zu weit gezaehlt)
+        return (index < nummarksurfaces) ? markSurfaces[markIndex + index] : null;
+    }
 
 }

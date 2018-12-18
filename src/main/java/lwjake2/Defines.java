@@ -31,7 +31,7 @@ public class Defines {
     public final static int EV_PLAYER_TELEPORT = 6;
     public final static int EV_OTHER_TELEPORT = 7;
 
-    //	angle indexes
+    //    angle indexes
     public final static int PITCH = 0; // up / down
     public final static int YAW = 1; // left / right
     public final static int ROLL = 2; // fall over
@@ -43,7 +43,7 @@ public class Defines {
     public final static int MAX_QPATH = 64; // max length of a quake game pathname
     public final static int MAX_OSPATH = 128; // max length of a filesystem pathname
 
-    //	per-level limits
+    //    per-level limits
     public final static int MAX_CLIENTS = 256; // absolute limit
     public final static int MAX_EDICTS = 1024; // must change protocol to increase more
     public final static int MAX_LIGHTSTYLES = 256;
@@ -53,7 +53,7 @@ public class Defines {
     public final static int MAX_ITEMS = 256;
     private final static int MAX_GENERAL = (MAX_CLIENTS * 2); // general config strings
 
-    //	game print flags
+    //    game print flags
     public final static int PRINT_MEDIUM = 1; // death messages
     public final static int PRINT_HIGH = 2; // critical messages
     public final static int PRINT_CHAT = 3; // chat messages
@@ -65,7 +65,7 @@ public class Defines {
     public final static int PRINT_ALL = 0;
     public final static int PRINT_DEVELOPER = 1; // only print when "developer 1"
 
-    //	key / value info strings
+    //    key / value info strings
     public final static int MAX_INFO_KEY = 64;
     public final static int MAX_INFO_STRING = 512;
 
@@ -456,26 +456,26 @@ public class Defines {
     public final static int SPLASH_SLIME = 4;
     public final static int SPLASH_LAVA = 5;
 
-    //	   sound channels
-    //	   channel 0 never willingly overrides
-    //	   other channels (1-7) allways override a playing sound on that channel
+    //       sound channels
+    //       channel 0 never willingly overrides
+    //       other channels (1-7) allways override a playing sound on that channel
     public final static int CHAN_AUTO = 0;
     public final static int CHAN_WEAPON = 1;
     public final static int CHAN_VOICE = 2;
     public final static int CHAN_ITEM = 3;
     public final static int CHAN_BODY = 4;
-    //	   modifier flags
+    //       modifier flags
     public final static int CHAN_NO_PHS_ADD = 8;
     // send to all clients, not just ones in PHS (ATTN 0 will also do this)
     public final static int CHAN_RELIABLE = 16; // send by reliable message, not datagram
 
-    //	   sound attenuation values
+    //       sound attenuation values
     public final static int ATTN_NONE = 0; // full volume the entire level
     public final static int ATTN_NORM = 1;
     public final static int ATTN_IDLE = 2;
     public final static int ATTN_STATIC = 3; // diminish very rapidly with distance
 
-    //	   player_state->stats[] indexes
+    //       player_state->stats[] indexes
     public final static int STAT_HEALTH_ICON = 0;
     public final static int STAT_HEALTH = 1;
     public final static int STAT_AMMO_ICON = 2;
@@ -497,7 +497,7 @@ public class Defines {
 
     public final static int MAX_STATS = 32;
 
-    //	   dmflags->value flags
+    //       dmflags->value flags
     public final static int DF_NO_HEALTH = 0x00000001; // 1
     public final static int DF_NO_ITEMS = 0x00000002; // 2
     public final static int DF_WEAPONS_STAY = 0x00000004; // 4
@@ -515,17 +515,17 @@ public class Defines {
     public final static int DF_QUAD_DROP = 0x00004000; // 16384
     public final static int DF_FIXED_FOV = 0x00008000; // 32768
 
-    //	  ROGUE
+    //      ROGUE
     protected final static int DF_NO_MINES = 0x00020000;
     protected final static int DF_NO_STACK_DOUBLE = 0x00040000;
     protected final static int DF_NO_NUKES = 0x00080000;
     protected final static int DF_NO_SPHERES = 0x00100000;
-    //	  ROGUE
+    //      ROGUE
 
     //
-    //	config strings are a general means of communication from
-    //	the server to all connected clients.
-    //	Each config string can be at most MAX_QPATH characters.
+    //    config strings are a general means of communication from
+    //    the server to all connected clients.
+    //    Each config string can be at most MAX_QPATH characters.
     //
     public final static int CS_NAME = 0;
     public final static int CS_CDTRACK = 1;
@@ -611,7 +611,7 @@ public class Defines {
     public final static int TE_EXPLOSION1_NP = 54;
     public final static int TE_FLECHETTE = 55;
 
-    //	content masks
+    //    content masks
     public final static int MASK_SOLID = (CONTENTS_SOLID | CONTENTS_WINDOW);
     public final static int MASK_PLAYERSOLID = (CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_WINDOW | CONTENTS_MONSTER);
     public final static int MASK_DEADSOLID = (CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_WINDOW);
@@ -663,11 +663,11 @@ public class Defines {
     public final static int AMMO_CELLS = 4;
     public final static int AMMO_SLUGS = 5;
 
-    //	view pitching times
+    //    view pitching times
     public final static float DAMAGE_TIME = 0.5f;
     public final static float FALL_TIME = 0.3f;
 
-    //	damage flags
+    //    damage flags
     public final static int DAMAGE_RADIUS = 0x00000001; // damage was indirect
     public final static int DAMAGE_NO_ARMOR = 0x00000002; // armour does not protect from this damage
     public final static int DAMAGE_ENERGY = 0x00000004; // damage is from an energy based weapon
@@ -680,7 +680,7 @@ public class Defines {
     public final static int DAMAGE_YES = 1; // will take damage if hit
     public final static int DAMAGE_AIM = 2; // auto targeting recognizes this
 
-    //	means of death
+    //    means of death
     public final static int MOD_UNKNOWN = 0;
     public final static int MOD_BLASTER = 1;
     public final static int MOD_SHOTGUN = 2;
@@ -717,15 +717,15 @@ public class Defines {
     public final static int MOD_TARGET_BLASTER = 33;
     public final static int MOD_FRIENDLY_FIRE = 0x8000000;
 
-    //	edict->spawnflags
-    //	these are set with checkboxes on each entity in the map editor
+    //    edict->spawnflags
+    //    these are set with checkboxes on each entity in the map editor
     public final static int SPAWNFLAG_NOT_EASY = 0x00000100;
     public final static int SPAWNFLAG_NOT_MEDIUM = 0x00000200;
     public final static int SPAWNFLAG_NOT_HARD = 0x00000400;
     public final static int SPAWNFLAG_NOT_DEATHMATCH = 0x00000800;
     public final static int SPAWNFLAG_NOT_COOP = 0x00001000;
 
-    //	edict->flags
+    //    edict->flags
     public final static int FL_FLY = 0x00000001;
     public final static int FL_SWIM = 0x00000002; // implied immunity to drowining
     public final static int FL_IMMUNE_LASER = 0x00000004;
@@ -746,21 +746,21 @@ public class Defines {
 
     public final static int BODY_QUEUE_SIZE = 8;
 
-    //	deadflag
+    //    deadflag
     public final static int DEAD_NO = 0;
     public final static int DEAD_DEAD = 2;
 
-    //	range
+    //    range
     public final static int RANGE_MELEE = 0;
     public final static int RANGE_NEAR = 1;
     public final static int RANGE_MID = 2;
     public final static int RANGE_FAR = 3;
 
-    //	gib types
+    //    gib types
     public final static int GIB_ORGANIC = 0;
     public final static int GIB_METALLIC = 1;
 
-    //	monster ai flags
+    //    monster ai flags
     public final static int AI_STAND_GROUND = 0x00000001;
     public final static int AI_TEMP_STAND_GROUND = 0x00000002;
     public final static int AI_SOUND_TARGET = 0x00000004;
@@ -777,36 +777,36 @@ public class Defines {
     public final static int AI_MEDIC = 0x00002000;
     public final static int AI_RESURRECTING = 0x00004000;
 
-    //	monster attack state
+    //    monster attack state
     public final static int AS_STRAIGHT = 1;
     public final static int AS_SLIDING = 2;
     public final static int AS_MELEE = 3;
     public final static int AS_MISSILE = 4;
 
-    //	 armor types
+    //     armor types
     public final static int ARMOR_JACKET = 1;
     public final static int ARMOR_COMBAT = 2;
     public final static int ARMOR_BODY = 3;
     public final static int ARMOR_SHARD = 4;
 
-    //	 power armor types
+    //     power armor types
     public final static int POWER_ARMOR_NONE = 0;
     public final static int POWER_ARMOR_SCREEN = 1;
     public final static int POWER_ARMOR_SHIELD = 2;
 
-    //	 handedness values
+    //     handedness values
     public final static int LEFT_HANDED = 1;
     public final static int CENTER_HANDED = 2;
 
-    //	 game.serverflags values
+    //     game.serverflags values
     public final static int SFL_CROSS_TRIGGER_MASK = 0x000000ff;
 
-    //	 noise types for PlayerNoise
+    //     noise types for PlayerNoise
     public final static int PNOISE_SELF = 0;
     public final static int PNOISE_WEAPON = 1;
     public final static int PNOISE_IMPACT = 2;
 
-    //	gitem_t->flags
+    //    gitem_t->flags
     public final static int IT_WEAPON = 1; // use makes active weapon
     public final static int IT_AMMO = 2;
     public final static int IT_ARMOR = 4;
@@ -814,7 +814,7 @@ public class Defines {
     public final static int IT_KEY = 16;
     public final static int IT_POWERUP = 32;
 
-    //	gitem_t->weapmodel for weapons indicates model index
+    //    gitem_t->weapmodel for weapons indicates model index
     public final static int WEAP_BLASTER = 1;
     public final static int WEAP_SHOTGUN = 2;
     public final static int WEAP_SUPERSHOTGUN = 3;
@@ -827,7 +827,7 @@ public class Defines {
     public final static int WEAP_RAILGUN = 10;
     public final static int WEAP_BFG = 11;
 
-    //	edict->movetype values
+    //    edict->movetype values
     public final static int MOVETYPE_NONE = 0; // never moves
     public final static int MOVETYPE_NOCLIP = 1; // origin and angles change with no interaction
     public final static int MOVETYPE_PUSH = 2; // no clip to world, push on box contact
@@ -855,7 +855,7 @@ public class Defines {
     public final static int SOLID_BBOX = 2; // touch on edge
     public final static int SOLID_BSP = 3; // bsp clip, touch on edge
 
-    //	   edict->svflags
+    //       edict->svflags
     public final static int SVF_NOCLIENT = 0x00000001; // don't send entity to clients, even if it has effects
     public final static int SVF_DEADMONSTER = 0x00000002; // treat as CONTENTS_DEADMONSTER for collision
     public final static int SVF_MONSTER = 0x00000004; // treat as CONTENTS_MONSTER for collision

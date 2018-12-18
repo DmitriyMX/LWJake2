@@ -20,5 +20,5 @@ package lwjake2.game;
 
 public abstract class EntThinkAdapter extends SuperAdapter
 {
-	public abstract boolean think(edict_t self);
+    public abstract boolean think(edict_t self);
 }

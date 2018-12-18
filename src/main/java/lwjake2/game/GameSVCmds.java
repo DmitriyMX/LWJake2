@@ -87,7 +87,7 @@ public class GameSVCmds {
      */
     static boolean StringToFilter(String s, GameSVCmds.ipfilter_t f) {
 
-    	byte b[] = { 0, 0, 0, 0 };
+        byte b[] = { 0, 0, 0, 0 };
         byte m[] = { 0, 0, 0, 0 };
 
         try {

@@ -29,28 +29,28 @@ import lwjake2.util.Math3D;
  */
 @Slf4j
 public class PlaySound {
-	final static int MAX_PLAYSOUNDS = 128;
-	
-	// list with sentinel
-	private static PlaySound freeList;
-	private static PlaySound playableList;
-	
-	private static PlaySound[] backbuffer = new PlaySound[MAX_PLAYSOUNDS];
-	static {
-	    for (int i = 0; i < backbuffer.length; i++) {
-	        backbuffer[i] = new PlaySound();
+    final static int MAX_PLAYSOUNDS = 128;
+    
+    // list with sentinel
+    private static PlaySound freeList;
+    private static PlaySound playableList;
+    
+    private static PlaySound[] backbuffer = new PlaySound[MAX_PLAYSOUNDS];
+    static {
+        for (int i = 0; i < backbuffer.length; i++) {
+            backbuffer[i] = new PlaySound();
         }
-	    // init the sentinels
-	    freeList = new PlaySound();
-	    playableList = new PlaySound();
-	    // reset the lists
-	    reset();
-	}
-	
+        // init the sentinels
+        freeList = new PlaySound();
+        playableList = new PlaySound();
+        // reset the lists
+        reset();
+    }
+    
     // sound attributes
     int type;
-	int entnum;
-	int entchannel;
+    int entnum;
+    int entchannel;
     int bufferId;
     float volume;
     float attenuation;
@@ -68,7 +68,7 @@ public class PlaySound {
     }
     
     private void clear() {
-		type = bufferId = entnum = entchannel = -1;
+        type = bufferId = entnum = entchannel = -1;
         // volume = attenuation = beginTime = 0;
         attenuation = beginTime = 0;
         // Math3D.VectorClear(origin);
@@ -81,10 +81,10 @@ public class PlaySound {
         
         // concat the the freeList
         PlaySound ps;
-	    for (int i = 0; i < backbuffer.length; i++) {
-	        ps = backbuffer[i];
-	        ps.clear();
-	        ps.prev = freeList;
+        for (int i = 0; i < backbuffer.length; i++) {
+            ps = backbuffer[i];
+            ps.clear();
+            ps.prev = freeList;
             ps.next = freeList.next;
             ps.prev.next = ps;
             ps.next.prev = ps;

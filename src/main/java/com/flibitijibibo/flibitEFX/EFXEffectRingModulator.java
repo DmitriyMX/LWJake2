@@ -25,46 +25,46 @@ import org.lwjgl.openal.EFX10;
  */
 
 public class EFXEffectRingModulator extends EFXEffect {
-	
-	public static final int SINUSOID = EFX10.AL_RING_MODULATOR_SINUSOID;
-	public static final int SAWTOOTH = EFX10.AL_RING_MODULATOR_SAWTOOTH;
-	public static final int SQUARE = EFX10.AL_RING_MODULATOR_SQUARE;
-	
-	/** Constructor creates a generic ring modulator effect. */
-	public EFXEffectRingModulator() {
-		super(EFX10.AL_EFFECT_RING_MODULATOR);
-	}
-	
-	/** Sets the frequency of the ring modulator.
-	 * @param passedValue The new frequency of the ring modulator
-	 */
-	public void setFrequency(float passedValue) {
-		if (passedValue > EFX10.AL_RING_MODULATOR_MAX_FREQUENCY)
-			addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, EFX10.AL_RING_MODULATOR_MAX_FREQUENCY);
-		else if (passedValue < EFX10.AL_RING_MODULATOR_MIN_FREQUENCY)
-			addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, EFX10.AL_RING_MODULATOR_MIN_FREQUENCY);
-		else
-			addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, passedValue);
-	}
-	
-	/** Sets the high-pass cutoff for the ring modulator.
-	 * @param passedValue The new cutoff value for the ring modulator high-pass filter
-	 */
-	public void setHighPassCutoff(float passedValue) {
-		if (passedValue > EFX10.AL_RING_MODULATOR_MAX_HIGHPASS_CUTOFF)
-			addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, EFX10.AL_RING_MODULATOR_MAX_HIGHPASS_CUTOFF);
-		else if (passedValue < EFX10.AL_RING_MODULATOR_MIN_HIGHPASS_CUTOFF)
-			addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, EFX10.AL_RING_MODULATOR_MIN_HIGHPASS_CUTOFF);
-		else
-			addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, passedValue);
-	}
-	
-	/** Sets the waveform of the ring modulator.
-	 * @param waveform Should be EFXEffectRingModulator.SINUSOID, SAWTOOTH or SQUARE
-	 */
-	public void setWaveform(int waveform) {
-		if (waveform != SINUSOID && waveform != SAWTOOTH && waveform != SQUARE)
-			return;
-		addEffecti(EFX10.AL_RING_MODULATOR_WAVEFORM, waveform);
-	}
+    
+    public static final int SINUSOID = EFX10.AL_RING_MODULATOR_SINUSOID;
+    public static final int SAWTOOTH = EFX10.AL_RING_MODULATOR_SAWTOOTH;
+    public static final int SQUARE = EFX10.AL_RING_MODULATOR_SQUARE;
+    
+    /** Constructor creates a generic ring modulator effect. */
+    public EFXEffectRingModulator() {
+        super(EFX10.AL_EFFECT_RING_MODULATOR);
+    }
+    
+    /** Sets the frequency of the ring modulator.
+     * @param passedValue The new frequency of the ring modulator
+     */
+    public void setFrequency(float passedValue) {
+        if (passedValue > EFX10.AL_RING_MODULATOR_MAX_FREQUENCY)
+            addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, EFX10.AL_RING_MODULATOR_MAX_FREQUENCY);
+        else if (passedValue < EFX10.AL_RING_MODULATOR_MIN_FREQUENCY)
+            addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, EFX10.AL_RING_MODULATOR_MIN_FREQUENCY);
+        else
+            addEffectf(EFX10.AL_RING_MODULATOR_FREQUENCY, passedValue);
+    }
+    
+    /** Sets the high-pass cutoff for the ring modulator.
+     * @param passedValue The new cutoff value for the ring modulator high-pass filter
+     */
+    public void setHighPassCutoff(float passedValue) {
+        if (passedValue > EFX10.AL_RING_MODULATOR_MAX_HIGHPASS_CUTOFF)
+            addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, EFX10.AL_RING_MODULATOR_MAX_HIGHPASS_CUTOFF);
+        else if (passedValue < EFX10.AL_RING_MODULATOR_MIN_HIGHPASS_CUTOFF)
+            addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, EFX10.AL_RING_MODULATOR_MIN_HIGHPASS_CUTOFF);
+        else
+            addEffectf(EFX10.AL_RING_MODULATOR_HIGHPASS_CUTOFF, passedValue);
+    }
+    
+    /** Sets the waveform of the ring modulator.
+     * @param waveform Should be EFXEffectRingModulator.SINUSOID, SAWTOOTH or SQUARE
+     */
+    public void setWaveform(int waveform) {
+        if (waveform != SINUSOID && waveform != SAWTOOTH && waveform != SQUARE)
+            return;
+        addEffecti(EFX10.AL_RING_MODULATOR_WAVEFORM, waveform);
+    }
 }

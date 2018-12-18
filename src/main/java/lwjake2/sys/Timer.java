@@ -23,20 +23,20 @@ import lwjake2.Globals;
 
 @Slf4j
 public abstract class Timer {
-	abstract public long currentTimeMillis();
-	
-	static Timer t;
-	
-	static {
-		try {
-			t = new NanoTimer();
-		} catch (Throwable e) {
-			t = new StandardTimer();
-		}
-		log.info("using {}", t.getClass().getName());
-	}
-	
-	public static int Milliseconds() {
-		return Globals.curtime = (int)(t.currentTimeMillis());
-	}
+    abstract public long currentTimeMillis();
+    
+    static Timer t;
+    
+    static {
+        try {
+            t = new NanoTimer();
+        } catch (Throwable e) {
+            t = new StandardTimer();
+        }
+        log.info("using {}", t.getClass().getName());
+    }
+    
+    public static int Milliseconds() {
+        return Globals.curtime = (int)(t.currentTimeMillis());
+    }
 }

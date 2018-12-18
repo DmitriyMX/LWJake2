@@ -30,7 +30,7 @@ import lwjake2.server.SV_SEND;
 import lwjake2.server.SV_WORLD;
 
 //
-//	collection of functions provided by the main engine
+//    collection of functions provided by the main engine
 //
 public class game_import_t {
     // special messages

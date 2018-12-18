@@ -27,167 +27,167 @@ import lwjake2.util.Math3D;
 import java.util.Arrays;
 
 public class model_t implements Cloneable {
-	
-	public String name = "";
+    
+    public String name = "";
 
-	public int registration_sequence;
+    public int registration_sequence;
 
-	// was enum modtype_t
-	public int type;
-	public int numframes;
+    // was enum modtype_t
+    public int type;
+    public int numframes;
 
-	public int flags;
+    public int flags;
 
-	//
-	// volume occupied by the model graphics
-	//		
-	public float[] mins = { 0, 0, 0 }, maxs = { 0, 0, 0 };
-	public float radius;
+    //
+    // volume occupied by the model graphics
+    //        
+    public float[] mins = { 0, 0, 0 }, maxs = { 0, 0, 0 };
+    public float radius;
 
-	//
-	// solid volume for clipping 
-	//
-	public boolean clipbox;
-	public float clipmins[] = { 0, 0, 0 }, clipmaxs[] = { 0, 0, 0 };
+    //
+    // solid volume for clipping 
+    //
+    public boolean clipbox;
+    public float clipmins[] = { 0, 0, 0 }, clipmaxs[] = { 0, 0, 0 };
 
-	//
-	// brush model
-	//
-	public int firstmodelsurface, nummodelsurfaces;
-	public int lightmap; // only for submodels
+    //
+    // brush model
+    //
+    public int firstmodelsurface, nummodelsurfaces;
+    public int lightmap; // only for submodels
 
-	public int numsubmodels;
-	public mmodel_t submodels[];
+    public int numsubmodels;
+    public mmodel_t submodels[];
 
-	public int numplanes;
-	public cplane_t planes[];
+    public int numplanes;
+    public cplane_t planes[];
 
-	public int numleafs; // number of visible leafs, not counting 0
-	public mleaf_t leafs[];
+    public int numleafs; // number of visible leafs, not counting 0
+    public mleaf_t leafs[];
 
-	public int numvertexes;
-	public mvertex_t vertexes[];
+    public int numvertexes;
+    public mvertex_t vertexes[];
 
-	public int numedges;
-	public medge_t edges[];
+    public int numedges;
+    public medge_t edges[];
 
-	public int numnodes;
-	public int firstnode;
-	public mnode_t nodes[];
+    public int numnodes;
+    public int firstnode;
+    public mnode_t nodes[];
 
-	public int numtexinfo;
-	public mtexinfo_t texinfo[];
+    public int numtexinfo;
+    public mtexinfo_t texinfo[];
 
-	public int numsurfaces;
-	public msurface_t surfaces[];
+    public int numsurfaces;
+    public msurface_t surfaces[];
 
-	public int numsurfedges;
-	public int surfedges[];
+    public int numsurfedges;
+    public int surfedges[];
 
-	public int nummarksurfaces;
-	public msurface_t marksurfaces[];
+    public int nummarksurfaces;
+    public msurface_t marksurfaces[];
 
-	public qfiles.dvis_t vis;
+    public qfiles.dvis_t vis;
 
-	public byte lightdata[];
+    public byte lightdata[];
 
-	// for alias models and skins
-	// was image_t *skins[]; (array of pointers)
-	public image_t skins[] = new image_t[Defines.MAX_MD2SKINS];
+    // for alias models and skins
+    // was image_t *skins[]; (array of pointers)
+    public image_t skins[] = new image_t[Defines.MAX_MD2SKINS];
 
-	public int extradatasize;
+    public int extradatasize;
 
-	// or whatever
-	public Object extradata;
-	
-	public void clear() {
-		name = "";
-		registration_sequence = 0;
+    // or whatever
+    public Object extradata;
+    
+    public void clear() {
+        name = "";
+        registration_sequence = 0;
 
-		// was enum modtype_t
-		type = 0;
-		numframes = 0;
-		flags = 0;
+        // was enum modtype_t
+        type = 0;
+        numframes = 0;
+        flags = 0;
 
-		//
-		// volume occupied by the model graphics
-		//		
-		Math3D.VectorClear(mins);
-		Math3D.VectorClear(maxs);
-		radius = 0;
+        //
+        // volume occupied by the model graphics
+        //        
+        Math3D.VectorClear(mins);
+        Math3D.VectorClear(maxs);
+        radius = 0;
 
-		//
-		// solid volume for clipping 
-		//
-		clipbox = false;
-		Math3D.VectorClear(clipmins);
-		Math3D.VectorClear(clipmaxs);
+        //
+        // solid volume for clipping 
+        //
+        clipbox = false;
+        Math3D.VectorClear(clipmins);
+        Math3D.VectorClear(clipmaxs);
 
-		//
-		// brush model
-		//
-		firstmodelsurface = nummodelsurfaces = 0;
-		lightmap = 0; // only for submodels
+        //
+        // brush model
+        //
+        firstmodelsurface = nummodelsurfaces = 0;
+        lightmap = 0; // only for submodels
 
-		numsubmodels = 0;
-		submodels = null;
+        numsubmodels = 0;
+        submodels = null;
 
-		numplanes = 0;
-		planes = null;
+        numplanes = 0;
+        planes = null;
 
-		numleafs = 0; // number of visible leafs, not counting 0
-		leafs = null;
+        numleafs = 0; // number of visible leafs, not counting 0
+        leafs = null;
 
-		numvertexes = 0;
-		vertexes = null;
+        numvertexes = 0;
+        vertexes = null;
 
-		numedges = 0;
-		edges = null;
+        numedges = 0;
+        edges = null;
 
-		numnodes = 0;
-		firstnode = 0;
-		nodes = null;
+        numnodes = 0;
+        firstnode = 0;
+        nodes = null;
 
-		numtexinfo = 0;
-		texinfo = null;
+        numtexinfo = 0;
+        texinfo = null;
 
-		numsurfaces = 0;
-		surfaces = null;
+        numsurfaces = 0;
+        surfaces = null;
 
-		numsurfedges = 0;
-		surfedges = null;
+        numsurfedges = 0;
+        surfedges = null;
 
-		nummarksurfaces = 0;
-		marksurfaces = null;
+        nummarksurfaces = 0;
+        marksurfaces = null;
 
-		vis = null;
+        vis = null;
 
-		lightdata = null;
+        lightdata = null;
 
-		// for alias models and skins
-		// was image_t *skins[]; (array of pointers)
-		Arrays.fill(skins, null);
+        // for alias models and skins
+        // was image_t *skins[]; (array of pointers)
+        Arrays.fill(skins, null);
 
-		extradatasize = 0;
-		// or whatever
-		extradata = null;
-	}
-	
-	// TODO replace with set(model_t from)
-	public model_t copy() {
-		model_t theClone = null;
-		try
-		{
-			theClone = (model_t)super.clone();
-			theClone.mins = Lib.clone(this.mins);
-			theClone.maxs = Lib.clone(this.maxs);
-			theClone.clipmins = Lib.clone(this.clipmins);
-			theClone.clipmaxs = Lib.clone(this.clipmaxs);
-			
-		}
-		catch (CloneNotSupportedException e)
-		{
-		}
-		return theClone;
-	}
+        extradatasize = 0;
+        // or whatever
+        extradata = null;
+    }
+    
+    // TODO replace with set(model_t from)
+    public model_t copy() {
+        model_t theClone = null;
+        try
+        {
+            theClone = (model_t)super.clone();
+            theClone.mins = Lib.clone(this.mins);
+            theClone.maxs = Lib.clone(this.maxs);
+            theClone.clipmins = Lib.clone(this.clipmins);
+            theClone.clipmaxs = Lib.clone(this.clipmaxs);
+            
+        }
+        catch (CloneNotSupportedException e)
+        {
+        }
+        return theClone;
+    }
 }

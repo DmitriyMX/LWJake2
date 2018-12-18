@@ -92,9 +92,9 @@ public final class M {
         Math3D.VectorAdd(ent.s.origin, ent.mins, mins);
         Math3D.VectorAdd(ent.s.origin, ent.maxs, maxs);
 
-        //	   if all of the points under the corners are solid world, don't bother
-        //	   with the tougher checks
-        //	   the corners must be within 16 of the midpoint
+        //       if all of the points under the corners are solid world, don't bother
+        //       with the tougher checks
+        //       the corners must be within 16 of the midpoint
         start[2] = mins[2] - 1;
         for (x = 0; x <= 1; x++)
             for (y = 0; y <= 1; y++) {
@@ -103,11 +103,11 @@ public final class M {
                 if (GameBase.gi.pointcontents.pointcontents(start) != Defines.CONTENTS_SOLID) {
                     GameBase.c_no++;
                     //
-                    //	   check it for real...
+                    //       check it for real...
                     //
                     start[2] = mins[2];
 
-                    //	   the midpoint must be within 16 of the bottom
+                    //       the midpoint must be within 16 of the bottom
                     start[0] = stop[0] = (mins[0] + maxs[0]) * 0.5f;
                     start[1] = stop[1] = (mins[1] + maxs[1]) * 0.5f;
                     stop[2] = start[2] - 2 * GameBase.STEPSIZE;
@@ -119,7 +119,7 @@ public final class M {
                         return false;
                     mid = bottom = trace.endpos[2];
 
-                    //	   the corners must be within 16 of the midpoint
+                    //       the corners must be within 16 of the midpoint
                     for (x = 0; x <= 1; x++)
                         for (y = 0; y <= 1; y++) {
                             start[0] = stop[0] = x != 0 ? maxs[0] : mins[0];
@@ -191,11 +191,11 @@ public final class M {
                 && (ent.flags & (Defines.FL_FLY | Defines.FL_SWIM)) == 0)
             return;
 
-        //	   if the next step hits the enemy, return immediately
+        //       if the next step hits the enemy, return immediately
         if (ent.enemy != null && SV.SV_CloseEnough(ent, ent.enemy, dist))
             return;
 
-        //	   bump around...
+        //       bump around...
         if ((Lib.rand() & 3) == 1
                 || !SV.SV_StepDirection(ent, ent.ideal_yaw, dist)) {
             if (ent.inuse)
@@ -227,7 +227,7 @@ public final class M {
         int cont;
 
         //
-        //	get waterlevel
+        //    get waterlevel
         //
         point[0] = ent.s.origin[0];
         point[1] = ent.s.origin[1];

@@ -27,9 +27,9 @@ import java.util.Date;
 
 public class game_locals_t {
     //
-    //	this structure is left intact through an entire game
-    //	it should be initialized at dll load time, and read/written to
-    //	the server.ssv file for savegames
+    //    this structure is left intact through an entire game
+    //    it should be initialized at dll load time, and read/written to
+    //    the server.ssv file for savegames
     //
 
     public String helpmessage1 = "";

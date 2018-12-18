@@ -20,5 +20,5 @@ package lwjake2.game;
 
 public abstract class EntPainAdapter extends SuperAdapter
 {
-	public abstract void pain(edict_t self, edict_t other, float kick, int damage);
+    public abstract void pain(edict_t self, edict_t other, float kick, int damage);
 }

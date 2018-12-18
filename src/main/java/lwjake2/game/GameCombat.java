@@ -102,7 +102,7 @@ public class GameCombat {
     
         if ((targ.svflags & Defines.SVF_MONSTER) != 0
                 && (targ.deadflag != Defines.DEAD_DEAD)) {
-            //			targ.svflags |= SVF_DEADMONSTER; // now treat as a different
+            //            targ.svflags |= SVF_DEADMONSTER; // now treat as a different
             // content type
             if (0 == (targ.monsterinfo.aiflags & Defines.AI_GOOD_GUY)) {
                 GameBase.level.killed_monsters++;
@@ -139,7 +139,7 @@ public class GameCombat {
             damage = 255;
         GameBase.gi.WriteByte(Defines.svc_temp_entity);
         GameBase.gi.WriteByte(type);
-        //		gi.WriteByte (damage);
+        //        gi.WriteByte (damage);
         GameBase.gi.WritePosition(origin);
         GameBase.gi.WriteDir(normal);
         GameBase.gi.multicast(origin, Defines.MULTICAST_PVS);

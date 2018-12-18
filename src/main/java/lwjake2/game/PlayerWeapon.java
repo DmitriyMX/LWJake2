@@ -27,7 +27,7 @@ import lwjake2.util.Math3D;
 public class PlayerWeapon {
 
     public static EntThinkAdapter Weapon_Grenade = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Grenade"; }
+        public String getID() { return "Weapon_Grenade"; }
 
         public boolean think(edict_t ent) {
             if ((ent.client.newweapon != null)
@@ -139,7 +139,7 @@ public class PlayerWeapon {
      */
 
     public static EntThinkAdapter weapon_grenadelauncher_fire = new EntThinkAdapter() {
-    	public String getID() { return "weapon_grenadelauncher_fire"; }
+        public String getID() { return "weapon_grenadelauncher_fire"; }
 
         public boolean think(edict_t ent) {
             float[] offset = { 0, 0, 0 };
@@ -179,7 +179,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_GrenadeLauncher = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_GrenadeLauncher"; }
+        public String getID() { return "Weapon_GrenadeLauncher"; }
 
         public boolean think(edict_t ent) {
 
@@ -201,7 +201,7 @@ public class PlayerWeapon {
      */
 
     public static EntThinkAdapter Weapon_RocketLauncher_Fire = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_RocketLauncher_Fire"; }
+        public String getID() { return "Weapon_RocketLauncher_Fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -249,7 +249,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_RocketLauncher = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_RocketLauncher"; }
+        public String getID() { return "Weapon_RocketLauncher"; }
 
         public boolean think(edict_t ent) {
 
@@ -263,7 +263,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Blaster_Fire = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Blaster_Fire"; }
+        public String getID() { return "Weapon_Blaster_Fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -281,7 +281,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Blaster = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Blaster"; }
+        public String getID() { return "Weapon_Blaster"; }
 
         public boolean think(edict_t ent) {
 
@@ -295,7 +295,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_HyperBlaster_Fire = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_HyperBlaster_Fire"; }
+        public String getID() { return "Weapon_HyperBlaster_Fire"; }
 
         public boolean think(edict_t ent) {
             float rotation;
@@ -366,7 +366,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_HyperBlaster = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_HyperBlaster"; }
+        public String getID() { return "Weapon_HyperBlaster"; }
         public boolean think(edict_t ent) {
 
             int pause_frames[] = { 0 };
@@ -379,7 +379,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Machinegun = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Machinegun"; }
+        public String getID() { return "Weapon_Machinegun"; }
         public boolean think(edict_t ent) {
 
             int pause_frames[] = { 23, 45, 0 };
@@ -392,7 +392,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Chaingun = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Chaingun"; }
+        public String getID() { return "Weapon_Chaingun"; }
         public boolean think(edict_t ent) {
 
             int pause_frames[] = { 38, 43, 51, 61, 0 };
@@ -414,7 +414,7 @@ public class PlayerWeapon {
      */
 
     public static EntThinkAdapter weapon_shotgun_fire = new EntThinkAdapter() {
-    	public String getID() { return "weapon_shotgun_fire"; }
+        public String getID() { return "weapon_shotgun_fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -469,7 +469,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Shotgun = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Shotgun"; }
+        public String getID() { return "Weapon_Shotgun"; }
         public boolean think(edict_t ent) {
             int pause_frames[] = { 22, 28, 34, 0 };
             int fire_frames[] = { 8, 9, 0 };
@@ -481,7 +481,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter weapon_supershotgun_fire = new EntThinkAdapter() {
-    	public String getID() { return "weapon_supershotgun_fire"; }
+        public String getID() { return "weapon_supershotgun_fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -539,7 +539,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_SuperShotgun = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_SuperShotgun"; }
+        public String getID() { return "Weapon_SuperShotgun"; }
         public boolean think(edict_t ent) {
 
             int pause_frames[] = { 29, 42, 57, 0 };
@@ -559,7 +559,7 @@ public class PlayerWeapon {
      * ======================================================================
      */
     public static EntThinkAdapter weapon_railgun_fire = new EntThinkAdapter() {
-    	public String getID() { return "weapon_railgun_fire"; }
+        public String getID() { return "weapon_railgun_fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -611,7 +611,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_Railgun = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_Railgun"; }
+        public String getID() { return "Weapon_Railgun"; }
 
         public boolean think(edict_t ent) {
 
@@ -632,7 +632,7 @@ public class PlayerWeapon {
      */
 
     public static EntThinkAdapter weapon_bfg_fire = new EntThinkAdapter() {
-    	public String getID() { return "weapon_bfg_fire"; }
+        public String getID() { return "weapon_bfg_fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -696,7 +696,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Weapon_BFG = new EntThinkAdapter() {
-    	public String getID() { return "Weapon_BFG"; }
+        public String getID() { return "Weapon_BFG"; }
         public boolean think(edict_t ent) {
 
             Weapon_Generic(ent, 8, 32, 55, 58, pause_frames, fire_frames,
@@ -718,7 +718,7 @@ public class PlayerWeapon {
      * ================
      */
     public static ItemUseAdapter Use_Weapon = new ItemUseAdapter() {
-    	public String getID() { return "Use_Weapon"; }
+        public String getID() { return "Use_Weapon"; }
 
         public void use(edict_t ent, gitem_t item) {
             int ammo_index;
@@ -761,7 +761,7 @@ public class PlayerWeapon {
      */
 
     public static ItemDropAdapter Drop_Weapon = new ItemDropAdapter() {
-    	public String getID() { return "Drop_Weapon"; }
+        public String getID() { return "Drop_Weapon"; }
         public void drop(edict_t ent, gitem_t item) {
             int index;
 
@@ -791,7 +791,7 @@ public class PlayerWeapon {
      */
 
     public static EntThinkAdapter Machinegun_Fire = new EntThinkAdapter() {
-    	public String getID() { return "Machinegun_Fire"; }
+        public String getID() { return "Machinegun_Fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -883,7 +883,7 @@ public class PlayerWeapon {
     };
 
     public static EntThinkAdapter Chaingun_Fire = new EntThinkAdapter() {
-    	public String getID() { return "Chaingun_Fire"; }
+        public String getID() { return "Chaingun_Fire"; }
 
         public boolean think(edict_t ent) {
 
@@ -1010,7 +1010,7 @@ public class PlayerWeapon {
     public static int fire_frames[] = { 9, 17, 0 };
 
     public static EntInteractAdapter Pickup_Weapon = new EntInteractAdapter() {
-    	public String getID() { return "Pickup_Weapon"; }
+        public String getID() { return "Pickup_Weapon"; }
         public boolean interact(edict_t ent, edict_t other) {
             int index;
             gitem_t ammo;

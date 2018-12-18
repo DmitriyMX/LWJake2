@@ -56,7 +56,7 @@ public class CL_parse {
             "svc_download", "svc_playerinfo", "svc_packetentities",
             "svc_deltapacketentities", "svc_frame" };
 
-    //	  =============================================================================
+    //      =============================================================================
 
     public static String DownloadFileName(String fn) {
         return fileSystem.getGamedir() + "/" + fn;
@@ -90,7 +90,7 @@ public class CL_parse {
                 .StripExtension(Globals.cls.downloadname);
         Globals.cls.downloadtempname += ".tmp";
 
-        //	  ZOID
+        //      ZOID
         // check to see if we already have a tmp for this file, if so, try to
         // resume
         // open the file if not opened yet
@@ -245,7 +245,7 @@ public class CL_parse {
 
         if (percent != 100) {
             // request next block
-            //	   change display routines by zoid
+            //       change display routines by zoid
             Globals.cls.downloadpercent = percent;
             MSG.WriteByte(Globals.cls.netchan.message, Defines.clc_stringcmd);
             SZ.Print(Globals.cls.netchan.message, "nextdl");
@@ -254,7 +254,7 @@ public class CL_parse {
             //char oldn[MAX_OSPATH];
             //char newn[MAX_OSPATH];
 
-            //			Com.Printf ("100%%\n");
+            //            Com.Printf ("100%%\n");
 
             try {
                 Globals.cls.download.close();
@@ -296,12 +296,12 @@ public class CL_parse {
 
         Com.DPrintf("ParseServerData():Serverdata packet received.\n");
         //
-        //	   wipe the client_state_t struct
+        //       wipe the client_state_t struct
         //
         CL.ClearState();
         Globals.cls.state = Defines.ca_connected;
 
-        //	   parse protocol version number
+        //       parse protocol version number
         i = MSG.ReadLong(Globals.net_message);
         Globals.cls.serverProtocol = i;
 
@@ -340,9 +340,9 @@ public class CL_parse {
             SCR.PlayCinematic(str);
         } else {
             // seperate the printfs so the server message can have a color
-            //			Com.Printf(
-            //				"\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
-            //			Com.Printf('\02' + str + "\n");
+            //            Com.Printf(
+            //                "\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
+            //            Com.Printf('\02' + str + "\n");
             Com.Printf("Levelname:" + str + "\n");
             // need to prep refresh at next oportunity
             Globals.cl.refresh_prepped = false;
@@ -648,7 +648,7 @@ public class CL_parse {
         int i;
 
         //
-        //	   if recording demos, copy the message out
+        //       if recording demos, copy the message out
         //
         //if (cl_shownet.value == 1)
         //Com.Printf(net_message.cursize + " ");
@@ -656,7 +656,7 @@ public class CL_parse {
         //Com.Printf("------------------\n");
 
         //
-        //	   parse the message
+        //       parse the message
         //
         while (true) {
             if (Globals.net_message.readcount > Globals.net_message.cursize) {
@@ -688,7 +688,7 @@ public class CL_parse {
                 break;
 
             case Defines.svc_nop:
-                //				Com.Printf ("svc_nop\n");
+                //                Com.Printf ("svc_nop\n");
                 break;
 
             case Defines.svc_disconnect:

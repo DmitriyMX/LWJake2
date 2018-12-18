@@ -52,7 +52,7 @@ public class netchan_t {
 
     public int last_reliable_sequence; // sequence number of last send
 
-    //	   reliable staging and holding areas
+    //       reliable staging and holding areas
     public sizebuf_t message = new sizebuf_t(); // writing buffer to send to
                                                 // server
 
@@ -60,7 +60,7 @@ public class netchan_t {
                                                                    // space for
                                                                    // header
 
-    //	   message is copied to this buffer when it is first transfered
+    //       message is copied to this buffer when it is first transfered
     public int reliable_length;
 
     public byte reliable_buf[] = new byte[Defines.MAX_MSGLEN - 16]; // unpcked

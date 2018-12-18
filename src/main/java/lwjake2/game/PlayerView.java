@@ -232,7 +232,7 @@ public class PlayerView {
             ent.client.ps.viewangles[Defines.PITCH] = -15;
             ent.client.ps.viewangles[Defines.YAW] = ent.client.killer_yaw;
         } else {
-        	
+            
             // add angles based on weapon kick
             Math3D.VectorCopy(ent.client.kick_angles, angles);
 
@@ -353,7 +353,7 @@ public class PlayerView {
 
         // gun height
         Math3D.VectorClear(ent.client.ps.gunoffset);
-        //	ent.ps.gunorigin[2] += bob;
+        //    ent.ps.gunorigin[2] += bob;
 
         // gun_x / gun_y / gun_z are development tools
         for (i = 0; i < 3; i++) {
@@ -411,14 +411,14 @@ public class PlayerView {
             remaining = (int) (ent.client.quad_framenum - GameBase.level.framenum);
             if (remaining == 30) // beginning to fade
                 GameBase.gi.sound(ent, Defines.CHAN_ITEM, 
-                	GameBase.gi.soundindex("items/damage2.wav"), 1, Defines.ATTN_NORM, 0);
+                    GameBase.gi.soundindex("items/damage2.wav"), 1, Defines.ATTN_NORM, 0);
             if (remaining > 30 || (remaining & 4) != 0)
                 SV_AddBlend(0, 0, 1, 0.08f, ent.client.ps.blend);
         } else if (ent.client.invincible_framenum > GameBase.level.framenum) {
             remaining = (int) ent.client.invincible_framenum - GameBase.level.framenum;
             if (remaining == 30) // beginning to fade
                 GameBase.gi.sound(ent, Defines.CHAN_ITEM, 
-                	GameBase.gi.soundindex("items/protect2.wav"), 1, Defines.ATTN_NORM, 0);
+                    GameBase.gi.soundindex("items/protect2.wav"), 1, Defines.ATTN_NORM, 0);
             if (remaining > 30 || (remaining & 4) != 0)
                 SV_AddBlend(1, 1, 0, 0.08f, ent.client.ps.blend);
         } else if (ent.client.enviro_framenum > GameBase.level.framenum) {
@@ -426,7 +426,7 @@ public class PlayerView {
                     - GameBase.level.framenum;
             if (remaining == 30) // beginning to fade
                 GameBase.gi.sound(ent, Defines.CHAN_ITEM, 
-                		GameBase.gi.soundindex("items/airout.wav"), 1, Defines.ATTN_NORM, 0);
+                        GameBase.gi.soundindex("items/airout.wav"), 1, Defines.ATTN_NORM, 0);
             if (remaining > 30 || (remaining & 4) != 0)
                 SV_AddBlend(0, 1, 0, 0.08f, ent.client.ps.blend);
         } else if (ent.client.breather_framenum > GameBase.level.framenum) {

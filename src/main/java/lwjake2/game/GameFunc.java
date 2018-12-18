@@ -190,8 +190,8 @@ public class GameFunc {
         float[] tmin = { 0, 0, 0 }, tmax = { 0, 0, 0 };
 
         //
-        //	   middle trigger
-        //	
+        //       middle trigger
+        //    
         trigger = GameUtil.G_Spawn();
         trigger.touch = Touch_Plat_Center;
         trigger.movetype = Defines.MOVETYPE_NONE;
@@ -583,7 +583,7 @@ public class GameFunc {
     public final static int DOOR_Y_AXIS = 128;
 
     //
-    //	   Support routines for movement (changes in origin using velocity)
+    //       Support routines for movement (changes in origin using velocity)
     //
 
     static EntThinkAdapter Move_Done = new EntThinkAdapter() {
@@ -638,7 +638,7 @@ public class GameFunc {
     };
 
     //
-    //	   Support routines for angular movement (changes in angle using avelocity)
+    //       Support routines for angular movement (changes in angle using avelocity)
     //
 
     static EntThinkAdapter AngleMove_Done = new EntThinkAdapter() {
@@ -925,7 +925,7 @@ public class GameFunc {
             if (0 == ent.dmg)
                 ent.dmg = 2;
 
-            //		ent.moveinfo.sound_middle = "doors/hydro1.wav";
+            //        ent.moveinfo.sound_middle = "doors/hydro1.wav";
 
             ent.use = rotating_use;
             if (ent.dmg != 0)
@@ -1725,7 +1725,7 @@ public class GameFunc {
             boolean dogoto = true;
             while (dogoto) {
                 if (null == self.target) {
-                    //			gi.dprintf ("train_next: no next target\n");
+                    //            gi.dprintf ("train_next: no next target\n");
                     return true;
                 }
 
@@ -1841,7 +1841,7 @@ public class GameFunc {
             edict_t target;
 
             if (0 != self.movetarget.nextthink) {
-                //			gi.dprintf("elevator busy\n");
+                //            gi.dprintf("elevator busy\n");
                 return;
             }
 

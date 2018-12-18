@@ -40,7 +40,7 @@ import java.util.Arrays;
 @Slf4j
 public final class SCR extends Globals {
     private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
-    //	cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
+    //    cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
 
     static String[][] sb_nums = {
             { "num_0", "num_1", "num_2", "num_3", "num_4", "num_5", "num_6",
@@ -132,11 +132,11 @@ public final class SCR extends Globals {
      * ===============================================================================
      */
 
-    //	typedef struct
-    //	{
-    //		float value;
-    //		int color;
-    //	} graphsamp_t;
+    //    typedef struct
+    //    {
+    //        float value;
+    //        int color;
+    //    } graphsamp_t;
     static class graphsamp_t {
         float value;
 
@@ -861,7 +861,7 @@ public final class SCR extends Globals {
         if (cls.state != ca_active || !cl.refresh_prepped)
             return;
 
-        //		if (!s[0])
+        //        if (!s[0])
         if (s == null || s.length() == 0)
             return;
 
@@ -1238,12 +1238,12 @@ public final class SCR extends Globals {
                 DrawFPS();
 
                 //
-                //				if (scr_timegraph->value)
-                //					SCR_DebugGraph (cls.frametime*300, 0);
+                //                if (scr_timegraph->value)
+                //                    SCR_DebugGraph (cls.frametime*300, 0);
                 //
-                //				if (scr_debuggraph->value || scr_timegraph->value ||
+                //                if (scr_debuggraph->value || scr_timegraph->value ||
                 // scr_netgraph->value)
-                //					SCR_DrawDebugGraph ();
+                //                    SCR_DrawDebugGraph ();
                 //
                 DrawPause();
                 DrawConsole();
@@ -1767,7 +1767,7 @@ public final class SCR extends Globals {
         
         if (!cl.cinematicpalette_active) {
             re.CinematicSetPalette(cl.cinematicpalette);
-        	cl.cinematicpalette_active = true;
+            cl.cinematicpalette_active = true;
         }
         
         if (cin.pic == null)

@@ -157,7 +157,7 @@ public class Cvar extends Globals {
 
         cvar_t var = Cvar.FindVar(var_name);
         if (var == null) { 
-        	// create it
+            // create it
             return Cvar.Get(var_name, value, 0);
         }
 

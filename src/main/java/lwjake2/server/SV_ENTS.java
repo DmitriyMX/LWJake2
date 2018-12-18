@@ -91,7 +91,7 @@ public class SV_ENTS {
             }
 
             if (newnum == oldnum) { 
-            	// delta update from old position
+                // delta update from old position
                 // because the force parm is false, this will not result
                 // in any bytes being emited if the entity has not changed at
                 // all note that players are always 'newentities', this updates
@@ -105,7 +105,7 @@ public class SV_ENTS {
             }
 
             if (newnum < oldnum) { 
-            	// this is a new entity, send it from the baseline
+                // this is a new entity, send it from the baseline
                 MSG.WriteDeltaEntity(SV_INIT.sv.baselines[newnum], newent, msg,
                         true, true);
                 newindex++;
@@ -113,7 +113,7 @@ public class SV_ENTS {
             }
 
             if (newnum > oldnum) { 
-            	// the old entity isn't present in the new message
+                // the old entity isn't present in the new message
                 bits = Defines.U_REMOVE;
                 if (oldnum >= 256)
                     bits |= Defines.U_NUMBER16 | Defines.U_MOREBITS1;
@@ -390,7 +390,7 @@ public class SV_ENTS {
             src = CM.CM_ClusterPVS(leafs[i]);
 
             //for (j=0 ; j<longs ; j++)
-            //	((long *)fatpvs)[j] |= ((long *)src)[j];
+            //    ((long *)fatpvs)[j] |= ((long *)src)[j];
             int k = 0;
             for (j = 0; j < longs; j++) {
                 SV_ENTS.fatpvs[k] |= src[k++];
@@ -465,7 +465,7 @@ public class SV_ENTS {
             // check area
             if (ent != clent) {
                 if (!CM.CM_AreasConnected(clientarea, ent.areanum)) {
-                	// doors can legally straddle two areas, so we may need to check another one
+                    // doors can legally straddle two areas, so we may need to check another one
                     if (0 == ent.areanum2 || !CM.CM_AreasConnected(clientarea, ent.areanum2))
                         continue; // blocked by a door
                 }

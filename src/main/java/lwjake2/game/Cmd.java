@@ -427,7 +427,7 @@ public final class Cmd {
 
         if (GameBase.deathmatch.value != 0 && GameBase.sv_cheats.value == 0) {
             SV_GAME.PF_cprintfhigh(ent,
-            	"You must run the server with '+set cheats 1' to enable this command.\n");
+                "You must run the server with '+set cheats 1' to enable this command.\n");
             return;
         }
 
@@ -559,7 +559,7 @@ public final class Cmd {
 
         if (GameBase.deathmatch.value != 0 && GameBase.sv_cheats.value == 0) {
             SV_GAME.PF_cprintfhigh(ent,
-            		"You must run the server with '+set cheats 1' to enable this command.\n");
+                    "You must run the server with '+set cheats 1' to enable this command.\n");
             return;
         }
 
@@ -584,7 +584,7 @@ public final class Cmd {
 
         if (GameBase.deathmatch.value != 0 && GameBase.sv_cheats.value == 0) {
             SV_GAME.PF_cprintfhigh(ent, 
-            	"You must run the server with '+set cheats 1' to enable this command.\n");
+                "You must run the server with '+set cheats 1' to enable this command.\n");
             return;
         }
 
@@ -607,7 +607,7 @@ public final class Cmd {
 
         if (GameBase.deathmatch.value != 0 && GameBase.sv_cheats.value == 0) {
             SV_GAME.PF_cprintfhigh(ent, 
-            	"You must run the server with '+set cheats 1' to enable this command.\n");
+                "You must run the server with '+set cheats 1' to enable this command.\n");
             return;
         }
 
@@ -1256,7 +1256,7 @@ public final class Cmd {
             Say_f(ent, false, true);
     }
 
-    public static void ValidateSelectedItem(edict_t ent) {    	
+    public static void ValidateSelectedItem(edict_t ent) {        
         gclient_t cl = ent.client;
     
         if (cl.pers.inventory[cl.pers.selected_item] != 0)

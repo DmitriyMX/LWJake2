@@ -22,8 +22,8 @@ package lwjake2.game;
 
 public class EdictFindFilter
 {
-	boolean matches(edict_t e, String s)
-	{
-		return false;
-	};
+    boolean matches(edict_t e, String s)
+    {
+        return false;
+    };
 }

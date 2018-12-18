@@ -20,6 +20,6 @@ package lwjake2.game;
 
 public abstract class EntBlockedAdapter extends SuperAdapter
 {
-	// move to moveinfo?
-	public abstract void blocked(edict_t self, edict_t other);
+    // move to moveinfo?
+    public abstract void blocked(edict_t self, edict_t other);
 }

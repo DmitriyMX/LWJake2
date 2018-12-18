@@ -26,22 +26,22 @@ import org.lwjgl.openal.EFX10;
 
 public class EFXFilterLowPass extends EFXFilter {
 
-	/** Constructor creates a generic low-pass filter. */
-	public EFXFilterLowPass() {
-		super(EFX10.AL_FILTER_LOWPASS);
-	}
-	
-	/** Sets the gain of the low-pass filter.
-	 * @param passedValue The new value of the low-pass filter gain
-	 */
-	public void setGain(float passedValue) {
-		addFilter(EFX10.AL_LOWPASS_GAIN, passedValue);
-	}
-	
-	/** Sets the gain of the low-pass filter's high frequencies.
-	 * @param passedValue The new value of the low-pass filter's HF gain
-	 */
-	public void setGainHF(float passedValue) {
-		addFilter(EFX10.AL_LOWPASS_GAINHF, passedValue);
-	}
+    /** Constructor creates a generic low-pass filter. */
+    public EFXFilterLowPass() {
+        super(EFX10.AL_FILTER_LOWPASS);
+    }
+    
+    /** Sets the gain of the low-pass filter.
+     * @param passedValue The new value of the low-pass filter gain
+     */
+    public void setGain(float passedValue) {
+        addFilter(EFX10.AL_LOWPASS_GAIN, passedValue);
+    }
+    
+    /** Sets the gain of the low-pass filter's high frequencies.
+     * @param passedValue The new value of the low-pass filter's HF gain
+     */
+    public void setGainHF(float passedValue) {
+        addFilter(EFX10.AL_LOWPASS_GAINHF, passedValue);
+    }
 }

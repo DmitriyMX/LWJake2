@@ -966,7 +966,7 @@ public class CM {
 
     /** Searches the leaf number that contains the 3d point. */
     public static int CM_PointLeafnum(float[] p) {
-    	// sound may call this without map loaded
+        // sound may call this without map loaded
         if (numplanes == 0)
             return 0; 
         return CM_PointLeafnum_r(p, 0);

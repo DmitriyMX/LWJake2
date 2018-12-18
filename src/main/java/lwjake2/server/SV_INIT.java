@@ -195,7 +195,7 @@ public class SV_INIT {
             try {
                 sv.demofile.close();
             } 
-        	catch (Exception e) {
+            catch (Exception e) {
             }
 
         // any partially connected client will be restarted
@@ -428,11 +428,11 @@ public class SV_INIT {
         // rst: base1 works for full, damo1 works for demo, so we need to store first map.
         if (firstmap.length() == 0)
         {        
-        	if (!levelstring.endsWith(".cin") && !levelstring.endsWith(".pcx") && !levelstring.endsWith(".dm2"))
-        	{
-        		int pos = levelstring.indexOf('+');
-        		firstmap = levelstring.substring(pos + 1);
-        	}
+            if (!levelstring.endsWith(".cin") && !levelstring.endsWith(".pcx") && !levelstring.endsWith(".dm2"))
+            {
+                int pos = levelstring.indexOf('+');
+                firstmap = levelstring.substring(pos + 1);
+            }
         }
 
         // ZOID: special hack for end game screen in coop mode

@@ -690,7 +690,7 @@ public class M_Berserk {
             float[] aim = { Defines.MELEE_DISTANCE, 0f, -24f };
 
             GameWeapon.fire_hit(self, aim, (15 + (Lib.rand() % 6)), 400);
-            //	Faster attack -- upwards and backwards
+            //    Faster attack -- upwards and backwards
 
             return true;
         }

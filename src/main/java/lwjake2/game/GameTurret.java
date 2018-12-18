@@ -172,7 +172,7 @@ public class GameTurret {
     }
 
     static EntBlockedAdapter turret_blocked = new EntBlockedAdapter() {
-    	public String getID() { return "turret_blocked"; }
+        public String getID() { return "turret_blocked"; }
         public void blocked(edict_t self, edict_t other) {
             edict_t attacker;
 
@@ -189,7 +189,7 @@ public class GameTurret {
     };
 
     static EntThinkAdapter turret_breach_think = new EntThinkAdapter() {
-    	public String getID() { return "turret_breach_think"; }
+        public String getID() { return "turret_breach_think"; }
         public boolean think(edict_t self) {
 
             edict_t ent;
@@ -274,9 +274,9 @@ public class GameTurret {
                 angle = self.s.angles[1] + self.owner.move_origin[1];
                 angle *= (Math.PI * 2 / 360);
                 target[0] = GameTurret.SnapToEights((float) (self.s.origin[0] + 
-                			Math.cos(angle) * self.owner.move_origin[0]));
+                            Math.cos(angle) * self.owner.move_origin[0]));
                 target[1] = GameTurret.SnapToEights((float) (self.s.origin[1] + 
-                			Math.sin(angle) * self.owner.move_origin[0]));
+                            Math.sin(angle) * self.owner.move_origin[0]));
                 target[2] = self.owner.s.origin[2];
 
                 Math3D.VectorSubtract(target, self.owner.s.origin, dir);
@@ -301,7 +301,7 @@ public class GameTurret {
     };
 
     static EntThinkAdapter turret_breach_finish_init = new EntThinkAdapter() {
-    	public String getID() { return "turret_breach_finish_init"; }
+        public String getID() { return "turret_breach_finish_init"; }
         public boolean think(edict_t self) {
 
             // get and save info for muzzle location
@@ -328,7 +328,7 @@ public class GameTurret {
      * turret_breach.
      */
     static EntDieAdapter turret_driver_die = new EntDieAdapter() {
-    	public String getID() { return "turret_driver_die"; }
+        public String getID() { return "turret_driver_die"; }
         public void die(edict_t self, edict_t inflictor, edict_t attacker,
                 int damage, float[] point) {
 
@@ -352,7 +352,7 @@ public class GameTurret {
     };
 
     static EntThinkAdapter turret_driver_think = new EntThinkAdapter() {
-    	public String getID() { return "turret_driver_think"; }
+        public String getID() { return "turret_driver_think"; }
         public boolean think(edict_t self) {
 
             float[] target = { 0, 0, 0 };
@@ -405,7 +405,7 @@ public class GameTurret {
     };
 
     public static EntThinkAdapter turret_driver_link = new EntThinkAdapter() {
-    	public String getID() { return "turret_driver_link"; }
+        public String getID() { return "turret_driver_link"; }
         public boolean think(edict_t self) {
 
             float[] vec = { 0, 0, 0 };

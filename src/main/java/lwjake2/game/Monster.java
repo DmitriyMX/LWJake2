@@ -27,9 +27,9 @@ import lwjake2.util.Math3D;
 public class Monster {
 
     // FIXME monsters should call these with a totally accurate direction
-    //	and we can mess it up based on skill. Spread should be for normal
-    //	and we can tighten or loosen based on skill. We could muck with
-    //	the damages too, but I'm not sure that's such a good idea.
+    //    and we can mess it up based on skill. Spread should be for normal
+    //    and we can tighten or loosen based on skill. We could muck with
+    //    the damages too, but I'm not sure that's such a good idea.
     public static void monster_fire_bullet(edict_t self, float[] start,
             float[] dir, int damage, int kick, int hspread, int vspread,
             int flashtype) {
@@ -148,7 +148,7 @@ public class Monster {
                 && 0 == (self.monsterinfo.aiflags & Defines.AI_GOOD_GUY)) {
             self.spawnflags &= ~4;
             self.spawnflags |= 1;
-            //		 gi.dprintf("fixed spawnflags on %s at %s\n", self.classname,
+            //         gi.dprintf("fixed spawnflags on %s at %s\n", self.classname,
             // vtos(self.s.origin));
         }
 
@@ -328,7 +328,7 @@ public class Monster {
         }
     };
 
-    //	we have a one frame delay here so we don't telefrag the guy who activated
+    //    we have a one frame delay here so we don't telefrag the guy who activated
     // us
     public static EntUseAdapter monster_triggered_spawn_use = new EntUseAdapter() {
         public String getID() { return "monster_trigger_spawn_use";}

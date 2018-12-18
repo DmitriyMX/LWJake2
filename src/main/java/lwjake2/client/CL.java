@@ -114,7 +114,7 @@ public final class CL {
                 return;
             }
 
-            //	   finish up
+            //       finish up
             len = -1;
             Globals.cls.demofile.writeInt(EndianHandler.swapInt(len));
             Globals.cls.demofile.close();
@@ -509,7 +509,7 @@ public final class CL {
         CL_parse.RegisterSounds();
     };
 
-    //	   ENV_CNT is map load, ENV_CNT+1 is first env map
+    //       ENV_CNT is map load, ENV_CNT+1 is first env map
     public static final int ENV_CNT = (Defines.CS_PLAYERSKINS + Defines.MAX_CLIENTS
             * CL.PLAYER_MULT);
 
@@ -545,7 +545,7 @@ public final class CL {
 
     private static int extratime;
 
-    //	  ============================================================================
+    //      ============================================================================
 
     /**
      * Shutdown
@@ -590,7 +590,7 @@ public final class CL {
         }
         if (adr.port == 0)
             adr.port = Defines.PORT_SERVER;
-        //			adr.port = BigShort(PORT_SERVER);
+        //            adr.port = BigShort(PORT_SERVER);
 
         port = (int) Cvar.VariableValue("qport");
         Globals.userinfo_modified = false;
@@ -823,12 +823,12 @@ public final class CL {
 
             //
             // remote command packet
-            //		
+            //        
             if (Globals.net_message.data[0] == -1
                     && Globals.net_message.data[1] == -1
                     && Globals.net_message.data[2] == -1
                     && Globals.net_message.data[3] == -1) {
-                //			if (*(int *)net_message.data == -1)
+                //            if (*(int *)net_message.data == -1)
                 ConnectionlessPacket();
                 continue;
             }
@@ -871,7 +871,7 @@ public final class CL {
             Globals.cl.timeoutcount = 0;
     }
 
-    //	  =============================================================================
+    //      =============================================================================
 
     /**
      * FixUpGender_f
@@ -912,7 +912,7 @@ public final class CL {
         if (SV_MAIN.allow_download.value == 0 && CL.precache_check < ENV_CNT)
             CL.precache_check = ENV_CNT;
 
-        //	  ZOID
+        //      ZOID
         if (CL.precache_check == Defines.CS_MODELS) { // confirm map
             CL.precache_check = Defines.CS_MODELS + 2; // 0 isn't used
             if (SV_MAIN.allow_download_maps.value != 0)
@@ -1204,7 +1204,7 @@ public final class CL {
             CL.precache_check = TEXTURE_CNT + 999;
         }
 
-        //	  ZOID
+        //      ZOID
         CL_parse.RegisterSounds();
         CL_view.PrepRefresh();
 
@@ -1427,7 +1427,7 @@ public final class CL {
         }
     }
 
-    //	  =============================================================
+    //      =============================================================
 
     /**
      * SendCommand
@@ -1452,7 +1452,7 @@ public final class CL {
         CheckForResend();
     }
 
-    //	private static int lasttimecalled;
+    //    private static int lasttimecalled;
 
     /**
      * Frame

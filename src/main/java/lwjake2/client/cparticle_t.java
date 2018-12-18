@@ -25,15 +25,15 @@ package lwjake2.client;
  */
 public class cparticle_t {
 
-	public cparticle_t next;
-	public float time;
+    public cparticle_t next;
+    public float time;
 
-	public float[] org = {0, 0, 0}; // vec3_t
-	public float[] vel = {0, 0, 0}; // vec3_t
-	public float[] accel = {0, 0, 0}; // vec3_t
+    public float[] org = {0, 0, 0}; // vec3_t
+    public float[] vel = {0, 0, 0}; // vec3_t
+    public float[] accel = {0, 0, 0}; // vec3_t
 
-	public float color;
-	//public float colorvel;
-	public float alpha;
-	public float alphavel;
+    public float color;
+    //public float colorvel;
+    public float alpha;
+    public float alphavel;
 }

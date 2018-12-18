@@ -378,8 +378,8 @@ public class SV_USER {
         
         // rst: this handles loading errors, no message yet visible 
         if (SV_MAIN.sv_client.download == null)
-        {        	
-        	return;
+        {            
+            return;
         }
         
         SV_MAIN.sv_client.downloadsize = SV_MAIN.sv_client.download.length;
@@ -391,7 +391,7 @@ public class SV_USER {
         if (SV_MAIN.sv_client.download == null // special check for maps, if it
                                                // came from a pak file, don't
                                                // allow
-                							   // download ZOID
+                                               // download ZOID
                 || (name.startsWith("maps/") && fileSystem.getFileFromPak() != 0)) {
             Com.DPrintf("Couldn't download " + name + " to "
                     + SV_MAIN.sv_client.name + "\n");
@@ -420,7 +420,7 @@ public class SV_USER {
      * =================
      */
     public static void SV_Disconnect_f() {
-        //	SV_EndRedirect ();
+        //    SV_EndRedirect ();
         SV_MAIN.SV_DropClient(SV_MAIN.sv_client);
     }
 
@@ -483,7 +483,7 @@ public class SV_USER {
         Cmd.TokenizeString(s.toCharArray(), true);
         SV_USER.sv_player = SV_MAIN.sv_client.edict;
 
-        //	SV_BeginRedirect (RD_CLIENT);
+        //    SV_BeginRedirect (RD_CLIENT);
 
         int i = 0;
         for (; i < SV_USER.ucmds.length; i++) {
@@ -497,7 +497,7 @@ public class SV_USER {
         if (i == SV_USER.ucmds.length && SV_INIT.sv.state == Defines.ss_game)
             Cmd.ClientCommand(SV_USER.sv_player);
 
-        //	SV_EndRedirect ();
+        //    SV_EndRedirect ();
     }
 
     /*
@@ -620,7 +620,7 @@ public class SV_USER {
 
                         //if (net_drop > 2)
 
-                        //	Com.Printf ("drop %i\n", net_drop);
+                        //    Com.Printf ("drop %i\n", net_drop);
                         while (net_drop > 2) {
                             SV_ClientThink(cl, cl.lastcmd);
 

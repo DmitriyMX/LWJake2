@@ -902,7 +902,7 @@ public class GameMisc {
         public String getID() { return "use_areaportal";}
         public void use(edict_t ent, edict_t other, edict_t activator) {
             ent.count ^= 1; // toggle state
-            //	gi.dprintf ("portalstate: %i = %i\n", ent.style, ent.count);
+            //    gi.dprintf ("portalstate: %i = %i\n", ent.style, ent.count);
             GameBase.gi.SetAreaPortalState(ent.style, ent.count != 0);
         }
     };
@@ -1871,7 +1871,7 @@ public class GameMisc {
             GameBase.gi.setmodel(ent, "models/objects/dmspot/tris.md2");
             ent.s.skinnum = 0;
             ent.solid = Defines.SOLID_BBOX;
-            //	ent.s.effects |= EF_FLIES;
+            //    ent.s.effects |= EF_FLIES;
             Math3D.VectorSet(ent.mins, -32, -32, -24);
             Math3D.VectorSet(ent.maxs, 32, 32, -16);
             GameBase.gi.linkentity(ent);
