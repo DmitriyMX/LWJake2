@@ -20,6 +20,7 @@ package lwjake2.sound;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.FileSystem;
@@ -328,7 +329,7 @@ public class WaveLoader {
 
         if (info.samples != 0) {
             if (samples < info.samples)
-                Com.Error(Defines.ERR_DROP, "Sound " + name + " has a bad loop length");
+                Com.Error(ErrorCode.ERR_DROP, "Sound " + name + " has a bad loop length");
         } else {
             info.samples = samples;
             if (info.loopstart > 0) info.samples -= info.loopstart;

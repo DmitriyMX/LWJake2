@@ -35,6 +35,9 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static lwjake2.ErrorCode.ERR_DROP;
+import static lwjake2.ErrorCode.ERR_FATAL;
+
 /**
  * Menu
  * 

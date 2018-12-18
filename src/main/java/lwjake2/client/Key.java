@@ -20,6 +20,7 @@ package lwjake2.client;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.qcommon.Cbuf;
@@ -348,7 +349,7 @@ public class Key extends Globals {
                     Menu.Menu_Main_f();
                     break;
                 default :
-                    Com.Error(Defines.ERR_FATAL, "Bad cls.key_dest");
+                    Com.Error(ErrorCode.ERR_FATAL, "Bad cls.key_dest");
             }
             return;
         }
@@ -424,7 +425,7 @@ public class Key extends Globals {
                 Key.Console(key);
                 break;
             default :
-                Com.Error(Defines.ERR_FATAL, "Bad cls.key_dest");
+                Com.Error(ErrorCode.ERR_FATAL, "Bad cls.key_dest");
         }
     }
 

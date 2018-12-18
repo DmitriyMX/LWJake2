@@ -19,6 +19,7 @@
 package lwjake2.client;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.entity_state_t;
 import lwjake2.game.monsters.M_Flash;
@@ -161,7 +162,7 @@ public class CL_fx {
 
         j = s.length();
         if (j >= Defines.MAX_QPATH)
-            Com.Error(Defines.ERR_DROP, "svc_lightstyle length=" + j);
+            Com.Error(ErrorCode.ERR_DROP, "svc_lightstyle length=" + j);
 
         cl_lightstyle[i].length = j;
 
@@ -257,7 +258,7 @@ public class CL_fx {
 
         int i = MSG.ReadShort(Globals.net_message);
         if (i < 1 || i >= Defines.MAX_EDICTS)
-            Com.Error(Defines.ERR_DROP, "CL_ParseMuzzleFlash: bad entity");
+            Com.Error(ErrorCode.ERR_DROP, "CL_ParseMuzzleFlash: bad entity");
 
         int weapon = MSG.ReadByte(Globals.net_message);
         int silenced = weapon & Defines.MZ_SILENCED;
@@ -510,7 +511,7 @@ public class CL_fx {
 
         int ent = MSG.ReadShort(Globals.net_message);
         if (ent < 1 || ent >= Defines.MAX_EDICTS)
-            Com.Error(Defines.ERR_DROP, "CL_ParseMuzzleFlash2: bad entity");
+            Com.Error(ErrorCode.ERR_DROP, "CL_ParseMuzzleFlash2: bad entity");
 
         int flash_number = MSG.ReadByte(Globals.net_message);
 

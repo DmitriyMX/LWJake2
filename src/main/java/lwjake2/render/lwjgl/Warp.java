@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.qcommon.Com;
 import lwjake2.render.glpoly_t;
@@ -121,7 +122,7 @@ public abstract class Warp extends Model {
         float    frac;
 
         if (numverts > 60)
-            Com.Error(Defines.ERR_DROP, "numverts = " + numverts);
+            Com.Error(ErrorCode.ERR_DROP, "numverts = " + numverts);
 
         float[] mins = Vec3Cache.get();
         float[] maxs = Vec3Cache.get();
@@ -447,7 +448,7 @@ public abstract class Warp extends Model {
     void ClipSkyPolygon(int nump, float[][] vecs, int stage)
     {
         if (nump > MAX_CLIP_VERTS-2)
-            Com.Error(Defines.ERR_DROP, "ClipSkyPolygon: MAX_CLIP_VERTS");
+            Com.Error(ErrorCode.ERR_DROP, "ClipSkyPolygon: MAX_CLIP_VERTS");
         if (stage == 6)
         {    // fully clipped, so draw it
             DrawSkyPolygon(nump, vecs);

@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.client.VID;
 import lwjake2.client.particle_t;
 import lwjake2.game.cvar_t;
@@ -555,10 +556,10 @@ public abstract class Image extends Main {
         targa_header = new qfiles.tga_t(raw);
         
         if (targa_header.image_type != 2 && targa_header.image_type != 10) 
-            Com.Error(Defines.ERR_DROP, "LoadTGA: Only type 2 and 10 targa RGB images supported\n");
+            Com.Error(ErrorCode.ERR_DROP, "LoadTGA: Only type 2 and 10 targa RGB images supported\n");
         
         if (targa_header.colormap_type != 0 || (targa_header.pixel_size != 32 && targa_header.pixel_size != 24))
-            Com.Error (Defines.ERR_DROP, "LoadTGA: Only 32 or 24 bit images supported (no colormaps)\n");
+            Com.Error (ErrorCode.ERR_DROP, "LoadTGA: Only 32 or 24 bit images supported (no colormaps)\n");
         
         columns = targa_header.width;
         rows = targa_header.height;
@@ -1092,7 +1093,7 @@ public abstract class Image extends Main {
         upload_height = scaled_height;
 
         if (scaled_width * scaled_height > 256 * 256)
-            Com.Error(Defines.ERR_DROP, "GL_Upload32: too big");
+            Com.Error(ErrorCode.ERR_DROP, "GL_Upload32: too big");
 
         // scan the texture for any non-255 alpha
         c = width * height;
@@ -1252,7 +1253,7 @@ public abstract class Image extends Main {
         int s = width * height;
 
         if (s > trans.length)
-            Com.Error(Defines.ERR_DROP, "GL_Upload8: too large");
+            Com.Error(ErrorCode.ERR_DROP, "GL_Upload8: too large");
 
         if (qglColorTableEXT && gl_ext_palettedtexture.value != 0.0f && is_sky) {
             GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT, width, height, 0, GL11.GL_COLOR_INDEX, GL11.GL_UNSIGNED_BYTE, ByteBuffer.wrap(data));
@@ -1318,14 +1319,14 @@ public abstract class Image extends Main {
         if (i == numgltextures)
         {
             if (numgltextures == MAX_GLTEXTURES)
-                Com.Error (Defines.ERR_DROP, "MAX_GLTEXTURES");
+                Com.Error (ErrorCode.ERR_DROP, "MAX_GLTEXTURES");
             
             numgltextures++;
         }
         image = gltextures[i];
 
         if (name.length() > Defines.MAX_QPATH)
-            Com.Error(Defines.ERR_DROP, "Draw_LoadPic: \"" + name + "\" is too long");
+            Com.Error(ErrorCode.ERR_DROP, "Draw_LoadPic: \"" + name + "\" is too long");
 
         image.name = name;
         image.registration_sequence = registration_sequence;
@@ -1571,7 +1572,7 @@ public abstract class Image extends Main {
         LoadPCX("pics/colormap.pcx", palette, new Dimension());
 
         if (palette[0] == null || palette[0].length != 768)
-            Com.Error(Defines.ERR_FATAL, "Couldn't load pics/colormap.pcx");
+            Com.Error(ErrorCode.ERR_FATAL, "Couldn't load pics/colormap.pcx");
 
         byte[] pal = palette[0];
 
@@ -1613,7 +1614,7 @@ public abstract class Image extends Main {
         if (qglColorTableEXT) {
             gl_state.d_16to8table = fileSystem.loadFile("pics/16to8.dat");
             if (gl_state.d_16to8table == null)
-                Com.Error(Defines.ERR_FATAL, "Couldn't load pics/16to8.pcx");
+                Com.Error(ErrorCode.ERR_FATAL, "Couldn't load pics/16to8.pcx");
         }
 
         if ((gl_config.renderer & (GL_RENDERER_VOODOO | GL_RENDERER_VOODOO2)) != 0) {

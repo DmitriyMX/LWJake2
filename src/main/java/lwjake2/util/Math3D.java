@@ -19,6 +19,7 @@
 package lwjake2.util;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.game.cplane_t;
 import lwjake2.qcommon.Com;
 
@@ -478,7 +479,7 @@ public class Math3D {
         double x;
 
         if (fov_x < 1.0f || fov_x > 179.0f)
-            Com.Error(Defines.ERR_DROP, "Bad fov: " + fov_x);
+            Com.Error(ErrorCode.ERR_DROP, "Bad fov: " + fov_x);
 
         x = width / Math.tan(fov_x * piratio);
 

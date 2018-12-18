@@ -34,6 +34,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
+import static lwjake2.ErrorCode.ERR_DROP;
+
 /**
  * SCR
  */

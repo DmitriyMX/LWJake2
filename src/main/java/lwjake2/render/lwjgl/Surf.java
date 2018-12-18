@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.client.dlight_t;
 import lwjake2.client.entity_t;
 import lwjake2.client.lightstyle_t;
@@ -1035,7 +1036,7 @@ public abstract class Surf extends Draw {
                            GL11.GL_UNSIGNED_BYTE, 
                            gl_lms.lightmap_buffer );
             if ( ++gl_lms.current_lightmap_texture == MAX_LIGHTMAPS )
-                Com.Error( Defines.ERR_DROP, "LM_UploadBlock() - MAX_LIGHTMAPS exceeded\n" );
+                Com.Error( ErrorCode.ERR_DROP, "LM_UploadBlock() - MAX_LIGHTMAPS exceeded\n" );
                 
             //debugLightmap(gl_lms.lightmap_buffer, 128, 128, 4);
         }
@@ -1170,7 +1171,7 @@ public abstract class Surf extends Draw {
             lightPos = new pos_t(surf.light_s, surf.light_t);
             if ( !LM_AllocBlock( smax, tmax, lightPos ) )
             {
-                Com.Error( Defines.ERR_FATAL, "Consecutive calls to LM_AllocBlock(" + smax +"," + tmax +") failed\n");
+                Com.Error( ErrorCode.ERR_FATAL, "Consecutive calls to LM_AllocBlock(" + smax +"," + tmax +") failed\n");
             }
         }
         

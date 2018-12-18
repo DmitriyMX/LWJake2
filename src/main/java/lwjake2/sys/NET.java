@@ -20,6 +20,7 @@ package lwjake2.sys;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
@@ -258,7 +259,7 @@ public final class NET {
             return;
 
         if (to.type != Defines.NA_BROADCAST && to.type != Defines.NA_IP) {
-            Com.Error(Defines.ERR_FATAL, "NET_SendPacket: bad address type");
+            Com.Error(ErrorCode.ERR_FATAL, "NET_SendPacket: bad address type");
             return;
         }
 

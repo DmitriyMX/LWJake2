@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.client.VID;
 import lwjake2.qcommon.Com;
 import lwjake2.render.image_t;
@@ -247,7 +248,7 @@ public abstract class Draw extends Image {
     protected void Draw_Fill(int x, int y, int w, int h, int colorIndex)    {
 
         if ( colorIndex > 255)
-            Com.Error(Defines.ERR_FATAL, "Draw_Fill: bad color");
+            Com.Error(ErrorCode.ERR_FATAL, "Draw_Fill: bad color");
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
 

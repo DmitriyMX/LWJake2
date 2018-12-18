@@ -20,6 +20,7 @@ package lwjake2.client;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.entity_state_t;
@@ -308,7 +309,7 @@ public class CL_parse {
         // BIG HACK to let demos from release work with the 3.0x patch!!!
         if (Globals.server_state != 0) {
         } else if (i != Defines.PROTOCOL_VERSION)
-            Com.Error(Defines.ERR_DROP, "Server returned version " + i
+            Com.Error(ErrorCode.ERR_DROP, "Server returned version " + i
                     + ", not " + Defines.PROTOCOL_VERSION);
 
         Globals.cl.servercount = MSG.ReadLong(Globals.net_message);
@@ -420,7 +421,7 @@ public class CL_parse {
                 pos = s.indexOf('/');
             if (pos == -1) {
                 pos = 0;
-                Com.Error(Defines.ERR_FATAL, "Invalid model name:" + s);
+                Com.Error(ErrorCode.ERR_FATAL, "Invalid model name:" + s);
             }
 
             model_name = s.substring(0, pos);
@@ -524,7 +525,7 @@ public class CL_parse {
         i = MSG.ReadShort(Globals.net_message);
 
         if (i < 0 || i >= Defines.MAX_CONFIGSTRINGS)
-            Com.Error(Defines.ERR_DROP, "configstring > MAX_CONFIGSTRINGS");
+            Com.Error(ErrorCode.ERR_DROP, "configstring > MAX_CONFIGSTRINGS");
 
         s = MSG.ReadString(Globals.net_message);
 
@@ -610,7 +611,7 @@ public class CL_parse {
             channel = MSG.ReadShort(Globals.net_message);
             ent = channel >> 3;
             if (ent > Defines.MAX_EDICTS)
-                Com.Error(Defines.ERR_DROP, "CL_ParseStartSoundPacket: ent = "
+                Com.Error(ErrorCode.ERR_DROP, "CL_ParseStartSoundPacket: ent = "
                         + ent);
 
             channel &= 7;
@@ -660,7 +661,7 @@ public class CL_parse {
         //
         while (true) {
             if (Globals.net_message.readcount > Globals.net_message.cursize) {
-                Com.Error(Defines.ERR_FATAL,
+                Com.Error(ErrorCode.ERR_FATAL,
                         "CL_ParseServerMessage: Bad server message:");
                 break;
             }
@@ -683,7 +684,7 @@ public class CL_parse {
             // other commands
             switch (cmd) {
             default:
-                Com.Error(Defines.ERR_DROP,
+                Com.Error(ErrorCode.ERR_DROP,
                         "CL_ParseServerMessage: Illegible server message\n");
                 break;
 
@@ -692,7 +693,7 @@ public class CL_parse {
                 break;
 
             case Defines.svc_disconnect:
-                Com.Error(Defines.ERR_DISCONNECT, "Server disconnected\n");
+                Com.Error(ErrorCode.ERR_DISCONNECT, "Server disconnected\n");
                 break;
 
             case Defines.svc_reconnect:
@@ -787,7 +788,7 @@ public class CL_parse {
             case Defines.svc_playerinfo:
             case Defines.svc_packetentities:
             case Defines.svc_deltapacketentities:
-                Com.Error(Defines.ERR_DROP, "Out of place frame data");
+                Com.Error(ErrorCode.ERR_DROP, "Out of place frame data");
                 break;
             }
         }

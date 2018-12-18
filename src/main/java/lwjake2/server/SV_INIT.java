@@ -20,6 +20,7 @@ package lwjake2.server;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.client.CL;
 import lwjake2.client.SCR;
@@ -65,7 +66,7 @@ public class SV_INIT {
             return 0;
 
         if (i == max)
-            Com.Error(Defines.ERR_DROP, "*Index: overflow");
+            Com.Error(ErrorCode.ERR_DROP, "*Index: overflow");
 
         sv.configstrings[start + i] = name;
 

@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.client.dlight_t;
 import lwjake2.game.cplane_t;
@@ -481,14 +482,14 @@ public abstract class Light extends Warp {
 
         if ((surf.texinfo.flags & (Defines.SURF_SKY | Defines.SURF_TRANS33
                 | Defines.SURF_TRANS66 | Defines.SURF_WARP)) != 0)
-            Com.Error(Defines.ERR_DROP,
+            Com.Error(ErrorCode.ERR_DROP,
                     "R_BuildLightMap called for non-lit surface");
 
         int smax = (surf.extents[0] >> 4) + 1;
         int tmax = (surf.extents[1] >> 4) + 1;
         int size = smax * tmax;
         if (size > ((s_blocklights.length * Defines.SIZE_OF_FLOAT) >> 4))
-            Com.Error(Defines.ERR_DROP, "Bad s_blocklights size");
+            Com.Error(ErrorCode.ERR_DROP, "Bad s_blocklights size");
 
         try {
             // set to full bright if no light data

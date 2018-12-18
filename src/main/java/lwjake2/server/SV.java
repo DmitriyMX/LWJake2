@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.client.M;
 import lwjake2.game.GameBase;
@@ -83,7 +84,7 @@ public final class SV {
         ent.nextthink = 0;
 
         if (ent.think == null)
-            Com.Error(Defines.ERR_FATAL, "NULL ent.think");
+            Com.Error(ErrorCode.ERR_FATAL, "NULL ent.think");
 
         ent.think.think(ent);
 
@@ -487,7 +488,7 @@ public final class SV {
             }
         }
         if (GameBase.pushed_p > Defines.MAX_EDICTS)
-            SV_GAME.PF_error(Defines.ERR_FATAL,
+            SV_GAME.PF_error(ErrorCode.ERR_FATAL,
                     "pushed_p > &pushed[MAX_EDICTS], memory corrupted");
 
         if (part != null) {

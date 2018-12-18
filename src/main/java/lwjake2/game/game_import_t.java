@@ -19,6 +19,7 @@
 package lwjake2.game;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
@@ -72,7 +73,7 @@ public class game_import_t {
     }
 
     public void error(String err) {
-        Com.Error(Defines.ERR_FATAL, err);
+        Com.Error(ErrorCode.ERR_FATAL, err);
     }
 
     public void error(int level, String err) {

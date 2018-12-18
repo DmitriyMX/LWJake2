@@ -30,6 +30,8 @@ import lwjake2.util.Math3D;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import static lwjake2.ErrorCode.ERR_DROP;
+
 /**
  * V
  */

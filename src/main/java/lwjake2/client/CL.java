@@ -20,6 +20,7 @@ package lwjake2.client;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.EndianHandler;
@@ -359,7 +360,7 @@ public final class CL {
         NET.SendPacket(Defines.NS_CLIENT, b.length(), Lib.stringToBytes(b), to);
     };
 
-    static Runnable Disconnect_f = () -> Com.Error(Defines.ERR_DROP, "Disconnected from server");
+    static Runnable Disconnect_f = () -> Com.Error(ErrorCode.ERR_DROP, "Disconnected from server");
 
     /**
      * Changing_f
@@ -1150,7 +1151,7 @@ public final class CL {
                     .atoi(Globals.cl.configstrings[Defines.CS_MAPCHECKSUM])) != 0) {
                 Com
                         .Error(
-                                Defines.ERR_DROP,
+                                ErrorCode.ERR_DROP,
                                 "Local map version differs from server: "
                                         + map_checksum
                                         + " != '"

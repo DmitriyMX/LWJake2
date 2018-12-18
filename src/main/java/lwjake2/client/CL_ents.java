@@ -19,6 +19,7 @@
 package lwjake2.client;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.entity_state_t;
 import lwjake2.game.player_state_t;
@@ -261,10 +262,10 @@ public class CL_ents {
             bits = iw[0];
 
             if (newnum >= Defines.MAX_EDICTS)
-                Com.Error(Defines.ERR_DROP, "CL_ParsePacketEntities: bad number:" + newnum);
+                Com.Error(ErrorCode.ERR_DROP, "CL_ParsePacketEntities: bad number:" + newnum);
 
             if (Globals.net_message.readcount > Globals.net_message.cursize)
-                Com.Error(Defines.ERR_DROP, "CL_ParsePacketEntities: end of message");
+                Com.Error(ErrorCode.ERR_DROP, "CL_ParsePacketEntities: end of message");
 
             if (0 == newnum)
                 break;
@@ -544,14 +545,14 @@ public class CL_ents {
         cmd = MSG.ReadByte(Globals.net_message);
         CL_parse.SHOWNET(CL_parse.svc_strings[cmd]);
         if (cmd != Defines.svc_playerinfo)
-            Com.Error(Defines.ERR_DROP, "CL_ParseFrame: not playerinfo");
+            Com.Error(ErrorCode.ERR_DROP, "CL_ParseFrame: not playerinfo");
         ParsePlayerstate(old, Globals.cl.frame);
 
         // read packet entities
         cmd = MSG.ReadByte(Globals.net_message);
         CL_parse.SHOWNET(CL_parse.svc_strings[cmd]);
         if (cmd != Defines.svc_packetentities)
-            Com.Error(Defines.ERR_DROP, "CL_ParseFrame: not packetentities");
+            Com.Error(ErrorCode.ERR_DROP, "CL_ParseFrame: not packetentities");
 
         ParsePacketEntities(old, Globals.cl.frame);
 
@@ -1205,7 +1206,7 @@ public class CL_ents {
         centity_t old;
 
         if (ent < 0 || ent >= Defines.MAX_EDICTS)
-            Com.Error(Defines.ERR_DROP, "CL_GetEntitySoundOrigin: bad ent");
+            Com.Error(ErrorCode.ERR_DROP, "CL_GetEntitySoundOrigin: bad ent");
         old = Globals.cl_entities[ent];
         Math3D.VectorCopy(old.lerp_origin, org);
 

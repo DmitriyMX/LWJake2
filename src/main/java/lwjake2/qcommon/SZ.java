@@ -19,6 +19,7 @@
 package lwjake2.qcommon;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.util.Lib;
 
 /**
@@ -49,10 +50,10 @@ public final class SZ {
     
         if (buf.cursize + length > buf.maxsize) {
             if (!buf.allowoverflow)
-                Com.Error(Defines.ERR_FATAL, "SZ_GetSpace: overflow without allowoverflow set");
+                Com.Error(ErrorCode.ERR_FATAL, "SZ_GetSpace: overflow without allowoverflow set");
     
             if (length > buf.maxsize)
-                Com.Error(Defines.ERR_FATAL, "SZ_GetSpace: " + length + " is > full buffer size");
+                Com.Error(ErrorCode.ERR_FATAL, "SZ_GetSpace: " + length + " is > full buffer size");
     
             Com.Printf("SZ_GetSpace: overflow\n");
             Clear(buf);

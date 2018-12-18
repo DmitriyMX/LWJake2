@@ -20,6 +20,7 @@ package lwjake2.sound.lwjgl;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
@@ -390,12 +391,12 @@ public final class LWJGLSoundImpl implements Sound {
         sfx_t sfx = null;
 
         if (name == null)
-            Com.Error(Defines.ERR_FATAL, "S_FindName: NULL\n");
+            Com.Error(ErrorCode.ERR_FATAL, "S_FindName: NULL\n");
         if (name.length() == 0)
-            Com.Error(Defines.ERR_FATAL, "S_FindName: empty name\n");
+            Com.Error(ErrorCode.ERR_FATAL, "S_FindName: empty name\n");
 
         if (name.length() >= Defines.MAX_QPATH)
-            Com.Error(Defines.ERR_FATAL, "Sound name too long: " + name);
+            Com.Error(ErrorCode.ERR_FATAL, "Sound name too long: " + name);
 
         // see if already loaded
         for (i = 0; i < num_sfx; i++)
@@ -414,7 +415,7 @@ public final class LWJGLSoundImpl implements Sound {
 
         if (i == num_sfx) {
             if (num_sfx == MAX_SFX)
-                Com.Error(Defines.ERR_FATAL, "S_FindName: out of sfx_t");
+                Com.Error(ErrorCode.ERR_FATAL, "S_FindName: out of sfx_t");
             num_sfx++;
         }
 
@@ -449,7 +450,7 @@ public final class LWJGLSoundImpl implements Sound {
         if (i == num_sfx)
         {
             if (num_sfx == MAX_SFX)
-                Com.Error(Defines.ERR_FATAL, "S_FindName: out of sfx_t");
+                Com.Error(ErrorCode.ERR_FATAL, "S_FindName: out of sfx_t");
             num_sfx++;
         }
     

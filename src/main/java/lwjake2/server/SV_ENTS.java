@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.game.EndianHandler;
 import lwjake2.game.GameBase;
 import lwjake2.game.edict_t;
@@ -369,7 +370,7 @@ public class SV_ENTS {
         count = CM.CM_BoxLeafnums(mins, maxs, leafs, 64, null);
 
         if (count < 1)
-            Com.Error(Defines.ERR_FATAL, "SV_FatPVS: count < 1");
+            Com.Error(ErrorCode.ERR_FATAL, "SV_FatPVS: count < 1");
 
         longs = (CM.CM_NumClusters() + 31) >> 5;
 

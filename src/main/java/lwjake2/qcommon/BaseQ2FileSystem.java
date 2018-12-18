@@ -20,6 +20,7 @@ package lwjake2.qcommon;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
@@ -189,7 +190,7 @@ public class BaseQ2FileSystem implements FileSystem {
                     // open a new file on the pakfile
                     File file = new File(pak.filename);
                     if (!file.canRead()) {
-                        Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
+                        Com.Error(ErrorCode.ERR_FATAL, "Couldn't reopen "
                                 + pak.filename);
                     }
                     return entry.filelen;
@@ -260,7 +261,7 @@ public class BaseQ2FileSystem implements FileSystem {
                     // filename + '\n');
                     file = new File(pak.filename);
                     if (!file.canRead())
-                        Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
+                        Com.Error(ErrorCode.ERR_FATAL, "Couldn't reopen "
                                 + pak.filename);
                     if (pak.handle == null || !pak.handle.getFD().valid()) {
                         // hold the pakfile handle open
@@ -360,7 +361,7 @@ public class BaseQ2FileSystem implements FileSystem {
             file.readFully(buf);
             file.close();
         } catch (IOException e) {
-            Com.Error(Defines.ERR_FATAL, e.toString());
+            Com.Error(ErrorCode.ERR_FATAL, e.toString());
         }
         return buf;
     }
@@ -422,7 +423,7 @@ public class BaseQ2FileSystem implements FileSystem {
                         // filename + '\n');
                         file = new File(pak.filename);
                         if (!file.canRead())
-                            Com.Error(Defines.ERR_FATAL, "Couldn't reopen "
+                            Com.Error(ErrorCode.ERR_FATAL, "Couldn't reopen "
                                     + pak.filename);
                         if (pak.handle == null || !pak.handle.getFD().valid()) {
                             // hold the pakfile handle open
@@ -513,12 +514,12 @@ public class BaseQ2FileSystem implements FileSystem {
             header.dirlen = packhandle.getInt();
 
             if (header.ident != IDPAKHEADER)
-                Com.Error(Defines.ERR_FATAL, packfile + " is not a packfile");
+                Com.Error(ErrorCode.ERR_FATAL, packfile + " is not a packfile");
 
             numpackfiles = header.dirlen / packfile_t.SIZE;
 
             if (numpackfiles > MAX_FILES_IN_PACK)
-                Com.Error(Defines.ERR_FATAL, packfile + " has " + numpackfiles
+                Com.Error(ErrorCode.ERR_FATAL, packfile + " has " + numpackfiles
                         + " files");
 
             newfiles = new Hashtable<>(numpackfiles);

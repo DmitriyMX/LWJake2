@@ -19,6 +19,7 @@
 package lwjake2.client;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.player_state_t;
 import lwjake2.qcommon.Com;
@@ -1286,7 +1287,7 @@ public class CL_tent {
         //      ==============
 
         default:
-            Com.Error(Defines.ERR_DROP, "CL_ParseTEnt: bad type");
+            Com.Error(ErrorCode.ERR_DROP, "CL_ParseTEnt: bad type");
         }
     }
 

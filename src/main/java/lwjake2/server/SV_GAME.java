@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.GameBase;
 import lwjake2.game.GameSave;
@@ -90,7 +91,7 @@ public class SV_GAME {
         if (ent != null) {
             n = ent.index;
             if (n < 1 || n > SV_MAIN.maxclients.value)
-                Com.Error(Defines.ERR_DROP, "cprintf to a non-client");
+                Com.Error(ErrorCode.ERR_DROP, "cprintf to a non-client");
         }
 
         if (ent != null)
@@ -122,7 +123,7 @@ public class SV_GAME {
      *  Abort the server with a game error. 
      */
     public static void PF_error(String fmt) {
-        Com.Error(Defines.ERR_DROP, "Game Error: " + fmt);
+        Com.Error(ErrorCode.ERR_DROP, "Game Error: " + fmt);
     }
 
     public static void PF_error(int level, String fmt) {
@@ -139,7 +140,7 @@ public class SV_GAME {
         cmodel_t mod;
 
         if (name == null)
-            Com.Error(Defines.ERR_DROP, "PF_setmodel: NULL");
+            Com.Error(ErrorCode.ERR_DROP, "PF_setmodel: NULL");
 
         i = SV_INIT.SV_ModelIndex(name);
 
@@ -159,7 +160,7 @@ public class SV_GAME {
      */
     public static void PF_Configstring(int index, String val) {
         if (index < 0 || index >= Defines.MAX_CONFIGSTRINGS)
-            Com.Error(Defines.ERR_DROP, "configstring: bad index " + index
+            Com.Error(ErrorCode.ERR_DROP, "configstring: bad index " + index
                     + "\n");
 
         if (val == null)

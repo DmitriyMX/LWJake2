@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.GameBase;
 import lwjake2.game.cmodel_t;
@@ -401,7 +402,7 @@ public class SV_WORLD {
             // explicit hulls in the BSP model
             model = SV_INIT.sv.models[ent.s.modelindex];
             if (null == model)
-                Com.Error(Defines.ERR_FATAL,
+                Com.Error(ErrorCode.ERR_FATAL,
                         "MOVETYPE_PUSH with a non bsp model");
             return model.headnode;
         }

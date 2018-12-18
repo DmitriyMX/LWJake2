@@ -20,6 +20,7 @@ package lwjake2.client;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
@@ -203,13 +204,13 @@ public class VID extends Globals {
 
         if (Globals.re == null)
         {
-            Com.Error(Defines.ERR_FATAL, name + " can't load but registered");
+            Com.Error(ErrorCode.ERR_FATAL, name + " can't load but registered");
         }
 
         if (Globals.re.apiVersion() != Defines.API_VERSION)
         {
             FreeReflib();
-            Com.Error(Defines.ERR_FATAL, name + " has incompatible api_version");
+            Com.Error(ErrorCode.ERR_FATAL, name + " has incompatible api_version");
         }
 
         IN.Real_IN_Init();
@@ -276,9 +277,9 @@ public class VID extends Globals {
                         log.info("Trying mode 0");
                         Cvar.SetValue("gl_mode", 0);
                         if ( !LoadRefresh( vid_ref.string ) )
-                            Com.Error(Defines.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");
+                            Com.Error(ErrorCode.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");
                     } else
-                        Com.Error(Defines.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");
+                        Com.Error(ErrorCode.ERR_FATAL, "Couldn't fall back to " + renderer +" refresh!");
                 }
 
                 Cvar.Set("vid_ref", renderer);

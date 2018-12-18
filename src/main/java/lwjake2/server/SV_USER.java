@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
@@ -86,10 +87,10 @@ public class SV_USER {
         try {
             SV_INIT.sv.demofile = fileSystem.FOpenFile(name);
         } catch (IOException e) {
-            Com.Error(Defines.ERR_DROP, "Couldn't open " + name + "\n");
+            Com.Error(ErrorCode.ERR_DROP, "Couldn't open " + name + "\n");
         }
         if (SV_INIT.sv.demofile == null)
-            Com.Error(Defines.ERR_DROP, "Couldn't open " + name + "\n");
+            Com.Error(ErrorCode.ERR_DROP, "Couldn't open " + name + "\n");
     }
 
     /*

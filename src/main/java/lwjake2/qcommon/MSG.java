@@ -24,6 +24,9 @@ import lwjake2.game.usercmd_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 
+import static lwjake2.ErrorCode.ERR_DROP;
+import static lwjake2.ErrorCode.ERR_FATAL;
+
 public class MSG extends Globals {
 
     //

@@ -20,6 +20,7 @@ package lwjake2.render.lwjgl;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.client.VID;
 import lwjake2.client.entity_t;
@@ -417,7 +418,7 @@ public abstract class Main extends Base {
                         R_DrawSpriteModel(currententity);
                         break;
                     default :
-                        Com.Error(Defines.ERR_DROP, "Bad modeltype");
+                        Com.Error(ErrorCode.ERR_DROP, "Bad modeltype");
                         break;
                 }
             }
@@ -451,7 +452,7 @@ public abstract class Main extends Base {
                         R_DrawSpriteModel(currententity);
                         break;
                     default :
-                        Com.Error(Defines.ERR_DROP, "Bad modeltype");
+                        Com.Error(ErrorCode.ERR_DROP, "Bad modeltype");
                         break;
                 }
             }
@@ -824,11 +825,11 @@ public abstract class Main extends Base {
 
         // included by cwei
         if (r_newrefdef == null) {
-            Com.Error(Defines.ERR_DROP, "R_RenderView: refdef_t fd is null");
+            Com.Error(ErrorCode.ERR_DROP, "R_RenderView: refdef_t fd is null");
         }
 
         if (r_worldmodel == null && (r_newrefdef.rdflags & Defines.RDF_NOWORLDMODEL) == 0)
-            Com.Error(Defines.ERR_DROP, "R_RenderView: NULL worldmodel");
+            Com.Error(ErrorCode.ERR_DROP, "R_RenderView: NULL worldmodel");
 
         if (r_speeds.value != 0.0f) {
             c_brush_polys = 0;

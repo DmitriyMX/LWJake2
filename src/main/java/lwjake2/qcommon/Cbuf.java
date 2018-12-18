@@ -20,6 +20,7 @@ package lwjake2.qcommon;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.util.Lib;
@@ -216,7 +217,7 @@ public final class Cbuf {
             Cbuf.AddText(text);
             break;
         default:
-            Com.Error(Defines.ERR_FATAL, "Cbuf_ExecuteText: bad exec_when");
+            Com.Error(ErrorCode.ERR_FATAL, "Cbuf_ExecuteText: bad exec_when");
         }
     }
 

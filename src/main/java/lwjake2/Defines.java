@@ -58,10 +58,6 @@ public class Defines {
     public final static int PRINT_HIGH = 2; // critical messages
     public final static int PRINT_CHAT = 3; // chat messages
 
-    public final static int ERR_FATAL = 0; // exit the entire game with a popup window
-    public final static int ERR_DROP = 1; // print to console and disconnect from game
-    public final static int ERR_DISCONNECT = 2; // don't kill server
-
     public final static int PRINT_ALL = 0;
     public final static int PRINT_DEVELOPER = 1; // only print when "developer 1"
 

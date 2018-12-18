@@ -19,6 +19,7 @@
 package lwjake2.server;
 
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.EndianHandler;
 import lwjake2.game.edict_t;
@@ -184,7 +185,7 @@ public class SV_SEND {
 
             default :
                 mask = null;
-                Com.Error(Defines.ERR_FATAL, "SV_Multicast: bad to:" + to + "\n");
+                Com.Error(ErrorCode.ERR_FATAL, "SV_Multicast: bad to:" + to + "\n");
         }
 
         // send the data to all relevent clients
@@ -261,16 +262,16 @@ public class SV_SEND {
         boolean use_phs;
 
         if (volume < 0 || volume > 1.0)
-            Com.Error(Defines.ERR_FATAL, "SV_StartSound: volume = " + volume);
+            Com.Error(ErrorCode.ERR_FATAL, "SV_StartSound: volume = " + volume);
 
         if (attenuation < 0 || attenuation > 4)
-            Com.Error(Defines.ERR_FATAL, "SV_StartSound: attenuation = " + attenuation);
+            Com.Error(ErrorCode.ERR_FATAL, "SV_StartSound: attenuation = " + attenuation);
 
         //    if (channel < 0 || channel > 15)
         //        Com_Error (ERR_FATAL, "SV_StartSound: channel = %i", channel);
 
         if (timeofs < 0 || timeofs > 0.255)
-            Com.Error(Defines.ERR_FATAL, "SV_StartSound: timeofs = " + timeofs);
+            Com.Error(ErrorCode.ERR_FATAL, "SV_StartSound: timeofs = " + timeofs);
 
         ent = entity.index;
 
@@ -481,7 +482,7 @@ public class SV_SEND {
                     return;
                 }
                 if (msglen > Defines.MAX_MSGLEN)
-                    Com.Error(Defines.ERR_DROP, "SV_SendClientMessages: msglen > MAX_MSGLEN");
+                    Com.Error(ErrorCode.ERR_DROP, "SV_SendClientMessages: msglen > MAX_MSGLEN");
 
                 //r = fread (msgbuf, msglen, 1, sv.demofile);
                 r = 0;

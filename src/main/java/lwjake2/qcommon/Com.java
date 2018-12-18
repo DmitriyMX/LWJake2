@@ -20,6 +20,7 @@ package lwjake2.qcommon;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
+import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.client.CL;
 import lwjake2.game.Cmd;
@@ -238,7 +239,7 @@ public final class Com {
         return new String(com_token, 0, len);
     }
 
-    public static Runnable Error_f= () -> Error(Defines.ERR_FATAL, Cmd.Argv(1));
+    public static Runnable Error_f= () -> Error(ErrorCode.ERR_FATAL, Cmd.Argv(1));
 
     public static void Error(int code, String fmt) throws IllegalStateException
     {
@@ -258,13 +259,13 @@ public final class Com {
 
         msg= sprintf(fmt, vargs);
 
-        if (code == Defines.ERR_DISCONNECT)
+        if (code == ErrorCode.ERR_DISCONNECT)
         {
             CL.Drop();
             recursive= false;
             throw new IllegalStateException();
         }
-        else if (code == Defines.ERR_DROP)
+        else if (code == ErrorCode.ERR_DROP)
         {
             Com.Printf("********************\nERROR: " + msg + "\n********************\n");
             SV_MAIN.SV_Shutdown("Server crashed: " + msg + "\n", false);
@@ -290,7 +291,7 @@ public final class Com {
 
         if (args.length > Defines.MAX_NUM_ARGVS)
         {
-            Com.Error(Defines.ERR_FATAL, "argc > MAX_NUM_ARGVS");
+            Com.Error(ErrorCode.ERR_FATAL, "argc > MAX_NUM_ARGVS");
         }
 
         Com.com_argc= args.length;
