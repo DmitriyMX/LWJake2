@@ -31,8 +31,7 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
-import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
+import lwjake2.UnpackLoader;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
@@ -58,7 +57,7 @@ import java.nio.ByteOrder;
  */
 @Slf4j
 public final class CL {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = /*BaseQ2FileSystem.getInstance()*/null;
 
     static int precache_check; // for autodownload of precache items
 
@@ -160,10 +159,10 @@ public final class CL {
             //
             // open the demo file
             //
-            name = fileSystem.getGamedir() + "/demos/" + Cmd.Argv(1) + ".dm2";
+            name = Globals.BASEDIRNAME + "/demos/" + Cmd.Argv(1) + ".dm2";
 
             log.info("recording to {}", name);
-            fileSystem.createPath(name);
+//            fileSystem.createPath(name);
             Globals.cls.demofile = new RandomAccessFile(name, "rw");
             if (Globals.cls.demofile == null) {
                 log.error("ERROR: couldn't open.");
@@ -945,7 +944,7 @@ public final class CL {
                     // checking for skins in the model
                     if (CL.precache_model == null) {
 
-                        CL.precache_model = fileSystem.loadFile(Globals.cl.configstrings[CL.precache_check]);
+                        CL.precache_model = UnpackLoader.loadFile(Globals.cl.configstrings[CL.precache_check]);
                         if (CL.precache_model == null) {
                             CL.precache_model_skin = 0;
                             CL.precache_check++;
@@ -1376,7 +1375,7 @@ public final class CL {
 //        if (Globals.cls.state == Defines.ca_uninitialized)
 //            return;
 
-        path = fileSystem.getGamedir() + "/config.cfg";
+        path = Globals.BASEDIRNAME + "/config.cfg";
         f = Lib.fopen(path, "rw");
         if (f == null) {
             log.warn("Couldn't write config.cfg.");
@@ -1577,7 +1576,7 @@ public final class CL {
         InitLocal();
         IN.Init();
 
-        fileSystem.execAutoexec();
+//        fileSystem.execAutoexec();
         Cbuf.Execute();
     }
 

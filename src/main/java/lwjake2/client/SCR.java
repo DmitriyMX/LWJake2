@@ -21,6 +21,7 @@ package lwjake2.client;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;
@@ -43,7 +44,7 @@ import static lwjake2.Globals.*;
  */
 @Slf4j
 public final class SCR {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     //    cl_scrn.c -- master for refresh, status bar, console, chat, notify, etc
 
     static String[][] sb_nums = {
@@ -1368,7 +1369,7 @@ public final class SCR {
         qfiles.pcx_t pcx;
 
         // load the file
-        ByteBuffer raw = fileSystem.loadMappedFile(filename);
+        ByteBuffer raw = UnpackLoader.loadFileAsByteBuffer(filename);
 
         if (raw == null) {
             VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename
@@ -1807,7 +1808,7 @@ public final class SCR {
         }
 
         String name = "video/" + arg;
-        cl.cinematic_file = fileSystem.loadMappedFile(name);
+        cl.cinematic_file = UnpackLoader.loadFileAsByteBuffer(name);
         if (cl.cinematic_file == null) {
             //Com.Error(ERR_DROP, "Cinematic " + name + " not found.\n");
             FinishCinematic();

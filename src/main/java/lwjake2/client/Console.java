@@ -43,7 +43,7 @@ import static lwjake2.Globals.*;
  */
 @Slf4j
 public final class Console {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     public static Runnable ToggleConsole_f = () -> {
         SCR.EndLoadingPlaque(); // get rid of loading plaque
 
@@ -92,7 +92,7 @@ public final class Console {
 
         //Com_sprintf (name, sizeof(name), "%s/%s.txt", FS_Gamedir(),
         // Cmd_Argv(1));
-        name = fileSystem.getGamedir() + "/" + Cmd.Argv(1) + ".txt";
+        name = Globals.BASEDIRNAME + "/" + Cmd.Argv(1) + ".txt";
 
         log.info("Dumped console text to {}", name);
         fileSystem.createPath(name);

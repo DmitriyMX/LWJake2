@@ -21,6 +21,7 @@ package lwjake2.qcommon;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.cmodel_t;
 import lwjake2.game.cplane_t;
 import lwjake2.game.cvar_t;
@@ -38,7 +39,7 @@ import java.nio.IntBuffer;
 import java.util.Arrays;
 
 public class CM {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     public static class cnode_t {
         cplane_t plane; // ptr
@@ -250,7 +251,7 @@ public class CM {
         //
         // load the file
         //
-        buf = fileSystem.loadFile(name);
+        buf = UnpackLoader.loadFile(name);
 
         if (buf == null)
             Com.Error(ErrorCode.ERR_DROP, "Couldn't load " + name);

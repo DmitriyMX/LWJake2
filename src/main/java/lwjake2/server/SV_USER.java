@@ -21,6 +21,7 @@ package lwjake2.server;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
 import lwjake2.game.Info;
@@ -31,10 +32,8 @@ import lwjake2.game.usercmd_t;
 import lwjake2.qcommon.*;
 import lwjake2.util.Lib;
 
-import java.io.IOException;
-
 public class SV_USER {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     static edict_t sv_player;
 
@@ -84,11 +83,7 @@ public class SV_USER {
         String name;
 
         name = "demos/" + SV_INIT.sv.name;
-        try {
-            SV_INIT.sv.demofile = fileSystem.FOpenFile(name);
-        } catch (IOException e) {
-            Com.Error(ErrorCode.ERR_DROP, "Couldn't open " + name + "\n");
-        }
+        SV_INIT.sv.demofile = UnpackLoader.loadFileAsRAF(name);
         if (SV_INIT.sv.demofile == null)
             Com.Error(ErrorCode.ERR_DROP, "Couldn't open " + name + "\n");
     }
@@ -375,7 +370,7 @@ public class SV_USER {
         if (SV_MAIN.sv_client.download != null)
             SV_MAIN.sv_client.download = null;
 
-        SV_MAIN.sv_client.download = fileSystem.loadFile(name);
+        SV_MAIN.sv_client.download = UnpackLoader.loadFile(name);
         
         // rst: this handles loading errors, no message yet visible 
         if (SV_MAIN.sv_client.download == null)
@@ -393,7 +388,7 @@ public class SV_USER {
                                                // came from a pak file, don't
                                                // allow
                                                // download ZOID
-                || (name.startsWith("maps/") && fileSystem.getFileFromPak() != 0)) {
+                || (name.startsWith("maps/") /*&& fileSystem.getFileFromPak() != 0*/)) {
             Com.DPrintf("Couldn't download " + name + " to "
                     + SV_MAIN.sv_client.name + "\n");
             if (SV_MAIN.sv_client.download != null) {

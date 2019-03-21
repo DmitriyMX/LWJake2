@@ -31,7 +31,7 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
+import lwjake2.UnpackLoader;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;
@@ -51,7 +51,7 @@ import java.util.Calendar;
 
 @Slf4j
 public class SV_CCMDS {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     /*
     ===============================================================================
     
@@ -178,13 +178,13 @@ public class SV_CCMDS {
 
         Com.DPrintf("SV_WipeSaveGame(" + savename + ")\n");
 
-        name = fileSystem.getGamedir() + "/save/" + savename + "/server.ssv";
+        name = Globals.BASEDIRNAME + "/save/" + savename + "/server.ssv";
         remove(name);
 
-        name = fileSystem.getGamedir() + "/save/" + savename + "/game.ssv";
+        name = Globals.BASEDIRNAME + "/save/" + savename + "/game.ssv";
         remove(name);
 
-        name = fileSystem.getGamedir() + "/save/" + savename + "/*.sav";
+        name = Globals.BASEDIRNAME + "/save/" + savename + "/*.sav";
 
         File f = Sys.FindFirst(name, 0, 0);
         while (f != null) {
@@ -193,7 +193,7 @@ public class SV_CCMDS {
         }
         Sys.FindClose();
 
-        name = fileSystem.getGamedir() + "/save/" + savename + "/*.sv2";
+        name = Globals.BASEDIRNAME + "/save/" + savename + "/*.sv2";
 
         f = Sys.FindFirst(name, 0, 0);
 
@@ -283,23 +283,23 @@ public class SV_CCMDS {
         SV_WipeSavegame(dst);
 
         // copy the savegame over
-        name = fileSystem.getGamedir() + "/save/" + src + "/server.ssv";
-        name2 = fileSystem.getGamedir() + "/save/" + dst + "/server.ssv";
-        fileSystem.createPath(name2);
+        name = Globals.BASEDIRNAME + "/save/" + src + "/server.ssv";
+        name2 = Globals.BASEDIRNAME + "/save/" + dst + "/server.ssv";
+//        fileSystem.createPath(name2);
         CopyFile(name, name2);
 
-        name = fileSystem.getGamedir() + "/save/" + src + "/game.ssv";
-        name2 = fileSystem.getGamedir() + "/save/" + dst + "/game.ssv";
+        name = Globals.BASEDIRNAME + "/save/" + src + "/game.ssv";
+        name2 = Globals.BASEDIRNAME + "/save/" + dst + "/game.ssv";
         CopyFile(name, name2);
 
-        String name1 = fileSystem.getGamedir() + "/save/" + src + "/";
-        name = fileSystem.getGamedir() + "/save/" + src + "/*.sav";
+        String name1 = Globals.BASEDIRNAME + "/save/" + src + "/";
+        name = Globals.BASEDIRNAME + "/save/" + src + "/*.sav";
 
         found = Sys.FindFirst(name, 0, 0);
 
         while (found != null) {
             name = name1 + found.getName();
-            name2 = fileSystem.getGamedir() + "/save/" + dst + "/" + found.getName();
+            name2 = Globals.BASEDIRNAME + "/save/" + dst + "/" + found.getName();
 
             CopyFile(name, name2);
 
@@ -326,7 +326,7 @@ public class SV_CCMDS {
 
         Com.DPrintf("SV_WriteLevelFile()\n");
 
-        name = fileSystem.getGamedir() + "/save/current/" + SV_INIT.sv.name + ".sv2";
+        name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sv2";
 
         try {
             f = new QuakeFile(name, "rw");
@@ -342,7 +342,7 @@ public class SV_CCMDS {
             e.printStackTrace();
         }
 
-        name = fileSystem.getGamedir() + "/save/current/" + SV_INIT.sv.name + ".sav";
+        name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sav";
         GameSave.WriteLevel(name);
     }
     /*
@@ -358,7 +358,7 @@ public class SV_CCMDS {
 
         Com.DPrintf("SV_ReadLevelFile()\n");
 
-        name = fileSystem.getGamedir() + "/save/current/" + SV_INIT.sv.name + ".sv2";
+        name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sv2";
         try {
             f = new QuakeFile(name, "r");
 
@@ -374,7 +374,7 @@ public class SV_CCMDS {
             e1.printStackTrace();
         }
 
-        name = fileSystem.getGamedir() + "/save/current/" + SV_INIT.sv.name + ".sav";
+        name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sav";
         GameSave.ReadLevel(name);
     }
     /*
@@ -391,7 +391,7 @@ public class SV_CCMDS {
 
         Com.DPrintf("SV_WriteServerFile(" + (autosave ? "true" : "false") + ")\n");
 
-        filename = fileSystem.getGamedir() + "/save/current/server.ssv";
+        filename = Globals.BASEDIRNAME + "/save/current/server.ssv";
         try {
             f = new QuakeFile(filename, "rw");
 
@@ -444,7 +444,7 @@ public class SV_CCMDS {
         }
 
         // write game state
-        filename = fileSystem.getGamedir() + "/save/current/game.ssv";
+        filename = Globals.BASEDIRNAME + "/save/current/game.ssv";
         GameSave.WriteGame(filename, autosave);
     }
     /*
@@ -462,7 +462,7 @@ public class SV_CCMDS {
 
             Com.DPrintf("SV_ReadServerFile()\n");
 
-            filename = fileSystem.getGamedir() + "/save/current/server.ssv";
+            filename = Globals.BASEDIRNAME + "/save/current/server.ssv";
 
             f = new QuakeFile(filename, "r");
 
@@ -489,7 +489,7 @@ public class SV_CCMDS {
             SV_INIT.svs.mapcmd = mapcmd;
 
             // read game state
-            filename = fileSystem.getGamedir() + "/save/current/game.ssv";
+            filename = Globals.BASEDIRNAME + "/save/current/game.ssv";
             GameSave.ReadGame(filename);
         }
         catch (Exception e) {
@@ -540,7 +540,7 @@ public class SV_CCMDS {
 
         Com.DPrintf("SV_GameMap(" + Cmd.Argv(1) + ")\n");
 
-        fileSystem.createPath(fileSystem.getGamedir() + "/save/current/");
+//        fileSystem.createPath(Globals.BASEDIRNAME + "/save/current/");
 
         // check for clearing the current savegame
         map = Cmd.Argv(1);
@@ -601,7 +601,7 @@ public class SV_CCMDS {
         map = Cmd.Argv(1);
         if (map.indexOf(".") < 0) {
             expanded = "maps/" + map + ".bsp";
-            if (fileSystem.loadFile(expanded) == null) {
+            if (UnpackLoader.loadFile(expanded) == null) {
 
                 Com.Printf("Can't find " + expanded + "\n");
                 return;
@@ -646,7 +646,7 @@ public class SV_CCMDS {
         }
 
         // make sure the server.ssv file exists
-        name = fileSystem.getGamedir() + "/save/" + Cmd.Argv(1) + "/server.ssv";
+        name = Globals.BASEDIRNAME + "/save/" + Cmd.Argv(1) + "/server.ssv";
         try {
             f = new RandomAccessFile(name, "r");
         }
@@ -915,7 +915,7 @@ public class SV_CCMDS {
         //
         // open the demo file
         //
-        name = fileSystem.getGamedir() + "/demos/" + Cmd.Argv(1) + ".dm2";
+        name = Globals.BASEDIRNAME + "/demos/" + Cmd.Argv(1) + ".dm2";
 
         Com.Printf("recording to " + name + ".\n");
         fileSystem.createPath(name);

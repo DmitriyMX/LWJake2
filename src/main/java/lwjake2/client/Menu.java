@@ -19,6 +19,7 @@
 package lwjake2.client;
 
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;
@@ -52,7 +53,7 @@ interface KeyCallback {
 }
 
 public final class Menu extends Key {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*(BaseQ2FileSystem.getInstance())*/;
 
     static int m_main_cursor;
 
@@ -1621,7 +1622,7 @@ public final class Menu extends Key {
         int n;
         int isdeveloper;
 
-        byte b[] = fileSystem.loadFile("credits");
+        byte b[] = UnpackLoader.loadFile("credits");
 
         if (b != null) {
             creditsBuffer = new String(b);
@@ -1835,7 +1836,7 @@ public final class Menu extends Key {
         for (i = 0; i < MAX_SAVEGAMES; i++) {
 
             m_savestrings[i] = "<EMPTY>";
-            name = fileSystem.getGamedir() + "/save/save" + i + "/server.ssv";
+            name = Globals.BASEDIRNAME + "/save/save" + i + "/server.ssv";
 
             try {
                 f = new QuakeFile(name, "r");
@@ -2307,7 +2308,7 @@ public final class Menu extends Key {
         /*
          * * load the list of map names
          */
-        mapsname = fileSystem.getGamedir() + "/maps.lst";
+        mapsname = Globals.BASEDIRNAME + "/maps.lst";
 
         // Check user dir first (default ~/.lwjake2)
         if ((fp = Lib.fopen(mapsname, "r")) == null) {
@@ -2315,7 +2316,7 @@ public final class Menu extends Key {
             mapsname = fileSystem.getBaseGamedir() + "/maps.lst";
             if ((fp = Lib.fopen(mapsname, "r")) == null) {
                 // Open the pak's maplist
-                buffer = fileSystem.loadFile("maps.lst");
+                buffer = UnpackLoader.loadFile("maps.lst");
                 if (buffer == null)
                     Com.Error(ERR_DROP, "couldn't find maps.lst\n");
             } else {

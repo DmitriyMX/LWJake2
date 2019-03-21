@@ -21,6 +21,7 @@ package lwjake2.game;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.monsters.M_Player;
 import lwjake2.qcommon.*;
 import lwjake2.server.SV_GAME;
@@ -35,7 +36,7 @@ import java.util.Vector;
  */
 @Slf4j
 public final class Cmd {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     static Runnable List_f = () -> {
         cmd_function_t cmd = Cmd.cmd_functions;
         int i = 0;
@@ -55,7 +56,7 @@ public final class Cmd {
         }
 
         byte[] f = null;
-        f = fileSystem.loadFile(Cmd.Argv(1));
+        f = UnpackLoader.loadFile(Cmd.Argv(1));
         if (f == null) {
             log.info("couldn't exec {}", Cmd.Argv(1));
             return;

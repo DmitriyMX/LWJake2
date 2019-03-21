@@ -20,7 +20,6 @@ package lwjake2.util;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
-import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.FileSystem;
 
@@ -35,7 +34,7 @@ import java.nio.IntBuffer;
 
 @Slf4j
 public class Lib {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     /** Converts a vector to a string. */
     public static String vtos(float[] v) {
         return (int) v[0] + " " + (int) v[1] + " " + (int) v[2];
