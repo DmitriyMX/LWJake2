@@ -26,7 +26,6 @@ import lwjake2.game.player_state_t;
 import lwjake2.game.pmove_t;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
 import lwjake2.qcommon.MSG;
 import lwjake2.util.Math3D;
 
@@ -42,7 +41,7 @@ import lwjake2.util.Math3D;
  * =========================================================================
  */
 public class CL_ents {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     static int bitcounts[] = new int[32]; /// just for protocol profiling
 

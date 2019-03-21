@@ -20,6 +20,7 @@ package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
+import lwjake2.UnpackLoader;
 import lwjake2.client.VID;
 import lwjake2.client.particle_t;
 import lwjake2.game.cvar_t;
@@ -49,7 +50,7 @@ import org.lwjgl.opengl.GL11;
  * @author cwei
  */
 public abstract class Image extends Main {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     image_t draw_chars;
 
@@ -448,7 +449,7 @@ public abstract class Image extends Main {
         //
         // load the file
         //
-        byte[] raw = fileSystem.loadFile(filename);
+        byte[] raw = UnpackLoader.loadFile(filename);
 
         if (raw == null) {
             VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename + '\n');
@@ -545,7 +546,7 @@ public abstract class Image extends Main {
         //
         // load the file
         //
-        raw = fileSystem.loadFile(name);
+        raw = UnpackLoader.loadFile(name);
         
         if (raw == null)
         {
@@ -1428,7 +1429,7 @@ public abstract class Image extends Main {
 
         image_t image;
 
-        byte[] raw = fileSystem.loadFile(name);
+        byte[] raw = UnpackLoader.loadFile(name);
         if (raw == null) {
             VID.Printf(Defines.PRINT_ALL, "GL_FindImage: can't load " + name + '\n');
             return r_notexture;
@@ -1612,7 +1613,7 @@ public abstract class Image extends Main {
         Draw_GetPalette();
 
         if (qglColorTableEXT) {
-            gl_state.d_16to8table = fileSystem.loadFile("pics/16to8.dat");
+            gl_state.d_16to8table = UnpackLoader.loadFile("pics/16to8.dat");
             if (gl_state.d_16to8table == null)
                 Com.Error(ErrorCode.ERR_FATAL, "Couldn't load pics/16to8.pcx");
         }

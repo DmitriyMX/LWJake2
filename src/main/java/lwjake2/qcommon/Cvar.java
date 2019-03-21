@@ -36,7 +36,7 @@ import static lwjake2.Globals.cvar_vars;
  * Cvar implements console variables. The original code is located in cvar.c
  */
 public class Cvar {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     /**
      * @param var_name

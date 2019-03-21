@@ -21,16 +21,15 @@ package lwjake2.sound;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
-import lwjake2.qcommon.BaseQ2FileSystem;
+import lwjake2.UnpackLoader;
 import lwjake2.qcommon.Com;
-import lwjake2.qcommon.FileSystem;
 
 /**
  * SND_MEM
  */
 @Slf4j
 public class WaveLoader {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     /** 
      * The ResampleSfx can squeeze and stretch samples to a default sample rate. 
      * Since Joal and lwjgl sound drivers support this, we don't need it and the samples
@@ -69,7 +68,7 @@ public class WaveLoader {
         else
             namebuffer = "sound/" + name;
 
-        byte[] data = fileSystem.loadFile(namebuffer);
+        byte[] data = UnpackLoader.loadFile(namebuffer);
 
         if (data == null) {
             Com.DPrintf("Couldn't load " + namebuffer + "\n");

@@ -20,10 +20,12 @@ package lwjake2.qcommon;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.client.CL;
 import lwjake2.client.Key;
 import lwjake2.client.SCR;
 import lwjake2.game.Cmd;
+import lwjake2.game.cvar_t;
 import lwjake2.server.SV_MAIN;
 import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
@@ -41,9 +43,14 @@ import static lwjake2.Defines.*;
  */
 @Slf4j
 public final class Qcommon {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     public static final String BUILDSTRING = "Java " + System.getProperty("java.version");;
     public static final String CPUSTRING = System.getProperty("os.arch");
+
+    private static void fileSystemInit() {
+        cvar_t basedir = Cvar.Get("basedir", ".", CVAR_NOSET);
+        UnpackLoader.setRootPath(basedir.string + '/' + Globals.BASEDIRNAME + "/_unpack");
+    }
 
     /**
      * This function initializes the different subsystems of
@@ -72,13 +79,13 @@ public final class Qcommon {
             Cbuf.AddEarlyCommands(false);
             Cbuf.Execute();
             
-            fileSystem.init();
+            fileSystemInit();
             
             reconfigure(false);
 
-            fileSystem.setCDDir(); // use cddir from config.cfg
-            fileSystem.markBaseSearchPaths(); // mark the default search paths
-            fileSystem.checkOverride();
+//            fileSystem.setCDDir(); // use cddir from config.cfg
+//            fileSystem.markBaseSearchPaths(); // mark the default search paths
+//            fileSystem.checkOverride();
             
             reconfigure(true); // reload default.cfg and config.cfg
             

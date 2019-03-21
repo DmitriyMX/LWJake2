@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
+import lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
 import lwjake2.game.cvar_t;
@@ -33,7 +34,6 @@ import lwjake2.sound.WaveLoader;
 import lwjake2.sound.sfx_t;
 import lwjake2.sound.sfxcache_t;
 import lwjake2.util.Lib;
-import lwjake2.util.Vargs;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -56,7 +56,7 @@ import org.lwjgl.openal.OpenALException;
  */
 @Slf4j
 public final class LWJGLSoundImpl implements Sound {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     static {
         S.register(new LWJGLSoundImpl());
     };
@@ -363,7 +363,7 @@ public final class LWJGLSoundImpl implements Sound {
         // fall back strategies
         //
         // not found , so see if it exists
-        if (fileSystem.fileLength(sexedFilename.substring(1)) > 0) {
+        if (UnpackLoader.exists(sexedFilename.substring(1))) {
             // yes, register it
             return RegisterSound(sexedFilename);
         }

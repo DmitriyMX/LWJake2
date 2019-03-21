@@ -23,13 +23,14 @@ import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
+import lwjake2.game.cvar_t;
 import lwjake2.game.entity_state_t;
 import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Cbuf;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FileSystem;
-import lwjake2.qcommon.BaseQ2FileSystem;
+import lwjake2.UnpackLoader;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.render.model_t;
@@ -40,12 +41,15 @@ import lwjake2.util.Lib;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import static lwjake2.Defines.CVAR_LATCH;
+import static lwjake2.Defines.CVAR_SERVERINFO;
+
 /**
  * CL_parse
  */
 @Slf4j
 public class CL_parse {
-    private static final FileSystem fileSystem = BaseQ2FileSystem.getInstance();
+//    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
     //// cl_parse.c -- parse a message received from the server
 
@@ -60,7 +64,7 @@ public class CL_parse {
     //      =============================================================================
 
     public static String DownloadFileName(String fn) {
-        return fileSystem.getGamedir() + "/" + fn;
+        return Globals.BASEDIRNAME + "/" + fn;
     }
 
     /*
@@ -78,7 +82,7 @@ public class CL_parse {
             return true;
         }
 
-        if (fileSystem.fileLength(filename) > 0) { // it exists, no need to download
+        if (UnpackLoader.exists(filename)) { // it exists, no need to download
             return true;
         }
 
@@ -150,7 +154,7 @@ public class CL_parse {
             return;
         }
 
-        if (fileSystem.loadFile(filename) != null) { // it exists, no need to
+        if (UnpackLoader.loadFile(filename) != null) { // it exists, no need to
             // download
             Com.Printf("File already exists.\n");
             return;
@@ -223,7 +227,7 @@ public class CL_parse {
         if (Globals.cls.download == null) {
             String name = DownloadFileName(Globals.cls.downloadtempname).toLowerCase();
 
-            fileSystem.createPath(name);
+//            fileSystem.createPath(name);
 
             Globals.cls.download = Lib.fopen(name, "rw");
             if (Globals.cls.download == null) {
@@ -321,12 +325,12 @@ public class CL_parse {
         Com.dprintln("gamedir=" + str);
 
         // set gamedir
+        cvar_t gamedirVar = Cvar.Get("game", "", CVAR_LATCH | CVAR_SERVERINFO);
         if (str.length() > 0
-                && (fileSystem.getGamedirVar().string == null
-                        || fileSystem.getGamedirVar().string.length() == 0 || fileSystem.getGamedirVar().string
-                        .equals(str))
-                || (str.length() == 0 && (fileSystem.getGamedirVar().string != null || fileSystem.getGamedirVar().string
-                        .length() == 0)))
+                && (gamedirVar.string == null
+                        || gamedirVar.string.length() == 0
+                        || gamedirVar.string.equals(str))
+                || (str.length() == 0 && (gamedirVar.string != null || gamedirVar.string.length() == 0)))
             Cvar.Set("game", str);
 
         // parse player entity number
