@@ -20,7 +20,7 @@ package lwjake2.qcommon;
 
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Globals;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.client.CL;
 import lwjake2.client.Key;
 import lwjake2.client.SCR;

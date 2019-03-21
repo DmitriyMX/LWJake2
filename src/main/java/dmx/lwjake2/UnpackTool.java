@@ -1,4 +1,4 @@
-package lwjake2;
+package dmx.lwjake2;
 
 import lombok.Value;
 import lombok.experimental.UtilityClass;
@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.*;
 

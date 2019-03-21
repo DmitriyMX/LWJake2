@@ -21,7 +21,7 @@ package lwjake2.qcommon;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.game.cmodel_t;
 import lwjake2.game.cplane_t;
 import lwjake2.game.cvar_t;

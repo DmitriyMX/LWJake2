@@ -20,7 +20,7 @@ package lwjake2.render.lwjgl;
 
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.client.VID;
 import lwjake2.client.particle_t;
 import lwjake2.game.cvar_t;

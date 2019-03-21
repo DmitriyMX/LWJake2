@@ -21,7 +21,7 @@ package lwjake2.server;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.GameBase;
 import lwjake2.game.Info;

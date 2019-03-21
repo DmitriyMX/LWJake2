@@ -31,7 +31,7 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Com;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.FileSystem;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.Netchan;
 import lwjake2.qcommon.SZ;

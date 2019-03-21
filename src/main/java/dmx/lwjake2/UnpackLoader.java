@@ -1,4 +1,4 @@
-package lwjake2;
+package dmx.lwjake2;
 
 import lombok.Getter;
 import lombok.Setter;

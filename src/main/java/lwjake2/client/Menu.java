@@ -19,7 +19,7 @@
 package lwjake2.client;
 
 import lwjake2.Globals;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;

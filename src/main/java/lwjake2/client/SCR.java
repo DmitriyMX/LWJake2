@@ -21,7 +21,7 @@ package lwjake2.client;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
-import lwjake2.UnpackLoader;
+import dmx.lwjake2.UnpackLoader;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;

@@ -2,7 +2,7 @@
  * DmitriyMX <dimon550@gmail.com>
  * 2017-05-12
  */
-package lwjake2.logger.log4j2;
+package dmx.lwjake2.logger.log4j2;
 
 import lwjake2.client.Console;
 import org.apache.logging.log4j.core.Filter;
