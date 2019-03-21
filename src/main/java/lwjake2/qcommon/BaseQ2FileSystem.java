@@ -22,12 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
+import lwjake2.UnpackTool;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
 import lwjake2.sys.Sys;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -487,7 +489,7 @@ public class BaseQ2FileSystem implements FileSystem {
      * Takes an explicit (not game tree related) path to a pak file.
      *
      * Loads the header and directory, adding the files at the beginning of the
-     * list so they override previous pack files.
+     * printList so they override previous pack files.
      */
     private pack_t loadPackFile(String packfile) {
         dpackheader_t header;
@@ -538,6 +540,12 @@ public class BaseQ2FileSystem implements FileSystem {
                 entry.filelen = packhandle.getInt();
 
                 newfiles.put(entry.name.toLowerCase(), entry);
+                UnpackTool.add(new UnpackTool.Entry(
+                        entry.name,
+                        entry.filepos,
+                        entry.filelen,
+                        packfile
+                ));
             }
 
         } catch (IOException e) {
@@ -564,7 +572,6 @@ public class BaseQ2FileSystem implements FileSystem {
      */
     private void addGameDirectory(String dir) {
         int i;
-        searchpath_t search;
         pack_t pak;
         String pakfile;
 
@@ -573,7 +580,7 @@ public class BaseQ2FileSystem implements FileSystem {
         //
         // add the directory to the search path
         // ensure fs_userdir is first in searchpath
-        search = new searchpath_t();
+        searchpath_t search = new searchpath_t();
         search.filename = dir;
         if (fs_searchpaths != null) {
             search.next = fs_searchpaths.next;
@@ -600,6 +607,26 @@ public class BaseQ2FileSystem implements FileSystem {
             search.next = fs_searchpaths;
             fs_searchpaths = search;
         }
+
+        UnpackTool.printList();
+
+        final File baseq2UnpackDir = new File(dir, "_unpack");
+        baseq2UnpackDir.mkdirs();
+
+        UnpackTool.list().forEach(entry -> {
+            File file = new File(baseq2UnpackDir, entry.getName());
+            if (file.exists()) {
+                return;
+            }
+
+            file.getParentFile().mkdirs();
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                log.info("Write '{}'...", entry.getName());
+                fos.write(entry.getBytes());
+            } catch (IOException e) {
+                log.error("Can't write file '{}': {}", entry.getName(), e.getMessage());
+            }
+        });
     }
 
     /*
