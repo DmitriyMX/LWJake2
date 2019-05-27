@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import dmx.lwjake2.render.PcxTexture;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
@@ -1366,32 +1367,21 @@ public final class SCR {
      * LoadPCX
      */
     static int LoadPCX(String filename, byte[] palette, cinematics_t cin) {
-        qfiles.pcx_t pcx;
-
         // load the file
         ByteBuffer raw = UnpackLoader.loadFileAsByteBuffer(filename);
 
         if (raw == null) {
-            VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename
-                    + '\n');
+            VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename + '\n');
             return 0;
         }
 
         // parse the PCX file
-        pcx = new qfiles.pcx_t(raw);
+        PcxTexture pcx = new PcxTexture(raw);
 
-        if (pcx.manufacturer != 0x0a || pcx.version != 5 || pcx.encoding != 1
-                || pcx.bits_per_pixel != 8 || pcx.xmax >= 640
-                || pcx.ymax >= 480) {
-
+        if (PcxTexture.isValid(pcx)) {
             VID.Printf(Defines.PRINT_ALL, "Bad pcx file " + filename + '\n');
             return 0;
         }
-
-        int width = pcx.xmax - pcx.xmin + 1;
-        int height = pcx.ymax - pcx.ymin + 1;
-
-        byte[] pix = new byte[width * height];
 
         if (palette != null) {
             raw.position(raw.limit() - 768);
@@ -1399,43 +1389,12 @@ public final class SCR {
         }
 
         if (cin != null) {
-            cin.pic = pix;
-            cin.width = width;
-            cin.height = height;
+            cin.pic = pcx.decode();
+            cin.width = pcx.getWidth();
+            cin.height = pcx.getHeight();
         }
 
-        //
-        // decode pcx
-        //
-        int count = 0;
-        byte dataByte = 0;
-        int runLength = 0;
-        int x, y;
-
-        // simple counter for buffer indexing
-        int p = 0;
-
-        for (y = 0; y < height; y++) {
-            for (x = 0; x < width;) {
-
-                dataByte = pcx.data.get(p++);
-
-                if ((dataByte & 0xC0) == 0xC0) {
-                    runLength = dataByte & 0x3F;
-                    dataByte = pcx.data.get(p++);
-                    // write runLength pixel
-                    while (runLength-- > 0) {
-                        pix[count++] = dataByte;
-                        x++;
-                    }
-                } else {
-                    // write one pixel
-                    pix[count++] = dataByte;
-                    x++;
-                }
-            }
-        }
-        return width * height;
+        return pcx.getWidth() * pcx.getHeight();
     }
 
     /**

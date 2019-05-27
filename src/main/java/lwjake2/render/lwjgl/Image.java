@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.PcxTexture;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import dmx.lwjake2.UnpackLoader;
@@ -444,8 +445,6 @@ public abstract class Image extends Main {
     ==============
     */
     byte[] LoadPCX(String filename, byte[][] palette, Dimension dim) {
-        qfiles.pcx_t pcx;
-
         //
         // load the file
         //
@@ -459,23 +458,12 @@ public abstract class Image extends Main {
         //
         // parse the PCX file
         //
-        pcx = new qfiles.pcx_t(raw);
+        PcxTexture pcx = new PcxTexture(raw);
 
-        if (pcx.manufacturer != 0x0a
-            || pcx.version != 5
-            || pcx.encoding != 1
-            || pcx.bits_per_pixel != 8
-            || pcx.xmax >= 640
-            || pcx.ymax >= 480) {
-
+        if (PcxTexture.isValid(pcx)) {
             VID.Printf(Defines.PRINT_ALL, "Bad pcx file " + filename + '\n');
             return null;
         }
-
-        int width = pcx.xmax - pcx.xmin + 1;
-        int height = pcx.ymax - pcx.ymin + 1;
-
-        byte[] pix = new byte[width * height];
 
         if (palette != null) {
             palette[0] = new byte[768];
@@ -483,40 +471,11 @@ public abstract class Image extends Main {
         }
 
         if (dim != null) {
-            dim.width = width;
-            dim.height = height;
+            dim.width = pcx.getWidth();
+            dim.height = pcx.getHeight();
         }
 
-        //
-        // decode pcx
-        //
-        int count = 0;
-        byte dataByte;
-        int runLength;
-        int x, y;
-
-        for (y = 0; y < height; y++) {
-            for (x = 0; x < width;) {
-
-                dataByte = pcx.data.get();
-
-                if ((dataByte & 0xC0) == 0xC0) {
-                    runLength = dataByte & 0x3F;
-                    dataByte = pcx.data.get();
-                    // write runLength pixel
-                    while (runLength-- > 0) {
-                        pix[count++] = dataByte;
-                        x++;
-                    }
-                }
-                else {
-                    // write one pixel
-                    pix[count++] = dataByte;
-                    x++;
-                }
-            }
-        }
-        return pix;
+        return pcx.decode();
     }
     
     private Throwable gotoBreakOut = new Throwable();
