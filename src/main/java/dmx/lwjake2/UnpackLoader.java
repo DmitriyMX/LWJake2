@@ -1,7 +1,6 @@
 package dmx.lwjake2;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,6 +9,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Slf4j
@@ -17,17 +17,23 @@ import java.nio.file.Paths;
 public class UnpackLoader {
 
     @Getter
-    @Setter
-    private static String rootPath;
+    private static Path rootPath;
 
     private static File getFile(String path) {
-        File file = new File(rootPath, path);
+        File file = rootPath.resolve(path).toFile();
         if (!file.exists()) {
-            log.warn("File '{}' not exists", file.getPath());
-            return null;
+            file = rootPath.getParent().resolve(path).toFile();
+            if (!file.exists()) {
+                log.warn("File '{}' not exists", file.getPath());
+                return null;
+            }
         }
 
         return file;
+    }
+
+    public static void setRootPath(String rootPath) {
+        UnpackLoader.rootPath = Paths.get(rootPath);
     }
 
     @Nullable
@@ -84,6 +90,6 @@ public class UnpackLoader {
     }
 
     public static boolean exists(String path) {
-        return Files.exists(Paths.get(rootPath, path));
+        return Files.exists(rootPath.resolve(path));
     }
 }
