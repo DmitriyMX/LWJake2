@@ -67,8 +67,3 @@ tasks.run.doFirst {
     mainClassName = 'lwjake2.LWJake2'
     applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"] 
 }.dependsOn(unpackNatibeLibraries)
-
-run {
-    mainClassName = 'lwjake2.LWJake2'
-    applicationDefaultJvmArgs = ["-Djava.library.path=$buildDir/natives/$platform"]
-}
