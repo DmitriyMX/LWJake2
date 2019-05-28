@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import dmx.lwjake2.render.TextureManager;
 import lwjake2.Defines;
 import lwjake2.util.Lib;
 
@@ -32,14 +33,11 @@ public class particle_t {
     private static ByteBuffer colorByteArray = Lib.newByteBuffer(Defines.MAX_PARTICLES * Lib.SIZEOF_INT, ByteOrder.LITTLE_ENDIAN);
 
     public static FloatBuffer vertexArray = Lib.newFloatBuffer(Defines.MAX_PARTICLES * 3);
-    public static int[] colorTable = new int[256];
-    public static IntBuffer colorArray = colorByteArray.asIntBuffer();  
+    public static IntBuffer colorArray = colorByteArray.asIntBuffer();
     
-    
+    @Deprecated
     public static void setColorPalette(int[] palette) {
-        for (int i=0; i < 256; i++) {
-            colorTable[i] = palette[i] & 0x00FFFFFF;
-        }
+        TextureManager.setColorPalette(palette);
     }
     
     public static ByteBuffer getColorAsByteBuffer() {

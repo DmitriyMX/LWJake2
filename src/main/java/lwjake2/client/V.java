@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import dmx.lwjake2.render.TextureManager;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.game.Cmd;
 import lwjake2.game.cvar_t;
@@ -103,7 +104,7 @@ public final class V {
 
         int i = r_numparticles++;
 
-        int c = particle_t.colorTable[color];
+        int c = TextureManager.getColorPalette(color);
         c |= (int) (alpha * 255) << 24;
         particle_t.colorArray.put(i, c);
 
