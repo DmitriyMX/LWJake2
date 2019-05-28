@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import dmx.lwjake2.render.PcxTexture;
+import dmx.lwjake2.render.TextureManager;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import dmx.lwjake2.UnpackLoader;
@@ -1523,31 +1524,9 @@ public abstract class Image extends Main {
     Draw_GetPalette
     ===============
     */
+    @Deprecated
     protected void Draw_GetPalette() {
-        int r, g, b;
-        byte[][] palette = new byte[1][]; //new byte[768];
-
-        // get the palette
-
-        LoadPCX("pics/colormap.pcx", palette, new Dimension());
-
-        if (palette[0] == null || palette[0].length != 768)
-            Com.Error(ErrorCode.ERR_FATAL, "Couldn't load pics/colormap.pcx");
-
-        byte[] pal = palette[0];
-
-        int j = 0;
-        for (int i = 0; i < 256; i++) {
-            r = pal[j++] & 0xFF;
-            g = pal[j++] & 0xFF;
-            b = pal[j++] & 0xFF;
-
-            d_8to24table[i] = (255 << 24) | (b << 16) | (g << 8) | (r);
-        }
-
-        d_8to24table[255] &= 0x00FFFFFF; // 255 is transparent
-
-        particle_t.setColorPalette(d_8to24table);
+        TextureManager.LoadPalette();
     }
 
     /*

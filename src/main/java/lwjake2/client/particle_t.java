@@ -35,11 +35,6 @@ public class particle_t {
     public static FloatBuffer vertexArray = Lib.newFloatBuffer(Defines.MAX_PARTICLES * 3);
     public static IntBuffer colorArray = colorByteArray.asIntBuffer();
     
-    @Deprecated
-    public static void setColorPalette(int[] palette) {
-        TextureManager.setColorPalette(palette);
-    }
-    
     public static ByteBuffer getColorAsByteBuffer() {
         return colorByteArray;
     }
