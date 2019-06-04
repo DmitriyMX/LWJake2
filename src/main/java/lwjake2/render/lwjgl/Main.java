@@ -408,13 +408,13 @@ public abstract class Main extends Base {
                     continue;
                 }
                 switch (currentmodel.type) {
-                    case mod_alias :
+                    case ALIAS:
                         R_DrawAliasModel(currententity);
                         break;
-                    case mod_brush :
+                    case BRUSH:
                         R_DrawBrushModel(currententity);
                         break;
-                    case mod_sprite :
+                    case SPRITE:
                         R_DrawSpriteModel(currententity);
                         break;
                     default :
@@ -442,13 +442,13 @@ public abstract class Main extends Base {
                     continue;
                 }
                 switch (currentmodel.type) {
-                    case mod_alias :
+                    case ALIAS:
                         R_DrawAliasModel(currententity);
                         break;
-                    case mod_brush :
+                    case BRUSH:
                         R_DrawBrushModel(currententity);
                         break;
-                    case mod_sprite :
+                    case SPRITE:
                         R_DrawSpriteModel(currententity);
                         break;
                     default :

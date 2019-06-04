@@ -18,6 +18,7 @@
 
 package lwjake2.render;
 
+import dmx.lwjake2.render.ModelType;
 import lwjake2.Defines;
 import lwjake2.game.cplane_t;
 import lwjake2.qcommon.qfiles;
@@ -32,8 +33,7 @@ public class model_t implements Cloneable {
 
     public int registration_sequence;
 
-    // was enum modtype_t
-    public int type;
+    public ModelType type;
     public int numframes;
 
     public int flags;
@@ -104,8 +104,7 @@ public class model_t implements Cloneable {
         name = "";
         registration_sequence = 0;
 
-        // was enum modtype_t
-        type = 0;
+        type = ModelType.BAD;
         numframes = 0;
         flags = 0;
 

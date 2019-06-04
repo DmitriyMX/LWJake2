@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import dmx.lwjake2.render.ImageType;
+import dmx.lwjake2.render.ModelType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
@@ -953,7 +954,7 @@ public abstract class Model extends Surf {
         qfiles.dheader_t    header;
         mmodel_t bm;
     
-        loadmodel.type = mod_brush;
+        loadmodel.type = ModelType.BRUSH;
         if (loadmodel != mod_known[0])
             Com.Error(ErrorCode.ERR_DROP, "Loaded a brush model after the world");
 
@@ -1089,7 +1090,7 @@ public abstract class Model extends Surf {
             }
         }
 
-        mod.type = mod_alias;
+        mod.type = ModelType.ALIAS;
 
         //
         // load the glcmds
@@ -1163,7 +1164,7 @@ public abstract class Model extends Surf {
             mod.skins[i] = GL_FindImage(sprout.frames[i].name, SPRITE);
         }
 
-        mod.type = mod_sprite;
+        mod.type = ModelType.SPRITE;
         mod.extradata = sprout;
     }
 
@@ -1218,13 +1219,13 @@ public abstract class Model extends Surf {
             mod.registration_sequence = registration_sequence;
 
             // register any images used by the models
-            if (mod.type == mod_sprite)
+            if (mod.type == ModelType.SPRITE)
             {
                 sprout = (qfiles.dsprite_t)mod.extradata;
                 for (i=0 ; i<sprout.numframes ; i++)
                     mod.skins[i] = GL_FindImage(sprout.frames[i].name, SPRITE);
             }
-            else if (mod.type == mod_alias)
+            else if (mod.type == ModelType.ALIAS)
             {
                 pheader = (qfiles.dmdl_t)mod.extradata;
                 for (i=0 ; i<pheader.num_skins ; i++)
@@ -1233,7 +1234,7 @@ public abstract class Model extends Surf {
                 mod.numframes = pheader.num_frames;
                 // PGM
             }
-            else if (mod.type == mod_brush)
+            else if (mod.type == ModelType.BRUSH)
             {
                 for (i=0 ; i<mod.numtexinfo ; i++)
                     mod.texinfo[i].image.registration_sequence = registration_sequence;
@@ -1263,7 +1264,7 @@ public abstract class Model extends Surf {
                 Mod_Free(mod);
             } else {
                 // precompile AliasModels
-                if (mod.type == mod_alias)
+                if (mod.type == ModelType.ALIAS)
                     precompileGLCmds((qfiles.dmdl_t)mod.extradata);
             }
         }
