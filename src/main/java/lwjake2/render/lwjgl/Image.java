@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import dmx.lwjake2.UnpackLoader;
@@ -43,6 +44,8 @@ import org.lwjgl.opengl.ARBImaging;
 import org.lwjgl.opengl.ARBMultitexture;
 import org.lwjgl.opengl.EXTSharedTexturePalette;
 import org.lwjgl.opengl.GL11;
+
+import static dmx.lwjake2.render.ImageType.*;
 
 /**
  * Image
@@ -260,7 +263,7 @@ public abstract class Image extends Main {
         for (i = 0; i < numgltextures; i++) {
             glt = gltextures[i];
 
-            if (glt.type != it_pic && glt.type != it_sky) {
+            if (glt.type != PICTURE && glt.type != SKY) {
                 GL_Bind(glt.texnum);
                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, gl_filter_min);
                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, gl_filter_max);
@@ -330,16 +333,16 @@ public abstract class Image extends Main {
 
             texels += image.upload_width * image.upload_height;
             switch (image.type) {
-                case it_skin :
+                case SKIN:
                     VID.Printf(Defines.PRINT_ALL, "M");
                     break;
-                case it_sprite :
+                case SPRITE:
                     VID.Printf(Defines.PRINT_ALL, "S");
                     break;
-                case it_wall :
+                case WALL:
                     VID.Printf(Defines.PRINT_ALL, "W");
                     break;
-                case it_pic :
+                case PICTURE:
                     VID.Printf(Defines.PRINT_ALL, "P");
                     break;
                 default :
@@ -1305,7 +1308,7 @@ public abstract class Image extends Main {
     This is also used as an entry point for the generated r_notexture
     ================
     */
-    image_t GL_LoadPic(String name, byte[] pic, int width, int height, int type, int bits) {
+    image_t GL_LoadPic(String name, byte[] pic, int width, int height, ImageType type, int bits) {
         image_t image;
         int i;
 
@@ -1337,11 +1340,11 @@ public abstract class Image extends Main {
         image.type = type;
 
 
-        if (type == it_skin && bits == 8)
+        if (image.type == SKIN && bits == 8)
             R_FloodFillSkin(pic, width, height);
 
         // load little pics into the scrap
-        if (image.type == it_pic && bits == 8 && image.width < 64 && image.height < 64) {
+        if (image.type == PICTURE && bits == 8 && image.width < 64 && image.height < 64) {
             pos_t pos = new pos_t(0, 0);
             int j, k;
 
@@ -1356,7 +1359,7 @@ public abstract class Image extends Main {
                 GL_Bind(image.texnum);
 
                 image.has_alpha =
-                    GL_Upload8(pic, width, height, (image.type != it_pic && image.type != it_sky), image.type == it_sky);
+                    GL_Upload8(pic, width, height, (image.type != PICTURE && image.type != SKY), image.type == SKY);
 
                 image.upload_width = upload_width; // after power of 2 and scales
                 image.upload_height = upload_height;
@@ -1395,7 +1398,7 @@ public abstract class Image extends Main {
             GL_Bind(image.texnum);
 
             if (bits == 8) {
-                image.has_alpha = GL_Upload8(pic, width, height, (image.type != it_pic && image.type != it_sky), image.type == it_sky);
+                image.has_alpha = GL_Upload8(pic, width, height, (image.type != PICTURE && image.type != SKY), image.type == SKY);
             }
             else {
                 int[] tmp = new int[pic.length / 4];
@@ -1407,7 +1410,7 @@ public abstract class Image extends Main {
                     tmp[i] |= ((pic[4 * i + 3] & 0xFF) << 24); // & 0xFF000000;
                 }
 
-                image.has_alpha = GL_Upload32(tmp, width, height, (image.type != it_pic && image.type != it_sky));
+                image.has_alpha = GL_Upload32(tmp, width, height, (image.type != PICTURE && image.type != SKY));
             }
             image.upload_width = upload_width; // after power of 2 and scales
             image.upload_height = upload_height;
@@ -1440,7 +1443,7 @@ public abstract class Image extends Main {
         byte[] pix = new byte[mt.width * mt.height];
         System.arraycopy(raw, mt.offsets[0], pix, 0, pix.length);
 
-        image = GL_LoadPic(name, pix, mt.width, mt.height, it_wall, 8);
+        image = GL_LoadPic(name, pix, mt.width, mt.height, WALL, 8);
 
         return image;
     }
@@ -1452,7 +1455,7 @@ public abstract class Image extends Main {
     Finds or loads the given image
     ===============
     */
-    image_t GL_FindImage(String name, int type) {
+    image_t GL_FindImage(String name, ImageType type) {
         image_t image;
 
 //        // TODO loest das grossschreibungs problem
@@ -1517,7 +1520,7 @@ public abstract class Image extends Main {
     ===============
     */
     protected image_t R_RegisterSkin(String name) {
-        return GL_FindImage(name, it_skin);
+        return GL_FindImage(name, SKIN);
     }
 
     IntBuffer texnumBuffer=BufferUtils.createIntBuffer(1);
@@ -1547,7 +1550,7 @@ public abstract class Image extends Main {
             if (image.registration_sequence == 0)
                 continue;
             // don't free pics
-            if (image.type == it_pic)
+            if (image.type == PICTURE)
                 continue;
 
             // free it

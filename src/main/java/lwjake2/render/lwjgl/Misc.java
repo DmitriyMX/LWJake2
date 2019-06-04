@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.VID;
@@ -36,6 +37,9 @@ import org.lwjgl.opengl.EXTPointParameters;
 import org.lwjgl.opengl.EXTSharedTexturePalette;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import static dmx.lwjake2.render.ImageType.SPRITE;
+import static dmx.lwjake2.render.ImageType.WALL;
 
 /**
  * Misc
@@ -81,7 +85,7 @@ public abstract class Misc extends Mesh {
 
             }
         }
-        r_particletexture = GL_LoadPic("***particle***", data, 8, 8, it_sprite, 32);
+        r_particletexture = GL_LoadPic("***particle***", data, 8, 8, SPRITE, 32);
 
         //
         // also use this for bad textures, but without alpha
@@ -96,7 +100,7 @@ public abstract class Misc extends Mesh {
                 data[y * 32 + x * 4 + 3] = (byte)255;
             }
         }
-        r_notexture = GL_LoadPic("***r_notexture***", data, 8, 8, it_wall, 32);
+        r_notexture = GL_LoadPic("***r_notexture***", data, 8, 8, WALL, 32);
     }
 
 //    /* 

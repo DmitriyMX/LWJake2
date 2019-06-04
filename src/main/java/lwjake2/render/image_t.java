@@ -18,7 +18,10 @@
 
 package lwjake2.render;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
+
+import static dmx.lwjake2.render.ImageType.SKIN;
 
 public class image_t {
     
@@ -30,8 +33,8 @@ public class image_t {
     
     // quake 2 variables
     public String name=""; // game path, including extension
-    // enum imagetype_t
-    public int type;
+
+    public ImageType type;
     public int width, height; // source image
     public int upload_width, upload_height; // after power of two and picmip
     public int registration_sequence; // 0 = free
@@ -51,7 +54,7 @@ public class image_t {
         // don't clear the id
         // wichtig !!!
         name = "";
-        type = 0;
+        type = SKIN;
         width = height = 0;
         upload_width = upload_height = 0;
         registration_sequence = 0; // 0 = free

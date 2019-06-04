@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
@@ -48,6 +49,8 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import org.lwjgl.BufferUtils;
+
+import static dmx.lwjake2.render.ImageType.*;
 
 /**
  * Model
@@ -546,7 +549,7 @@ public abstract class Model extends Surf {
 
             name = "textures/" +  in.texture + ".wal";
 
-            out[i].image = GL_FindImage(name, it_wall);
+            out[i].image = GL_FindImage(name, WALL);
             if (out[i].image == null) {
                 VID.Printf(Defines.PRINT_ALL, "Couldn't load " + name + '\n');
                 out[i].image = r_notexture;
@@ -1108,7 +1111,7 @@ public abstract class Model extends Surf {
             if (n > -1) {
                 skinNames[i] = skinNames[i].substring(0, n);
             }    
-            mod.skins[i] = GL_FindImage(skinNames[i], it_skin);
+            mod.skins[i] = GL_FindImage(skinNames[i], SKIN);
         }
         
         // set the model arrays
@@ -1157,7 +1160,7 @@ public abstract class Model extends Surf {
 
         for (int i=0 ; i<sprout.numframes ; i++)
         {
-            mod.skins[i] = GL_FindImage(sprout.frames[i].name,    it_sprite);
+            mod.skins[i] = GL_FindImage(sprout.frames[i].name, SPRITE);
         }
 
         mod.type = mod_sprite;
@@ -1219,13 +1222,13 @@ public abstract class Model extends Surf {
             {
                 sprout = (qfiles.dsprite_t)mod.extradata;
                 for (i=0 ; i<sprout.numframes ; i++)
-                    mod.skins[i] = GL_FindImage(sprout.frames[i].name, it_sprite);
+                    mod.skins[i] = GL_FindImage(sprout.frames[i].name, SPRITE);
             }
             else if (mod.type == mod_alias)
             {
                 pheader = (qfiles.dmdl_t)mod.extradata;
                 for (i=0 ; i<pheader.num_skins ; i++)
-                    mod.skins[i] = GL_FindImage(pheader.skinNames[i], it_skin);
+                    mod.skins[i] = GL_FindImage(pheader.skinNames[i], SKIN);
                 // PGM
                 mod.numframes = pheader.num_frames;
                 // PGM

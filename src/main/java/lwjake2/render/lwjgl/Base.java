@@ -46,17 +46,7 @@ public abstract class Base extends LWJGLBase {
      * 
      * model skin sprite frame wall texture pic
      */
-    // enum imagetype_t
-    static final int it_skin = 0;
-    
-    static final int it_sprite = 1;
-    
-    static final int it_wall = 2;
-    
-    static final int it_pic = 3;
-    
-    static final int it_sky = 4;
-    
+
     // enum modtype_t
     static final int mod_bad = 0;
     

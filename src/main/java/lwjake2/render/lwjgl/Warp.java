@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -29,6 +30,8 @@ import lwjake2.util.Math3D;
 import lwjake2.util.Vec3Cache;
 
 import org.lwjgl.opengl.GL11;
+
+import static dmx.lwjake2.render.ImageType.SKY;
 
 /**
  * Warp
@@ -693,7 +696,7 @@ public abstract class Warp extends Model {
                 pathname = "env/" + skyname + suf[i] + ".tga";
             }
 
-            sky_images[i] = GL_FindImage(pathname, it_sky);
+            sky_images[i] = GL_FindImage(pathname, SKY);
 
             if (sky_images[i] == null)
                 sky_images[i] = r_notexture;

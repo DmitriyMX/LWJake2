@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
@@ -30,6 +31,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.opengl.GL11;
+
+import static dmx.lwjake2.render.ImageType.PICTURE;
 
 /**
  * Draw
@@ -46,7 +49,7 @@ public abstract class Draw extends Image {
     */
     void Draw_InitLocal() {
         // load console characters (don't bilerp characters)
-        draw_chars = GL_FindImage("pics/conchars.pcx", it_pic);
+        draw_chars = GL_FindImage("pics/conchars.pcx", PICTURE);
         GL_Bind(draw_chars.texnum);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
@@ -103,9 +106,9 @@ public abstract class Draw extends Image {
         if (!name.startsWith("/") && !name.startsWith("\\"))
         {
             fullname = "pics/" + name + ".pcx";
-            image = GL_FindImage(fullname, it_pic);
+            image = GL_FindImage(fullname, PICTURE);
         } else {
-            image = GL_FindImage(name.substring(1), it_pic);
+            image = GL_FindImage(name.substring(1), PICTURE);
         }
         return image;
     }
