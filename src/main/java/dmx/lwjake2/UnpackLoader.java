@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -54,12 +55,18 @@ public class UnpackLoader {
 
     @Nullable
     public static ByteBuffer loadFileAsByteBuffer(String path) {
-        byte[] bytes = loadFile(path);
-        if (bytes == null) {
+        File file = getFile(path);
+        if (file == null) {
             return null;
         }
 
-        return ByteBuffer.wrap(bytes);
+        try {
+            RandomAccessFile raf = new RandomAccessFile(file, "r");
+            return raf.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+        } catch (IOException e) {
+            log.error("Can't load file '{}' as ByteBuffer: {}", file.getPath(), e.getMessage());
+            return null;
+        }
     }
 
     public static RandomAccessFile loadFileAsRAF(String path) {
