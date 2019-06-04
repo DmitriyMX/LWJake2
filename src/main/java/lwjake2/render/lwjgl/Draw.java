@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
@@ -39,6 +40,7 @@ import static dmx.lwjake2.render.ImageType.PICTURE;
  * 
  * @author cwei
  */
+@Slf4j
 public abstract class Draw extends Image {
 
     /*
@@ -137,7 +139,7 @@ public abstract class Draw extends Image {
         image = Draw_FindPic(pic);
         if (image == null)
         {
-            VID.Printf (Defines.PRINT_ALL, "Can't find pic: " + pic +'\n');
+            log.warn("Can't find pic: {}", pic);
             return;
         }
 
@@ -176,7 +178,7 @@ public abstract class Draw extends Image {
         image = Draw_FindPic(pic);
         if (image == null)
         {
-            VID.Printf(Defines.PRINT_ALL, "Can't find pic: " +pic + '\n');
+            log.warn("Can't find pic: {}", pic);
             return;
         }
         if (scrap_dirty)
@@ -216,7 +218,7 @@ public abstract class Draw extends Image {
         image = Draw_FindPic(pic);
         if (image == null)
         {
-            VID.Printf(Defines.PRINT_ALL, "Can't find pic: " + pic + '\n');
+            log.warn("Can't find pic: {}", pic);
             return;
         }
 

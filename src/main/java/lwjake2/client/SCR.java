@@ -1372,8 +1372,7 @@ public final class SCR {
         ByteBuffer raw = UnpackLoader.loadFileAsByteBuffer(filename);
 
         if (raw == null) {
-            VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename
-                    + '\n');
+            log.debug("Bad pcx file {}", filename);
             return 0;
         }
 
@@ -1384,7 +1383,7 @@ public final class SCR {
                 || pcx.bits_per_pixel != 8 || pcx.xmax >= 640
                 || pcx.ymax >= 480) {
 
-            VID.Printf(Defines.PRINT_ALL, "Bad pcx file " + filename + '\n');
+            log.warn("Bad pcx file {}", filename);
             return 0;
         }
 

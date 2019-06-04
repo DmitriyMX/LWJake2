@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import dmx.lwjake2.render.ModelType;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
@@ -57,6 +58,7 @@ import static dmx.lwjake2.render.ImageType.*;
  *  
  * @author cwei
  */
+@Slf4j
 public abstract class Model extends Surf {
 //    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
     
@@ -185,17 +187,17 @@ public abstract class Model extends Surf {
         int total;
 
         total = 0;
-        VID.Printf(Defines.PRINT_ALL,"Loaded models:\n");
+        log.info("Loaded models:");
         for (i=0; i < mod_numknown ; i++)
         {
             mod = mod_known[i];
             if (mod.name.length() == 0)
                 continue;
 
-            VID.Printf (Defines.PRINT_ALL, "%8i : %s\n", new Vargs(2).add(mod.extradatasize).add(mod.name));
+            log.info("{} : {}", mod.extradatasize, mod.name);
             total += mod.extradatasize;
         }
-        VID.Printf (Defines.PRINT_ALL, "Total resident: " + total +'\n');
+        log.info("Total resident: {}", total);
     }
 
     /*
@@ -551,7 +553,7 @@ public abstract class Model extends Surf {
 
             out[i].image = GL_FindImage(name, WALL);
             if (out[i].image == null) {
-                VID.Printf(Defines.PRINT_ALL, "Couldn't load " + name + '\n');
+                log.warn("Couldn't load {}", name);
                 out[i].image = r_notexture;
             }
         }

@@ -18,7 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
-import dmx.lwjake2.render.ImageType;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.VID;
@@ -46,6 +46,7 @@ import static dmx.lwjake2.render.ImageType.WALL;
  *  
  * @author cwei
  */
+@Slf4j
 public abstract class Misc extends Mesh {
     private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
@@ -138,7 +139,7 @@ public abstract class Misc extends Mesh {
             file = new File(sb.toString());
         }
         if (i == 100) {
-            VID.Printf(Defines.PRINT_ALL, "Clean up your screenshots\n");
+            log.info("Clean up your screenshots");
             return;
         }
         
@@ -190,20 +191,20 @@ public abstract class Misc extends Mesh {
             // close the file channel
             ch.close();
         } catch (IOException e) {
-            VID.Printf(Defines.PRINT_ALL, e.getMessage() + '\n');
+            log.error("{}", e.getMessage());
         }
 
-        VID.Printf(Defines.PRINT_ALL, "Wrote " + file + '\n');
-     } 
+        log.warn("Wrote {}", file);
+     }
 
     /*
     ** GL_Strings_f
     */
     void GL_Strings_f()    {
-        VID.Printf(Defines.PRINT_ALL, "GL_VENDOR: " + gl_config.vendor_string + '\n');
-        VID.Printf(Defines.PRINT_ALL, "GL_RENDERER: " + gl_config.renderer_string + '\n');
-        VID.Printf(Defines.PRINT_ALL, "GL_VERSION: " + gl_config.version_string + '\n');
-        VID.Printf(Defines.PRINT_ALL, "GL_EXTENSIONS: " + gl_config.extensions_string + '\n');
+        log.info("GL_VENDOR: {}", gl_config.vendor_string);
+        log.info("GL_RENDERER: {}", gl_config.renderer_string);
+        log.info("GL_VERSION: {}", gl_config.version_string);
+        log.info("GL_EXTENSIONS: {}", gl_config.extensions_string);
     }
 
     /*

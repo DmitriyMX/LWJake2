@@ -19,6 +19,7 @@
 package lwjake2.render.lwjgl;
 
 import dmx.lwjake2.render.ImageType;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import dmx.lwjake2.UnpackLoader;
@@ -38,6 +39,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBImaging;
@@ -52,6 +54,7 @@ import static dmx.lwjake2.render.ImageType.*;
  * 
  * @author cwei
  */
+@Slf4j
 public abstract class Image extends Main {
 //    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
@@ -251,7 +254,7 @@ public abstract class Image extends Main {
         }
 
         if (i == NUM_GL_MODES) {
-            VID.Printf(Defines.PRINT_ALL, "bad filter name: [" + string + "]\n");
+            log.warn("bad filter name: [{}]", string);
             return;
         }
 
@@ -285,7 +288,7 @@ public abstract class Image extends Main {
         }
 
         if (i == NUM_GL_ALPHA_MODES) {
-            VID.Printf(Defines.PRINT_ALL, "bad alpha texture mode name: [" + string + "]\n");
+            log.warn("bad alpha texture mode name: [{}]", string);
             return;
         }
 
@@ -305,7 +308,7 @@ public abstract class Image extends Main {
         }
 
         if (i == NUM_GL_SOLID_MODES) {
-            VID.Printf(Defines.PRINT_ALL, "bad solid texture mode name: [" + string + "]\n");
+            log.warn("bad solid texture mode name: [{}]", string);
             return;
         }
 
@@ -323,7 +326,9 @@ public abstract class Image extends Main {
         int texels;
         final String[] palstrings = { "RGB", "PAL" };
 
-        VID.Printf(Defines.PRINT_ALL, "------------------\n");
+        StringJoiner sj = new StringJoiner("");
+
+        sj.add("------------------\n");
         texels = 0;
 
         for (int i = 0; i < numgltextures; i++) {
@@ -334,29 +339,31 @@ public abstract class Image extends Main {
             texels += image.getUploadWidth() * image.getUploadHeight();
             switch (image.getType()) {
                 case SKIN:
-                    VID.Printf(Defines.PRINT_ALL, "M");
+                    sj.add("M");
                     break;
                 case SPRITE:
-                    VID.Printf(Defines.PRINT_ALL, "S");
+                    sj.add("S");
                     break;
                 case WALL:
-                    VID.Printf(Defines.PRINT_ALL, "W");
+                    sj.add("W");
                     break;
                 case PICTURE:
-                    VID.Printf(Defines.PRINT_ALL, "P");
+                    sj.add("P");
                     break;
                 default :
-                    VID.Printf(Defines.PRINT_ALL, " ");
+                    sj.add(" ");
                     break;
             }
 
-            VID.Printf(
-                Defines.PRINT_ALL,
-                " %3i %3i %s: %s\n",
-                new Vargs(4).add(image.getUploadWidth()).add(image.getUploadHeight()).add(palstrings[(image.isPaletted()) ? 1 : 0]).add(
-                    image.getName()));
+            sj.add(String.format(" %d %d %s: %s\n",
+                    image.getUploadWidth(),
+                    image.getUploadHeight(),
+                    palstrings[(image.isPaletted()) ? 1 : 0],
+                    image.getName()
+            ));
         }
-        VID.Printf(Defines.PRINT_ALL, "Total texel count (not counting mipmaps): " + texels + '\n');
+        log.warn(sj.toString());
+        log.warn("Total texel count (not counting mipmaps): {}", texels);
     }
 
     /*
@@ -455,7 +462,7 @@ public abstract class Image extends Main {
         byte[] raw = UnpackLoader.loadFile(filename);
 
         if (raw == null) {
-            VID.Printf(Defines.PRINT_DEVELOPER, "Bad pcx file " + filename + '\n');
+            log.debug("Bad pcx file {}", filename);
             return null;
         }
 
@@ -471,7 +478,7 @@ public abstract class Image extends Main {
             || pcx.xmax >= 640
             || pcx.ymax >= 480) {
 
-            VID.Printf(Defines.PRINT_ALL, "Bad pcx file " + filename + '\n');
+            log.warn("Bad pcx file {}", filename);
             return null;
         }
 
@@ -553,7 +560,7 @@ public abstract class Image extends Main {
         
         if (raw == null)
         {
-            VID.Printf(Defines.PRINT_DEVELOPER, "Bad tga file "+ name +'\n');
+            log.error("Bad tga file {}", name);
             return null;
         }
         
@@ -1115,7 +1122,7 @@ public abstract class Image extends Main {
         else if (samples == gl_alpha_format)
             comp = gl_tex_alpha_format;
         else {
-            VID.Printf(Defines.PRINT_ALL, "Unknown number of texture components " + samples + '\n');
+            log.warn("Unknown number of texture components {}", samples);
             comp = samples;
         }
 
@@ -1433,7 +1440,7 @@ public abstract class Image extends Main {
 
         byte[] raw = UnpackLoader.loadFile(name);
         if (raw == null) {
-            VID.Printf(Defines.PRINT_ALL, "GL_FindImage: can't load " + name + '\n');
+            log.warn("GL_FindImage: can't load {}", name);
             return r_notexture;
         }
 

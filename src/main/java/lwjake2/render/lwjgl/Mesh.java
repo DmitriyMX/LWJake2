@@ -18,6 +18,7 @@
 
 package lwjake2.render.lwjgl;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.entity_t;
@@ -37,6 +38,7 @@ import org.lwjgl.opengl.GL11;
  *  
  * @author cwei
  */
+@Slf4j
 public abstract class Mesh extends Light {
 
     // g_mesh.c: triangle model functions
@@ -313,11 +315,11 @@ public abstract class Mesh extends Light {
         qfiles.dmdl_t paliashdr = (qfiles.dmdl_t) currentmodel.extradata;
 
         if ((e.frame >= paliashdr.num_frames) || (e.frame < 0)) {
-            VID.Printf(Defines.PRINT_ALL, "R_CullAliasModel " + currentmodel.name + ": no such frame " + e.frame + '\n');
+            log.warn("R_CullAliasModel {}: no such frame {}", currentmodel.name,  e.frame);
             e.frame = 0;
         }
         if ((e.oldframe >= paliashdr.num_frames) || (e.oldframe < 0)) {
-            VID.Printf(Defines.PRINT_ALL, "R_CullAliasModel " + currentmodel.name + ": no such oldframe " + e.oldframe + '\n');
+            log.warn("R_CullAliasModel {}: no such oldframe {}", currentmodel.name, e.oldframe);
             e.oldframe = 0;
         }
 
@@ -628,7 +630,7 @@ public abstract class Mesh extends Light {
         if ( (currententity.frame >= paliashdr.num_frames) 
             || (currententity.frame < 0) )
         {
-            VID.Printf (Defines.PRINT_ALL, "R_DrawAliasModel " + currentmodel.name +": no such frame " + currententity.frame + '\n');
+            log.warn("R_DrawAliasModel {}: no such frame {}", currentmodel.name, currententity.frame);
             currententity.frame = 0;
             currententity.oldframe = 0;
         }
@@ -636,7 +638,7 @@ public abstract class Mesh extends Light {
         if ( (currententity.oldframe >= paliashdr.num_frames)
             || (currententity.oldframe < 0))
         {
-            VID.Printf (Defines.PRINT_ALL, "R_DrawAliasModel " + currentmodel.name +": no such oldframe " + currententity.oldframe + '\n');
+            log.warn("R_DrawAliasModel {}: no such oldframe {}", currentmodel.name, currententity.oldframe);
             currententity.frame = 0;
             currententity.oldframe = 0;
         }

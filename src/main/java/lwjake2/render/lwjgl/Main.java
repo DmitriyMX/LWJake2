@@ -861,10 +861,12 @@ public abstract class Main extends Base {
         R_Flash();
 
         if (r_speeds.value != 0.0f) {
-            VID.Printf(
-                Defines.PRINT_ALL,
-                "%4i wpoly %4i epoly %i tex %i lmaps\n",
-                new Vargs(4).add(c_brush_polys).add(c_alias_polys).add(c_visible_textures).add(c_visible_lightmaps));
+            log.info("{} wpoly {} epoly {} tex {} lmaps",
+                    c_brush_polys,
+                    c_alias_polys,
+                    c_visible_textures,
+                    c_visible_lightmaps
+            );
         }
     }
 
@@ -1259,11 +1261,9 @@ public abstract class Main extends Base {
         Draw_InitLocal();
 
         int err = GL11.glGetError();
-        if (err != GL11.GL_NO_ERROR)
-            VID.Printf(
-                Defines.PRINT_ALL,
-                "glGetError() = 0x%x\n\t%s\n",
-                new Vargs(2).add(err).add("" + GL11.glGetString(err)));
+        if (err != GL11.GL_NO_ERROR) {
+            log.warn("glGetError() = 0x{} : {}", Integer.toHexString(err), GL11.glGetString(err));
+        }
 
         return true;
     }
@@ -1334,7 +1334,7 @@ public abstract class Main extends Base {
                 Com_sprintf( envbuffer, sizeof(envbuffer), "SST_GAMMA=%f", g );
                 putenv( envbuffer );
                 */
-                VID.Printf(Defines.PRINT_DEVELOPER, "gamma anpassung fuer VOODOO nicht gesetzt");
+                log.debug("gamma anpassung fuer VOODOO nicht gesetzt");
             }
         }
 

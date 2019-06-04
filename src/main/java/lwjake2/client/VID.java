@@ -79,22 +79,6 @@ public class VID {
     ==========================================================================
     */
 
-    public static void Printf(int print_level, String fmt) {
-        while (fmt.startsWith("\n")) { fmt = fmt.substring(1); }
-        while (fmt.endsWith("\n")) { fmt = fmt.substring(0, fmt.lastIndexOf("\n")); }
-        while (fmt.endsWith("\r")) { fmt = fmt.substring(0, fmt.lastIndexOf("\r")); }
-        fmt = fmt.trim();
-        log.warn("{}", fmt);
-    }
-
-    public static void Printf(int print_level, String fmt, Vargs vargs) {
-        // static qboolean inupdate;
-        if (print_level == Defines.PRINT_ALL)
-            Com.Printf(fmt, vargs);
-        else
-            Com.DPrintf(fmt, vargs);
-    }
-
     // ==========================================================================
 
     /*

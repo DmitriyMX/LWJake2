@@ -19,6 +19,7 @@
 package lwjake2.render;
 
 import dmx.lwjake2.render.Q2Image;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.refdef_t;
@@ -34,6 +35,7 @@ import java.awt.Dimension;
  * 
  * @author dsanders/cwei
  */
+@Slf4j
 final class LWJGLRenderer extends Misc implements refexport_t, Ref {
     
     private LWJGLKBD kbd=new LWJGLKBD();
@@ -63,7 +65,7 @@ final class LWJGLRenderer extends Misc implements refexport_t, Ref {
         // post init        
         boolean ok = R_Init2();
         if (!ok) {
-            VID.Printf(Defines.PRINT_ALL, "Missing multi-texturing for LWJGL renderer\n");
+            log.warn("Missing multi-texturing for LWJGL renderer");
         }
         return ok;
     }
