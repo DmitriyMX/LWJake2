@@ -22,7 +22,7 @@ import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.entity_t;
 import lwjake2.qcommon.qfiles;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.util.Math3D;
 
 import java.nio.FloatBuffer;
@@ -595,7 +595,7 @@ public abstract class Mesh extends Light {
 
         
         
-        image_t        skin;
+        Q2Image skin;
         // select skin
         if (currententity.skin != null)
             skin = currententity.skin;    // custom player skin
@@ -612,7 +612,7 @@ public abstract class Mesh extends Light {
         }
         if (skin == null)
             skin = r_notexture;    // fallback...
-        GL_Bind(skin.texnum);
+        GL_Bind(skin.getTexNum());
 
         // draw it
 

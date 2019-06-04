@@ -18,13 +18,12 @@
 
 package lwjake2.render.lwjgl;
 
-import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
 import lwjake2.qcommon.Com;
 import lwjake2.render.glpoly_t;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.msurface_t;
 import lwjake2.util.Math3D;
 import lwjake2.util.Vec3Cache;
@@ -78,7 +77,7 @@ public abstract class Warp extends Model {
     String skyname;
     float    skyrotate;
     float[] skyaxis = {0, 0, 0};
-    image_t[] sky_images = new image_t[6];
+    Q2Image[] sky_images = new Q2Image[6];
 
     msurface_t    warpface;
 
@@ -652,7 +651,7 @@ public abstract class Warp extends Model {
             || skymins[1][i] >= skymaxs[1][i])
                 continue;
 
-            GL_Bind(sky_images[skytexorder[i]].texnum);
+            GL_Bind(sky_images[skytexorder[i]].getTexNum());
 
             GL11.glBegin(GL11.GL_QUADS);
             MakeSkyVec(skymins[0][i], skymins[1][i], i);

@@ -18,6 +18,7 @@
 
 package lwjake2.render;
 
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.Defines;
 import lwjake2.client.VID;
 import lwjake2.client.refdef_t;
@@ -91,14 +92,14 @@ final class LWJGLRenderer extends Misc implements refexport_t, Ref {
     /** 
      * @see jake2.client.refexport_t#RegisterSkin(java.lang.String)
      */
-    public final image_t RegisterSkin(String name) {
+    public final Q2Image RegisterSkin(String name) {
         return R_RegisterSkin(name);
     }
     
     /** 
      * @see jake2.client.refexport_t#RegisterPic(java.lang.String)
      */
-    public final image_t RegisterPic(String name) {
+    public final Q2Image RegisterPic(String name) {
         return Draw_FindPic(name);
     }
     /** 

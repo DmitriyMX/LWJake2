@@ -26,7 +26,7 @@ import lwjake2.client.VID;
 import lwjake2.client.particle_t;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.util.Lib;
 import lwjake2.util.Vargs;
 
@@ -55,10 +55,10 @@ import static dmx.lwjake2.render.ImageType.*;
 public abstract class Image extends Main {
 //    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
-    image_t draw_chars;
+    Q2Image draw_chars;
 
-    image_t[] gltextures = new image_t[MAX_GLTEXTURES];
-    //Map gltextures = new Hashtable(MAX_GLTEXTURES); // image_t
+    Q2Image[] gltextures = new Q2Image[MAX_GLTEXTURES];
+    //Map gltextures = new Hashtable(MAX_GLTEXTURES); // Q2Image
     int numgltextures;
 
     byte[] intensitytable = new byte[256];
@@ -84,7 +84,7 @@ public abstract class Image extends Main {
         // init the texture cache
         for (int i = 0; i < gltextures.length; i++)
         {
-            gltextures[i] = new image_t(i);
+            gltextures[i] = new Q2Image(i);
         }
         numgltextures = 0;
     }
@@ -154,7 +154,7 @@ public abstract class Image extends Main {
 
         if ((gl_nobind.value != 0) && (draw_chars != null)) {
             // performance evaluation option
-            texnum = draw_chars.texnum;
+            texnum = draw_chars.getTexNum();
         }
         if (gl_state.currenttextures[gl_state.currenttmu] == texnum)
             return;
@@ -258,13 +258,13 @@ public abstract class Image extends Main {
         gl_filter_min = modes[i].minimize;
         gl_filter_max = modes[i].maximize;
 
-        image_t glt;
+        Q2Image glt;
         // change all the existing mipmap texture objects
         for (i = 0; i < numgltextures; i++) {
             glt = gltextures[i];
 
-            if (glt.type != PICTURE && glt.type != SKY) {
-                GL_Bind(glt.texnum);
+            if (glt.getType() != PICTURE && glt.getType() != SKY) {
+                GL_Bind(glt.getTexNum());
                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, gl_filter_min);
                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, gl_filter_max);
             }
@@ -319,7 +319,7 @@ public abstract class Image extends Main {
     */
     void GL_ImageList_f() {
 
-        image_t image;
+        Q2Image image;
         int texels;
         final String[] palstrings = { "RGB", "PAL" };
 
@@ -328,11 +328,11 @@ public abstract class Image extends Main {
 
         for (int i = 0; i < numgltextures; i++) {
             image = gltextures[i];
-            if (image.texnum <= 0)
+            if (image.getTexNum() <= 0)
                 continue;
 
-            texels += image.upload_width * image.upload_height;
-            switch (image.type) {
+            texels += image.getUploadWidth() * image.getUploadHeight();
+            switch (image.getType()) {
                 case SKIN:
                     VID.Printf(Defines.PRINT_ALL, "M");
                     break;
@@ -353,8 +353,8 @@ public abstract class Image extends Main {
             VID.Printf(
                 Defines.PRINT_ALL,
                 " %3i %3i %s: %s\n",
-                new Vargs(4).add(image.upload_width).add(image.upload_height).add(palstrings[(image.paletted) ? 1 : 0]).add(
-                    image.name));
+                new Vargs(4).add(image.getUploadWidth()).add(image.getUploadHeight()).add(palstrings[(image.isPaletted()) ? 1 : 0]).add(
+                    image.getName()));
         }
         VID.Printf(Defines.PRINT_ALL, "Total texel count (not counting mipmaps): " + texels + '\n');
     }
@@ -1021,7 +1021,7 @@ public abstract class Image extends Main {
     ===============
     GL_Upload32
     
-    Returns has_alpha
+    Returns alpha
     ===============
     */
     void GL_BuildPalettedTexture(ByteBuffer paletted_texture, int[] scaled, int scaled_width, int scaled_height) {
@@ -1048,7 +1048,7 @@ public abstract class Image extends Main {
     ===============
     GL_Upload32
     
-    Returns has_alpha
+    Returns alpha
     ===============
     */
     int[] scaled = new int[256 * 256];
@@ -1244,7 +1244,7 @@ public abstract class Image extends Main {
     ===============
     GL_Upload8
     
-    Returns has_alpha
+    Returns alpha
     ===============
     */
 
@@ -1308,15 +1308,15 @@ public abstract class Image extends Main {
     This is also used as an entry point for the generated r_notexture
     ================
     */
-    image_t GL_LoadPic(String name, byte[] pic, int width, int height, ImageType type, int bits) {
-        image_t image;
+    Q2Image GL_LoadPic(String name, byte[] pic, int width, int height, ImageType type, int bits) {
+        Q2Image image;
         int i;
 
-        // find a free image_t
+        // find a free Q2Image
         for (i = 0; i<numgltextures ; i++)
         {
             image = gltextures[i];
-            if (image.texnum == 0)
+            if (image.getTexNum() == 0)
                 break;
         }
 
@@ -1332,42 +1332,41 @@ public abstract class Image extends Main {
         if (name.length() > Defines.MAX_QPATH)
             Com.Error(ErrorCode.ERR_DROP, "Draw_LoadPic: \"" + name + "\" is too long");
 
-        image.name = name;
-        image.registration_sequence = registration_sequence;
+        image.setName(name);
+        image.setRegistrationSequence(registration_sequence);
 
-        image.width = width;
-        image.height = height;
-        image.type = type;
+        image.setWidth(width);
+        image.setHeight(height);
+        image.setType(type);
 
 
-        if (image.type == SKIN && bits == 8)
+        if (image.getType() == SKIN && bits == 8)
             R_FloodFillSkin(pic, width, height);
 
         // load little pics into the scrap
-        if (image.type == PICTURE && bits == 8 && image.width < 64 && image.height < 64) {
+        if (image.getType() == PICTURE && bits == 8 && image.getWidth() < 64 && image.getHeight() < 64) {
             pos_t pos = new pos_t(0, 0);
             int j, k;
 
-            int texnum = Scrap_AllocBlock(image.width, image.height, pos);
+            int texnum = Scrap_AllocBlock(image.getWidth(), image.getHeight(), pos);
 
             if (texnum == -1) {
                 // replace goto nonscrap
 
-                image.scrap = false;
+                image.setScrap(false);
                 
-                image.texnum = TEXNUM_IMAGES + image.getId(); // image pos in array
-                GL_Bind(image.texnum);
+                image.setTexNum(TEXNUM_IMAGES + image.getId()); // image pos in array
+                GL_Bind(image.getTexNum());
 
-                image.has_alpha =
-                    GL_Upload8(pic, width, height, (image.type != PICTURE && image.type != SKY), image.type == SKY);
+                image.setAlpha(GL_Upload8(pic, width, height, (image.getType() != PICTURE && image.getType() != SKY), image.getType() == SKY));
 
-                image.upload_width = upload_width; // after power of 2 and scales
-                image.upload_height = upload_height;
-                image.paletted = uploaded_paletted;
-                image.sl = 0;
-                image.sh = 1;
-                image.tl = 0;
-                image.th = 1;
+                image.setUploadWidth(upload_width); // after power of 2 and scales
+                image.setUploadHeight(upload_height);
+                image.setPaletted(uploaded_paletted);
+                image.setSl(0);
+                image.setSh(1);
+                image.setTl(0);
+                image.setTh(1);
 
                 return image;
             }
@@ -1376,29 +1375,29 @@ public abstract class Image extends Main {
 
             // copy the texels into the scrap block
             k = 0;
-            for (i = 0; i < image.height; i++)
-                for (j = 0; j < image.width; j++, k++)
+            for (i = 0; i < image.getHeight(); i++)
+                for (j = 0; j < image.getWidth(); j++, k++)
                     scrap_texels[texnum][(pos.y + i) * BLOCK_WIDTH + pos.x + j] = pic[k];
 
-            image.texnum = TEXNUM_SCRAPS + texnum;
-            image.scrap = true;
-            image.has_alpha = true;
-            image.sl = (pos.x + 0.01f) / (float) BLOCK_WIDTH;
-            image.sh = (pos.x + image.width - 0.01f) / (float) BLOCK_WIDTH;
-            image.tl = (pos.y + 0.01f) / (float) BLOCK_WIDTH;
-            image.th = (pos.y + image.height - 0.01f) / (float) BLOCK_WIDTH;
+            image.setTexNum(TEXNUM_SCRAPS + texnum);
+            image.setScrap(true);
+            image.setAlpha(true);
+            image.setSl((pos.x + 0.01f) / (float) BLOCK_WIDTH);
+            image.setSh((pos.x + image.getWidth() - 0.01f) / (float) BLOCK_WIDTH);
+            image.setTl((pos.y + 0.01f) / (float) BLOCK_WIDTH);
+            image.setTh((pos.y + image.getHeight() - 0.01f) / (float) BLOCK_WIDTH);
 
         }
         else {
             // this was label nonscrap
 
-            image.scrap = false;
+            image.setScrap(false);
 
-            image.texnum = TEXNUM_IMAGES + image.getId(); //image pos in array
-            GL_Bind(image.texnum);
+            image.setTexNum(TEXNUM_IMAGES + image.getId()); //image pos in array
+            GL_Bind(image.getTexNum());
 
             if (bits == 8) {
-                image.has_alpha = GL_Upload8(pic, width, height, (image.type != PICTURE && image.type != SKY), image.type == SKY);
+                image.setAlpha(GL_Upload8(pic, width, height, (image.getType() != PICTURE && image.getType() != SKY), image.getType() == SKY));
             }
             else {
                 int[] tmp = new int[pic.length / 4];
@@ -1410,15 +1409,15 @@ public abstract class Image extends Main {
                     tmp[i] |= ((pic[4 * i + 3] & 0xFF) << 24); // & 0xFF000000;
                 }
 
-                image.has_alpha = GL_Upload32(tmp, width, height, (image.type != PICTURE && image.type != SKY));
+                image.setAlpha(GL_Upload32(tmp, width, height, (image.getType() != PICTURE && image.getType() != SKY)));
             }
-            image.upload_width = upload_width; // after power of 2 and scales
-            image.upload_height = upload_height;
-            image.paletted = uploaded_paletted;
-            image.sl = 0;
-            image.sh = 1;
-            image.tl = 0;
-            image.th = 1;
+            image.setUploadWidth(upload_width); // after power of 2 and scales
+            image.setUploadHeight(upload_height);
+            image.setPaletted(uploaded_paletted);
+            image.setSl(0);
+            image.setSh(1);
+            image.setTl(0);
+            image.setTh(1);
         }
         return image;
     }
@@ -1428,9 +1427,9 @@ public abstract class Image extends Main {
     GL_LoadWal
     ================
     */
-    image_t GL_LoadWal(String name) {
+    Q2Image GL_LoadWal(String name) {
 
-        image_t image;
+        Q2Image image;
 
         byte[] raw = UnpackLoader.loadFile(name);
         if (raw == null) {
@@ -1455,8 +1454,8 @@ public abstract class Image extends Main {
     Finds or loads the given image
     ===============
     */
-    image_t GL_FindImage(String name, ImageType type) {
-        image_t image;
+    Q2Image GL_FindImage(String name, ImageType type) {
+        Q2Image image;
 
 //        // TODO loest das grossschreibungs problem
 //        name = name.toLowerCase();
@@ -1473,9 +1472,9 @@ public abstract class Image extends Main {
         for (int i = 0; i < numgltextures; i++)
         {
             image = gltextures[i];
-            if (name.equals(image.name))
+            if (name.equals(image.getName()))
             {
-                 image.registration_sequence = registration_sequence;
+                 image.setRegistrationSequence(registration_sequence);
                  return image;
             }
         }
@@ -1519,7 +1518,7 @@ public abstract class Image extends Main {
     R_RegisterSkin
     ===============
     */
-    protected image_t R_RegisterSkin(String name) {
+    protected Q2Image R_RegisterSkin(String name) {
         return GL_FindImage(name, SKIN);
     }
 
@@ -1536,27 +1535,27 @@ public abstract class Image extends Main {
     void GL_FreeUnusedImages() {
 
         // never free r_notexture or particle texture
-        r_notexture.registration_sequence = registration_sequence;
-        r_particletexture.registration_sequence = registration_sequence;
+        r_notexture.setRegistrationSequence(registration_sequence);
+        r_particletexture.setRegistrationSequence(registration_sequence);
 
-        image_t image;
+        Q2Image image;
 
         for (int i = 0; i < numgltextures; i++) {
             image = gltextures[i];
             // used this sequence
-            if (image.registration_sequence == registration_sequence)
+            if (image.getRegistrationSequence() == registration_sequence)
                 continue;
-            // free image_t slot
-            if (image.registration_sequence == 0)
+            // free Q2Image slot
+            if (image.getRegistrationSequence() == 0)
                 continue;
             // don't free pics
-            if (image.type == PICTURE)
+            if (image.getType() == PICTURE)
                 continue;
 
             // free it
             // TODO jogl bug
             texnumBuffer.clear();
-            texnumBuffer.put(0,image.texnum);
+            texnumBuffer.put(0, image.getTexNum());
             GL11.glDeleteTextures(texnumBuffer);
             image.clear();
         }
@@ -1655,18 +1654,18 @@ public abstract class Image extends Main {
     ===============
     */
     void GL_ShutdownImages() {
-        image_t image;
+        Q2Image image;
         
         for (int i=0; i < numgltextures ; i++)
         {
             image = gltextures[i];
             
-            if (image.registration_sequence == 0)
-                   continue; // free image_t slot
+            if (image.getRegistrationSequence() == 0)
+                   continue; // free Q2Image slot
             // free it
             // TODO jogl bug
             texnumBuffer.clear();
-            texnumBuffer.put(0,image.texnum);
+            texnumBuffer.put(0, image.getTexNum());
             GL11.glDeleteTextures(texnumBuffer);
               image.clear();
         }

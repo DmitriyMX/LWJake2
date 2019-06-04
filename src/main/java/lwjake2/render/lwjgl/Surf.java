@@ -26,7 +26,7 @@ import lwjake2.client.lightstyle_t;
 import lwjake2.game.cplane_t;
 import lwjake2.qcommon.Com;
 import lwjake2.render.glpoly_t;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.medge_t;
 import lwjake2.render.mleaf_t;
 import lwjake2.render.mnode_t;
@@ -124,7 +124,7 @@ public abstract class Surf extends Draw {
      * R_TextureAnimation
      * Returns the proper texture for a given time and base texture
      */
-    image_t R_TextureAnimation(mtexinfo_t tex)
+    Q2Image R_TextureAnimation(mtexinfo_t tex)
     {
         if (tex.next == null)
             return tex.image;
@@ -204,11 +204,11 @@ public abstract class Surf extends Draw {
     {
         c_brush_polys++;
 
-        image_t image = R_TextureAnimation(fa.texinfo);
+        Q2Image image = R_TextureAnimation(fa.texinfo);
 
         if ((fa.flags & Defines.SURF_DRAWTURB) != 0)
         {    
-            GL_Bind( image.texnum );
+            GL_Bind(image.getTexNum());
 
             // warp texture, no lightmaps
             GL_TexEnv( GL11.GL_MODULATE );
@@ -223,7 +223,7 @@ public abstract class Surf extends Draw {
         }
         else
         {
-            GL_Bind( image.texnum );
+            GL_Bind(image.getTexNum());
             GL_TexEnv( GL11.GL_REPLACE );
         }
 
@@ -331,7 +331,7 @@ public abstract class Surf extends Draw {
 
         for (msurface_t s = r_alpha_surfaces ; s != null ; s=s.texturechain)
         {
-            GL_Bind(s.texinfo.image.texnum);
+            GL_Bind(s.texinfo.image.getTexNum());
             c_brush_polys++;
             if ((s.texinfo.flags & Defines.SURF_TRANS33) != 0)
                 GL11.glColor4f (intens, intens, intens, 0.33f);
@@ -362,19 +362,19 @@ public abstract class Surf extends Draw {
         c_visible_textures = 0;
 
         msurface_t    s;
-        image_t image;
+        Q2Image image;
         int i;
         for (i = 0; i < numgltextures ; i++)
         {
             image = gltextures[i];
 
-            if (image.registration_sequence == 0)
+            if (image.getRegistrationSequence() == 0)
                 continue;
-            if (image.texturechain == null)
+            if (image.getTextureChain() == null)
                 continue;
             c_visible_textures++;
 
-            for ( s = image.texturechain; s != null ; s=s.texturechain)
+            for (s = image.getTextureChain(); s != null ; s=s.texturechain)
             {
                 if ( ( s.flags & Defines.SURF_DRAWTURB) == 0 )
                     R_RenderBrushPoly(s);
@@ -386,9 +386,9 @@ public abstract class Surf extends Draw {
         {
             image = gltextures[i];
 
-            if (image.registration_sequence == 0)
+            if (image.getRegistrationSequence() == 0)
                 continue;
-            s = image.texturechain;
+            s = image.getTextureChain();
             if (s == null)
                 continue;
 
@@ -398,7 +398,7 @@ public abstract class Surf extends Draw {
                     R_RenderBrushPoly(s);
             }
 
-            image.texturechain = null;
+            image.setTextureChain(null);
         }
 
         GL_TexEnv( GL11.GL_REPLACE );
@@ -443,7 +443,7 @@ public abstract class Surf extends Draw {
         }
 
         glpoly_t p;
-        image_t image = R_TextureAnimation( surf.texinfo );
+        Q2Image image = R_TextureAnimation( surf.texinfo );
         int lmtex = surf.lightmaptexturenum;
 
         if ( is_dynamic )
@@ -491,7 +491,7 @@ public abstract class Surf extends Draw {
 
             c_brush_polys++;
 
-            GL_MBind( GL_TEXTURE0, image.texnum );
+            GL_MBind( GL_TEXTURE0, image.getTexNum());
             GL_MBind( GL_TEXTURE1, gl_state.lightmap_textures + lmtex );
 
             // ==========
@@ -525,7 +525,7 @@ public abstract class Surf extends Draw {
         {
             c_brush_polys++;
 
-            GL_MBind( GL_TEXTURE0, image.texnum );
+            GL_MBind( GL_TEXTURE0, image.getTexNum());
             GL_MBind( GL_TEXTURE1, gl_state.lightmap_textures + lmtex);
             
             // ==========
@@ -805,7 +805,7 @@ public abstract class Surf extends Draw {
 
         // draw stuff
         msurface_t surf;
-        image_t image;
+        Q2Image image;
         //for ( c = node.numsurfaces, surf = r_worldmodel.surfaces[node.firstsurface]; c != 0 ; c--, surf++)
         for ( c = 0; c < node.numsurfaces; c++)
         {
@@ -837,8 +837,8 @@ public abstract class Surf extends Draw {
                     // sorted chain
                     // FIXME: this is a hack for animation
                     image = R_TextureAnimation(surf.texinfo);
-                    surf.texturechain = image.texturechain;
-                    image.texturechain = surf;
+                    surf.texturechain = image.getTextureChain();
+                    image.setTextureChain(surf);
                 }
             }
         }
@@ -1119,10 +1119,10 @@ public abstract class Surf extends Draw {
                 vec = currentmodel.vertexes[r_pedge.v[1]].position;
             }
             s = Math3D.DotProduct (vec, fa.texinfo.vecs[0]) + fa.texinfo.vecs[0][3];
-            s /= fa.texinfo.image.width;
+            s /= fa.texinfo.image.getWidth();
 
             t = Math3D.DotProduct (vec, fa.texinfo.vecs[1]) + fa.texinfo.vecs[1][3];
-            t /= fa.texinfo.image.height;
+            t /= fa.texinfo.image.getHeight();
 
             poly.x(i, vec[0]);
             poly.y(i, vec[1]);

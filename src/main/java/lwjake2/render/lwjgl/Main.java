@@ -21,7 +21,6 @@ package lwjake2.render.lwjgl;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
-import lwjake2.Globals;
 import lwjake2.client.VID;
 import lwjake2.client.entity_t;
 import lwjake2.client.particle_t;
@@ -34,7 +33,7 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.qfiles;
 import lwjake2.render.glconfig_t;
 import lwjake2.render.glstate_t;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.mleaf_t;
 import lwjake2.render.model_t;
 import lwjake2.util.Math3D;
@@ -127,8 +126,8 @@ public abstract class Main extends Base {
     glconfig_t gl_config = new glconfig_t();
     glstate_t gl_state = new glstate_t();
 
-    image_t r_notexture; // use for bad textures
-    image_t r_particletexture; // little dot for particles
+    Q2Image r_notexture; // use for bad textures
+    Q2Image r_particletexture; // little dot for particles
 
     entity_t currententity;
     model_t currentmodel;
@@ -295,7 +294,7 @@ public abstract class Main extends Base {
 
         GL11.glColor4f(1, 1, 1, alpha);
 
-        GL_Bind(currentmodel.skins[e.frame].texnum);
+        GL_Bind(currentmodel.skins[e.frame].getTexNum());
 
         GL_TexEnv(GL11.GL_MODULATE);
 
@@ -472,7 +471,7 @@ public abstract class Main extends Base {
         Math3D.VectorScale(vup, 1.5f, up);
         Math3D.VectorScale(vright, 1.5f, right);
         
-        GL_Bind(r_particletexture.texnum);
+        GL_Bind(r_particletexture.getTexNum());
         GL11.glDepthMask(false); // no z buffering
         GL11.glEnable(GL11.GL_BLEND);
         GL_TexEnv(GL11.GL_MODULATE);

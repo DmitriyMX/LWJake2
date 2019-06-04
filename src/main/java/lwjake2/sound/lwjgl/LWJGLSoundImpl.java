@@ -410,7 +410,7 @@ public final class LWJGLSoundImpl implements Sound {
         // find a free sfx
         for (i = 0; i < num_sfx; i++)
             if (known_sfx[i].name == null)
-                // registration_sequence < s_registration_sequence)
+                // registrationSequence < s_registration_sequence)
                 break;
 
         if (i == num_sfx) {

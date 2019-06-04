@@ -18,12 +18,11 @@
 
 package lwjake2.render.lwjgl;
 
-import dmx.lwjake2.render.ImageType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.client.VID;
 import lwjake2.qcommon.Com;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.util.Lib;
 
 import java.awt.Dimension;
@@ -50,7 +49,7 @@ public abstract class Draw extends Image {
     void Draw_InitLocal() {
         // load console characters (don't bilerp characters)
         draw_chars = GL_FindImage("pics/conchars.pcx", PICTURE);
-        GL_Bind(draw_chars.texnum);
+        GL_Bind(draw_chars.getTexNum());
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
     }
@@ -79,7 +78,7 @@ public abstract class Draw extends Image {
         float fcol = col*0.0625f;
         float size = 0.0625f;
 
-        GL_Bind(draw_chars.texnum);
+        GL_Bind(draw_chars.getTexNum());
 
         GL11.glBegin (GL11.GL_QUADS);
         GL11.glTexCoord2f (fcol, frow);
@@ -99,8 +98,8 @@ public abstract class Draw extends Image {
     Draw_FindPic
     =============
     */
-    protected image_t Draw_FindPic(String name) {
-        image_t image = null;
+    protected Q2Image Draw_FindPic(String name) {
+        Q2Image image = null;
         String fullname;
 
         if (!name.startsWith("/") && !name.startsWith("\\"))
@@ -121,9 +120,9 @@ public abstract class Draw extends Image {
     */
     protected void Draw_GetPicSize(Dimension dim, String pic)    {
 
-        image_t image = Draw_FindPic(pic);
-        dim.width = (image != null) ? image.width : -1;
-        dim.height = (image != null) ? image.height : -1;
+        Q2Image image = Draw_FindPic(pic);
+        dim.width = (image != null) ? image.getWidth() : -1;
+        dim.height = (image != null) ? image.getHeight() : -1;
     }
 
     /*
@@ -133,7 +132,7 @@ public abstract class Draw extends Image {
     */
     protected void Draw_StretchPic (int x, int y, int w, int h, String pic) {
         
-        image_t image;
+        Q2Image image;
 
         image = Draw_FindPic(pic);
         if (image == null)
@@ -145,22 +144,22 @@ public abstract class Draw extends Image {
         if (scrap_dirty)
             Scrap_Upload();
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0) ) && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0) ) && !image.isAlpha())
             GL11.glDisable(GL11.GL_ALPHA_TEST);
 
-        GL_Bind(image.texnum);
+        GL_Bind(image.getTexNum());
         GL11.glBegin (GL11.GL_QUADS);
-        GL11.glTexCoord2f (image.sl, image.tl);
+        GL11.glTexCoord2f (image.getSl(), image.getTl());
         GL11.glVertex2f (x, y);
-        GL11.glTexCoord2f (image.sh, image.tl);
+        GL11.glTexCoord2f (image.getSh(), image.getTl());
         GL11.glVertex2f (x+w, y);
-        GL11.glTexCoord2f (image.sh, image.th);
+        GL11.glTexCoord2f (image.getSh(), image.getTh());
         GL11.glVertex2f (x+w, y+h);
-        GL11.glTexCoord2f (image.sl, image.th);
+        GL11.glTexCoord2f (image.getSl(), image.getTh());
         GL11.glVertex2f (x, y+h);
         GL11.glEnd ();
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) !=0 ) ) && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) !=0 ) ) && !image.isAlpha())
             GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
 
@@ -172,7 +171,7 @@ public abstract class Draw extends Image {
     */
     protected void Draw_Pic(int x, int y, String pic)
     {
-        image_t image;
+        Q2Image image;
 
         image = Draw_FindPic(pic);
         if (image == null)
@@ -183,23 +182,23 @@ public abstract class Draw extends Image {
         if (scrap_dirty)
             Scrap_Upload();
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) ) && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) ) && !image.isAlpha())
             GL11.glDisable (GL11.GL_ALPHA_TEST);
 
-        GL_Bind(image.texnum);
+        GL_Bind(image.getTexNum());
 
         GL11.glBegin (GL11.GL_QUADS);
-        GL11.glTexCoord2f (image.sl, image.tl);
+        GL11.glTexCoord2f (image.getSl(), image.getTl());
         GL11.glVertex2f (x, y);
-        GL11.glTexCoord2f (image.sh, image.tl);
-        GL11.glVertex2f (x+image.width, y);
-        GL11.glTexCoord2f (image.sh, image.th);
-        GL11.glVertex2f (x+image.width, y+image.height);
-        GL11.glTexCoord2f (image.sl, image.th);
-        GL11.glVertex2f (x, y+image.height);
+        GL11.glTexCoord2f (image.getSh(), image.getTl());
+        GL11.glVertex2f (x+image.getWidth(), y);
+        GL11.glTexCoord2f (image.getSh(), image.getTh());
+        GL11.glVertex2f (x+image.getWidth(), y+ image.getHeight());
+        GL11.glTexCoord2f (image.getSl(), image.getTh());
+        GL11.glVertex2f (x, y+image.getHeight());
         GL11.glEnd ();
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.isAlpha())
             GL11.glEnable (GL11.GL_ALPHA_TEST);
     }
 
@@ -212,7 +211,7 @@ public abstract class Draw extends Image {
     =============
     */
     protected void Draw_TileClear(int x, int y, int w, int h, String pic) {
-        image_t    image;
+        Q2Image image;
 
         image = Draw_FindPic(pic);
         if (image == null)
@@ -221,10 +220,10 @@ public abstract class Draw extends Image {
             return;
         }
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.isAlpha())
             GL11.glDisable(GL11.GL_ALPHA_TEST);
 
-        GL_Bind(image.texnum);
+        GL_Bind(image.getTexNum());
         GL11.glBegin (GL11.GL_QUADS);
         GL11.glTexCoord2f(x/64.0f, y/64.0f);
         GL11.glVertex2f (x, y);
@@ -236,7 +235,7 @@ public abstract class Draw extends Image {
         GL11.glVertex2f (x, y+h);
         GL11.glEnd ();
 
-        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.has_alpha)
+        if ( ( ( gl_config.renderer == GL_RENDERER_MCD ) || ( (gl_config.renderer & GL_RENDERER_RENDITION) != 0 ) )  && !image.isAlpha())
             GL11.glEnable(GL11.GL_ALPHA_TEST);
     }
 

@@ -18,7 +18,7 @@
 
 package lwjake2.client;
 
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.model_t;
 import lwjake2.sys.KBD;
 
@@ -60,8 +60,8 @@ public interface refexport_t {
     // slash will not use the "pics/" prefix or the ".pcx" postfix)
     void BeginRegistration(String map);
     model_t RegisterModel(String name);
-    image_t RegisterSkin(String name);
-    image_t RegisterPic(String name);
+    Q2Image RegisterSkin(String name);
+    Q2Image RegisterPic(String name);
     void SetSky(String name, float rotate, /* vec3_t */
     float[] axis);
     void EndRegistration();

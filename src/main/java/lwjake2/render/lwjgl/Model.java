@@ -18,7 +18,6 @@
 
 package lwjake2.render.lwjgl;
 
-import dmx.lwjake2.render.ImageType;
 import dmx.lwjake2.render.ModelType;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
@@ -1237,7 +1236,7 @@ public abstract class Model extends Surf {
             else if (mod.type == ModelType.BRUSH)
             {
                 for (i=0 ; i<mod.numtexinfo ; i++)
-                    mod.texinfo[i].image.registration_sequence = registration_sequence;
+                    mod.texinfo[i].image.setRegistrationSequence(registration_sequence);
             }
         }
         return mod;

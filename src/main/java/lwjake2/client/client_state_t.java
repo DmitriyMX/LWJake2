@@ -21,7 +21,7 @@ package lwjake2.client;
 import lwjake2.Defines;
 import lwjake2.game.cmodel_t;
 import lwjake2.game.usercmd_t;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.model_t;
 import lwjake2.sound.sfx_t;
 
@@ -125,7 +125,7 @@ public class client_state_t {
     cmodel_t model_clip[] = new cmodel_t[Defines.MAX_MODELS];
 
     public sfx_t sound_precache[] = new sfx_t[Defines.MAX_SOUNDS];
-    image_t image_precache[] = new image_t[Defines.MAX_IMAGES];
+    Q2Image image_precache[] = new Q2Image[Defines.MAX_IMAGES];
 
     clientinfo_t clientinfo[] = new clientinfo_t[Defines.MAX_CLIENTS];
     clientinfo_t baseclientinfo = new clientinfo_t();

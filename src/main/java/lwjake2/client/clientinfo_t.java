@@ -19,14 +19,14 @@
 package lwjake2.client;
 
 import lwjake2.Defines;
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.model_t;
 
 public class clientinfo_t {
     String    name    ="";
     String    cinfo    ="";
-    image_t skin;    // ptr
-    image_t icon;    // ptr
+    Q2Image skin;    // ptr
+    Q2Image icon;    // ptr
     String iconname    ="";
     model_t model;    // ptr
     model_t weaponmodel[] = new model_t[Defines.MAX_CLIENTWEAPONMODELS]; // arary of references

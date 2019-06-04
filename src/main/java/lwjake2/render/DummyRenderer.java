@@ -18,6 +18,7 @@
 
 package lwjake2.render;
 
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.client.refdef_t;
 import lwjake2.client.refexport_t;
 import lwjake2.sys.KBD;
@@ -61,14 +62,14 @@ public class DummyRenderer implements refexport_t {
     /* (non-Javadoc)
      * @see jake2.client.refexport_t#RegisterSkin(java.lang.String)
      */
-    public image_t RegisterSkin(String name) {
+    public Q2Image RegisterSkin(String name) {
         return null;
     }
 
     /* (non-Javadoc)
      * @see jake2.client.refexport_t#RegisterPic(java.lang.String)
      */
-    public image_t RegisterPic(String name) {
+    public Q2Image RegisterPic(String name) {
         return null;
     }
 

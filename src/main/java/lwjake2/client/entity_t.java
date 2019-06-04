@@ -18,7 +18,7 @@
 
 package lwjake2.client;
 
-import lwjake2.render.image_t;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.model_t;
 import lwjake2.util.Math3D;
 
@@ -49,7 +49,7 @@ public class entity_t implements Cloneable{
     public float alpha; // ignore if RF_TRANSLUCENT isn't set
 
     // reference
-    public image_t skin; // NULL for inline skin
+    public Q2Image skin; // NULL for inline skin
     public int flags;
     
     

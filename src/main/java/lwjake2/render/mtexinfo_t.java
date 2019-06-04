@@ -18,6 +18,8 @@
 
 package lwjake2.render;
 
+import dmx.lwjake2.render.Q2Image;
+
 import java.util.Arrays;
 
 public class mtexinfo_t {
@@ -29,7 +31,7 @@ public class mtexinfo_t {
     public int flags;
     public int numframes;
     public mtexinfo_t next; // animation chain
-    public image_t image;
+    public Q2Image image;
     
     public void clear() {
         Arrays.fill(vecs[0], 0);

@@ -701,13 +701,13 @@ public class CL_ents {
                     //      ============
                     //      PGM
                     if ((renderfx & Defines.RF_USE_DISGUISE) != 0) {
-                        if (ent.skin.name.startsWith("players/male")) {
+                        if (ent.skin.getName().startsWith("players/male")) {
                             ent.skin = Globals.re.RegisterSkin("players/male/disguise.pcx");
                             ent.model = Globals.re.RegisterModel("players/male/tris.md2");
-                        } else if (ent.skin.name.startsWith("players/female")) {
+                        } else if (ent.skin.getName().startsWith("players/female")) {
                             ent.skin = Globals.re.RegisterSkin("players/female/disguise.pcx");
                             ent.model = Globals.re.RegisterModel("players/female/tris.md2");
-                        } else if (ent.skin.name.startsWith("players/cyborg")) {
+                        } else if (ent.skin.getName().startsWith("players/cyborg")) {
                             ent.skin = Globals.re.RegisterSkin("players/cyborg/disguise.pcx");
                             ent.model = Globals.re.RegisterModel("players/cyborg/tris.md2");
                         }

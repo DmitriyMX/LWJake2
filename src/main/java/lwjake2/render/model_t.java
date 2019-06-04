@@ -19,6 +19,7 @@
 package lwjake2.render;
 
 import dmx.lwjake2.render.ModelType;
+import dmx.lwjake2.render.Q2Image;
 import lwjake2.Defines;
 import lwjake2.game.cplane_t;
 import lwjake2.qcommon.qfiles;
@@ -92,8 +93,8 @@ public class model_t implements Cloneable {
     public byte lightdata[];
 
     // for alias models and skins
-    // was image_t *skins[]; (array of pointers)
-    public image_t skins[] = new image_t[Defines.MAX_MD2SKINS];
+    // was Q2Image *skins[]; (array of pointers)
+    public Q2Image skins[] = new Q2Image[Defines.MAX_MD2SKINS];
 
     public int extradatasize;
 
@@ -164,7 +165,7 @@ public class model_t implements Cloneable {
         lightdata = null;
 
         // for alias models and skins
-        // was image_t *skins[]; (array of pointers)
+        // was Q2Image *skins[]; (array of pointers)
         Arrays.fill(skins, null);
 
         extradatasize = 0;
