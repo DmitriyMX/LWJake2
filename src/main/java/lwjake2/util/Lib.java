@@ -31,6 +31,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class Lib {
@@ -324,19 +325,7 @@ public class Lib {
      * avoid new String(bytes) because it is using system specific character encoding.
      */
     public static String bytesToString(byte[] value) {
-        try {
-           return new String(value, "ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            // can't happen: Latin 1 is a standard encoding
-            return null;
-        }
-    }
-    
-    /** Helper method that savely handles the null termination of old C String data. */
-    public static String CtoJava(String old) {
-        int index = old.indexOf('\0');
-        if (index == 0) return "";
-        return (index > 0) ? old.substring(0, index) : old; 
+        return new String(value, StandardCharsets.ISO_8859_1);
     }
     
     /** Helper method that savely handles the null termination of old C String data. */

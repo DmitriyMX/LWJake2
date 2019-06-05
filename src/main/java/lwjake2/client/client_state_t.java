@@ -37,7 +37,7 @@ public class client_state_t {
         }
 
         for (int n = 0; n < Defines.MAX_CONFIGSTRINGS; n++)
-            configstrings[n] = new String();
+            configstrings[n] = "";
             
         for (int n=0; n < Defines.MAX_CLIENTS; n++)
             clientinfo[n] = new clientinfo_t();

@@ -647,7 +647,7 @@ public class GameMisc {
 
         func_clock_reset(self);
 
-        self.message = new String();
+        self.message = "";
 
         self.think = func_clock_think;
 

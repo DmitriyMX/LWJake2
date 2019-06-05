@@ -741,14 +741,14 @@ public class Key {
         }
 
         // copy the rest of the command line
-        String cmd = ""; // start out with a null string
+        StringBuilder cmd = new StringBuilder(); // start out with a null string
         for (int i = 2; i < c; i++) {
-            cmd += Cmd.Argv(i);
+            cmd.append(Cmd.Argv(i));
             if (i != (c - 1))
-                cmd += " ";
+                cmd.append(" ");
         }
 
-        SetBinding(b, cmd);
+        SetBinding(b, cmd.toString());
     }
 
     static void SetBinding(int keynum, String binding) {

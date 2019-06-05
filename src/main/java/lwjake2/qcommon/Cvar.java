@@ -72,8 +72,8 @@ public class Cvar {
             }
         }
         var = new cvar_t();
-        var.name = new String(var_name);
-        var.string = new String(var_value);
+        var.name = var_name;
+        var.string = var_value;
         var.modified = true;
         // handles atof(var.string)
         try {

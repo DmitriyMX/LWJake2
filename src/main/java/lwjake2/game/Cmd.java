@@ -359,7 +359,7 @@ public final class Cmd {
     }
 
     public static String Args() {
-        return new String(cmd_args);
+        return cmd_args;
     }
 
     /**

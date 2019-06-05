@@ -1622,11 +1622,11 @@ public final class Menu extends Key {
         int n;
         int isdeveloper;
 
-        byte b[] = UnpackLoader.loadFile("credits");
+        byte[] b = UnpackLoader.loadFile("credits");
 
         if (b != null) {
             creditsBuffer = new String(b);
-            String line[] = creditsBuffer.split("\r\n");
+            String[] line = creditsBuffer.split("\r\n");
 
             for (n = 0; n < line.length; n++) {
                 creditsIndex[n] = line[n];

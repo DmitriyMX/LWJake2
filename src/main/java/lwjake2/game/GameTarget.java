@@ -727,8 +727,8 @@ public class GameTarget {
         public String getID() { return "target_lightramp_think"; }
         public boolean think(edict_t self) {
 
-            char tmp[] = {(char) ('a' + (int) (self.movedir[0] + (GameBase.level.time - self.timestamp)
-                    / Defines.FRAMETIME * self.movedir[2]))};
+            char[] tmp = { (char) ('a' + (int) (self.movedir[0] + (GameBase.level.time - self.timestamp)
+                    / Defines.FRAMETIME * self.movedir[2])) };
             
             GameBase.gi.configstring(Defines.CS_LIGHTS + self.enemy.style,
                     new String(tmp));

@@ -436,7 +436,7 @@ public final class LWJGLSoundImpl implements Sound {
         String s;
         int i;
 
-        s = new String(truename);
+        s = truename;
 
         // find a free sfx
         for (i=0 ; i < num_sfx ; i++)
@@ -452,7 +452,7 @@ public final class LWJGLSoundImpl implements Sound {
     
         sfx = known_sfx[i];
         sfx.clear();
-        sfx.name = new String(aliasname);
+        sfx.name = aliasname;
         sfx.registration_sequence = s_registration_sequence;
         sfx.truename = s;
         // set the AL bufferId
@@ -541,7 +541,7 @@ public final class LWJGLSoundImpl implements Sound {
 
         i = 1;
         while (i < Cmd.Argc()) {
-            name = new String(Cmd.Argv(i));
+            name = Cmd.Argv(i);
             if (name.indexOf('.') == -1)
                 name += ".wav";
 

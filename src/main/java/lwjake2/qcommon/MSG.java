@@ -478,10 +478,9 @@ public class MSG {
             readbuf[l] = c;
             l++;
         } while (l < 2047);
-        
-        String ret = new String(readbuf, 0, l);
+
         // Com.dprintln("MSG.ReadString:[" + ret + "]");
-        return ret;
+        return new String(readbuf, 0, l);
     }
 
     public static String ReadStringLine(sizebuf_t msg_read) {

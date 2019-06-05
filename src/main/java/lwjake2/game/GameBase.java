@@ -282,10 +282,6 @@ public class GameBase {
         Math3D.VectorClear(angles);
     }
 
-    public static String G_CopyString(String in) {
-        return new String(in);
-    }
-
     /**
      * G_TouchTriggers
      */

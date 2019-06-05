@@ -76,7 +76,7 @@ public class CL_view {
 
         for (i = 1; i < Defines.MAX_MODELS
                 && Globals.cl.configstrings[Defines.CS_MODELS + i].length() != 0; i++) {
-            name = new String(Globals.cl.configstrings[Defines.CS_MODELS + i]);
+            name = Globals.cl.configstrings[Defines.CS_MODELS + i];
             if (name.length() > 37)
                 name = name.substring(0, 36);
 

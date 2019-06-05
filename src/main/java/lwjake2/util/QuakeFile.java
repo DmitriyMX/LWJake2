@@ -66,7 +66,7 @@ public class QuakeFile extends RandomAccessFile {
         if (len == 0)
             return "";
 
-        byte bb[] = new byte[len];
+        byte[] bb = new byte[len];
 
         super.read(bb, 0, len);
 
