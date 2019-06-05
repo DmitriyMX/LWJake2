@@ -94,7 +94,7 @@ public class PlayerHud {
         GameBase.level.intermissiontime = GameBase.level.time;
         GameBase.level.changemap = targ.map;
 
-        if (GameBase.level.changemap.indexOf('*') > -1) {
+        if (GameBase.level.changemap.contains("*")) {
             if (GameBase.coop.value != 0) {
                 for (i = 0; i < GameBase.maxclients.value; i++) {
                     client = GameBase.g_edicts[1 + i];

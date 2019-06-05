@@ -442,11 +442,11 @@ public class Cvar {
      * Some characters are invalid for info strings.
      */
     static boolean InfoValidate(String s) {
-        if (s.indexOf("\\") != -1)
+        if (s.contains("\\"))
             return false;
-        if (s.indexOf("\"") != -1)
+        else if (s.contains("\""))
             return false;
-        if (s.indexOf(";") != -1)
+        else if (s.contains(";"))
             return false;
         return true;
     }

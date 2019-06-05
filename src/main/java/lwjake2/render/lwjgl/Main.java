@@ -1095,25 +1095,25 @@ public abstract class Main extends Base {
         String renderer_buffer = gl_config.renderer_string.toLowerCase();
         String vendor_buffer = gl_config.vendor_string.toLowerCase();
 
-        if (renderer_buffer.indexOf("voodoo") >= 0) {
-            if (renderer_buffer.indexOf("rush") < 0)
+        if (renderer_buffer.contains("voodoo")) {
+            if (!renderer_buffer.contains("rush"))
                 gl_config.renderer = GL_RENDERER_VOODOO;
             else
                 gl_config.renderer = GL_RENDERER_VOODOO_RUSH;
         }
-        else if (vendor_buffer.indexOf("sgi") >= 0)
+        else if (vendor_buffer.contains("sgi"))
             gl_config.renderer = GL_RENDERER_SGI;
-        else if (renderer_buffer.indexOf("permedia") >= 0)
+        else if (renderer_buffer.contains("permedia"))
             gl_config.renderer = GL_RENDERER_PERMEDIA2;
-        else if (renderer_buffer.indexOf("glint") >= 0)
+        else if (renderer_buffer.contains("glint"))
             gl_config.renderer = GL_RENDERER_GLINT_MX;
-        else if (renderer_buffer.indexOf("glzicd") >= 0)
+        else if (renderer_buffer.contains("glzicd"))
             gl_config.renderer = GL_RENDERER_REALIZM;
-        else if (renderer_buffer.indexOf("gdi") >= 0)
+        else if (renderer_buffer.contains("gdi"))
             gl_config.renderer = GL_RENDERER_MCD;
-        else if (renderer_buffer.indexOf("pcx2") >= 0)
+        else if (renderer_buffer.contains("pcx2"))
             gl_config.renderer = GL_RENDERER_PCX2;
-        else if (renderer_buffer.indexOf("verite") >= 0)
+        else if (renderer_buffer.contains("verite"))
             gl_config.renderer = GL_RENDERER_RENDITION;
         else
             gl_config.renderer = GL_RENDERER_OTHER;
@@ -1164,8 +1164,8 @@ public abstract class Main extends Base {
         /*
         ** grab extensions
         */
-        if (gl_config.extensions_string.indexOf("GL_EXT_compiled_vertex_array") >= 0
-            || gl_config.extensions_string.indexOf("GL_SGI_compiled_vertex_array") >= 0) {
+        if (gl_config.extensions_string.contains("GL_EXT_compiled_vertex_array")
+            || gl_config.extensions_string.contains("GL_SGI_compiled_vertex_array")) {
             log.info("...enabling GL_EXT_compiled_vertex_array");
             //         qglLockArraysEXT = ( void * ) qwglGetProcAddress( "glLockArraysEXT" );
             if (gl_ext_compiled_vertex_array.value != 0.0f)
@@ -1180,7 +1180,7 @@ public abstract class Main extends Base {
             qglLockArraysEXT = false;
         }
 
-        if (gl_config.extensions_string.indexOf("WGL_EXT_swap_control") >= 0) {
+        if (gl_config.extensions_string.contains("WGL_EXT_swap_control")) {
             qwglSwapIntervalEXT = true;
             log.info("...enabling WGL_EXT_swap_control");
         } else {
@@ -1188,7 +1188,7 @@ public abstract class Main extends Base {
             log.info("...WGL_EXT_swap_control not found");
         }
 
-        if (gl_config.extensions_string.indexOf("GL_EXT_point_parameters") >= 0) {
+        if (gl_config.extensions_string.contains("GL_EXT_point_parameters")) {
             if (gl_ext_pointparameters.value != 0.0f) {
                 //             qglPointParameterfEXT = ( void (APIENTRY *)( GLenum, GLfloat ) ) qwglGetProcAddress( "glPointParameterfEXT" );
                 qglPointParameterfEXT = true;
@@ -1239,7 +1239,7 @@ public abstract class Main extends Base {
             log.info("...GL_EXT_shared_texture_palette not found");
         }
 
-        if (gl_config.extensions_string.indexOf("GL_ARB_multitexture") >= 0) {
+        if (gl_config.extensions_string.contains("GL_ARB_multitexture")) {
             log.info("...using GL_ARB_multitexture");
             qglActiveTextureARB = true;
             GL_TEXTURE0 = ARBMultitexture.GL_TEXTURE0_ARB;

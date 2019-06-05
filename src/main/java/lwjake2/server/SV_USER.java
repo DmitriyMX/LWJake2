@@ -345,7 +345,7 @@ public class SV_USER {
         // hacked by zoid to allow more conrol over download
         // first off, no .. or global allow check
 
-        if (name.indexOf("..") != -1
+        if (name.contains("..")
                 || SV_MAIN.allow_download.value == 0 // leading dot is no good
                 || name.charAt(0) == '.' // leading slash bad as well, must be
                                          // in subdir

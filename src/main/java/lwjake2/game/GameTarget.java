@@ -38,7 +38,7 @@ public class GameTarget {
                     + Lib.vtos(ent.s.origin) + "\n");
             return;
         }
-        if (GameBase.st.noise.indexOf(".wav") < 0)
+        if (!GameBase.st.noise.contains(".wav"))
             buffer = "" + GameBase.st.noise + ".wav";
         else
             buffer = GameBase.st.noise;
@@ -438,7 +438,7 @@ public class GameTarget {
             }
 
             // if going to a new unit, clear cross triggers
-            if (self.map.indexOf('*') > -1)
+            if (self.map.contains("*"))
                 GameBase.game.serverflags &= ~(Defines.SFL_CROSS_TRIGGER_MASK);
 
             PlayerHud.BeginIntermission(self);

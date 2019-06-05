@@ -594,7 +594,7 @@ public class SV_CCMDS {
 
         // if not a pcx, demo, or cinematic, check to make sure the level exists
         map = Cmd.Argv(1);
-        if (map.indexOf(".") < 0) {
+        if (!map.contains(".")) {
             expanded = "maps/" + map + ".bsp";
             if (UnpackLoader.loadFile(expanded) == null) {
 
@@ -636,7 +636,7 @@ public class SV_CCMDS {
         log.warn("Loading game...");
 
         dir = Cmd.Argv(1);
-        if ( (dir.indexOf("..") > -1) || (dir.indexOf("/") > -1) || (dir.indexOf("\\") > -1)) {
+        if ( (dir.contains("..")) || (dir.contains("/")) || (dir.contains("\\"))) {
             log.warn("Bad savedir.");
         }
 
@@ -699,7 +699,7 @@ public class SV_CCMDS {
         }
 
         dir = Cmd.Argv(1);
-        if ( (dir.indexOf("..") > -1) || (dir.indexOf("/") > -1) || (dir.indexOf("\\") > -1)) {
+        if ( (dir.contains("..")) || (dir.contains("/")) || (dir.contains("\\"))) {
             log.warn("Bad savedir.");
         }
         

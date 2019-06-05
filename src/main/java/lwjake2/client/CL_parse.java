@@ -76,7 +76,7 @@ public class CL_parse {
         RandomAccessFile fp;
         String name;
 
-        if (filename.indexOf("..") != -1) {
+        if (filename.contains("..")) {
             log.warn("Refusing to download a path with ..");
             return true;
         }
@@ -147,7 +147,7 @@ public class CL_parse {
 
         filename = Cmd.Argv(1);
 
-        if (filename.indexOf("..") != -1) {
+        if (filename.contains("..")) {
             log.warn("Refusing to download a path with ..");
             return;
         }

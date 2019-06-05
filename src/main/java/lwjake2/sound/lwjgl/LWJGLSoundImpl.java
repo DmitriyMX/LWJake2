@@ -542,7 +542,7 @@ public final class LWJGLSoundImpl implements Sound {
         i = 1;
         while (i < Cmd.Argc()) {
             name = Cmd.Argv(i);
-            if (name.indexOf('.') == -1)
+            if (!name.contains("."))
                 name += ".wav";
 
             sfx = RegisterSound(name);

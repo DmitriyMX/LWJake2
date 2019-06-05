@@ -57,17 +57,17 @@ public class Info {
         if (value == null || value.length() == 0)
             return s;
 
-        if (key.indexOf('\\') != -1 || value.indexOf('\\') != -1) {
+        if (key.contains("\\") || value.contains("\\")) {
             log.warn("Can't use keys or values with a \\");
             return s;
         }
 
-        if (key.indexOf(';') != -1) {
+        if (key.contains(";")) {
             log.warn("Can't use keys or values with a semicolon");
             return s;
         }
 
-        if (key.indexOf('"') != -1 || value.indexOf('"') != -1) {
+        if (key.contains("\"") || value.contains("\"")) {
             log.warn("Can't use keys or values with a \"");
             return s;
         }
@@ -98,7 +98,7 @@ public class Info {
 
         StringBuffer sb = new StringBuffer(512);
 
-        if (key.indexOf('\\') != -1) {
+        if (key.contains("\\")) {
             log.warn("Can't use a key with a \\");
             return s;
         }

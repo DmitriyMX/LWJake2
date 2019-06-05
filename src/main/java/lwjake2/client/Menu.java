@@ -4248,7 +4248,7 @@ public final class Menu extends Key {
                     + s.parent.y, s.name);
         }
 
-        if (s.itemnames[s.curvalue].indexOf('\n') == -1) {
+        if (!s.itemnames[s.curvalue].contains("\n")) {
             Menu_DrawString(RCOLUMN_OFFSET + s.x + s.parent.x,
                     s.y + s.parent.y, s.itemnames[s.curvalue]);
         } else {
