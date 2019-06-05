@@ -41,7 +41,6 @@ import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
 import lwjake2.util.Lib;
 import lwjake2.util.QuakeFile;
-import lwjake2.util.Vargs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -395,12 +394,11 @@ public class SV_CCMDS {
 
             if (!autosave) {
                 Calendar c = Calendar.getInstance();
-                comment =
-                    Com.sprintf(
-                        "%2i:%2i %2i/%2i  ",
-                        new Vargs().add(c.get(Calendar.HOUR_OF_DAY)).add(c.get(Calendar.MINUTE)).add(
-                            c.get(Calendar.MONTH) + 1).add(
-                            c.get(Calendar.DAY_OF_MONTH)));
+                comment = Com.sprintf("%2i:%2i %2i/%2i  ",
+                                c.get(Calendar.HOUR_OF_DAY),
+                                c.get(Calendar.MINUTE),
+                                c.get(Calendar.MONTH) + 1,
+                                c.get(Calendar.DAY_OF_MONTH));
                 comment += SV_INIT.sv.configstrings[Defines.CS_NAME];
             }
             else {

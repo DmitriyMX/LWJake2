@@ -37,7 +37,6 @@ import dmx.lwjake2.render.Q2Image;
 import lwjake2.render.mleaf_t;
 import lwjake2.render.model_t;
 import lwjake2.util.Math3D;
-import lwjake2.util.Vargs;
 
 import java.awt.Dimension;
 import java.nio.FloatBuffer;

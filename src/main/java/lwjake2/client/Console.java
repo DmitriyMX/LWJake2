@@ -24,7 +24,6 @@ import lwjake2.Globals;
 import lwjake2.game.Cmd;
 import lwjake2.qcommon.*;
 import lwjake2.util.Lib;
-import lwjake2.util.Vargs;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -511,7 +510,7 @@ public final class Console {
         SCR.AddDirtyPoint(0, 0);
         SCR.AddDirtyPoint(viddef.width - 1, lines - 1);
 
-        version = Com.sprintf("v%4.2f", new Vargs(1).add(VERSION));
+        version = Com.sprintf("v%4.2f", VERSION);
         for (x = 0; x < 5; x++)
             re.DrawChar(viddef.width - 44 + x * 8, lines - 12, 128 + version
                     .charAt(x));

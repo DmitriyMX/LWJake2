@@ -28,7 +28,6 @@ import lwjake2.qcommon.*;
 import lwjake2.sound.S;
 import lwjake2.sys.Timer;
 import lwjake2.util.Lib;
-import lwjake2.util.Vargs;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -985,8 +984,7 @@ public final class SCR {
                     ping = 999;
 
                 // sprintf(block, "%3d %3d %-12.12s", score, ping, ci->name);
-                String block = Com.sprintf("%3d %3d %-12.12s", new Vargs(3)
-                        .add(score).add(ping).add(ci.name));
+                String block = Com.sprintf("%3d %3d %-12.12s", score, ping, ci.name);
 
                 if (value == cl.playernum)
                     Console.DrawAltString(x, y, block);

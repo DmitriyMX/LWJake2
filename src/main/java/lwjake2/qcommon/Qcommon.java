@@ -30,7 +30,6 @@ import lwjake2.server.SV_MAIN;
 import lwjake2.sys.NET;
 import lwjake2.sys.Sys;
 import lwjake2.sys.Timer;
-import lwjake2.util.Vargs;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -103,11 +102,10 @@ public final class Qcommon {
             Globals.showtrace= Cvar.Get("showtrace", "0", 0);
             Globals.dedicated= Cvar.Get("dedicated", "0", CVAR_NOSET);
             String s = Com.sprintf("%4.2f %s %s %s",
-                    new Vargs(4)
-                        .add(Globals.VERSION)
-                        .add(CPUSTRING)
-                        .add(Globals.__DATE__)
-                        .add(BUILDSTRING));
+                    Globals.VERSION,
+                    CPUSTRING,
+                    Globals.__DATE__,
+                    BUILDSTRING);
 
             Cvar.Get("version", s, CVAR_SERVERINFO | CVAR_NOSET);
             

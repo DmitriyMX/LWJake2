@@ -23,13 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import dmx.lwjake2.UnpackLoader;
-import lwjake2.client.VID;
 import lwjake2.client.particle_t;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.*;
 import dmx.lwjake2.render.Q2Image;
 import lwjake2.util.Lib;
-import lwjake2.util.Vargs;
 
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;

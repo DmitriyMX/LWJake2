@@ -22,7 +22,6 @@ import dmx.lwjake2.render.ModelType;
 import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
-import lwjake2.client.VID;
 import lwjake2.game.cplane_t;
 import lwjake2.game.cvar_t;
 import lwjake2.qcommon.Com;
@@ -40,7 +39,6 @@ import lwjake2.render.msurface_t;
 import lwjake2.render.mtexinfo_t;
 import lwjake2.render.mvertex_t;
 import lwjake2.util.Math3D;
-import lwjake2.util.Vargs;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -1036,7 +1034,7 @@ public abstract class Model extends Surf {
 
         if (pheader.version != qfiles.ALIAS_VERSION)
             Com.Error(ErrorCode.ERR_DROP, "%s has wrong version number (%i should be %i)",
-                     new Vargs(3).add(mod.name).add(pheader.version).add(qfiles.ALIAS_VERSION));
+                     mod.name, pheader.version, qfiles.ALIAS_VERSION);
 
         if (pheader.skinheight > MAX_LBM_HEIGHT)
             Com.Error(ErrorCode.ERR_DROP, "model "+ mod.name +" has a skin taller than " + MAX_LBM_HEIGHT);
@@ -1154,11 +1152,11 @@ public abstract class Model extends Surf {
         
         if (sprout.version != qfiles.SPRITE_VERSION)
             Com.Error(ErrorCode.ERR_DROP, "%s has wrong version number (%i should be %i)",
-                new Vargs(3).add(mod.name).add(sprout.version).add(qfiles.SPRITE_VERSION));
+                mod.name, sprout.version, qfiles.SPRITE_VERSION);
 
         if (sprout.numframes > qfiles.MAX_MD2SKINS)
             Com.Error(ErrorCode.ERR_DROP, "%s has too many frames (%i > %i)",
-                new Vargs(3).add(mod.name).add(sprout.numframes).add(qfiles.MAX_MD2SKINS));
+                mod.name, sprout.numframes, qfiles.MAX_MD2SKINS);
 
         for (int i=0 ; i<sprout.numframes ; i++)
         {

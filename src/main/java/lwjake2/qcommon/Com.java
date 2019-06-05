@@ -27,7 +27,6 @@ import lwjake2.game.Cmd;
 import lwjake2.server.SV_MAIN;
 import lwjake2.sys.Sys;
 import lwjake2.util.PrintfFormat;
-import lwjake2.util.Vargs;
 
 import java.io.IOException;
 
@@ -241,12 +240,7 @@ public final class Com {
 
     public static Runnable Error_f= () -> Error(ErrorCode.ERR_FATAL, Cmd.Argv(1));
 
-    public static void Error(int code, String fmt) throws IllegalStateException
-    {
-        Error(code, fmt, null);
-    }
-
-    public static void Error(int code, String fmt, Vargs vargs) throws IllegalStateException
+    public static void Error(int code, String fmt, Object... vargs) throws IllegalStateException
     {
         // va_list argptr;
         // static char msg[MAXPRINTMSG];
@@ -257,7 +251,7 @@ public final class Com {
         }
         recursive= true;
 
-        msg= sprintf(fmt, vargs);
+        msg = sprintf(fmt, vargs);
 
         if (code == ErrorCode.ERR_DISCONNECT)
         {
@@ -304,16 +298,13 @@ public final class Com {
         }
     }
 
-    public static String sprintf(String fmt, Vargs vargs)
+    public static String sprintf(String fmt, Object... vargs)
     {
-        String msg= "";
-        if (vargs == null || vargs.size() == 0)
-        {
-            msg= fmt;
-        }
-        else
-        {
-            msg= new PrintfFormat(fmt).sprintf(vargs.toArray());
+        String msg = "";
+        if (vargs == null || vargs.length == 0) {
+            msg = fmt;
+        } else {
+            msg = new PrintfFormat(fmt).sprintf(vargs);
         }
         return msg;
     }

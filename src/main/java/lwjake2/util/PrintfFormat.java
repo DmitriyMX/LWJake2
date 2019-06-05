@@ -541,17 +541,17 @@ public class PrintfFormat {
      * Integer, Long, Float, Double, and Character
      * arguments are treated as wrappers for primitive
      * types.
-     * @param o The array of objects to format.
+     * @param objs The array of objects to format.
      * @return  The formatted String.
      */
-    public String sprintf(Object[] o) {
-        Enumeration<Object> e = vFmt.elements();
+    public String sprintf(Object... objs) {
+        Enumeration<Object> elements = vFmt.elements();
         ConversionSpecification cs = null;
         char c = 0;
         int i = 0;
         StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
+        while (elements.hasMoreElements()) {
+            cs = (ConversionSpecification) elements.nextElement();
             c = cs.getConversionCharacter();
             if (c == '\0')
                 sb.append(cs.getLiteral());
@@ -562,208 +562,42 @@ public class PrintfFormat {
                     i = cs.getArgumentPosition() - 1;
                     if (cs.isPositionalFieldWidth()) {
                         int ifw = cs.getArgumentPositionForFieldWidth() - 1;
-                        cs.setFieldWidthWithArg(((Integer) o[ifw]).intValue());
+                        cs.setFieldWidthWithArg((Integer) objs[ifw]);
                     }
                     if (cs.isPositionalPrecision()) {
                         int ipr = cs.getArgumentPositionForPrecision() - 1;
-                        cs.setPrecisionWithArg(((Integer) o[ipr]).intValue());
+                        cs.setPrecisionWithArg((Integer) objs[ipr]);
                     }
                 } else {
                     if (cs.isVariableFieldWidth()) {
-                        cs.setFieldWidthWithArg(((Integer) o[i]).intValue());
+                        cs.setFieldWidthWithArg((Integer) objs[i]);
                         i++;
                     }
                     if (cs.isVariablePrecision()) {
-                        cs.setPrecisionWithArg(((Integer) o[i]).intValue());
+                        cs.setPrecisionWithArg((Integer) objs[i]);
                         i++;
                     }
                 }
-                if (o[i] instanceof Byte)
-                    sb.append(cs.internalsprintf(((Byte) o[i]).byteValue()));
-                else if (o[i] instanceof Short)
-                    sb.append(cs.internalsprintf(((Short) o[i]).shortValue()));
-                else if (o[i] instanceof Integer)
-                    sb.append(cs.internalsprintf(((Integer) o[i]).intValue()));
-                else if (o[i] instanceof Long)
-                    sb.append(cs.internalsprintf(((Long) o[i]).longValue()));
-                else if (o[i] instanceof Float)
-                    sb.append(cs.internalsprintf(((Float) o[i]).floatValue()));
-                else if (o[i] instanceof Double)
-                    sb.append(cs.internalsprintf(((Double) o[i]).doubleValue()));
-                else if (o[i] instanceof Character)
-                    sb.append(cs.internalsprintf(((Character) o[i]).charValue()));
-                else if (o[i] instanceof String)
-                    sb.append(cs.internalsprintf((String) o[i]));
+                if (objs[i] instanceof Byte)
+                    sb.append(cs.internalsprintf(((Byte) objs[i]).byteValue()));
+                else if (objs[i] instanceof Short)
+                    sb.append(cs.internalsprintf(((Short) objs[i]).shortValue()));
+                else if (objs[i] instanceof Integer)
+                    sb.append(cs.internalsprintf(((Integer) objs[i]).intValue()));
+                else if (objs[i] instanceof Long)
+                    sb.append(cs.internalsprintf(((Long) objs[i]).longValue()));
+                else if (objs[i] instanceof Float)
+                    sb.append(cs.internalsprintf(((Float) objs[i]).floatValue()));
+                else if (objs[i] instanceof Double)
+                    sb.append(cs.internalsprintf(((Double) objs[i]).doubleValue()));
+                else if (objs[i] instanceof Character)
+                    sb.append(cs.internalsprintf(((Character) objs[i]).charValue()));
+                else if (objs[i] instanceof String)
+                    sb.append(cs.internalsprintf((String) objs[i]));
                 else
-                    sb.append(cs.internalsprintf(o[i]));
+                    sb.append(cs.internalsprintf(objs[i]));
                 if (!cs.isPositionalSpecification())
                     i++;
-            }
-        }
-        return sb.toString();
-    }
-    /**
-     * Format nothing.  Just use the control string.
-     * @return  the formatted String.
-     */
-    public String sprintf() {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-        }
-        return sb.toString();
-    }
-    /**
-     * Format an int.
-     * @param x The int to format.
-     * @return  The formatted String.
-     * @exception IllegalArgumentException if the
-     *     conversion character is f, e, E, g, G, s,
-     *     or S.
-     */
-    public String sprintf(int x) throws IllegalArgumentException {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-            else
-                sb.append(cs.internalsprintf(x));
-        }
-        return sb.toString();
-    }
-    /**
-     * Format an long.
-     * @param x The long to format.
-     * @return  The formatted String.
-     * @exception IllegalArgumentException if the
-     *     conversion character is f, e, E, g, G, s,
-     *     or S.
-     */
-    public String sprintf(long x) throws IllegalArgumentException {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-            else
-                sb.append(cs.internalsprintf(x));
-        }
-        return sb.toString();
-    }
-    /**
-     * Format a double.
-     * @param x The double to format.
-     * @return  The formatted String.
-     * @exception IllegalArgumentException if the
-     *     conversion character is c, C, s, S,
-     *     d, d, x, X, or o.
-     */
-    public String sprintf(double x) throws IllegalArgumentException {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-            else
-                sb.append(cs.internalsprintf(x));
-        }
-        return sb.toString();
-    }
-    /**
-     * Format a String.
-     * @param x The String to format.
-     * @return  The formatted String.
-     * @exception IllegalArgumentException if the
-     *   conversion character is neither s nor S.
-     */
-    public String sprintf(String x) throws IllegalArgumentException {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-            else
-                sb.append(cs.internalsprintf(x));
-        }
-        return sb.toString();
-    }
-    /**
-     * Format an Object.  Convert wrapper types to
-     * their primitive equivalents and call the
-     * appropriate internal formatting method. Convert
-     * Strings using an internal formatting method for
-     * Strings. Otherwise use the default formatter
-     * (use toString).
-     * @param x the Object to format.
-     * @return  the formatted String.
-     * @exception IllegalArgumentException if the
-     *    conversion character is inappropriate for
-     *    formatting an unwrapped value.
-     */
-    public String sprintf(Object x) throws IllegalArgumentException {
-        Enumeration<Object> e = vFmt.elements();
-        ConversionSpecification cs = null;
-        char c = 0;
-        StringBuffer sb = new StringBuffer();
-        while (e.hasMoreElements()) {
-            cs = (ConversionSpecification) e.nextElement();
-            c = cs.getConversionCharacter();
-            if (c == '\0')
-                sb.append(cs.getLiteral());
-            else if (c == '%')
-                sb.append("%");
-            else {
-                if (x instanceof Byte)
-                    sb.append(cs.internalsprintf(((Byte) x).byteValue()));
-                else if (x instanceof Short)
-                    sb.append(cs.internalsprintf(((Short) x).shortValue()));
-                else if (x instanceof Integer)
-                    sb.append(cs.internalsprintf(((Integer) x).intValue()));
-                else if (x instanceof Long)
-                    sb.append(cs.internalsprintf(((Long) x).longValue()));
-                else if (x instanceof Float)
-                    sb.append(cs.internalsprintf(((Float) x).floatValue()));
-                else if (x instanceof Double)
-                    sb.append(cs.internalsprintf(((Double) x).doubleValue()));
-                else if (x instanceof Character)
-                    sb.append(cs.internalsprintf(((Character) x).charValue()));
-                else if (x instanceof String)
-                    sb.append(cs.internalsprintf((String) x));
-                else
-                    sb.append(cs.internalsprintf(x));
             }
         }
         return sb.toString();

@@ -29,7 +29,6 @@ import lwjake2.qcommon.Cvar;
 import lwjake2.render.Renderer;
 import lwjake2.sound.S;
 import lwjake2.sys.IN;
-import lwjake2.util.Vargs;
 
 import java.awt.*;
 
