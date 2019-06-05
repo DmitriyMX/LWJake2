@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -32,6 +33,7 @@ import lwjake2.qcommon.MSG;
 import lwjake2.qcommon.SZ;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class SV_GAME {
 
     /**
@@ -68,7 +70,7 @@ public class SV_GAME {
      * Debug print to server console.
      */
     public static void PF_dprintf(String fmt) {
-        Com.Printf(fmt);
+        log.debug(fmt);
     }
 
 
@@ -96,8 +98,9 @@ public class SV_GAME {
 
         if (ent != null)
             SV_SEND.SV_ClientPrintf(SV_INIT.svs.clients[n - 1], level, fmt);
-        else
-            Com.Printf(fmt);
+        else {
+            log.warn(fmt);
+        }
     }
 
     /**

@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -34,6 +35,7 @@ import lwjake2.util.Math3D;
 
 import java.io.IOException;
 
+@Slf4j
 public class SV_SEND {
     /*
     =============================================================================
@@ -93,8 +95,7 @@ public class SV_SEND {
 
         // echo to console
         if (Globals.dedicated.value != 0) {
-
-            Com.Printf(s);
+            log.warn(s);
         }
 
         for (int i = 0; i < SV_MAIN.maxclients.value; i++) {
@@ -379,14 +380,14 @@ public class SV_SEND {
         // for this client out to the message
         // it is necessary for this to be after the WriteEntities
         // so that entity references will be current
-        if (client.datagram.overflowed)
-            Com.Printf("WARNING: datagram overflowed for " + client.name + "\n");
-        else
+        if (client.datagram.overflowed) {
+            log.warn("datagram overflowed for {}", client.name);
+        } else
             SZ.Write(msg, client.datagram.data, client.datagram.cursize);
         SZ.Clear(client.datagram);
 
         if (msg.overflowed) { // must have room left for the packet header
-            Com.Printf("WARNING: msg overflowed for " + client.name + "\n");
+            log.warn("msg overflowed for {}", client.name);
             SZ.Clear(msg);
         }
 
@@ -409,7 +410,7 @@ public class SV_SEND {
                 SV_INIT.sv.demofile.close();
             }
             catch (IOException e) {
-                Com.Printf("IOError closing d9emo fiele:" + e);
+                log.error("IOError closing demo fiele:{}", e.getMessage(), e);
             }
             SV_INIT.sv.demofile = null;
         }
@@ -490,7 +491,7 @@ public class SV_SEND {
                     r = SV_INIT.sv.demofile.read(msgbuf, 0, msglen);
                 }
                 catch (IOException e1) {
-                    Com.Printf("IOError: reading demo file, " + e1);
+                    log.error("IOError: reading demo file, {}", e1.getMessage(), e1);
                 }
                 if (r != msglen) {
                     SV_DemoCompleted();

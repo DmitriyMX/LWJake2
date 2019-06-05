@@ -346,7 +346,7 @@ public class edict_t {
 
         if (key.equals("team")) {
             team = GameSpawn.ED_NewString(value);
-            Com.dprintln("Monster Team:" + team);
+            log.debug("Monster Team:{}", team);
             return true;
         } // F_LSTRING),
 

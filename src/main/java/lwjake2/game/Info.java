@@ -18,11 +18,12 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
-import lwjake2.qcommon.Com;
 
 import java.util.StringTokenizer;
 
+@Slf4j
 public class Info {
 
     /**
@@ -36,7 +37,7 @@ public class Info {
             String key1 = tk.nextToken();
 
             if (!tk.hasMoreTokens()) {
-                Com.Printf("MISSING VALUE\n");
+                log.warn("MISSING VALUE");
                 return s;
             }
             String value1 = tk.nextToken();
@@ -57,23 +58,23 @@ public class Info {
             return s;
 
         if (key.indexOf('\\') != -1 || value.indexOf('\\') != -1) {
-            Com.Printf("Can't use keys or values with a \\\n");
+            log.warn("Can't use keys or values with a \\");
             return s;
         }
 
         if (key.indexOf(';') != -1) {
-            Com.Printf("Can't use keys or values with a semicolon\n");
+            log.warn("Can't use keys or values with a semicolon");
             return s;
         }
 
         if (key.indexOf('"') != -1 || value.indexOf('"') != -1) {
-            Com.Printf("Can't use keys or values with a \"\n");
+            log.warn("Can't use keys or values with a \"");
             return s;
         }
 
         if (key.length() > Defines.MAX_INFO_KEY - 1
                 || value.length() > Defines.MAX_INFO_KEY - 1) {
-            Com.Printf("Keys and values must be < 64 characters.\n");
+            log.warn("Keys and values must be < 64 characters.");
             return s;
         }
 
@@ -81,7 +82,7 @@ public class Info {
 
         if (sb.length() + 2 + key.length() + value.length() > Defines.MAX_INFO_STRING) {
 
-            Com.Printf("Info string length exceeded\n");
+            log.warn("Info string length exceeded");
             return s;
         }
 
@@ -98,7 +99,7 @@ public class Info {
         StringBuffer sb = new StringBuffer(512);
 
         if (key.indexOf('\\') != -1) {
-            Com.Printf("Can't use a key with a \\\n");
+            log.warn("Can't use a key with a \\");
             return s;
         }
 
@@ -108,7 +109,7 @@ public class Info {
             String key1 = tk.nextToken();
 
             if (!tk.hasMoreTokens()) {
-                Com.Printf("MISSING VALUE\n");
+                log.warn("MISSING VALUE");
                 return s;
             }
             String value1 = tk.nextToken();
@@ -141,7 +142,7 @@ public class Info {
             String key1 = tk.nextToken();
 
             if (!tk.hasMoreTokens()) {
-                Com.Printf("MISSING VALUE\n");
+                log.warn("MISSING VALUE");
                 return;
             }
 
@@ -156,6 +157,6 @@ public class Info {
             }
             sb.append('=').append(value1).append('\n');
         }
-        Com.Printf(sb.toString());
+        log.warn(sb.toString());
     }
 }

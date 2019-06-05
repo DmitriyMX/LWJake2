@@ -18,11 +18,12 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
-import lwjake2.qcommon.Com;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class GameCombat {
 
     /**
@@ -92,9 +93,8 @@ public class GameCombat {
     /**
      * Killed.
      */
-    public static void Killed(edict_t targ, edict_t inflictor,
-            edict_t attacker, int damage, float[] point) {
-        Com.DPrintf("Killing a " + targ.classname + "\n");
+    public static void Killed(edict_t targ, edict_t inflictor, edict_t attacker, int damage, float[] point) {
+        log.debug("Killing a {}", targ.classname);
         if (targ.health < -999)
             targ.health = -999;
     

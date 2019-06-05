@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -30,6 +31,7 @@ import lwjake2.qcommon.CM;
 import lwjake2.qcommon.Com;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class SV_WORLD {
     // world.c -- world query functions
     //
@@ -248,11 +250,9 @@ public class SV_WORLD {
                 // doors may legally straggle two areas,
                 // but nothing should evern need more than that
                 if (ent.areanum != 0 && ent.areanum != area) {
-                    if (ent.areanum2 != 0 && ent.areanum2 != area
-                            && SV_INIT.sv.state == Defines.ss_loading)
-                        Com.DPrintf("Object touching 3 areas at "
-                                + ent.absmin[0] + " " + ent.absmin[1] + " "
-                                + ent.absmin[2] + "\n");
+                    if (ent.areanum2 != 0 && ent.areanum2 != area && SV_INIT.sv.state == Defines.ss_loading) {
+                        log.debug("Object touching 3 areas at {} {} {}", ent.absmin[0], ent.absmin[1], ent.absmin[2]);
+                    }
                     ent.areanum2 = area;
                 } else
                     ent.areanum = area;
@@ -333,7 +333,7 @@ public class SV_WORLD {
                     || check.absmax[2] < SV_WORLD.area_mins[2])
                 continue; // not touching
             if (SV_WORLD.area_count == SV_WORLD.area_maxcount) {
-                Com.Printf("SV_AreaEdicts: MAXCOUNT\n");
+                log.warn("SV_AreaEdicts: MAXCOUNT");
                 return;
             }
             SV_WORLD.area_list[SV_WORLD.area_count] = check;

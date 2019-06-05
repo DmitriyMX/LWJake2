@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.csurface_t;
@@ -26,6 +27,7 @@ import lwjake2.game.trace_t;
 import lwjake2.server.SV;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class PMove {
 
     // all of the locals will be zeroed before each
@@ -957,7 +959,7 @@ public class PMove {
             }
         }
 
-        Com.DPrintf("Bad InitialSnapPosition\n");
+        log.debug("Bad InitialSnapPosition");
     }
 
     /**

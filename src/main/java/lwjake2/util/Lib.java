@@ -224,7 +224,7 @@ public class Lib {
             return new RandomAccessFile(name, mode);
         }
         catch (Exception e) {
-            Com.DPrintf("Could not open file:" + name);
+            log.debug("Could not open file:{}", name);
             return null;
         }
     }

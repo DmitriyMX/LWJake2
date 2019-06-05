@@ -232,7 +232,7 @@ public final class Com {
         } while (c > 32);
 
         if (len == Defines.MAX_TOKEN_CHARS) {
-            Com.Printf("Token exceeded " + Defines.MAX_TOKEN_CHARS + " chars, discarded.\n");
+            log.warn("Token exceeded {} chars, discarded.", Defines.MAX_TOKEN_CHARS);
             len = 0;
         }
 
@@ -267,7 +267,7 @@ public final class Com {
         }
         else if (code == ErrorCode.ERR_DROP)
         {
-            Com.Printf("********************\nERROR: " + msg + "\n********************\n");
+            log.error(msg);
             SV_MAIN.SV_Shutdown("Server crashed: " + msg + "\n", false);
             CL.Drop();
             recursive= false;
@@ -301,47 +301,6 @@ public final class Com {
                 Com.com_argv[i]= "";
             else
                 Com.com_argv[i]= args[i];
-        }
-    }
-
-    public static void DPrintf(String fmt)
-    {
-        _debugContext = debugContext;
-        DPrintf(fmt, null);
-        _debugContext = "";
-    }
-    
-    public static void dprintln(String fmt)
-    {
-        DPrintf(_debugContext + fmt + "\n", null);
-    }
-
-    public static void Printf(String fmt)
-    {
-        Printf(_debugContext + fmt, null);
-    }
-
-    public static void DPrintf(String fmt, Vargs vargs)
-    {
-        if (Globals.developer == null || Globals.developer.value == 0)
-            return; // don't confuse non-developers with techie stuff...
-        _debugContext = debugContext;
-        Printf(fmt, vargs);
-        _debugContext="";
-    }
-
-    /** Prints out messages, which can also be redirected to a remote client. */
-    public static void Printf(String fmt, Vargs vargs)
-    {
-        String msg= sprintf(_debugContext + fmt, vargs);
-
-        // also echo to debugging console
-        while (msg.startsWith("\n")) { msg = msg.substring(1); }
-        while (msg.endsWith("\n")) { msg = msg.substring(0, msg.lastIndexOf("\n")); }
-        while (msg.endsWith("\r")) { msg = msg.substring(0, msg.lastIndexOf("\r")); }
-        msg = msg.trim();
-        if (!msg.isEmpty()) {
-            log.warn(msg);
         }
     }
 

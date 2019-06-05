@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -40,6 +41,7 @@ import lwjake2.util.Math3D;
  * 
  * =========================================================================
  */
+@Slf4j
 public class CL_ents {
     private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
@@ -271,8 +273,9 @@ public class CL_ents {
 
             while (oldnum < newnum) { // one or more entities from the old
                                       // packet are unchanged
-                if (Globals.cl_shownet.value == 3)
-                    Com.Printf("   unchanged: " + oldnum + "\n");
+                if (Globals.cl_shownet.value == 3) {
+                    log.warn("   unchanged: {}", oldnum);
+                }
                 DeltaEntity(newframe, oldnum, oldstate, 0);
 
                 oldindex++;
@@ -288,10 +291,12 @@ public class CL_ents {
             if ((bits & Defines.U_REMOVE) != 0) { // the entity present in
                                                   // oldframe is not in the
                                                   // current frame
-                if (Globals.cl_shownet.value == 3)
-                    Com.Printf("   remove: " + newnum + "\n");
-                if (oldnum != newnum)
-                    Com.Printf("U_REMOVE: oldnum != newnum\n");
+                if (Globals.cl_shownet.value == 3) {
+                    log.warn("   remove: {}", newnum);
+                }
+                if (oldnum != newnum) {
+                    log.warn("U_REMOVE: oldnum != newnum");
+                }
 
                 oldindex++;
 
@@ -306,7 +311,7 @@ public class CL_ents {
 
             if (oldnum == newnum) { // delta from previous state
                 if (Globals.cl_shownet.value == 3)
-                    Com.Printf("   delta: " + newnum + "\n");
+                    log.warn("   delta: {}", newnum);
                 DeltaEntity(newframe, newnum, oldstate, bits);
 
                 oldindex++;
@@ -321,8 +326,9 @@ public class CL_ents {
             }
 
             if (oldnum > newnum) { // delta from baseline
-                if (Globals.cl_shownet.value == 3)
-                    Com.Printf("   baseline: " + newnum + "\n");
+                if (Globals.cl_shownet.value == 3) {
+                    log.warn("   baseline: {}", newnum);
+                }
                 DeltaEntity(newframe, newnum, Globals.cl_entities[newnum].baseline, bits);
                 continue;
             }
@@ -330,10 +336,11 @@ public class CL_ents {
         }
 
         // any remaining entities in the old frame are copied over
-        while (oldnum != 99999) { // one or more entities from the old packet
+        while (oldnum != 99999/*FIXME magic number*/) { // one or more entities from the old packet
                                   // are unchanged
-            if (Globals.cl_shownet.value == 3)
-                Com.Printf("   unchanged: " + oldnum + "\n");
+            if (Globals.cl_shownet.value == 3) {
+                log.warn("   unchanged: {}", oldnum);
+            }
             DeltaEntity(newframe, oldnum, oldstate, 0);
 
             oldindex++;
@@ -501,8 +508,9 @@ public class CL_ents {
         if (Globals.cls.serverProtocol != 26)
             Globals.cl.surpressCount = MSG.ReadByte(Globals.net_message);
 
-        if (Globals.cl_shownet.value == 3)
-            Com.Printf("   frame:" + Globals.cl.frame.serverframe + "  delta:" + Globals.cl.frame.deltaframe + "\n");
+        if (Globals.cl_shownet.value == 3) {
+            log.warn("   frame:{}  delta:{}", Globals.cl.frame.serverframe, Globals.cl.frame.deltaframe);
+        }
 
         // If the frame is delta compressed from data that we
         // no longer have available, we must suck up the rest of
@@ -515,7 +523,7 @@ public class CL_ents {
         } else {
             old = Globals.cl.frames[Globals.cl.frame.deltaframe & Defines.UPDATE_MASK];
             if (!old.valid) { // should never happen
-                Com.Printf("Delta from invalid frame (not supposed to happen!).\n");
+                log.warn("Delta from invalid frame (not supposed to happen!).\n");
             }
             if (old.serverframe != Globals.cl.frame.deltaframe) { // The frame
                                                                   // that the
@@ -523,9 +531,9 @@ public class CL_ents {
                                                                   // the delta
                                                                   // from
                 // is too old, so we can't reconstruct it properly.
-                Com.Printf("Delta frame too old.\n");
+                log.warn("Delta frame too old.");
             } else if (Globals.cl.parse_entities - old.parse_entities > Defines.MAX_PARSE_ENTITIES - 128) {
-                Com.Printf("Delta parse_entities too old.\n");
+                log.warn("Delta parse_entities too old.");
             } else
                 Globals.cl.frame.valid = true; // valid delta parse
         }
@@ -1165,13 +1173,15 @@ public class CL_ents {
             return;
 
         if (Globals.cl.time > Globals.cl.frame.servertime) {
-            if (Globals.cl_showclamp.value != 0)
-                Com.Printf("high clamp " + (Globals.cl.time - Globals.cl.frame.servertime) + "\n");
+            if (Globals.cl_showclamp.value != 0) {
+                log.warn("high clamp {}", Globals.cl.time - Globals.cl.frame.servertime);
+            }
             Globals.cl.time = Globals.cl.frame.servertime;
             Globals.cl.lerpfrac = 1.0f;
         } else if (Globals.cl.time < Globals.cl.frame.servertime - 100) {
-            if (Globals.cl_showclamp.value != 0)
-                Com.Printf("low clamp " + (Globals.cl.frame.servertime - 100 - Globals.cl.time) + "\n");
+            if (Globals.cl_showclamp.value != 0) {
+                log.warn("low clamp {}", Globals.cl.frame.servertime - 100 - Globals.cl.time);
+            }
             Globals.cl.time = Globals.cl.frame.servertime - 100;
             Globals.cl.lerpfrac = 0;
         } else

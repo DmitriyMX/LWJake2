@@ -73,7 +73,7 @@ public class SV_CCMDS {
 
         // only dedicated servers send heartbeats
         if (Globals.dedicated.value == 0) {
-            Com.Printf("Only dedicated servers use masters.\n");
+            log.warn("Only dedicated servers use masters.");
             return;
         }
 
@@ -89,14 +89,14 @@ public class SV_CCMDS {
                 break;
 
             if (!NET.StringToAdr(Cmd.Argv(i), SV_MAIN.master_adr[i])) {
-                Com.Printf("Bad address: " + Cmd.Argv(i) + "\n");
+                log.warn("Bad address: {}", Cmd.Argv(i));
                 continue;
             }
             if (SV_MAIN.master_adr[slot].port == 0)
                 SV_MAIN.master_adr[slot].port = Defines.PORT_MASTER;
 
-            Com.Printf("Master server at " + NET.AdrToString(SV_MAIN.master_adr[slot]) + "\n");
-            Com.Printf("Sending a ping.\n");
+            log.warn("Master server at {}", NET.AdrToString(SV_MAIN.master_adr[slot]));
+            log.warn("Sending a ping.");
 
             Netchan.OutOfBandPrint(Defines.NS_SERVER, SV_MAIN.master_adr[slot], "ping");
 
@@ -127,14 +127,14 @@ public class SV_CCMDS {
         if (s.charAt(0) >= '0' && s.charAt(0) <= '9') {
             idnum = Lib.atoi(Cmd.Argv(1));
             if (idnum < 0 || idnum >= SV_MAIN.maxclients.value) {
-                Com.Printf("Bad client slot: " + idnum + "\n");
+                log.warn("Bad client slot: {}", idnum);
                 return false;
             }
 
             SV_MAIN.sv_client = SV_INIT.svs.clients[idnum];
             SV_USER.sv_player = SV_MAIN.sv_client.edict;
             if (0 == SV_MAIN.sv_client.state) {
-                Com.Printf("Client " + idnum + " is not active\n");
+                log.warn("Client {} is not active", idnum);
                 return false;
             }
             return true;
@@ -152,7 +152,7 @@ public class SV_CCMDS {
             }
         }
 
-        Com.Printf("Userid " + s + " is not on the server\n");
+        log.warn("Userid {} is not on the server", s);
         return false;
     }
     /*
@@ -176,7 +176,7 @@ public class SV_CCMDS {
 
         String name;
 
-        Com.DPrintf("SV_WipeSaveGame(" + savename + ")\n");
+        log.debug("SV_WipeSaveGame({})", savename);
 
         name = Globals.BASEDIRNAME + "/save/" + savename + "/server.ssv";
         remove(name);
@@ -278,7 +278,7 @@ public class SV_CCMDS {
 
         String name, name2;
 
-        Com.DPrintf("SV_CopySaveGame(" + src + "," + dst + ")\n");
+        log.debug("SV_CopySaveGame({},{})", src, dst);
 
         SV_WipeSavegame(dst);
 
@@ -324,7 +324,7 @@ public class SV_CCMDS {
         String name;
         QuakeFile f;
 
-        Com.DPrintf("SV_WriteLevelFile()\n");
+        log.debug("SV_WriteLevelFile()");
 
         name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sv2";
 
@@ -338,8 +338,7 @@ public class SV_CCMDS {
             f.close();
         }
         catch (Exception e) {
-            Com.Printf("Failed to open " + name + "\n");
-            e.printStackTrace();
+            log.error("Failed to open {}", name, e);
         }
 
         name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sav";
@@ -356,7 +355,7 @@ public class SV_CCMDS {
         String name;
         QuakeFile f;
 
-        Com.DPrintf("SV_ReadLevelFile()\n");
+        log.debug("SV_ReadLevelFile()");
 
         name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sv2";
         try {
@@ -370,8 +369,7 @@ public class SV_CCMDS {
             f.close();
         }
         catch (IOException e1) {
-            Com.Printf("Failed to open " + name + "\n");
-            e1.printStackTrace();
+            log.error("Failed to open {}", name, e1);
         }
 
         name = Globals.BASEDIRNAME + "/save/current/" + SV_INIT.sv.name + ".sav";
@@ -389,7 +387,7 @@ public class SV_CCMDS {
 
         String filename, name, string, comment;
 
-        Com.DPrintf("SV_WriteServerFile(" + (autosave ? "true" : "false") + ")\n");
+        log.debug("SV_WriteServerFile({})", autosave ? "true" : "false");
 
         filename = Globals.BASEDIRNAME + "/save/current/server.ssv";
         try {
@@ -421,7 +419,7 @@ public class SV_CCMDS {
                 if (0 == (var.flags & Defines.CVAR_LATCH))
                     continue;
                 if (var.name.length() >= Defines.MAX_OSPATH - 1 || var.string.length() >= 128 - 1) {
-                    Com.Printf("Cvar too long: " + var.name + " = " + var.string + "\n");
+                    log.warn("Cvar too long: {} = {}", var.name, var.string);
                     continue;
                 }
 
@@ -440,7 +438,7 @@ public class SV_CCMDS {
             f.close();
         }
         catch (Exception e) {
-            Com.Printf("Couldn't write " + filename + "\n");
+            log.warn("Couldn't write {}", filename);
         }
 
         // write game state
@@ -460,7 +458,7 @@ public class SV_CCMDS {
 
             mapcmd = "";
 
-            Com.DPrintf("SV_ReadServerFile()\n");
+            log.debug("SV_ReadServerFile()");
 
             filename = Globals.BASEDIRNAME + "/save/current/server.ssv";
 
@@ -477,7 +475,7 @@ public class SV_CCMDS {
                     break;
                 string = f.readString();
 
-                Com.DPrintf("Set " + name + " = " + string + "\n");
+                log.debug("Set {} = {}", name, string);
                 Cvar.ForceSet(name, string);
             }
 
@@ -493,8 +491,7 @@ public class SV_CCMDS {
             GameSave.ReadGame(filename);
         }
         catch (Exception e) {
-            Com.Printf("Couldn't read file " + filename + "\n");
-            e.printStackTrace();
+            log.warn("Couldn't read file {}", filename, e);
         }
     }
     //=========================================================
@@ -534,11 +531,11 @@ public class SV_CCMDS {
         boolean savedInuse[];
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("USAGE: gamemap <map>\n");
+            log.warn("USAGE: gamemap <map>");
             return;
         }
 
-        Com.DPrintf("SV_GameMap(" + Cmd.Argv(1) + ")\n");
+        log.debug("SV_GameMap({})", Cmd.Argv(1));
 
 //        fileSystem.createPath(Globals.BASEDIRNAME + "/save/current/");
 
@@ -603,7 +600,7 @@ public class SV_CCMDS {
             expanded = "maps/" + map + ".bsp";
             if (UnpackLoader.loadFile(expanded) == null) {
 
-                Com.Printf("Can't find " + expanded + "\n");
+                log.warn("Can't find {}", expanded);
                 return;
             }
         }
@@ -634,15 +631,15 @@ public class SV_CCMDS {
         String dir;
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("USAGE: loadgame <directory>\n");
+            log.warn("USAGE: loadgame <directory>");
             return;
         }
 
-        Com.Printf("Loading game...\n");
+        log.warn("Loading game...");
 
         dir = Cmd.Argv(1);
         if ( (dir.indexOf("..") > -1) || (dir.indexOf("/") > -1) || (dir.indexOf("\\") > -1)) {
-            Com.Printf("Bad savedir.\n");
+            log.warn("Bad savedir.");
         }
 
         // make sure the server.ssv file exists
@@ -651,7 +648,7 @@ public class SV_CCMDS {
             f = new RandomAccessFile(name, "r");
         }
         catch (FileNotFoundException e) {
-            Com.Printf("No such savegame: " + name + "\n");
+            log.error("No such savegame: {}", name);
             return;
         }
 
@@ -679,36 +676,36 @@ public class SV_CCMDS {
         String dir;
 
         if (SV_INIT.sv.state != Defines.ss_game) {
-            Com.Printf("You must be in a game to save.\n");
+            log.warn("You must be in a game to save.");
             return;
         }
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("USAGE: savegame <directory>\n");
+            log.warn("USAGE: savegame <directory>");
             return;
         }
 
         if (Cvar.VariableValue("deathmatch") != 0) {
-            Com.Printf("Can't savegame in a deathmatch\n");
+            log.warn("Can't savegame in a deathmatch");
             return;
         }
 
         if (0 == Lib.strcmp(Cmd.Argv(1), "current")) {
-            Com.Printf("Can't save to 'current'\n");
+            log.warn("Can't save to 'current'");
             return;
         }
 
         if (SV_MAIN.maxclients.value == 1 && SV_INIT.svs.clients[0].edict.client.ps.stats[Defines.STAT_HEALTH] <= 0) {
-            Com.Printf("\nCan't savegame while dead!\n");
+            log.warn("\nCan't savegame while dead!");
             return;
         }
 
         dir = Cmd.Argv(1);
         if ( (dir.indexOf("..") > -1) || (dir.indexOf("/") > -1) || (dir.indexOf("\\") > -1)) {
-            Com.Printf("Bad savedir.\n");
+            log.warn("Bad savedir.");
         }
         
-        Com.Printf("Saving game...\n");
+        log.warn("Saving game...");
 
         // archive current level, including all client edicts.
         // when the level is reloaded, they will be shells awaiting
@@ -720,12 +717,12 @@ public class SV_CCMDS {
             SV_WriteServerFile(false);
         }
         catch (Exception e) {
-            Com.Printf("IOError in SV_WriteServerFile: " + e);
+            log.error("IOError in SV_WriteServerFile: {}", e.getMessage(), e);
         }
 
         // copy it off
         SV_CopySaveGame("current", dir);
-        Com.Printf("Done.\n");
+        log.warn("Done.");
     }
     //===============================================================
     /*
@@ -737,12 +734,12 @@ public class SV_CCMDS {
     */
     public static void SV_Kick_f() {
         if (!SV_INIT.svs.initialized) {
-            Com.Printf("No server running.\n");
+            log.warn("No server running.");
             return;
         }
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("Usage: kick <userid>\n");
+            log.warn("Usage: kick <userid>");
             return;
         }
 
@@ -767,7 +764,7 @@ public class SV_CCMDS {
         String s;
         int ping;
         if (SV_INIT.svs.clients == null) {
-            Com.Printf("No server running.\n");
+            log.warn("No server running.");
             return;
         }
         log.info("map              : {}", SV_INIT.sv.name);
@@ -857,7 +854,7 @@ public class SV_CCMDS {
     ===========
     */
     public static void SV_Serverinfo_f() {
-        Com.Printf("Server info settings:\n");
+        log.warn("Server info settings:");
         Info.Print(Cvar.Serverinfo());
     }
     /*
@@ -869,15 +866,15 @@ public class SV_CCMDS {
     */
     public static void SV_DumpUser_f() {
         if (Cmd.Argc() != 2) {
-            Com.Printf("Usage: info <userid>\n");
+            log.warn("Usage: info <userid>");
             return;
         }
 
         if (!SV_SetPlayer())
             return;
 
-        Com.Printf("userinfo\n");
-        Com.Printf("--------\n");
+        log.warn("userinfo");
+        log.warn("--------");
         Info.Print(SV_MAIN.sv_client.userinfo);
 
     }
@@ -898,17 +895,17 @@ public class SV_CCMDS {
         int i;
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("serverrecord <demoname>\n");
+            log.warn("serverrecord <demoname>");
             return;
         }
 
         if (SV_INIT.svs.demofile != null) {
-            Com.Printf("Already recording.\n");
+            log.warn("Already recording.");
             return;
         }
 
         if (SV_INIT.sv.state != Defines.ss_game) {
-            Com.Printf("You must be in a level to record.\n");
+            log.warn("You must be in a level to record.");
             return;
         }
 
@@ -917,13 +914,13 @@ public class SV_CCMDS {
         //
         name = Globals.BASEDIRNAME + "/demos/" + Cmd.Argv(1) + ".dm2";
 
-        Com.Printf("recording to " + name + ".\n");
+        log.warn("recording to {}.", name);
         fileSystem.createPath(name);
         try {
             SV_INIT.svs.demofile = new RandomAccessFile(name, "rw");
         }
         catch (Exception e) {
-            Com.Printf("ERROR: couldn't open.\n");
+            log.warn("ERROR: couldn't open.");
             return;
         }
 
@@ -958,7 +955,7 @@ public class SV_CCMDS {
             }
 
         // write it to the demo file
-        Com.DPrintf("signon message length: " + buf.cursize + "\n");
+        log.debug("signon message length: {}", buf.cursize);
         len = EndianHandler.swapInt(buf.cursize);
         //fwrite(len, 4, 1, svs.demofile);
         //fwrite(buf.data, buf.cursize, 1, svs.demofile);
@@ -982,7 +979,7 @@ public class SV_CCMDS {
     */
     public static void SV_ServerStop_f() {
         if (SV_INIT.svs.demofile == null) {
-            Com.Printf("Not doing a serverrecord.\n");
+            log.warn("Not doing a serverrecord.");
             return;
         }
         try {
@@ -992,7 +989,7 @@ public class SV_CCMDS {
             e.printStackTrace();
         }
         SV_INIT.svs.demofile = null;
-        Com.Printf("Recording completed.\n");
+        log.warn("Recording completed.");
     }
     /*
     ===============

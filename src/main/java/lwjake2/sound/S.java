@@ -42,13 +42,13 @@ public class S {
      */
     static {        
             // dummy driver (no sound)
-            try {        
+            try {
                 Class.forName("lwjake2.sound.DummyDriver");
                 // initialize impl with the default value
                 // this is  necessary for dedicated mode
                 useDriver("dummy");
             } catch (Throwable e) {
-                Com.DPrintf("could not init dummy sound driver class.");
+                log.debug("could not init dummy sound driver class.");
             }
             
             try {
@@ -56,7 +56,7 @@ public class S {
                 Class.forName("lwjake2.sound.lwjgl.LWJGLSoundImpl");
             } catch (Throwable e) {
                 // ignore the lwjgl driver if runtime not in classpath
-                Com.DPrintf("could not init lwjgl sound driver class.");
+                log.debug("could not init lwjgl sound driver class.");
             }
     };
     

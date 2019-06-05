@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.cvar_t;
@@ -29,6 +30,7 @@ import lwjake2.util.Lib;
 /**
  * Netchan
  */
+@Slf4j
 public final class Netchan extends SV_MAIN {
 
     /*
@@ -206,8 +208,7 @@ public final class Netchan extends SV_MAIN {
         // check for message overflow
         if (chan.message.overflowed) {
             chan.fatal_error = true;
-            Com.Printf(NET.AdrToString(chan.remote_address)
-                    + ":Outgoing message overflow\n");
+            log.warn("{}:Outgoing message overflow", NET.AdrToString(chan.remote_address));
             return;
         }
 
@@ -248,27 +249,30 @@ public final class Netchan extends SV_MAIN {
         if (send.maxsize - send.cursize >= length)
             SZ.Write(send, data, length);
         else
-            Com.Printf("Netchan_Transmit: dumped unreliable\n");
+            log.warn("Netchan_Transmit: dumped unreliable");
 
         // send the datagram
         NET.SendPacket(chan.sock, send.cursize, send.data, chan.remote_address);
 
         if (showpackets.value != 0) {
-            if (send_reliable != 0)
-                Com.Printf(
+            if (send_reliable != 0) {
                 //"send %4i : s=%i reliable=%i ack=%i rack=%i\n"
-                        "send " + send.cursize + " : s="
-                                + (chan.outgoing_sequence - 1) + " reliable="
-                                + chan.reliable_sequence + " ack="
-                                + chan.incoming_sequence + " rack="
-                                + chan.incoming_reliable_sequence + "\n");
-            else
-                Com.Printf(
+                log.warn("send {} : s={} reliable={} ack={} rack={}",
+                        send.cursize,
+                        chan.outgoing_sequence - 1,
+                        chan.reliable_sequence,
+                        chan.incoming_sequence,
+                        chan.incoming_reliable_sequence
+                );
+            } else {
                 //"send %4i : s=%i ack=%i rack=%i\n"
-                        "send " + send.cursize + " : s="
-                                + (chan.outgoing_sequence - 1) + " ack="
-                                + chan.incoming_sequence + " rack="
-                                + chan.incoming_reliable_sequence + "\n");
+                log.warn("send {} : s={} ack={} rack={}",
+                        send.cursize,
+                        chan.outgoing_sequence - 1,
+                        chan.incoming_sequence,
+                        chan.incoming_reliable_sequence
+                );
+            }
         }
     }
 
@@ -299,30 +303,37 @@ public final class Netchan extends SV_MAIN {
         sequence_ack &= ~(1 << 31);
 
         if (showpackets.value != 0) {
-            if (reliable_message != 0)
-                Com.Printf(
+            if (reliable_message != 0) {
                 //"recv %4i : s=%i reliable=%i ack=%i rack=%i\n"
-                        "recv " + msg.cursize + " : s=" + sequence
-                                + " reliable="
-                                + (chan.incoming_reliable_sequence ^ 1)
-                                + " ack=" + sequence_ack + " rack="
-                                + reliable_ack + "\n");
-            else
-                Com
-                        .Printf(
-                        //"recv %4i : s=%i ack=%i rack=%i\n"
-                        "recv " + msg.cursize + " : s=" + sequence + " ack="
-                                + sequence_ack + " rack=" + reliable_ack + "\n");
+                log.warn("recv {} : s={} reliable={} ack={} rack={}",
+                        msg.cursize,
+                        sequence,
+                        chan.incoming_reliable_sequence ^ 1,
+                        sequence_ack,
+                        reliable_ack
+                );
+            } else {
+                //"recv %4i : s=%i ack=%i rack=%i\n"
+                log.warn("recv {} : s={} ack={} rack={}",
+                        msg.cursize,
+                        sequence,
+                        sequence_ack,
+                        reliable_ack
+                );
+            }
         }
 
         //
         // discard stale or duplicated packets
         //
         if (sequence <= chan.incoming_sequence) {
-            if (showdrop.value != 0)
-                Com.Printf(NET.AdrToString(chan.remote_address)
-                        + ":Out of order packet " + sequence + " at "
-                        + chan.incoming_sequence + "\n");
+            if (showdrop.value != 0) {
+                log.warn("{}:Out of order packet {} at {}",
+                        NET.AdrToString(chan.remote_address),
+                        sequence,
+                        chan.incoming_sequence
+                );
+            }
             return false;
         }
 
@@ -331,9 +342,13 @@ public final class Netchan extends SV_MAIN {
         //
         chan.dropped = sequence - (chan.incoming_sequence + 1);
         if (chan.dropped > 0) {
-            if (showdrop.value != 0)
-                Com.Printf(NET.AdrToString(chan.remote_address) + ":Dropped "
-                        + chan.dropped + " packets at " + sequence + "\n");
+            if (showdrop.value != 0) {
+                log.warn("{}:Dropped {} packets at {}",
+                        NET.AdrToString(chan.remote_address),
+                        chan.dropped,
+                        sequence
+                );
+            }
         }
 
         //

@@ -19,7 +19,7 @@
 package lwjake2;
 
 import lombok.NonNull;
-import lwjake2.qcommon.Com;
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.qcommon.Cvar;
 import lwjake2.qcommon.Qcommon;
 import lwjake2.sys.Timer;
@@ -27,6 +27,7 @@ import lwjake2.sys.Timer;
 /**
  * Jake2 is the main class of Quake2 for Java.
  */
+@Slf4j
 public final class LWJake2 {
 
     /**
@@ -55,7 +56,7 @@ public final class LWJake2 {
 
                 if (args[n].equals("1") || args[n].equals("\"1\""))
                 {
-                    Com.Printf("Starting in dedicated mode.\n");
+                    log.warn("Starting in dedicated mode.");
                     dedicated = true;
                 }
             }            

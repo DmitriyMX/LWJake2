@@ -240,8 +240,7 @@ public final class NET {
             return true;
 
         } catch (IOException e) {
-            Com.DPrintf("NET_GetPacket: " + e + " from "
-                    + AdrToString(net_from) + "\n");
+            log.debug("NET_GetPacket: {} from {}", e.getMessage(), AdrToString(net_from));
             return false;
         }
     }

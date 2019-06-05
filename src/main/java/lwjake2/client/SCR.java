@@ -242,9 +242,9 @@ public final class SCR {
             s++;
         }
 
+        //TODO what the hell this?!
         // echo it to the console
-        Com
-                .Printf("\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
+        //Com.Printf("\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
 
         s = 0;
 
@@ -264,7 +264,7 @@ public final class SCR {
 
                 line.append('\n');
 
-                Com.Printf(line.toString());
+                log.warn(line.toString());
 
                 while (s < str.length() && str.charAt(s) != '\n')
                     s++;
@@ -274,8 +274,8 @@ public final class SCR {
                 s++; // skip the \n
             } while (true);
         }
-        Com
-                .Printf("\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
+        //TODO what the hell this?!
+        //Com.Printf("\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
         Console.ClearNotify();
     }
 
@@ -393,7 +393,7 @@ public final class SCR {
         float[] axis = { 0, 0, 0 };
 
         if (Cmd.Argc() < 2) {
-            Com.Printf("Usage: sky <basename> <rotate> <axis x y z>\n");
+            log.warn("Usage: sky <basename> <rotate> <axis x y z>");
             return;
         }
         if (Cmd.Argc() > 2)
@@ -1158,7 +1158,7 @@ public final class SCR {
         if (cls.disable_screen != 0) {
             if (Timer.Milliseconds() - cls.disable_screen > 120000) {
                 cls.disable_screen = 0;
-                Com.Printf("Loading plaque timed out.\n");
+                log.warn("Loading plaque timed out.");
             }
             return;
         }
@@ -1656,7 +1656,7 @@ public final class SCR {
         }
 
         if (input != size && input != size + 1) {
-            Com.Printf("Decompression overread by " + (input - size));
+            log.warn("Decompression overread by {}", input - size);
         }
 
         return out;

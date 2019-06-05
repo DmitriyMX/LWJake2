@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.game.EndianHandler;
@@ -34,6 +35,7 @@ import lwjake2.util.Math3D;
 
 import java.io.IOException;
 
+@Slf4j
 public class SV_ENTS {
 
     /**
@@ -517,7 +519,7 @@ public class SV_ENTS {
                     % SV_INIT.svs.num_client_entities;
             state = SV_INIT.svs.client_entities[ix];
             if (ent.s.number != e) {
-                Com.DPrintf("FIXING ENT.S.NUMBER!!!\n");
+                log.debug("FIXING ENT.S.NUMBER!!!");
                 ent.s.number = e;
             }
 
@@ -589,7 +591,7 @@ public class SV_ENTS {
             //fwrite (buf.data, buf.cursize, 1, svs.demofile);
             SV_INIT.svs.demofile.write(buf.data, 0, buf.cursize);
         } catch (IOException e1) {
-            Com.Printf("Error writing demo file:" + e);
+            log.error("Error writing demo file:{}", e, e1);
         }
     }
 }

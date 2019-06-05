@@ -845,10 +845,8 @@ public final class CL {
             //
             // packet from server
             //
-            if (!NET.CompareAdr(Globals.net_from,
-                    Globals.cls.netchan.remote_address)) {
-                Com.DPrintf(NET.AdrToString(Globals.net_from)
-                        + ":sequenced packet without connection\n");
+            if (!NET.CompareAdr(Globals.net_from, Globals.cls.netchan.remote_address)) {
+                log.debug("{}:sequenced packet without connection", NET.AdrToString(Globals.net_from));
                 continue;
             }
             if (!Netchan.Process(Globals.cls.netchan, Globals.net_message))

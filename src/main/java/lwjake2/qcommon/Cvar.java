@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -30,11 +31,12 @@ import java.io.RandomAccessFile;
 import java.util.Vector;
 
 import static lwjake2.Defines.*;
-import static lwjake2.Globals.cvar_vars;
+import static lwjake2.Globals.*;
 
 /**
  * Cvar implements console variables. The original code is located in cvar.c
  */
+@Slf4j
 public class Cvar {
     private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
@@ -49,7 +51,7 @@ public class Cvar {
 
         if ((flags & (CVAR_USERINFO | CVAR_SERVERINFO)) != 0) {
             if (!InfoValidate(var_name)) {
-                Com.Printf("invalid info cvar name\n");
+                log.warn("invalid info cvar name");
                 return null;
             }
         }
@@ -65,7 +67,7 @@ public class Cvar {
 
         if ((flags & (CVAR_USERINFO | CVAR_SERVERINFO)) != 0) {
             if (!InfoValidate(var_value)) {
-                Com.Printf("invalid info cvar value\n");
+                log.warn("invalid info cvar value");
                 return null;
             }
         }
@@ -166,14 +168,14 @@ public class Cvar {
 
         if ((var.flags & (CVAR_USERINFO | CVAR_SERVERINFO)) != 0) {
             if (!InfoValidate(value)) {
-                Com.Printf("invalid info cvar value\n");
+                log.warn("invalid info cvar value");
                 return var;
             }
         }
 
         if (!force) {
             if ((var.flags & CVAR_NOSET) != 0) {
-                Com.Printf(var_name + " is write protected.\n");
+                log.warn("{} is write protected.", var_name);
                 return var;
             }
 
@@ -188,7 +190,7 @@ public class Cvar {
                 }
 
                 if (Globals.server_state != 0) {
-                    Com.Printf(var_name + " will be changed for next game.\n");
+                    log.warn("{} will be changed for next game.", var_name);
                     var.latched_string = value;
                 } else {
                     var.string = value;
@@ -238,7 +240,7 @@ public class Cvar {
 
         c = Cmd.Argc();
         if (c != 3 && c != 4) {
-            Com.Printf("usage: set <variable> <value> [u / s]\n");
+            log.warn("usage: set <variable> <value> [u / s]");
             return;
         }
 
@@ -248,7 +250,7 @@ public class Cvar {
             else if (Cmd.Argv(3).equals("s"))
                 flags = CVAR_SERVERINFO;
             else {
-                Com.Printf("flags can only be 'u' or 's'\n");
+                log.warn("flags can only be 'u' or 's'");
                 return;
             }
             Cvar.FullSet(Cmd.Argv(1), Cmd.Argv(2), flags);
@@ -266,27 +268,20 @@ public class Cvar {
 
         i = 0;
         for (var = cvar_vars; var != null; var = var.next, i++) {
-            if ((var.flags & CVAR_ARCHIVE) != 0)
-                Com.Printf("*");
-            else
-                Com.Printf(" ");
-            if ((var.flags & CVAR_USERINFO) != 0)
-                Com.Printf("U");
-            else
-                Com.Printf(" ");
-            if ((var.flags & CVAR_SERVERINFO) != 0)
-                Com.Printf("S");
-            else
-                Com.Printf(" ");
-            if ((var.flags & CVAR_NOSET) != 0)
-                Com.Printf("-");
-            else if ((var.flags & CVAR_LATCH) != 0)
-                Com.Printf("L");
-            else
-                Com.Printf(" ");
-            Com.Printf(" " + var.name + " \"" + var.string + "\"\n");
+            log.warn((var.flags & CVAR_ARCHIVE) != 0 ? "*" : " ");
+            log.warn((var.flags & CVAR_USERINFO) != 0 ? "U" : " ");
+            log.warn((var.flags & CVAR_SERVERINFO) != 0 ? "S" : " ");
+
+            if ((var.flags & CVAR_NOSET) != 0) {
+                log.warn("-");
+            } else if ((var.flags & CVAR_LATCH) != 0) {
+                log.warn("L");
+            } else {
+                log.warn(" ");
+            }
+            log.warn(" {} \"{}\"", var.name, var.string);
         }
-        Com.Printf(i + " cvars\n");
+        log.warn("{} cvars", i);
     };
 
 
@@ -337,7 +332,7 @@ public class Cvar {
 
         // perform a variable print or set
         if (Cmd.Argc() == 1) {
-            Com.Printf("\"" + v.name + "\" is \"" + v.string + "\"\n");
+            log.warn("\"{}\" is \"{}\"", v.name, v.string);
             return true;
         }
 

@@ -18,13 +18,14 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
-import lwjake2.qcommon.Com;
 import lwjake2.util.QuakeFile;
 
 import java.io.IOException;
 import java.util.Date;
 
+@Slf4j
 public class game_locals_t {
     //
     //    this structure is left intact through an entire game
@@ -77,8 +78,9 @@ public class game_locals_t {
         autosaved = f.readInt() != 0;
 
         // rst's checker :-)
-        if (f.readInt() != 1928)
-            Com.DPrintf("error in loading game_locals, 1928\n");
+        if (f.readInt() != 1928/*FIXME magic number*/) {
+            log.debug("error in loading game_locals, 1928");
+        }
 
     }
 

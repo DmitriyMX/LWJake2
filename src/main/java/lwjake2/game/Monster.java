@@ -18,12 +18,13 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.client.M;
-import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class Monster {
 
     // FIXME monsters should call these with a totally accurate direction
@@ -204,7 +205,7 @@ public class Monster {
             notcombat = false;
             fixup = false;
             /*
-             * if (true) { Com.Printf("all entities:\n");
+             * if (true) { log.warn("all entities:");
              * 
              * for (int n = 0; n < Game.globals.num_edicts; n++) { edict_t ent =
              * GameBase.g_edicts[n]; Com.Printf( "|%4i | %25s
@@ -345,7 +346,7 @@ public class Monster {
         public String getID() { return "monster_triggered_start";}
         public boolean think(edict_t self) {
             if (self.index == 312)
-                Com.Printf("monster_triggered_start\n");
+                log.warn("monster_triggered_start");
             self.solid = Defines.SOLID_NOT;
             self.movetype = Defines.MOVETYPE_NONE;
             self.svflags |= Defines.SVF_NOCLIENT;

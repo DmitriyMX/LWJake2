@@ -18,12 +18,12 @@
 
 package lwjake2.util;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.game.GameBase;
 import lwjake2.game.GameItemList;
 import lwjake2.game.SuperAdapter;
 import lwjake2.game.edict_t;
 import lwjake2.game.gitem_t;
-import lwjake2.qcommon.Com;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,6 +33,7 @@ import java.io.RandomAccessFile;
  * RandomAccessFile, but handles readString/WriteString specially and offers
  * other helper functions
  */
+@Slf4j
 public class QuakeFile extends RandomAccessFile {
 
     /** Standard Constructor. */
@@ -105,7 +106,7 @@ public class QuakeFile extends RandomAccessFile {
             return null;
 
         if (i > GameBase.g_edicts.length) {
-            Com.DPrintf("jake2: illegal edict num:" + i + "\n");
+            log.debug("lwjake2: illegal edict num:{}", i);
             return null;
         }
 
@@ -121,7 +122,7 @@ public class QuakeFile extends RandomAccessFile {
         else {
             String str = a.getID();
             if (str == null) {
-                Com.DPrintf("writeAdapter: invalid Adapter id for " + a + "\n");
+                log.debug("writeAdapter: invalid Adapter id for {}", a);
             }
             writeString(str);
         }
@@ -129,8 +130,9 @@ public class QuakeFile extends RandomAccessFile {
 
     /** Reads the adapter id and returns the adapter. */
     public SuperAdapter readAdapter() throws IOException {
-        if (readInt() != 3988)
-            Com.DPrintf("wrong read position: readadapter 3988 \n");
+        if (readInt() != 3988/*FIXME magic number*/) {
+            log.debug("wrong read position: readadapter 3988");
+        }
 
         String id = readString();
 

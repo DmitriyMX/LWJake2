@@ -18,11 +18,11 @@
 
 package lwjake2.sound.lwjgl;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.CL_ents;
 import lwjake2.game.entity_state_t;
-import lwjake2.qcommon.Com;
 import lwjake2.sound.Sound;
 import lwjake2.sound.sfx_t;
 import lwjake2.sound.sfxcache_t;
@@ -45,6 +45,7 @@ import org.lwjgl.openal.EFX10;
  * 
  * @author dsanders/cwei
  */
+@Slf4j
 public class Channel {
 
     final static int LISTENER = 0;
@@ -155,7 +156,7 @@ public class Channel {
         AL10.alSourcef(source, AL10.AL_GAIN, 1.0f);
         channels[numChannels].volumeChanged = true;
 
-        Com.DPrintf("streaming enabled\n");
+        log.debug("streaming enabled");
     }
 
     static void disableStreaming() {
@@ -167,7 +168,7 @@ public class Channel {
         // free the last source
         //numChannels++;
         streamingEnabled = false;
-        Com.DPrintf("streaming disabled\n");
+        log.debug("streaming disabled");
     }
     
     static void unqueueStreams() {
@@ -177,7 +178,7 @@ public class Channel {
         // stop streaming
         AL10.alSourceStop(source);
         int count = AL10.alGetSourcei(source, AL10.AL_BUFFERS_QUEUED);
-        Com.DPrintf("unqueue " + count + " buffers\n");
+        log.debug("unqueue {} buffers", count);
         while (count-- > 0) {
             AL10.alSourceUnqueueBuffers(source, tmp);
         }
@@ -196,12 +197,12 @@ public class Channel {
         if (interupted) {
             unqueueStreams();
             buffer.put(0, buffers.get(Sound.MAX_SFX + streamQueue++));
-            Com.DPrintf("queue " + (streamQueue - 1) + '\n');
+            log.debug("queue {}", streamQueue - 1);
         } else if (processed < 2) {
             // check queue overrun
             if (streamQueue >= Sound.STREAM_QUEUE) return;
             buffer.put(0, buffers.get(Sound.MAX_SFX + streamQueue++));
-            Com.DPrintf("queue " + (streamQueue - 1) + '\n');
+            log.debug("queue {}", streamQueue - 1);
         } else {
             // reuse the buffer
             AL10.alSourceUnqueueBuffers(source, buffer);
@@ -213,7 +214,7 @@ public class Channel {
         AL10.alSourceQueueBuffers(source, buffer);
         
         if (streamQueue > 1 && !playing) {
-            Com.DPrintf("start sound\n");
+            log.debug("start sound");
             AL10.alSourcePlay(source);
         }
     }

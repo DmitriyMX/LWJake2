@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -32,6 +33,7 @@ import lwjake2.game.usercmd_t;
 import lwjake2.qcommon.*;
 import lwjake2.util.Lib;
 
+@Slf4j
 public class SV_USER {
 //    private static final FileSystem fileSystem = null/*BaseQ2FileSystem.getInstance()*/;
 
@@ -100,10 +102,10 @@ public class SV_USER {
         int playernum;
         edict_t ent;
 
-        Com.DPrintf("New() from " + SV_MAIN.sv_client.name + "\n");
+        log.debug("New() from {}", SV_MAIN.sv_client.name);
 
         if (SV_MAIN.sv_client.state != Defines.cs_connected) {
-            Com.Printf("New not valid -- already spawned\n");
+            log.warn("New not valid -- already spawned");
             return;
         }
 
@@ -169,16 +171,16 @@ public class SV_USER {
     public static void SV_Configstrings_f() {
         int start;
 
-        Com.DPrintf("Configstrings() from " + SV_MAIN.sv_client.name + "\n");
+        log.debug("Configstrings() from {}", SV_MAIN.sv_client.name);
 
         if (SV_MAIN.sv_client.state != Defines.cs_connected) {
-            Com.Printf("configstrings not valid -- already spawned\n");
+            log.warn("configstrings not valid -- already spawned");
             return;
         }
 
         // handle the case of a level changing while a client was connecting
         if (Lib.atoi(Cmd.Argv(1)) != SV_INIT.svs.spawncount) {
-            Com.Printf("SV_Configstrings_f from different level\n");
+            log.warn("SV_Configstrings_f from different level");
             SV_New_f();
             return;
         }
@@ -224,16 +226,16 @@ public class SV_USER {
         entity_state_t nullstate;
         entity_state_t base;
 
-        Com.DPrintf("Baselines() from " + SV_MAIN.sv_client.name + "\n");
+        log.debug("Baselines() from {}", SV_MAIN.sv_client.name);
 
         if (SV_MAIN.sv_client.state != Defines.cs_connected) {
-            Com.Printf("baselines not valid -- already spawned\n");
+            log.warn("baselines not valid -- already spawned");
             return;
         }
 
         // handle the case of a level changing while a client was connecting
         if (Lib.atoi(Cmd.Argv(1)) != SV_INIT.svs.spawncount) {
-            Com.Printf("SV_Baselines_f from different level\n");
+            log.warn("SV_Baselines_f from different level");
             SV_New_f();
             return;
         }
@@ -276,11 +278,11 @@ public class SV_USER {
      * ================== SV_Begin_f ==================
      */
     public static void SV_Begin_f() {
-        Com.DPrintf("Begin() from " + SV_MAIN.sv_client.name + "\n");
+        log.debug("Begin() from {}", SV_MAIN.sv_client.name);
 
         // handle the case of a level changing while a client was connecting
         if (Lib.atoi(Cmd.Argv(1)) != SV_INIT.svs.spawncount) {
-            Com.Printf("SV_Begin_f from different level\n");
+            log.warn("SV_Begin_f from different level");
             SV_New_f();
             return;
         }
@@ -389,8 +391,7 @@ public class SV_USER {
                                                // allow
                                                // download ZOID
                 || (name.startsWith("maps/") /*&& fileSystem.getFileFromPak() != 0*/)) {
-            Com.DPrintf("Couldn't download " + name + " to "
-                    + SV_MAIN.sv_client.name + "\n");
+            log.debug("Couldn't download {} to {}", name, SV_MAIN.sv_client.name);
             if (SV_MAIN.sv_client.download != null) {
                 SV_MAIN.sv_client.download = null;
             }
@@ -403,8 +404,7 @@ public class SV_USER {
         }
 
         SV_NextDownload_f();
-        Com.DPrintf("Downloading " + name + " to " + SV_MAIN.sv_client.name
-                + "\n");
+        log.debug("Downloading {} to {}", name, SV_MAIN.sv_client.name);
     }
 
     //============================================================================
@@ -458,12 +458,11 @@ public class SV_USER {
      */
     public static void SV_Nextserver_f() {
         if (Lib.atoi(Cmd.Argv(1)) != SV_INIT.svs.spawncount) {
-            Com.DPrintf("Nextserver() from wrong level, from "
-                    + SV_MAIN.sv_client.name + "\n");
+            log.debug("Nextserver() from wrong level, from {}", SV_MAIN.sv_client.name);
             return; // leftover from last server
         }
 
-        Com.DPrintf("Nextserver() from " + SV_MAIN.sv_client.name + "\n");
+        log.debug("Nextserver() from {}", SV_MAIN.sv_client.name);
 
         SV_Nextserver();
     }
@@ -472,8 +471,8 @@ public class SV_USER {
      * ================== SV_ExecuteUserCommand ==================
      */
     public static void SV_ExecuteUserCommand(String s) {
-        
-        Com.dprintln("SV_ExecuteUserCommand:" + s );
+
+        log.debug("SV_ExecuteUserCommand:{}", s);
         SV_USER.ucmd_t u = null;
 
         Cmd.TokenizeString(s.toCharArray(), true);
@@ -508,7 +507,7 @@ public class SV_USER {
         cl.commandMsec -= cmd.msec & 0xFF;
 
         if (cl.commandMsec < 0 && SV_MAIN.sv_enforcetime.value != 0) {
-            Com.DPrintf("commandMsec underflow from " + cl.name + "\n");
+            log.debug("commandMsec underflow from {}", cl.name);
             return;
         }
 
@@ -543,8 +542,8 @@ public class SV_USER {
 
         while (true) {
             if (Globals.net_message.readcount > Globals.net_message.cursize) {
-                Com.Printf("SV_ReadClientMessage: bad read:\n");
-                Com.Printf(Lib.hexDump(Globals.net_message.data, 32, false));
+                log.warn("SV_ReadClientMessage: bad read:");
+                log.warn("{}", Lib.hexDump(Globals.net_message.data, 32, false));
                 SV_MAIN.SV_DropClient(cl);
                 return;
             }
@@ -555,7 +554,7 @@ public class SV_USER {
 
             switch (c) {
             default:
-                Com.Printf("SV_ReadClientMessage: unknown command char\n");
+                log.warn("SV_ReadClientMessage: unknown command char");
                 SV_MAIN.SV_DropClient(cl);
                 return;
 
@@ -604,9 +603,12 @@ public class SV_USER {
                         cl.netchan.incoming_sequence);
 
                 if ((calculatedChecksum & 0xff) != checksum) {
-                    Com.DPrintf("Failed command checksum for " + cl.name + " ("
-                            + calculatedChecksum + " != " + checksum + ")/"
-                            + cl.netchan.incoming_sequence + "\n");
+                    log.debug("Failed command checksum for {} ({} != {})/{}",
+                            cl.name,
+                            calculatedChecksum,
+                            checksum,
+                            cl.netchan.incoming_sequence
+                    );
                     return;
                 }
 

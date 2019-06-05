@@ -157,7 +157,7 @@ public final class Sys {
             try {
                 Pattern.compile(regexpr);
             } catch (PatternSyntaxException e) {
-                Com.Printf("invalid file pattern ( *.* is used instead )\n");
+                log.warn("invalid file pattern ( *.* is used instead )");
                 return ".*"; // the default
             }
             return regexpr;

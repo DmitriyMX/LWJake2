@@ -243,9 +243,9 @@ public class GameItems {
     
             if (!taken)
                 return;
-            
-            Com.dprintln("Picked up:" + ent.classname);
-    
+
+            log.debug("Picked up:{}", ent.classname);
+
             if (!((GameBase.coop.value != 0) && (ent.item.flags & Defines.IT_STAY_COOP) != 0)
                     || 0 != (ent.spawnflags & (Defines.DROPPED_ITEM | Defines.DROPPED_PLAYER_ITEM))) {
                 if ((ent.flags & Defines.FL_RESPAWN) != 0)

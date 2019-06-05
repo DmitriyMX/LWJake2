@@ -636,7 +636,7 @@ public final class Cmd {
         s = Cmd.Args();
 
         it = GameItems.FindItem(s);
-        Com.dprintln("using:" + s);
+        log.debug("using:{}", s);
         if (it == null) {
             SV_GAME.PF_cprintfhigh(ent, "unknown item: " + s + "\n");
             return;

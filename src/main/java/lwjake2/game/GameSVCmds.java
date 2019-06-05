@@ -18,8 +18,8 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
-import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 
 import java.io.IOException;
@@ -27,6 +27,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.StringTokenizer;
 
+@Slf4j
 public class GameSVCmds {
 
     /**
@@ -261,7 +262,7 @@ public class GameSVCmds {
             }
 
         } catch (IOException e) {
-            Com.Printf("IOError in SVCmd_WriteIP_f:" + e);
+            log.error("IOError in SVCmd_WriteIP_f: {}", e.getMessage());
         }
 
         Lib.fclose(f);

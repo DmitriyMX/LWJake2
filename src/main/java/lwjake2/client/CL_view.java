@@ -18,14 +18,15 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.qcommon.CM;
-import lwjake2.qcommon.Com;
 import lwjake2.sys.Sys;
 
 import java.util.StringTokenizer;
 
+@Slf4j
 public class CL_view {
 
     static int num_cl_weaponmodels;
@@ -59,16 +60,14 @@ public class CL_view {
         // cut off ".bsp"
 
         // register models, pics, and skins
-        Com.Printf("Map: " + mapname + "\r");
+        log.warn("Map: {}", mapname);
         SCR.UpdateScreen();
         Globals.re.BeginRegistration(mapname);
-        Com.Printf("                                     \r");
 
         // precache status bar pics
-        Com.Printf("pics\r");
+        log.warn("pics");
         SCR.UpdateScreen();
         SCR.TouchPics();
-        Com.Printf("                                     \r");
 
         CL_tent.RegisterTEntModels();
 
@@ -81,8 +80,9 @@ public class CL_view {
             if (name.length() > 37)
                 name = name.substring(0, 36);
 
-            if (name.charAt(0) != '*')
-                Com.Printf(name + "\r");
+            if (name.charAt(0) != '*') {
+                log.warn(name);
+            }
 
             SCR.UpdateScreen();
             Sys.SendKeyEvents(); // pump message loop
@@ -104,11 +104,9 @@ public class CL_view {
                 else
                     Globals.cl.model_clip[i] = null;
             }
-            if (name.charAt(0) != '*')
-                Com.Printf("                                     \r");
         }
 
-        Com.Printf("images\r");
+        log.warn("images");
         SCR.UpdateScreen();
         for (i = 1; i < Defines.MAX_IMAGES
                 && Globals.cl.configstrings[Defines.CS_IMAGES + i].length() > 0; i++) {
@@ -117,22 +115,20 @@ public class CL_view {
             Sys.SendKeyEvents(); // pump message loop
         }
 
-        Com.Printf("                                     \r");
         for (i = 0; i < Defines.MAX_CLIENTS; i++) {
             if (Globals.cl.configstrings[Defines.CS_PLAYERSKINS + i].length() == 0)
                 continue;
-            Com.Printf("client " + i + '\r');
+            log.warn("client {}", i);
             SCR.UpdateScreen();
             Sys.SendKeyEvents(); // pump message loop
             CL_parse.ParseClientinfo(i);
-            Com.Printf("                                     \r");
         }
 
         CL_parse.LoadClientinfo(Globals.cl.baseclientinfo,
                 "unnamed\\male/grunt");
 
         // set sky textures and speed
-        Com.Printf("sky\r");
+        log.warn("sky");
         SCR.UpdateScreen();
         rotate = Float
                 .parseFloat(Globals.cl.configstrings[Defines.CS_SKYROTATE]);
@@ -143,7 +139,6 @@ public class CL_view {
         axis[2] = Float.parseFloat(st.nextToken());
         Globals.re.SetSky(Globals.cl.configstrings[Defines.CS_SKY], rotate,
                 axis);
-        Com.Printf("                                     \r");
 
         // the renderer can now free unneeded stuff
         Globals.re.EndRegistration();

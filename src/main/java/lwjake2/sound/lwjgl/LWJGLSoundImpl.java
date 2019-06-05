@@ -84,14 +84,11 @@ public final class LWJGLSoundImpl implements Sound {
             initOpenAL();
             checkError();
             initOpenALExtensions();
-        } catch (OpenALException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             return false;
-        } catch (Exception e) {
-            Com.DPrintf(e.getMessage() + '\n');
-            return false;
         }
-        
+
         // set the listerner (master) volume
         s_volume = Cvar.Get("s_volume", "0.7", Defines.CVAR_ARCHIVE);
         AL10.alGenBuffers(buffers);
@@ -128,9 +125,8 @@ public final class LWJGLSoundImpl implements Sound {
         log.info("{} using {}", os, ((deviceName == null) ? defaultSpecifier : deviceName));
 
         // Check for an error.
-        if (ALC10.alcGetError(AL.getDevice()) != ALC10.ALC_NO_ERROR) 
-        {
-            Com.DPrintf("Error with SoundDevice");
+        if (ALC10.alcGetError(AL.getDevice()) != ALC10.ALC_NO_ERROR) {
+            log.debug("Error with SoundDevice");
         }
     }
     
@@ -168,7 +164,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     private void checkError() {
-        Com.DPrintf("AL Error: " + alErrorString() +'\n');
+        log.debug("AL Error: {}", alErrorString());
     }
     
     private String alErrorString(){
@@ -490,7 +486,7 @@ public final class LWJGLSoundImpl implements Sound {
 
         sfx = RegisterSound(sound);
         if (sfx == null) {
-            Com.Printf("S_StartLocalSound: can't cache " + sound + "\n");
+            log.warn("S_StartLocalSound: can't cache {}", sound);
             return;
         }
         StartSound(null, Globals.cl.playernum + 1, 0, sfx, 1, 1, 0);        

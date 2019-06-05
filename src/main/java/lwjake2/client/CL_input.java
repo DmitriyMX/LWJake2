@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.Cmd;
@@ -36,6 +37,7 @@ import lwjake2.util.Math3D;
 /**
  * CL_input
  */
+@Slf4j
 public class CL_input {
 
     static long frame_msec;
@@ -120,7 +122,7 @@ public class CL_input {
         else if (b.down[1] == 0)
             b.down[1] = k;
         else {
-            Com.Printf("Three keys down for a button!\n");
+            log.warn("Three keys down for a button!");
             return;
         }
 

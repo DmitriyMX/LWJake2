@@ -18,19 +18,20 @@
 
 package lwjake2.game;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.client.M;
-import lwjake2.qcommon.Com;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
 
+@Slf4j
 public class GameUtil {
 
     public static void checkClassname(edict_t ent) {
 
         if (ent.classname == null) {
-            Com.Printf("edict with classname = null: " + ent.index);
+            log.warn("edict with classname = null: {}", ent.index);
         }
     }
 

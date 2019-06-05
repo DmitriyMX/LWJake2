@@ -29,11 +29,14 @@ import lwjake2.sound.S;
 import lwjake2.sound.sfx_t;
 import lwjake2.util.Lib;
 import lwjake2.util.Math3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CL_tent
  */
 public class CL_tent {
+    private static final Logger log = LoggerFactory.getLogger(CL_tent.class);
 
     static class explosion_t {
         int type;
@@ -421,7 +424,7 @@ public class CL_tent {
                 return ent;
             }
         }
-        Com.Printf("beam list overflow!\n");
+        log.warn("beam list overflow!");
         return ent;
     }
 
@@ -470,7 +473,7 @@ public class CL_tent {
                 return ent;
             }
         }
-        Com.Printf("beam list overflow!\n");
+        log.warn("beam list overflow!");
         return ent;
     }
 
@@ -532,7 +535,7 @@ public class CL_tent {
                 return ent;
             }
         }
-        Com.Printf("beam list overflow!\n");
+        log.warn("beam list overflow!");
         return ent;
     }
 
@@ -586,7 +589,7 @@ public class CL_tent {
                 return srcEnt;
             }
         }
-        Com.Printf("beam list overflow!\n");
+        log.warn("beam list overflow!");
         return srcEnt;
     }
 

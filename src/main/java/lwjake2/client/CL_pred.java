@@ -18,6 +18,7 @@
 
 package lwjake2.client;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.Globals;
 import lwjake2.game.cmodel_t;
@@ -27,13 +28,13 @@ import lwjake2.game.pmove_t;
 import lwjake2.game.trace_t;
 import lwjake2.game.usercmd_t;
 import lwjake2.qcommon.CM;
-import lwjake2.qcommon.Com;
 import lwjake2.qcommon.PMove;
 import lwjake2.util.Math3D;
 
 /**
  * CL_pred
  */
+@Slf4j
 public class CL_pred {
 
     /*
@@ -63,10 +64,9 @@ public class CL_pred {
         { // a teleport or something
             Math3D.VectorClear(Globals.cl.prediction_error);
         } else {
-            if (Globals.cl_showmiss.value != 0.0f
-                    && (delta[0] != 0 || delta[1] != 0 || delta[2] != 0))
-                Com.Printf("prediction miss on " + Globals.cl.frame.serverframe
-                        + ": " + (delta[0] + delta[1] + delta[2]) + "\n");
+            if (Globals.cl_showmiss.value != 0.0f && (delta[0] != 0 || delta[1] != 0 || delta[2] != 0)) {
+                log.warn("prediction miss on {}: {}", Globals.cl.frame.serverframe, delta[0] + delta[1] + delta[2]);
+            }
 
             Math3D.VectorCopy(Globals.cl.frame.playerstate.pmove.origin,
                     Globals.cl.predicted_origins[frame]);
@@ -229,8 +229,9 @@ public class CL_pred {
 
         // if we are too far out of date, just freeze
         if (current - ack >= Defines.CMD_BACKUP) {
-            if (Globals.cl_showmiss.value != 0.0f)
-                Com.Printf("exceeded CMD_BACKUP\n");
+            if (Globals.cl_showmiss.value != 0.0f) {
+                log.warn("exceeded CMD_BACKUP");
+            }
             return;
         }
 

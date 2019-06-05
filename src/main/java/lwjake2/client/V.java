@@ -239,14 +239,14 @@ public final class V {
 
     static Runnable Gun_Next_f = () -> {
         gun_frame++;
-        Com.Printf("frame " + gun_frame + "\n");
+        log.warn("frame {}", gun_frame);
     };
 
     static Runnable Gun_Prev_f = () -> {
         gun_frame--;
         if (gun_frame < 0)
             gun_frame = 0;
-        Com.Printf("frame " + gun_frame + "\n");
+        log.warn("frame {}", gun_frame);
     };
 
     static Runnable Gun_Model_f = () -> {

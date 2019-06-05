@@ -171,7 +171,7 @@ public class GameBase {
         for (; from.i < num_edicts; from.i++) {
             from.o = g_edicts[from.i];
             if (from.o.classname == null) {
-                Com.Printf("edict with classname = null" + from.o.index);
+                log.warn("edict with classname = null{}", from.o.index);
             }
 
             if (!from.o.inuse)

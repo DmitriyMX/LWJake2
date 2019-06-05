@@ -306,8 +306,9 @@ public class Key {
                 && !(Globals.cls.state == Defines.ca_disconnected))
                 return; // ignore most autorepeats
 
-            if (key >= 200 && Globals.keybindings[key] == null)
-                Com.Printf(Key.KeynumToString(key) + " is unbound, hit F4 to set.\n");
+            if (key >= 200 && Globals.keybindings[key] == null) {
+                log.warn("{} is unbound, hit F4 to set.", Key.KeynumToString(key));
+            }
         }
         else {
             key_repeats[key] = 0;
@@ -721,20 +722,21 @@ public class Key {
         int c = Cmd.Argc();
 
         if (c < 2) {
-            Com.Printf("bind <key> [command] : attach a command to a key\n");
+            log.warn("bind <key> [command] : attach a command to a key");
             return;
         }
         int b = StringToKeynum(Cmd.Argv(1));
         if (b == -1) {
-            Com.Printf("\"" + Cmd.Argv(1) + "\" isn't a valid key\n");
+            log.warn("\"{}\" isn't a valid key", Cmd.Argv(1));
             return;
         }
 
         if (c == 2) {
-            if (Globals.keybindings[b] != null)
-                Com.Printf("\"" + Cmd.Argv(1) + "\" = \"" + Globals.keybindings[b] + "\"\n");
-            else
-                Com.Printf("\"" + Cmd.Argv(1) + "\" is not bound\n");
+            if (Globals.keybindings[b] != null) {
+                log.warn("\"{}\" = \"{}\"", Cmd.Argv(1), Globals.keybindings[b]);
+            } else {
+                log.warn("\"{}\" is not bound", Cmd.Argv(1));
+            }
             return;
         }
 
@@ -764,13 +766,13 @@ public class Key {
     static void Key_Unbind_f() {
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("unbind <key> : remove commands from a key\n");
+            log.warn("unbind <key> : remove commands from a key");
             return;
         }
 
         int b = Key.StringToKeynum(Cmd.Argv(1));
         if (b == -1) {
-            Com.Printf("\"" + Cmd.Argv(1) + "\" isn't a valid key\n");
+            log.warn("\"{}\" isn't a valid key", Cmd.Argv(1));
             return;
         }
 
@@ -788,8 +790,9 @@ public class Key {
 
     static void Key_Bindlist_f() {
         for (int i = 0; i < 256; i++)
-            if (Globals.keybindings[i] != null && Globals.keybindings[i].length() != 0)
-                Com.Printf(Key.KeynumToString(i) + " \"" + Globals.keybindings[i] + "\"\n");
+            if (Globals.keybindings[i] != null && Globals.keybindings[i].length() != 0) {
+                log.warn("{} \"{}\"", Key.KeynumToString(i), Globals.keybindings[i]);
+            }
     }
 
     static void ClearStates() {

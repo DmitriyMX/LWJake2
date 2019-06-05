@@ -236,7 +236,7 @@ public final class Qcommon {
             }
 
         } catch (IllegalStateException e) {
-            Com.DPrintf("lonjmp exception:" + e);
+            log.debug("lonjmp exception:{}", e.getMessage());
         }
     }
 

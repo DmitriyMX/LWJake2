@@ -18,6 +18,7 @@
 
 package lwjake2.server;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.Globals;
@@ -33,6 +34,7 @@ import lwjake2.util.Math3D;
 /**
  * SV
  */
+@Slf4j
 public final class SV {
 
     ///////////////////////////////////////
@@ -1002,7 +1004,7 @@ public final class SV {
 
         //FIXME: how did we get here with no enemy
         if (enemy == null) {
-            Com.DPrintf("SV_NewChaseDir without enemy!\n");
+            log.debug("SV_NewChaseDir without enemy!");
             return;
         }
         olddir = Math3D.anglemod((int) (actor.ideal_yaw / 45) * 45);

@@ -189,7 +189,7 @@ public class SV_INIT {
 
         log.info("------- Server Initialization -------");
 
-        Com.DPrintf("SpawnServer: " + server + "\n");
+        log.debug("SpawnServer: {}", server);
         if (sv.demofile != null)
             try {
                 sv.demofile.close();

@@ -71,7 +71,7 @@ public class WaveLoader {
         byte[] data = UnpackLoader.loadFile(namebuffer);
 
         if (data == null) {
-            Com.DPrintf("Couldn't load " + namebuffer + "\n");
+            log.debug("Couldn't load {}", namebuffer);
             return null;
         }
         
@@ -81,7 +81,7 @@ public class WaveLoader {
 
         if (info.channels != 1)
         {
-            Com.Printf(s.name + " is a stereo sample - ignoring\n");
+            log.warn("{} is a stereo sample - ignoring", s.name);
             return null;
         }
 
@@ -97,7 +97,7 @@ public class WaveLoader {
         // TODO: handle max sample bytes with a cvar
         if (len >= maxsamplebytes)
         {
-            Com.Printf(s.name + " is too long: " + len + " bytes?! ignoring.\n");
+            log.warn("{} is too long: {} bytes?! ignoring.", s.name, len);
             return null;
         }
 
@@ -267,7 +267,7 @@ public class WaveLoader {
         FindChunk("RIFF");
         String s = new String(data_b, data_p + 8, 4);
         if (!s.equals("WAVE")) {
-            Com.Printf("Missing RIFF/WAVE chunks\n");
+            log.warn("Missing RIFF/WAVE chunks");
             return info;
         }
 
@@ -277,13 +277,13 @@ public class WaveLoader {
 
         FindChunk("fmt ");
         if (data_p == 0) {
-            Com.Printf("Missing fmt chunk\n");
+            log.warn("Missing fmt chunk");
             return info;
         }
         data_p += 8;
         format = GetLittleShort();
         if (format != 1) {
-            Com.Printf("Microsoft PCM format only\n");
+            log.warn("Microsoft PCM format only");
             return info;
         }
 
@@ -319,7 +319,7 @@ public class WaveLoader {
         //       find data chunk
         FindChunk("data");
         if (data_p == 0) {
-            Com.Printf("Missing data chunk\n");
+            log.warn("Missing data chunk");
             return info;
         }
 

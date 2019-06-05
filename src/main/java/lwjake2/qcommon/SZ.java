@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.Defines;
 import lwjake2.ErrorCode;
 import lwjake2.util.Lib;
@@ -25,6 +26,7 @@ import lwjake2.util.Lib;
 /**
  * SZ
  */
+@Slf4j
 public final class SZ {
 
     public static void Clear(sizebuf_t buf) {
@@ -55,7 +57,7 @@ public final class SZ {
             if (length > buf.maxsize)
                 Com.Error(ErrorCode.ERR_FATAL, "SZ_GetSpace: " + length + " is > full buffer size");
     
-            Com.Printf("SZ_GetSpace: overflow\n");
+            log.warn("SZ_GetSpace: overflow");
             Clear(buf);
             buf.overflowed = true;
         }
@@ -83,7 +85,7 @@ public final class SZ {
 
     // 
     public static void Print(sizebuf_t buf, String data) {
-        Com.dprintln("SZ.print():<" + data + ">" );
+        log.debug("SZ.print():<{}>", data );
         int length = data.length();
         byte str[] = Lib.stringToBytes(data);
     

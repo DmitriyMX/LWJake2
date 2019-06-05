@@ -18,10 +18,11 @@
 
 package lwjake2.game;
 
-import lwjake2.qcommon.Com;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Hashtable;
 
+@Slf4j
 public abstract class SuperAdapter {
 
     /** Constructor, does the adapter registration. */
@@ -43,7 +44,7 @@ public abstract class SuperAdapter {
 
         // try to create the adapter
         if (sa == null) {
-            Com.DPrintf("SuperAdapter.getFromID():adapter not found->" + key + "\n");
+            log.debug("SuperAdapter.getFromID():adapter not found->{}", key);
         }
 
         return sa;

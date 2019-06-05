@@ -120,13 +120,10 @@ public class GameSave {
         // preload all classes to register the adapters
         for ( int n=0; n < preloadclasslist.length; n++)
         {
-            try
-            {
+            try {
                 Class.forName(preloadclasslist[n]);
-            }
-            catch(Exception e)
-            {
-                Com.DPrintf("error loading class: " + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                log.error("error loading class: " + e.getMessage());
             }
         }
         

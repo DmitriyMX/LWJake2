@@ -464,10 +464,8 @@ public class GameSpawn {
      * entity definitions out of an ent file.
      */
 
-    public static void SpawnEntities(String mapname, String entities,
-            String spawnpoint) {
-        
-        Com.dprintln("SpawnEntities(), mapname=" + mapname);
+    public static void SpawnEntities(String mapname, String entities, String spawnpoint) {
+        log.debug("SpawnEntities(), mapname={}", mapname);
         edict_t ent;
         int inhibit;
         String com_token;
@@ -517,9 +515,12 @@ public class GameSpawn {
                 ent = GameUtil.G_Spawn();
 
             ED_ParseEdict(ph, ent);
-            Com.DPrintf("spawning ent[" + ent.index + "], classname=" + 
-                    ent.classname + ", flags= " + Integer.toHexString(ent.spawnflags));
-            
+            log.debug("spawning ent[{}], classname={}, flags= {}",
+                    ent.index,
+                    ent.classname,
+                    Integer.toHexString(ent.spawnflags)
+            );
+
             // yet another map hack
             if (0 == Lib.Q_stricmp(GameBase.level.mapname, "command")
                     && 0 == Lib.Q_stricmp(ent.classname, "trigger_once")
@@ -531,8 +532,7 @@ public class GameSpawn {
             if (ent != GameBase.g_edicts[0]) {
                 if (GameBase.deathmatch.value != 0) {
                     if ((ent.spawnflags & Defines.SPAWNFLAG_NOT_DEATHMATCH) != 0) {
-                        
-                        Com.DPrintf("->inhibited.\n");
+                        log.debug("->inhibited.");
                         GameUtil.G_FreeEdict(ent);
                         inhibit++;
                         continue;
@@ -545,8 +545,7 @@ public class GameSpawn {
                     ((GameBase.skill.value == 0) && (ent.spawnflags & Defines.SPAWNFLAG_NOT_EASY) != 0)
                             || ((GameBase.skill.value == 1) && (ent.spawnflags & Defines.SPAWNFLAG_NOT_MEDIUM) != 0)
                             || (((GameBase.skill.value == 2) || (GameBase.skill.value == 3)) && (ent.spawnflags & Defines.SPAWNFLAG_NOT_HARD) != 0)) {
-                        
-                        Com.DPrintf("->inhibited.\n");
+                        log.debug("->inhibited.");
                         GameUtil.G_FreeEdict(ent);
                         inhibit++;
                         
@@ -560,10 +559,9 @@ public class GameSpawn {
                         | Defines.SPAWNFLAG_NOT_COOP | Defines.SPAWNFLAG_NOT_DEATHMATCH);
             }
             ED_CallSpawn(ent);
-            Com.DPrintf("\n");
         }
-        Com.DPrintf("player skill level:" + GameBase.skill.value + "\n");
-        Com.DPrintf(inhibit + " entities inhibited.\n");
+        log.debug("player skill level:{}", GameBase.skill.value);
+        log.debug("{} entities inhibited.", inhibit);
         i = 1;
         G_FindTeams();
         PlayerTrail.Init();

@@ -18,6 +18,7 @@
 
 package lwjake2.qcommon;
 
+import lombok.extern.slf4j.Slf4j;
 import lwjake2.game.entity_state_t;
 import lwjake2.game.usercmd_t;
 import lwjake2.util.Lib;
@@ -28,6 +29,7 @@ import static lwjake2.ErrorCode.ERR_DROP;
 import static lwjake2.ErrorCode.ERR_FATAL;
 import static lwjake2.Globals.bytedirs;
 
+@Slf4j
 public class MSG {
 
     //
@@ -441,7 +443,7 @@ public class MSG {
         int c;
 
         if (msg_read.readcount + 4 > msg_read.cursize) {
-            Com.Printf("buffer underrun in ReadLong!");
+            log.warn("buffer underrun in ReadLong!");
             c = -1;
         }
 
@@ -497,7 +499,7 @@ public class MSG {
         } while (l < 2047);
         
         String ret = new String(readbuf, 0, l).trim();
-        Com.dprintln("MSG.ReadStringLine:[" + ret.replace('\0', '@') + "]");
+        log.debug("MSG.ReadStringLine:[{}]", ret.replace('\0', '@'));
         return ret;
     }
 

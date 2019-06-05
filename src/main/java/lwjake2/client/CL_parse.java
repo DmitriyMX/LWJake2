@@ -77,7 +77,7 @@ public class CL_parse {
         String name;
 
         if (filename.indexOf("..") != -1) {
-            Com.Printf("Refusing to download a path with ..\n");
+            log.warn("Refusing to download a path with ..");
             return true;
         }
 
@@ -117,12 +117,11 @@ public class CL_parse {
             Globals.cls.download = fp;
 
             // give the server an offset to start the download
-            Com.Printf("Resuming " + Globals.cls.downloadname + "\n");
+            log.warn("Resuming {}", Globals.cls.downloadname);
             MSG.WriteByte(Globals.cls.netchan.message, Defines.clc_stringcmd);
-            MSG.WriteString(Globals.cls.netchan.message, "download "
-                    + Globals.cls.downloadname + " " + len);
+            MSG.WriteString(Globals.cls.netchan.message, "download " + Globals.cls.downloadname + " " + len);
         } else {
-            Com.Printf("Downloading " + Globals.cls.downloadname + "\n");
+            log.warn("Downloading {}", Globals.cls.downloadname);
             MSG.WriteByte(Globals.cls.netchan.message, Defines.clc_stringcmd);
             MSG.WriteString(Globals.cls.netchan.message, "download "
                     + Globals.cls.downloadname);
@@ -142,25 +141,25 @@ public class CL_parse {
         String filename;
 
         if (Cmd.Argc() != 2) {
-            Com.Printf("Usage: download <filename>\n");
+            log.warn("Usage: download <filename>");
             return;
         }
 
         filename = Cmd.Argv(1);
 
         if (filename.indexOf("..") != -1) {
-            Com.Printf("Refusing to download a path with ..\n");
+            log.warn("Refusing to download a path with ..");
             return;
         }
 
         if (UnpackLoader.loadFile(filename) != null) { // it exists, no need to
             // download
-            Com.Printf("File already exists.\n");
+            log.warn("File already exists.");
             return;
         }
 
         Globals.cls.downloadname = filename;
-        Com.Printf("Downloading " + Globals.cls.downloadname + "\n");
+        log.warn("Downloading {}", Globals.cls.downloadname);
 
         // download to a temp name, and only rename
         // to the real name when done, so if interrupted
@@ -209,7 +208,7 @@ public class CL_parse {
         int size = MSG.ReadShort(Globals.net_message);
         int percent = MSG.ReadByte(Globals.net_message);
         if (size == -1) {
-            Com.Printf("Server does not have this file.\n");
+            log.warn("Server does not have this file.");
             if (Globals.cls.download != null) {
                 // if here, we tried to resume a file but the server said no
                 try {
@@ -231,8 +230,7 @@ public class CL_parse {
             Globals.cls.download = Lib.fopen(name, "rw");
             if (Globals.cls.download == null) {
                 Globals.net_message.readcount += size;
-                Com.Printf("Failed to open " + Globals.cls.downloadtempname
-                        + "\n");
+                log.warn("Failed to open {}", Globals.cls.downloadtempname);
                 CL.RequestNextDownload();
                 return;
             }
@@ -269,8 +267,9 @@ public class CL_parse {
             oldn = DownloadFileName(Globals.cls.downloadtempname);
             newn = DownloadFileName(Globals.cls.downloadname);
             int r = Lib.rename(oldn, newn);
-            if (r != 0)
-                Com.Printf("failed to rename.\n");
+            if (r != 0) {
+                log.warn("failed to rename.");
+            }
 
             Globals.cls.download = null;
             Globals.cls.downloadpercent = 0;
@@ -298,7 +297,7 @@ public class CL_parse {
         String str;
         int i;
 
-        Com.DPrintf("ParseServerData():Serverdata packet received.\n");
+        log.debug("ParseServerData():Serverdata packet received.");
         //
         //       wipe the client_state_t struct
         //
@@ -321,7 +320,7 @@ public class CL_parse {
         // game directory
         str = MSG.ReadString(Globals.net_message);
         Globals.cl.gamedir = str;
-        Com.dprintln("gamedir=" + str);
+        log.debug("gamedir={}", str);
 
         // set gamedir
         cvar_t gamedirVar = Cvar.Get("game", "", CVAR_LATCH | CVAR_SERVERINFO);
@@ -334,10 +333,10 @@ public class CL_parse {
 
         // parse player entity number
         Globals.cl.playernum = MSG.ReadShort(Globals.net_message);
-        Com.dprintln("numplayers=" + Globals.cl.playernum);
+        log.debug("numplayers={}", Globals.cl.playernum);
         // get the full level name
         str = MSG.ReadString(Globals.net_message);
-        Com.dprintln("levelname=" + str);
+        log.debug("levelname={}", str);
 
         if (Globals.cl.playernum == -1) { // playing a cinematic or showing a
             // pic, not a level
@@ -347,7 +346,7 @@ public class CL_parse {
             //            Com.Printf(
             //                "\n\n\35\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\36\37\n\n");
             //            Com.Printf('\02' + str + "\n");
-            Com.Printf("Levelname:" + str + "\n");
+            log.warn("Levelname:{}", str);
             // need to prep refresh at next oportunity
             Globals.cl.refresh_prepped = false;
         }
@@ -639,8 +638,9 @@ public class CL_parse {
     }
 
     public static void SHOWNET(String s) {
-        if (Globals.cl_shownet.value >= 2)
-            Com.Printf(Globals.net_message.readcount - 1 + ":" + s + "\n");
+        if (Globals.cl_shownet.value >= 2) {
+            log.warn("{}:{}", Globals.net_message.readcount - 1, s);
+        }
     }
 
     /*
@@ -677,11 +677,11 @@ public class CL_parse {
             }
 
             if (Globals.cl_shownet.value >= 2) {
-                if (null == svc_strings[cmd])
-                    Com.Printf(Globals.net_message.readcount - 1 + ":BAD CMD "
-                            + cmd + "\n");
-                else
+                if (null == svc_strings[cmd]) {
+                    log.warn("{}:BAD CMD {}", Globals.net_message.readcount, cmd);
+                } else {
                     SHOWNET(svc_strings[cmd]);
+                }
             }
 
             // other commands
@@ -700,7 +700,7 @@ public class CL_parse {
                 break;
 
             case Defines.svc_reconnect:
-                Com.Printf("Server disconnected, reconnecting\n");
+                log.warn("Server disconnected, reconnecting");
                 if (Globals.cls.download != null) {
                     //ZOID, close download
                     try {
@@ -738,7 +738,7 @@ public class CL_parse {
 
             case Defines.svc_stufftext:
                 s = MSG.ReadString(Globals.net_message);
-                Com.DPrintf("stufftext: " + s + "\n");
+                log.debug("stufftext: {}", s);
                 Cbuf.AddText(s);
                 break;
 
