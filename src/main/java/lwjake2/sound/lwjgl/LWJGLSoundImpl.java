@@ -76,7 +76,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#Init()
+     * @see lwjake2.sound.SoundImpl#Init()
      */
     public boolean Init() {
         
@@ -154,7 +154,7 @@ public final class LWJGLSoundImpl implements Sound {
     private ByteBuffer sfxDataBuffer = Lib.newByteBuffer(2 * 1024 * 1024);
     
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#RegisterSound(jake2.sound.sfx_t)
+     * @see lwjake2.sound.SoundImpl#RegisterSound(jake2.sound.sfx_t)
      */
     private void initBuffer(byte[] samples, int bufferId, int freq) {
         ByteBuffer data = sfxDataBuffer.slice();
@@ -183,7 +183,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#Shutdown()
+     * @see lwjake2.sound.SoundImpl#Shutdown()
      */
     public void Shutdown() {
         StopAllSounds();
@@ -206,7 +206,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
     
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#StartSound(float[], int, int, jake2.sound.sfx_t, float, float, float)
+     * @see lwjake2.sound.SoundImpl#StartSound(float[], int, int, lwjake2.sound.sfx_t, float, float, float)
      */
     public void StartSound(float[] origin, int entnum, int entchannel, sfx_t sfx, float fvol, float attenuation, float timeofs) {
 
@@ -229,7 +229,7 @@ public final class LWJGLSoundImpl implements Sound {
     private FloatBuffer listenerOrientation = Lib.newFloatBuffer(6);
 
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#Update(float[], float[], float[], float[])
+     * @see lwjake2.sound.SoundImpl#Update(float[], float[], float[], float[])
      */
     public void Update(float[] origin, float[] forward, float[] right, float[] up) {
         
@@ -257,7 +257,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.SoundImpl#StopAllSounds()
+     * @see lwjake2.sound.SoundImpl#StopAllSounds()
      */
     public void StopAllSounds() {
         // mute the listener (master)
@@ -267,7 +267,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
     
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#getName()
+     * @see lwjake2.sound.Sound#getName()
      */
     public String getName() {
         return "lwjgl";
@@ -277,7 +277,7 @@ public final class LWJGLSoundImpl implements Sound {
     boolean s_registering;
 
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#BeginRegistration()
+     * @see lwjake2.sound.Sound#BeginRegistration()
      */
     public void BeginRegistration() {
         s_registration_sequence++;
@@ -285,7 +285,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#RegisterSound(java.lang.String)
+     * @see lwjake2.sound.Sound#RegisterSound(java.lang.String)
      */
     public sfx_t RegisterSound(String name) {
         sfx_t sfx = FindName(name, true);
@@ -298,7 +298,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#EndRegistration()
+     * @see lwjake2.sound.Sound#EndRegistration()
      */
     public void EndRegistration() {
         int i;
@@ -479,7 +479,7 @@ public final class LWJGLSoundImpl implements Sound {
     }
 
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#StartLocalSound(java.lang.String)
+     * @see lwjake2.sound.Sound#StartLocalSound(java.lang.String)
      */
     public void StartLocalSound(String sound) {
         sfx_t sfx;
@@ -495,7 +495,7 @@ public final class LWJGLSoundImpl implements Sound {
     private ShortBuffer streamBuffer = sfxDataBuffer.slice().order(ByteOrder.BIG_ENDIAN).asShortBuffer();
 
     /* (non-Javadoc)
-     * @see jake2.sound.Sound#RawSamples(int, int, int, int, byte[])
+     * @see lwjake2.sound.Sound#RawSamples(int, int, int, int, byte[])
      */
     public void RawSamples(int samples, int rate, int width, int channels, ByteBuffer data) {
         int format;

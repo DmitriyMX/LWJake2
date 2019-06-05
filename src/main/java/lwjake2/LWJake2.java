@@ -25,7 +25,7 @@ import lwjake2.qcommon.Qcommon;
 import lwjake2.sys.Timer;
 
 /**
- * Jake2 is the main class of Quake2 for Java.
+ * LWJake2 is the main class of Quake2 for Java.
  */
 @Slf4j
 public final class LWJake2 {
